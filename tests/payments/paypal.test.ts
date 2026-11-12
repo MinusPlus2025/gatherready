@@ -412,11 +412,14 @@ describe('real sandbox request construction (mocked fetch, never PayPal itself)'
       if (call.url.endsWith('/v1/oauth2/token')) return jsonResponse({ access_token: 't', expires_in: 3600 });
       if (call.url.endsWith('/v2/checkout/orders/ORDER-1/authorize')) {
         return jsonResponse({
-          id: 'AUTH-1',
-          status: 'CREATED',
-          amount: { currency_code: 'USD', value: '45.00' },
-          create_time: '2026-11-12T06:00:00Z',
-          expiration_time: '2026-12-11T06:00:00Z',
+          id: 'ORDER-1',
+          status: 'COMPLETED',
+          purchase_units: [{ payments: { authorizations: [{
+            id: 'AUTH-1', status: 'CREATED',
+            amount: { currency_code: 'USD', value: '45.00' },
+            create_time: '2026-11-12T06:00:00Z',
+            expiration_time: '2026-12-11T06:00:00Z',
+          }] } }],
         });
       }
       if (call.url.includes('/v2/payments/authorizations/AUTH-1/capture')) {
@@ -439,6 +442,7 @@ describe('real sandbox request construction (mocked fetch, never PayPal itself)'
 
     const auth = await paypal.authorizeOrder('ORDER-1', 'authorize:ORDER-1');
     expect(auth.authorizationId).toBe('AUTH-1');
+    expect(auth.status).toBe('CREATED');
     expect(auth.orderId).toBe('ORDER-1');
     const capture = await paypal.captureAuthorization(CAPTURE_INPUT, 'capture:pay_1');
     expect(capture.captureId).toBe('CAPTURE-1');

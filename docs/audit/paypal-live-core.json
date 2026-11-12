@@ -1,0 +1,24 @@
+{
+  "at": "2026-11-12T19:14:41.333Z",
+  "orderIdEnding": "690M",
+  "authorization": {
+    "authorizationIdEnding": "613J",
+    "status": "CREATED",
+    "amountCents": 4500,
+    "currency": "USD",
+    "createTime": "2026-11-12T19:13:30Z",
+    "expirationTime": "2026-12-11T19:13:30Z",
+    "orderIdEnding": "690M"
+  },
+  "capture": {
+    "captureIdEnding": "782S",
+    "status": "COMPLETED",
+    "amountCents": 4500,
+    "currency": "USD",
+    "refundedCents": 0,
+    "sellerProtection": "ELIGIBLE"
+  },
+  "stage": "capture_checked",
+  "scope": "Independent real sandbox adapter test; not UI end-to-end",
+  "publicEvidenceNote": "Resource identifiers are shortened for public release; no checkout links, secrets or buyer details are included."
+}

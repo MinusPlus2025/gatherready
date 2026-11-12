@@ -754,7 +754,9 @@ function authorizationSnapshotFrom(data: JsonObject, fallbackOrderId: string | n
       amount = readAmount(unit.amount);
     }
   }
-  const authorizationId = asString(data.id) || asString(nested.id);
+  // Orders authorize responses wrap authorization under purchase_units.
+  // The top-level id/status belong to the order, not the authorization.
+  const authorizationId = asString(nested.id) || asString(data.id);
   if (!authorizationId) {
     throw new PaypalError({
       name: 'INVALID_RESPONSE',
@@ -765,11 +767,11 @@ function authorizationSnapshotFrom(data: JsonObject, fallbackOrderId: string | n
   }
   return {
     authorizationId,
-    status: asString(data.status) || asString(nested.status) || 'UNKNOWN',
+    status: asString(nested.status) || asString(data.status) || 'UNKNOWN',
     amountCents: amount.cents,
     currency: amount.currency,
-    createTime: asString(data.create_time) || asString(nested.create_time) || null,
-    expirationTime: asString(data.expiration_time) || asString(nested.expiration_time) || null,
+    createTime: asString(nested.create_time) || asString(data.create_time) || null,
+    expirationTime: asString(nested.expiration_time) || asString(data.expiration_time) || null,
     orderId: fallbackOrderId ?? relatedOrderId(data),
   };
 }

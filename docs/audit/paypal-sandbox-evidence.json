@@ -1,27 +1,32 @@
 {
-  "checkedAt": "2026-11-12T18:31:26.378430+00:00",
+  "checkedAt": "2026-11-12T19:15:11.302110+00:00",
   "environment": "PayPal Sandbox (no real funds)",
   "verified": [
     "OAuth authentication",
     "Orders v2 AUTHORIZE order creation",
     "Orders v2 order retrieval",
-    "amount USD 45.00 returned by PayPal"
+    "amount USD 45.00 returned by PayPal",
+    "Buyer approval confirmed via Orders API APPROVED",
+    "Existing authorization retrieved: USD 45.00",
+    "Capture retrieved: COMPLETED USD 45.00"
   ],
-  "preflightOrderId": "33C16164XB8601942",
-  "adapterOrderId": "8KC519834U456690M",
-  "adapterOrderStatus": "CREATED",
+  "preflightOrderIdEnding": "1942",
+  "adapterOrderIdEnding": "690M",
+  "adapterOrderStatus": "COMPLETED after authorization",
   "amountCents": 4500,
   "currency": "USD",
   "notVerified": [
-    "buyer approval",
-    "authorization resource",
-    "capture",
     "void",
     "refund",
     "public HTTPS callbacks",
-    "webhook delivery"
+    "webhook delivery",
+    "complete product UI payment workflow"
   ],
-  "implementationFix": "Request Prefer: return=representation so response parsers receive provider-confirmed amounts.",
-  "sourceBaseline": "e98f95c plus pending changes",
-  "limitation": "Order creation proves real Sandbox API integration, not successful payment or full product payment flow. No secrets, authentication tokens or buyer details are included."
+  "implementationFix": "Request Prefer: return=representation so response parsers receive provider-confirmed amounts. Orders authorize response must use nested payments.authorizations id/status, not top-level order id/status.",
+  "sourceBaseline": "241eed7 plus authorization parser correction in this change",
+  "limitation": "Independent real sandbox adapter verified buyer approval, authorization and capture. Local return URL refused connection; product UI end-to-end and public webhook remain unverified. No real funds, secrets, authentication tokens or buyer details included.",
+  "authorizationIdEnding": "613J",
+  "captureIdEnding": "782S",
+  "captureStatus": "COMPLETED",
+  "publicEvidenceNote": "Resource identifiers are shortened for public release; no checkout links, secrets or buyer details are included."
 }

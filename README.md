@@ -15,17 +15,19 @@ These implemented behaviours must not be confused with completed Sandbox verific
 
 ### Verification status — 12 November 2026
 
-- **Verified against PayPal Sandbox:** OAuth authentication, Orders v2 `AUTHORIZE` order creation and
-  retrieval, and the provider-returned USD 45.00 amount.
-- **Not yet verified:** buyer approval, authorization resources, capture, void, refund, public HTTPS
-  callbacks or webhook delivery. Creating an order is not a completed payment.
+- **Verified with the independent PayPal Sandbox adapter test:** OAuth, Orders v2 `AUTHORIZE` order
+  creation/retrieval, buyer approval, a retrieved authorization for USD 45.00, and a retrieved capture
+  with `COMPLETED` status for USD 45.00. These are virtual Sandbox funds, not a real-money charge.
+- **Not yet verified:** the complete product UI payment workflow, void, refund, public HTTPS callbacks
+  or webhook delivery. The independent adapter test does not prove the UI checkout end-to-end.
 - **Recorded UI payment demonstrations are simulated** unless the specific recording explicitly
   documents a successful Sandbox transaction. A Sandbox mode badge alone is not proof of payment.
 - **AI:** local Ollama inference has been exercised; each extraction still needs its own success
   check and participant confirmation. Missing/unavailable models and failed extractions are not live AI.
 
 See [`docs/audit/paypal-sandbox-evidence.json`](docs/audit/paypal-sandbox-evidence.json) for the
-non-sensitive verification snapshot. The public repository may lag local work until changes are pushed.
+non-sensitive verification snapshot and [`docs/audit/paypal-live-core.json`](docs/audit/paypal-live-core.json)
+for the adapter result. Public evidence uses shortened resource identifiers, not checkout links or secrets.
 
 ---
 
@@ -319,7 +321,7 @@ There is no verified public deployment in this snapshot. Complete local setup is
 
 | Part | Without configuration | Configured implementation / limits |
 |---|---|---|
-| PayPal | Simulated adapter, labelled **Demo payment — no PayPal transaction** | Sandbox REST adapter; current verified scope is OAuth + order create/query only |
+| PayPal | Simulated adapter, labelled **Demo payment — no PayPal transaction** | Sandbox REST adapter; independent approval/authorization/capture verified, full UI flow unverified |
 | AI | Structured input and explicitly labelled recorded synthetic samples | Ollama or supported cloud provider; every result needs validation; failed inference is not a recorded success |
 | Database | Local SQLite file | Not a hosted database; do not assume local disk persists on serverless hosts |
 | Payments | No PayPal transaction | Sandbox virtual funds only; credentials or a mode badge do not prove transaction success |
@@ -388,8 +390,8 @@ when reviewing the screenshots, video and test reports.
 ## What this is not (limitations, stated up front)
 
 - One merchant, one workshop, one currency (USD), one adult audience. No platform payouts or escrow.
-- Only OAuth and order creation/query have been verified against Sandbox in this snapshot;
-  buyer approval, authorization, capture, void, refund and external callbacks remain unverified.
+- Independent Sandbox adapter approval, authorization and USD 45.00 capture have been verified;
+  the full product UI payment workflow, void, refund and external callbacks remain unverified.
 - Cross-buyer capture is not atomic, and refunds/holds are not instant; no fee claims are made.
 - Demand, willingness to pay, and improvement over a form-based workflow are **not validated** here.
   No interviews or conversion experiments are claimed. Public policy sources are cited; commercial
