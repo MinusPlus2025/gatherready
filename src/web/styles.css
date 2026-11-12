@@ -6637,3 +6637,14 @@ html[data-theme-mode='dark'] .eyebrow {
 .invite-form input, .invite-link input { width: 100%; min-width: 0; border: 1px solid #cfd5cc; border-radius: .6rem; padding: .75rem; background: white; color: #1b2720; }
 .invite-link { display: grid; grid-template-columns: minmax(5rem, .35fr) minmax(0, 1fr) auto; gap: .65rem; align-items: center; margin-block: .75rem; }
 @media(max-width: 600px) { .invite-form { align-items: stretch; flex-direction: column; } .invite-link { grid-template-columns: minmax(0,1fr) auto; } .invite-link strong { grid-column: 1 / -1; } }
+
+/* Post-submission usability refinement: clear action feedback, not decoration. */
+.hero__invite-hint {max-width:30ch;color:var(--ink-2);font-size:.875rem;line-height:1.5;margin:0;align-self:center;}
+.invite-feedback {min-height:1.5em;margin-block:.5rem;color:var(--accent);font-size:.9rem;}
+.invite-form input,.invite-link input {background:var(--surface);color:var(--ink);border-color:var(--border-strong);transition:border-color .16s,box-shadow .16s;}
+.invite-form input:focus-visible,.invite-link input:focus-visible {outline:2px solid var(--accent);outline-offset:3px;}
+.invite-link {padding:.85rem;background:var(--surface-2);border:1px solid var(--border);border-radius:12px;animation:inviteArrive .22s ease-out;}
+.invite-link strong {overflow-wrap:anywhere;}
+@keyframes inviteArrive {from {opacity:0;transform:translateY(6px);} to {opacity:1;transform:translateY(0);}}
+@media(max-width:600px) {.invite-form .btn,.invite-link .btn {min-height:44px;}.hero__invite-hint {max-width:none;flex-basis:100%;}}
+@media(prefers-reduced-motion:reduce) {.invite-link {animation:none;}.invite-form input,.invite-link input {transition:none;}}

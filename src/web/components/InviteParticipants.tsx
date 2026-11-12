@@ -24,7 +24,7 @@ export function InviteParticipants() {
       if (!result.inviteToken) throw new Error('The server did not return an invitation. Please retry.');
       const url = new URL(`/p/${encodeURIComponent(result.inviteToken)}`, window.location.origin).href;
       setInvites((current) => [...current, { name: name.trim(), url }]);
-      setName('');
+      setName(''); setCopied(null);
       await refresh(true);
     } catch (cause) { setError(describeError(cause)); }
     finally { setBusy(false); }
@@ -32,12 +32,13 @@ export function InviteParticipants() {
   return <section className="panel invite-panel" aria-labelledby="invite-title">
     <h2 id="invite-title">{zh ? '邀请参与者' : 'Invite participants'}</h2>
     <p className="muted">{zh ? '为每位参与者创建独立链接。只有本人确认的偏好才计入计划。' : 'Create one private link per person. Their preferences count only after they confirm.'}</p>
-    <form onSubmit={(event) => void create(event)} className="invite-form">
+    <form onSubmit={(event) => void create(event)} className="invite-form" aria-busy={busy}>
       <label htmlFor="invite-name">{zh ? '参与者姓名' : 'Participant name'}
         <input id="invite-name" value={name} onChange={(e) => setName(e.target.value)} maxLength={60} autoComplete="off" required disabled={busy || full || mock} />
       </label>
       <button className="btn btn-primary" type="submit" disabled={busy || full || mock || !name.trim()}>{busy ? (zh ? '创建中…' : 'Creating…') : (zh ? '创建邀请' : 'Create invitation')}</button>
     </form>
+    <p className="invite-feedback" role="status" aria-live="polite">{busy ? (zh ? '正在创建私密邀请…' : 'Creating a private invitation…') : copied ? (zh ? '链接已复制，请私下发送给参与者。' : 'Link copied. Share it privately with your participant.') : invites.length > 0 ? (zh ? '邀请已创建，请复制下方链接。' : 'Invitation ready. Copy the link below.') : ''}</p>
     {full && <p role="status">{zh ? '此原型每场活动最多支持12位参与者。' : 'This prototype supports up to 12 participants per workshop.'}</p>}
     {mock && <p>{zh ? '请退出静态预览以创建真实邀请。' : 'Leave the static preview to create a real invitation.'}</p>}
     {error && <p role="alert" className="error-text">{error}</p>}

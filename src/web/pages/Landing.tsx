@@ -115,17 +115,19 @@ export default function Landing() {
                   if (state.session.role !== 'organizer') {
                     await act({ type: 'demo.view', payload: { participantId: null } });
                   }
-                  navigate('/organizer/setup');
+                  navigate(workshop ? '/organizer/plan' : '/organizer/setup');
                 }}
               >
-                {t('landing.cta.setup')}
+                {t(workshop ? 'landing.cta.resume' : 'landing.cta.setup')}
               </button>
             ) : (
-              <Link className="btn btn-primary" to="/organizer/setup">
-                {t('landing.cta.setup')}
+              <Link className="btn btn-primary" to={workshop ? "/organizer/plan" : "/organizer/setup"}>
+                {t(workshop ? 'landing.cta.resume' : 'landing.cta.setup')}
               </Link>
             )}
-            {state?.demo?.canSwitchRoles ? (
+            {state?.demo?.canSwitchRoles && state.participants.length === 0 ? (
+              <p className="hero__invite-hint">{t('landing.cta.inviteHint')}</p>
+            ) : state?.demo?.canSwitchRoles ? (
               <button
                 type="button"
                 className="btn btn-secondary"
