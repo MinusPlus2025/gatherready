@@ -25,6 +25,7 @@ import { useI18n } from '../lib/i18n';
 import { useCountUp, usePrefersReducedMotion, useRevealOnScroll } from '../lib/motion';
 import { useApp } from '../lib/store';
 import { WorkshopGallery } from '../components/Gallery';
+import { PlanPreview } from '../components/PlanPreview';
 import { StatusBadge } from '../components/ui';
 
 const FOUR_STATES = ['interested', 'fits', 'authorized', 'captured'] as const;
@@ -43,7 +44,7 @@ export default function Landing() {
   const figureRef = useRef<HTMLElement | null>(null);
   const interested = useCountUp(6);
   const fitting = useCountUp(3);
-  useRevealOnScroll();
+  useRevealOnScroll([workshop]);
 
   function tilt(event: React.PointerEvent<HTMLDivElement>) {
     if (reduced) return;
@@ -103,61 +104,7 @@ export default function Landing() {
             />
             <figcaption className="hero__caption">{t('landing.hero.caption')}</figcaption>
           </figure>
-          <aside
-            className="app-frame app-frame--overlap"
-            aria-label={t('landing.frame.aria')}
-          >
-          <div className="app-frame__chrome">
-            <span className="app-frame__dots" aria-hidden="true">
-              <i />
-              <i />
-              <i />
-            </span>
-            <span className="app-frame__title">{t('landing.frame.title')}</span>
-          </div>
-          <div className="app-frame__counts">
-            <div>
-              <span className="app-frame__num">{interested}</span>
-              <span className="app-frame__lbl">{t('landing.frame.interested')}</span>
-            </div>
-            <div>
-              <span className="app-frame__num">{fitting}</span>
-              <span className="app-frame__lbl">{t('landing.frame.fits')}</span>
-            </div>
-            <div>
-              <span className="app-frame__num">0</span>
-              <span className="app-frame__lbl">{t('landing.frame.authorized')}</span>
-            </div>
-          </div>
-          <div className="app-frame__times" aria-hidden="true">
-            <div className="app-frame__time">
-              <span>{t('landing.frame.slot1')}</span>
-              <span className="app-frame__time-meta">{t('landing.frame.slot1meta')}</span>
-            </div>
-            <div className="app-frame__time">
-              <span>{t('landing.frame.slot2')}</span>
-              <span className="app-frame__time-meta">{t('landing.frame.slot2meta')}</span>
-            </div>
-            <div className="app-frame__time">
-              <span>{t('landing.frame.slot3')}</span>
-              <span className="app-frame__time-meta">{t('landing.frame.slot3meta')}</span>
-            </div>
-          </div>
-          <div className="app-frame__question">
-            <span className="app-frame__kicker">{t('landing.frame.suggested')}</span>
-            <p>{t('landing.frame.question')}</p>
-            <div className="app-frame__question-pair">
-              <span>{t('landing.frame.condition')}</span>
-              <span>
-                {t('landing.frame.gap')} <strong>3 → 4</strong>
-              </span>
-            </div>
-          </div>
-          <div className="app-frame__foot">
-            <Fingerprint size={14} strokeWidth={2} aria-hidden="true" />
-            {t('landing.frame.foot')}
-          </div>
-          </aside>
+          <PlanPreview />
         </div>
       </section>
 

@@ -1,5 +1,5 @@
 {
-  "capturedAt": "2026-11-12T12:34:04.526Z",
+  "capturedAt": "2026-11-12T13:36:11.712Z",
   "source": "live server + built UI (no mock state)",
   "mode": "PayPal simulated, AI recorded/structured (no credentials on this machine)",
   "shots": [
@@ -7,14 +7,14 @@
       "file": "docs/screenshots/landing-1440.png",
       "route": "/",
       "width": 1440,
-      "height": 2866,
+      "height": 2928,
       "state": "landing"
     },
     {
       "file": "docs/screenshots/landing-420.png",
       "route": "/",
       "width": 420,
-      "height": 5737,
+      "height": 5852,
       "state": "landing (mobile)"
     },
     {
@@ -119,7 +119,7 @@
       "file": "docs/screenshots/landing-zh-1440.png",
       "route": "/",
       "width": 1440,
-      "height": 2985,
+      "height": 3047,
       "state": "Chinese landing after switching the interface language"
     },
     {

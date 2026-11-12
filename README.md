@@ -67,7 +67,7 @@ The mark is the product in one glyph: three candidate times (three stems) conver
 **Inter Variable** (UI) with **Fraunces Variable** (display), uses one deep-green accent plus semantic
 status colours that always carry a word, and keeps one page-load entrance, button press states and
 reduced-motion support. Six full-colour Pexels-licensed photographs (credited in the footer and in `public/images/README.md`) give the
-workshop a real scene — a mounted hero and a click-to-enlarge bento gallery — without pretending they are the
+workshop a real scene — a mounted hero, an interactive plan preview (ask the one question, watch 3 → 4) and a click-to-enlarge bento gallery — without pretending they are the
 client's premises or participants. [docs/design.md](docs/design.md) documents the tokens, the open-source fonts and
 icons (OFL-1.1 / ISC), the accessibility audit, and the agent skills used for the redesign.
 

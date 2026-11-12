@@ -108,9 +108,15 @@ async function main(): Promise<void> {
       everyNthFrame: 1,
     });
 
-    /* 0. landing: count-up, scroll reveal, gallery hover + lightbox */
+    /* 0. landing: interactive preview, count-up, scroll reveal, gallery hover + lightbox */
     await page.evaluate(() => window.scrollTo(0, 0));
     await sleep(900);
+    await page.evaluate(() =>
+      [...document.querySelectorAll<HTMLButtonElement>('.app-frame__actions button')]
+        .find((button) => /Ask the one question|问这个唯一/.test(button.textContent ?? ''))
+        ?.click(),
+    );
+    await sleep(2100);
     await page.evaluate(async () => {
       const step = 420;
       for (let y = 0; y < document.body.scrollHeight; y += step) {

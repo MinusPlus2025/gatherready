@@ -153,7 +153,8 @@ participants, and no image is presented as a testimonial or a real attendee.
 
 | Where | Image | Role |
 |---|---|---|
-| Landing hero (right column, above the live product frame) | warm colour close-up of hands shaping a pot on the wheel, in a paper-mounted frame with a small caption chip | the subject matter in one glance: a real workshop happens with hands |
+| Landing hero (right column, top-aligned with the copy) | warm colour close-up of hands shaping a pot on the wheel, in a paper-mounted frame with a small caption chip | the subject matter in one glance: a real workshop happens with hands |
+| Landing live preview | a working miniature of the plan: send the one question, Diego answers, the confirmed-fit count moves 3 → 4 (or stays at 3 on a no) | the first screen *is* the product loop, not a screenshot of it |
 | Landing gallery (five frames, bento) | workshop interior, stacked terracotta, studio shelves, trimming, surface detail | context at three scales; clicking any frame opens a lightbox with Esc/backdrop close, focus return and body-scroll lock |
 | Organizer home workshop strip | working workshop interior | the workshop being coordinated is a place, not a database row |
 | Participant home workshop strip | same | same |
@@ -193,6 +194,9 @@ two small hooks (`src/web/lib/motion.ts`):
 | Hover (fine pointers only) | icons slide 2px, rows and cards lift 1px, gallery frames zoom 4.5% and reveal their label | affordance without movement on touch |
 | Landing hero | pointer-driven 3–4° tilt, count-up numbers (6 / 3 / 0), staggered hero entrance | the page feels alive on first contact; reduced motion keeps the counters instant and drops the tilt |
 | Landing gallery | lightbox fade/scale 220ms, scroll-reveal 620ms once per section | images are the product context; click-to-enlarge is the honest interaction |
+| Landing live preview | send → 1.5s waiting state → confirmed-fit count tweens 3 → 4; reset and no-path available; `aria-live` announces the result | shows the conditional-interest mechanic in five seconds |
+
+**Brand mark.** A single confident **G** — one open circle plus a commitment dot — replaces the previous three-dots-into-a-badge mark, which was too busy at 38px. Same artwork in `public/logo-mark.svg` (favicon), `public/logo-lockup.svg` (README/submission) and the inline `BrandMark` component.
 
 All position movement is removed under `prefers-reduced-motion: reduce` (opacity/colour stay). Durations stay
 under 300ms for UI; only the hero entrance (620ms, once) is longer.

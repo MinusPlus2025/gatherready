@@ -4022,7 +4022,7 @@ h3 {
   display: grid;
   grid-template-columns: minmax(0, 0.98fr) minmax(0, 1.02fr);
   gap: clamp(24px, 4vw, 56px);
-  align-items: center;
+  align-items: start;
   max-width: none;
   padding: 36px 0 26px;
 }
@@ -5055,9 +5055,12 @@ h3 {
 
 /* scroll reveal */
 [data-reveal] {
+  transition: opacity 620ms var(--ease-out), transform 620ms var(--ease-out);
+}
+
+[data-reveal].reveal-armed:not(.is-visible) {
   opacity: 0;
   transform: translateY(16px);
-  transition: opacity 620ms var(--ease-out), transform 620ms var(--ease-out);
 }
 
 [data-reveal].is-visible {
@@ -5090,4 +5093,81 @@ h3 {
     opacity: 1;
     transform: none;
   }
+
+  [data-reveal].reveal-armed:not(.is-visible) {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+
+/* interactive plan preview */
+.app-frame__badge--live {
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+  background: var(--accent-tint);
+}
+
+.app-frame__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  margin-top: 12px;
+}
+
+.app-frame__actions .btn {
+  min-height: 44px;
+}
+
+.app-frame__link {
+  color: var(--ink-2);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  background: none;
+  border: 0;
+  padding: 6px 0;
+  cursor: pointer;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.app-frame__link:hover {
+  color: var(--ink);
+}
+
+.app-frame__link--button {
+  font-family: inherit;
+}
+
+.app-frame__pulse {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: var(--progress);
+  animation: dotPulse 1.4s ease-in-out infinite;
+  vertical-align: 1px;
+}
+
+.app-frame__kicker--ok {
+  color: var(--success);
+}
+
+.app-frame__kicker--warn {
+  color: var(--warn);
+}
+
+.app-frame__num--changed .app-frame__num {
+  color: var(--accent);
+  animation: valuePop 420ms var(--ease-out);
+}
+
+/* cleaner brand mark */
+.brand-mark-svg {
+  border-radius: 14px;
 }

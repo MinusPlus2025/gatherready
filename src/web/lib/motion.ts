@@ -122,8 +122,13 @@ export function useCountUp(value: number, duration = 900): number {
   return display;
 }
 
-/** Adds `is-visible` to `[data-reveal]` elements as they scroll into view. */
-export function useRevealOnScroll(): void {
+/**
+ * Adds `is-visible` to `[data-reveal]` elements as they scroll into view.
+ * Elements are only hidden after the observer has armed them, so a component
+ * that re-renders after mount is visible rather than permanently blank.
+ * Pass values that cause a re-render (state, workshop) as `deps`.
+ */
+export function useRevealOnScroll(deps: unknown[] = []): void {
   const reduced = usePrefersReducedMotion();
   useEffect(() => {
     const elements = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'));
@@ -142,7 +147,11 @@ export function useRevealOnScroll(): void {
       },
       { rootMargin: '0px 0px -10% 0px', threshold: 0.12 },
     );
-    for (const element of elements) observer.observe(element);
+    for (const element of elements) {
+      element.classList.add('reveal-armed');
+      observer.observe(element);
+    }
     return () => observer.disconnect();
-  }, [reduced]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reduced, ...deps]);
 }
