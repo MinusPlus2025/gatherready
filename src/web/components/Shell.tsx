@@ -149,21 +149,6 @@ export function Shell() {
         ) : null}
       </header>
 
-      {state?.mode.banner ? (
-        <div className="mode-banner">
-          <div className="container mode-banner__inner">
-            <span className="mode-banner__text">
-              {t('shell.extraction.prefix')}{' '}
-              {state.mode.ai === 'live'
-                ? `${t('shell.extraction.live')}${state.mode.llmModel ? ` · ${state.mode.llmModel}` : ''}`
-                : state.mode.ai === 'recorded'
-                  ? t('shell.extraction.recorded')
-                  : t('shell.extraction.structured')}
-            </span>
-          </div>
-        </div>
-      ) : null}
-
       {state?.notice ? (
         <div className="container">
           <InlineNotice kind={state.notice.kind === 'warn' ? 'warn' : state.notice.kind === 'error' ? 'error' : 'info'}>
@@ -200,12 +185,28 @@ export function Shell() {
             <p className="footer__text">{t('shell.footer.text')}</p>
             <p className="footer__credit">{t('shell.footer.credit')}</p>
             <p className="footer__credit">{t('shell.footer.languageNote')}</p>
+            <p className="footer__credit">
+              {t('shell.extraction.prefix')}{' '}
+              {state.mode.ai === 'live'
+                ? `${t('shell.extraction.live')}${state.mode.llmModel ? ` · ${state.mode.llmModel}` : ''}`
+                : state.mode.ai === 'recorded'
+                  ? t('shell.extraction.recorded')
+                  : t('shell.extraction.structured')}
+            </p>
           </div>
           <nav className="footer__nav" aria-label={t('shell.footer.navLabel')}>
-            <NavLink to="/organizer/setup">{t('shell.nav.setup')}</NavLink>
-            <NavLink to="/participant/preferences">{t('shell.nav.preferences')}</NavLink>
-            <NavLink to="/organizer/plan">{t('shell.nav.plan')}</NavLink>
-            <NavLink to="/organizer/funding">{t('shell.nav.funding')}</NavLink>
+            {state.session.role === 'participant' ? (
+              <>
+                <NavLink to="/participant/preferences">{t('shell.nav.preferences')}</NavLink>
+                <NavLink to="/participant/authorize">{t('flow.authorize.title')}</NavLink>
+              </>
+            ) : (
+              <>
+                <NavLink to="/organizer/setup">{t('shell.nav.setup')}</NavLink>
+                <NavLink to="/organizer/plan">{t('shell.nav.plan')}</NavLink>
+                <NavLink to="/organizer/funding">{t('shell.nav.funding')}</NavLink>
+              </>
+            )}
           </nav>
         </div>
       </footer>

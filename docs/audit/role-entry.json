@@ -1,0 +1,13 @@
+{
+  "capturedAt": "2026-11-13T00:10:00+08:00",
+  "participantSession": "Finn",
+  "previewPlanLink": { "text": "Open a participant view", "href": "/participant/preferences" },
+  "afterClick": { "url": "/participant/preferences", "identity": "You are Finn — participant" },
+  "directOrganizerPlan": { "requested": "/organizer/plan", "landed": "/participant/preferences" },
+  "organizerEntryFromLanding": { "url": "/organizer/setup", "identity": "You are the organizer" },
+  "participantEntryFromLanding": { "url": "/participant/preferences", "identity": "You are Diego — participant" },
+  "participantFooter": [
+    { "text": "Participant preferences", "href": "/participant/preferences" },
+    { "text": "Review and authorize", "href": "/participant/authorize" }
+  ]
+}

@@ -22,7 +22,7 @@ The participant already had a confirmed version (v1, Sunday morning). They chose
 
 > "I can do Saturday morning only, starting at 10."
 
-`POST /api/preferences/preview` returned in **1.5 s** (a previous run took 2.0 s):
+`POST /api/preferences/preview` returned in **4.5 s** on this final-build run (warm runs were 1.5–2.0 s):
 
 - `extractionMode: "live"`, `extractionModel: "qwen2.5:7b-instruct"`
 - accepted: `slot_a` — Saturday Nov 28, 10:00–12:00 (`America/Los_Angeles`)

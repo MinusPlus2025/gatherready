@@ -14,6 +14,7 @@ import { useI18n } from '../lib/i18n.js';
 import { splitCount, useAnimatedNumber, useChangedFlag } from '../lib/motion.js';
 import {
   organizerRails,
+  alignedMatrixCells,
   type CellState,
   type MatrixRow,
   type OrganizerRails,
@@ -315,7 +316,7 @@ export function SlotMatrix({
                     <ChevronDown size={14} strokeWidth={2} aria-hidden="true" className="matrix-row-button__chevron" />
                   </button>
                 </th>
-                {row.cells.map((cell) => (
+                {alignedMatrixCells(row, participants).map((cell) => (
                   <td key={cell.participantId}>
                     <Avatar name={cell.name} state={cell.state} />
                   </td>
@@ -363,7 +364,7 @@ export function SlotMatrix({
                 <ChevronDown size={16} strokeWidth={2} aria-hidden="true" />
               </span>
               <span className="matrix-card__avatars">
-                {row.cells.map((cell) => (
+                {alignedMatrixCells(row, participants).map((cell) => (
                   <Avatar key={cell.participantId} name={cell.name} state={cell.state} />
                 ))}
               </span>

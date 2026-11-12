@@ -16,7 +16,7 @@
    ========================================================================== */
 
 import { useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { ArrowRight, RefreshCw } from 'lucide-react';
 import { apiFieldErrors, describeError } from '../lib/api.js';
 import { useI18n } from '../lib/i18n.js';
@@ -24,7 +24,7 @@ import { money, organizerRails, organizerStatus, matrixRows, shortSlot } from '.
 import { useApp } from '../lib/store.js';
 import { webpSrcSet } from '../lib/images.js';
 import { AuditTrail, EmptyState, InlineNotice, PageHeader } from '../components/ui.js';
-import { Disclosure, Rails, SlotMatrix, StatusBand } from '../components/workshop.js';
+import { Disclosure, Rails, SlotMatrix } from '../components/workshop.js';
 
 export default function OrganizerPlan() {
   const { state, act } = useApp();
@@ -36,6 +36,7 @@ export default function OrganizerPlan() {
   const questionRef = useRef<HTMLElement | null>(null);
 
   if (!state) return null;
+  if (state.session.role === 'participant') return <Navigate to="/participant/preferences" replace />;
   const workshop = state.workshop;
   if (!workshop) {
     return (
@@ -178,20 +179,39 @@ export default function OrganizerPlan() {
         </InlineNotice>
       ) : null}
 
-      <div className="status-row">
-        <StatusBand model={status} />
-        {status.action ? (
-          <button
-            type="button"
-            className={`btn ${status.action.kind === 'none' ? 'btn-secondary' : 'btn-primary'} status-row__action`}
-            onClick={primaryAction}
-            disabled={busy !== null}
-          >
-            {busy === 'propose' ? t('flow.plan.preparing') : status.action.label}
-            {status.action.kind === 'none' ? null : <ArrowRight size={15} strokeWidth={2.2} aria-hidden="true" />}
-          </button>
-        ) : null}
-      </div>
+      <section className={`plan-decisions plan-decisions--${status.tone}`} aria-label={t('flow.plan.decisions.aria')}>
+        <div className="plan-decision">
+          <span className="plan-decision__label">{t('flow.plan.decisions.closest')}</span>
+          <strong className="plan-decision__value">{bestRow ? bestRow.shortLabel : '—'}</strong>
+          <p className="plan-decision__detail">
+            {bestRow ? `${bestRow.fits} / ${workshop.minParticipants}` : t('flow.plan.decisions.none')}
+          </p>
+        </div>
+        <div className="plan-decision">
+          <span className="plan-decision__label">{t('flow.plan.decisions.missing')}</span>
+          <p className="plan-decision__detail">
+            <strong>{status.headline}</strong> {status.detail}
+          </p>
+        </div>
+        <div className="plan-decision">
+          <span className="plan-decision__label">{t('flow.plan.decisions.next')}</span>
+          {status.action && status.action.kind !== 'none' ? (
+            <button
+              type="button"
+              className="btn btn-primary plan-decision__action"
+              onClick={primaryAction}
+              disabled={busy !== null}
+            >
+              {busy === 'propose' ? t('flow.plan.preparing') : status.action.label}
+              <ArrowRight size={15} strokeWidth={2.2} aria-hidden="true" />
+            </button>
+          ) : (
+            <p className="plan-decision__detail">
+              {status.action?.kind === 'none' ? t('flow.plan.decisions.wait') : t('flow.plan.decisions.none')}
+            </p>
+          )}
+        </div>
+      </section>
 
       <Rails rails={rails} />
 

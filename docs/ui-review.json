@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-12T16:01:46.668Z",
+  "generatedAt": "2026-11-12T16:23:39.396Z",
   "base": "http://localhost:5180",
   "findings": [],
   "metrics": {
@@ -601,7 +601,7 @@
         "outlineWidth": 2,
         "visible": true
       },
-      "cls": 0.024
+      "cls": 0.052
     },
     "preferences:phone": {
       "axe": [],

@@ -88,6 +88,9 @@ and state behind every file, and each screen shows the same mode banner the app 
 | Participant saved state, phone | [`participant-redesign-saved-390.png`](docs/screenshots/participant-redesign-saved-390.png) |
 | Editing a saved preference — live model preview, saved version still in force | [`participant-final-preview-1440.png`](docs/screenshots/participant-final-preview-1440.png) |
 | Participant-flow status and live AI evidence | [`docs/participant-flow-pass.md`](docs/participant-flow-pass.md) · [`docs/ai-live-evidence.md`](docs/ai-live-evidence.md) |
+| Role/number consistency pass | [`docs/p0-consistency-pass.md`](docs/p0-consistency-pass.md) |
+| Organizer plan: closest time, what is missing, next step | [`plan-decisions-1440.png`](docs/screenshots/plan-decisions-1440.png) |
+| Matrix after shuffled participant order | [`matrix-shuffled-1440.png`](docs/screenshots/matrix-shuffled-1440.png) |
 | Participant clarification | [`participant-clarify-1440.png`](docs/screenshots/participant-clarify-1440.png) |
 | Frozen offer | [`organizer-offer-1440.png`](docs/screenshots/organizer-offer-1440.png) |
 | Review and authorize (consent) | [`participant-authorize-1440.png`](docs/screenshots/participant-authorize-1440.png) |

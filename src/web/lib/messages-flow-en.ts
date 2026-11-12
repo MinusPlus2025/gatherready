@@ -287,5 +287,11 @@ export const flowEn: Record<string,string> = {
   "flow.preferences.diagnostics": "Technical details (version, extraction)",
   "flow.preferences.diagnostics.version": "Version",
   "flow.preferences.diagnostics.extraction": "Extraction",
-  "flow.preferences.diagnostics.confirmed": "Confirmed"
+  "flow.preferences.diagnostics.confirmed": "Confirmed",
+  "flow.plan.decisions.aria": "Plan decisions",
+  "flow.plan.decisions.closest": "Closest time",
+  "flow.plan.decisions.missing": "What is missing",
+  "flow.plan.decisions.next": "Next step",
+  "flow.plan.decisions.none": "No action yet",
+  "flow.plan.decisions.wait": "Wait for one more confirmed person — no question can close the gap."
 };

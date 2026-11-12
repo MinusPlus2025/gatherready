@@ -205,9 +205,11 @@ export function planView(
   const counts = {
     interested: participants.length,
     confirmedPreferences: preferences.filter((p) => p.status === 'CONFIRMED').length,
-    fitsThisPlan: plan.workableSlotId
-      ? slotViews.find((s) => s.slotId === plan.workableSlotId)?.fits ?? 0
-      : 0,
+    // Same definition as the best-match rail: the most confirmed fits any
+    // candidate time has right now. A workable slot is a separate decision and
+    // is exposed as plan.workableSlotId; a zero here while the matrix shows
+    // three fits made the two surfaces disagree.
+    fitsThisPlan: slotViews.reduce((best, slot) => Math.max(best, slot.fits), 0),
     authorized: payments.filter((p) => p.status === 'AUTHORIZED').length,
     captured: payments.filter((p) => p.status === 'CAPTURED').length,
   };

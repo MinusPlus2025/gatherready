@@ -352,6 +352,25 @@ export function matrixRows(state: AppState, locale: Locale = 'en'): MatrixRow[] 
   });
 }
 
+/** Align a row's cells to a participant column order by participant ID, never
+    by array position. Header order is the server participant order (rendered
+    sorted by display name); shuffled API input must not move a cell to another
+    person's column. */
+export function alignedMatrixCells(
+  row: MatrixRow,
+  participants: Array<{ id: string; displayName: string }>,
+): MatrixCell[] {
+  const byId = new Map(row.cells.map((cell) => [cell.participantId, cell]));
+  return participants.map(
+    (participant) =>
+      byId.get(participant.id) ?? {
+        participantId: participant.id,
+        name: participant.displayName,
+        state: 'unknown' as const,
+      },
+  );
+}
+
 /* ------------------------------ participant ------------------------------ */
 
 export interface ParticipantStep {

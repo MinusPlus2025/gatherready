@@ -11,12 +11,15 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Fingerprint } from 'lucide-react';
 import { useI18n } from '../lib/i18n.js';
+import { useApp } from '../lib/store.js';
 import { useAnimatedNumber } from '../lib/motion.js';
 
 type Phase = 'suggested' | 'waiting' | 'yes' | 'no';
 
 export function PlanPreview() {
   const { t } = useI18n();
+  const { state } = useApp();
+  const planHref = state?.session.role === 'participant' ? '/participant/preferences' : '/organizer/plan';
   const [phase, setPhase] = useState<Phase>('suggested');
   const fits = useAnimatedNumber(phase === 'yes' ? 4 : 3);
 
@@ -86,8 +89,8 @@ export function PlanPreview() {
                 {t('landing.frame.ask')}
                 <ArrowRight size={14} strokeWidth={2.2} aria-hidden="true" />
               </button>
-              <Link className="app-frame__link" to="/organizer/plan">
-                {t('landing.frame.seePlan')}
+              <Link className="app-frame__link" to={planHref}>
+                {state?.session.role === 'participant' ? t('landing.current.openParticipant') : t('landing.frame.seePlan')}
               </Link>
             </div>
           </>
@@ -139,8 +142,8 @@ export function PlanPreview() {
               <button type="button" className="btn btn-secondary btn-small" onClick={() => setPhase('suggested')}>
                 {t('landing.frame.again')}
               </button>
-              <Link className="app-frame__link" to="/organizer/plan">
-                {t('landing.frame.seePlan')}
+              <Link className="app-frame__link" to={planHref}>
+                {state?.session.role === 'participant' ? t('landing.current.openParticipant') : t('landing.frame.seePlan')}
               </Link>
             </div>
           </>
@@ -149,8 +152,9 @@ export function PlanPreview() {
 
       <div className="app-frame__foot">
         <Fingerprint size={14} strokeWidth={2} aria-hidden="true" />
-        {t('landing.frame.foot')}
+        <span>{t('landing.frame.foot')}</span>
       </div>
+      <p className="app-frame__note">{t('landing.frame.exampleNote')}</p>
     </aside>
   );
 }

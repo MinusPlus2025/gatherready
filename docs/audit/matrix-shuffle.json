@@ -1,0 +1,99 @@
+{
+  "inputOrder": [
+    "Finn",
+    "Alice",
+    "Elise",
+    "Cara",
+    "Diego",
+    "Ben"
+  ],
+  "headers": [
+    "Alice",
+    "Ben",
+    "Cara",
+    "Diego",
+    "Elise",
+    "Finn"
+  ],
+  "rows": [
+    [
+      {
+        "title": "Alice — Confirmed this time",
+        "hidden": "Alice: Confirmed this time"
+      },
+      {
+        "title": "Ben — Confirmed this time",
+        "hidden": "Ben: Confirmed this time"
+      },
+      {
+        "title": "Cara — Confirmed this time",
+        "hidden": "Cara: Confirmed this time"
+      },
+      {
+        "title": "Diego — Has not confirmed",
+        "hidden": "Diego: Has not confirmed"
+      },
+      {
+        "title": "Elise — Not available for this time",
+        "hidden": "Elise: Not available for this time"
+      },
+      {
+        "title": "Finn — Not available for this time",
+        "hidden": "Finn: Not available for this time"
+      }
+    ],
+    [
+      {
+        "title": "Alice — Not available for this time",
+        "hidden": "Alice: Not available for this time"
+      },
+      {
+        "title": "Ben — Not available for this time",
+        "hidden": "Ben: Not available for this time"
+      },
+      {
+        "title": "Cara — Confirmed this time",
+        "hidden": "Cara: Confirmed this time"
+      },
+      {
+        "title": "Diego — Has not confirmed",
+        "hidden": "Diego: Has not confirmed"
+      },
+      {
+        "title": "Elise — Confirmed this time",
+        "hidden": "Elise: Confirmed this time"
+      },
+      {
+        "title": "Finn — Not available for this time",
+        "hidden": "Finn: Not available for this time"
+      }
+    ],
+    [
+      {
+        "title": "Alice — Not available for this time",
+        "hidden": "Alice: Not available for this time"
+      },
+      {
+        "title": "Ben — Not available for this time",
+        "hidden": "Ben: Not available for this time"
+      },
+      {
+        "title": "Cara — Not available for this time",
+        "hidden": "Cara: Not available for this time"
+      },
+      {
+        "title": "Diego — Has not confirmed",
+        "hidden": "Diego: Has not confirmed"
+      },
+      {
+        "title": "Elise — Not available for this time",
+        "hidden": "Elise: Not available for this time"
+      },
+      {
+        "title": "Finn — Confirmed this time",
+        "hidden": "Finn: Confirmed this time"
+      }
+    ]
+  ],
+  "mismatches": []
+}

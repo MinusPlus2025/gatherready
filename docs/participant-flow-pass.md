@@ -49,7 +49,7 @@ suite.
 ## Verification commands and results
 
 ```text
-npm test                    255 passed (17 files), incl. 805-key i18n parity + source-text update test
+npm test                    257 passed (18 files), incl. 821-key i18n parity, source-text update and shuffled-matrix tests
 npm run test:ui             browser smoke passed end to end
 npm run audit:axe           axe-core 0 violations / 20 route×viewport runs
 npm run ui-review           0 findings at 1440/834/390/320

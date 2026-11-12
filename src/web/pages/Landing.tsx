@@ -37,6 +37,10 @@ const HOW_STEPS = [
   { icon: BadgeCheck, key: 'step3' },
 ] as const;
 
+function shortPlanLabel(label: string): string {
+  return label.replace(/,(\s*\d{4})/, '').replace(/\s*·\s*/, ' · ');
+}
+
 export default function Landing() {
   const { t } = useI18n();
   const { state, act } = useApp();
@@ -46,6 +50,10 @@ export default function Landing() {
   const figureRef = useRef<HTMLElement | null>(null);
   useRevealOnScroll([workshop]);
 
+  const preferences = state?.preferences ?? [];
+  const firstCondition = preferences.flatMap((preference) => preference.conditions)[0] ?? null;
+  const confirmedPreferences = preferences.filter((preference) => preference.status === 'CONFIRMED').length;
+  const bestPlanSlot = (state?.plan?.slots ?? []).slice().sort((a, b) => b.fits - a.fits || a.ordinal - b.ordinal)[0] ?? null;
   const tiltBox = useRef<DOMRect | null>(null);
   const tiltFrame = useRef<number | null>(null);
 
@@ -97,20 +105,39 @@ export default function Landing() {
           <h1 id="hero-title">{t('landing.hero.title')}</h1>
           <p className="hero__lede">{t('landing.hero.lede')}</p>
           <div className="hero__actions">
-            <Link className="btn btn-primary" to="/organizer/setup">
-              {t('landing.cta.setup')}
-            </Link>
+            {state?.demo?.canSwitchRoles ? (
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={async () => {
+                  // Demo entry, organizer: switch this synthetic session back to the
+                  // organizer role, then land on the setup screen. Real access still
+                  // comes from the session/invite, not from this button.
+                  if (state.session.role !== 'organizer') {
+                    await act({ type: 'demo.view', payload: { participantId: null } });
+                  }
+                  navigate('/organizer/setup');
+                }}
+              >
+                {t('landing.cta.setup')}
+              </button>
+            ) : (
+              <Link className="btn btn-primary" to="/organizer/setup">
+                {t('landing.cta.setup')}
+              </Link>
+            )}
             {state?.demo?.canSwitchRoles ? (
               <button
                 type="button"
                 className="btn btn-secondary"
                 onClick={async () => {
-                  // Demo entry: switch this synthetic tenant to a participant, then
-                  // open the participant screen. Real access still requires an invite
-                  // or session identity; this button only exists for demo tenants.
-                  const synthetic = state.participants.find((p) => p.displayName === 'Diego') ?? state.participants[0];
-                  if (!synthetic) return;
-                  await act({ type: 'demo.view', payload: { participantId: synthetic.id } });
+                  // Demo entry, participant: land directly on the participant screen.
+                  // Switching identity clears the previous snapshot first.
+                  if (state.session.role !== 'participant') {
+                    const synthetic = state.participants.find((p) => p.displayName === 'Diego') ?? state.participants[0];
+                    if (!synthetic) return;
+                    await act({ type: 'demo.view', payload: { participantId: synthetic.id } });
+                  }
                   navigate('/participant/preferences');
                 }}
               >
@@ -156,6 +183,41 @@ export default function Landing() {
           <PlanPreview />
         </div>
       </section>
+
+      {workshop ? (
+        <section className="transform" aria-labelledby="transform-title" data-reveal>
+          <div className="transform__head">
+            <p className="eyebrow">{t('landing.transform.live')}</p>
+            <h2 id="transform-title">{t('landing.current.eyebrow')}</h2>
+          </div>
+          <div className="transform__flow">
+            <div className="transform__step">
+              <span className="transform__label">{t('landing.transform.conditions')}</span>
+              <p className="transform__quote">
+                {firstCondition ? `“${firstCondition.condition}”` : t('landing.states.interestedDetail')}
+              </p>
+            </div>
+            <div className="transform__step">
+              <span className="transform__label">{t('landing.states.fits')}</span>
+              <p>
+                {t('landing.transform.confirmed', { count: confirmedPreferences })}
+                {bestPlanSlot ? ` · ${bestPlanSlot.fits}/${workshop.minParticipants}` : ''}
+              </p>
+            </div>
+            <div className="transform__step">
+              <span className="transform__label">{t('landing.transform.plan')}</span>
+              <p>
+                {state?.plan?.workableSlotId
+                  ? shortPlanLabel(state.plan.slots.find((slot) => slot.slotId === state.plan?.workableSlotId)?.label ?? '')
+                  : t('landing.current.statusCollecting')}
+              </p>
+              <Link className="app-frame__link" to={state?.session.role === 'participant' ? '/participant/preferences' : '/organizer/plan'}>
+                {t('landing.current.openPlan')}
+              </Link>
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       <section className="state-strip" aria-label={t('landing.states.aria')} data-reveal>
         {FOUR_STATES.map((key) => (

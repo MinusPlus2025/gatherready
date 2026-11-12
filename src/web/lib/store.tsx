@@ -157,6 +157,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const tokenRef = useRef(token);
   tokenRef.current = token;
   const stateRef = useRef<AppState | null>(null);
+  const epochRef = useRef(0);
   const fetchedAtRef = useRef(fetchedAtMs);
   const mockViewerRef = useRef<string | null | undefined>(undefined);
   const pathRef = useRef(location.pathname);
@@ -166,6 +167,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
   const load = useCallback(
     async (silent = false) => {
+      const epoch = epochRef.current;
       if (!silent) setLoading(true);
       setLoadError(null);
       try {
@@ -183,11 +185,12 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         } else {
           next = await api.getState(tokenRef.current);
         }
+        if (epoch !== epochRef.current) return; // a role change won the race
         fetchedAtRef.current = Date.now();
         setFetchedAtMs(fetchedAtRef.current);
         setState(next);
       } catch (error) {
-        setLoadError(describeError(error));
+        if (epoch === epochRef.current) setLoadError(describeError(error));
       } finally {
         if (!silent) setLoading(false);
       }
@@ -251,29 +254,41 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
   const act = useCallback(
     async (action: WebAction): Promise<AppState> => {
-      let next: AppState;
-      if (import.meta.env.DEV && mock) {
-        const { applyMockAction } = await import('./mockState.js');
-        next = applyMockAction(action);
-        mockViewerRef.current = next.session.viewParticipantId;
-      } else {
-        next = await dispatchHttp(action, tokenRef.current);
+      const identityChange = action.type === 'demo.view' || action.type === 'demo.reset';
+      if (identityChange) {
+        // Never paint the previous identity while the server is switching:
+        // drop the snapshot and invalidate any in-flight read/response.
+        epochRef.current += 1;
+        stateRef.current = null;
+        setState(null);
+        setLoading(true);
       }
-      fetchedAtRef.current = Date.now();
-      setFetchedAtMs(fetchedAtRef.current);
-      setState(next);
-      if (import.meta.env.DEV && mock && action.type === 'checkout.start' && next.checkout) {
-        // Dev mock only: stand in for the PayPal redirect + server-side completion.
-        // The screen still renders "Checking with PayPal" from state, never a guess.
-        const orderId = next.checkout.orderId;
-        window.setTimeout(() => {
-          void (async () => {
-            const { applyMockAction } = await import('./mockState.js');
-            setState(applyMockAction({ type: 'checkout.complete', orderId }));
-          })();
-        }, 1600);
+      try {
+        let next: AppState;
+        if (import.meta.env.DEV && mock) {
+          const { applyMockAction } = await import('./mockState.js');
+          next = applyMockAction(action);
+          mockViewerRef.current = next.session.viewParticipantId;
+        } else {
+          next = await dispatchHttp(action, tokenRef.current);
+        }
+        fetchedAtRef.current = Date.now();
+        setFetchedAtMs(fetchedAtRef.current);
+        setState(next);
+        if (import.meta.env.DEV && mock && action.type === 'checkout.start' && next.checkout) {
+          // Dev mock only: stand in for the PayPal redirect + server-side completion.
+          const orderId = next.checkout.orderId;
+          window.setTimeout(() => {
+            void (async () => {
+              const { applyMockAction } = await import('./mockState.js');
+              setState(applyMockAction({ type: 'checkout.complete', orderId }));
+            })();
+          }, 1600);
+        }
+        return next;
+      } finally {
+        if (identityChange) setLoading(false);
       }
-      return next;
     },
     [mock],
   );

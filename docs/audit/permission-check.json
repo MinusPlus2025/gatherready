@@ -1,0 +1,9 @@
+{
+  "capturedAt": "2026-11-13T00:10:00+08:00",
+  "sessionRole": "participant",
+  "checks": [
+    { "request": "POST /api/workshop", "status": 403, "code": "ORGANIZER_ONLY" },
+    { "request": "POST /api/offers/publish", "status": 403, "code": "ORGANIZER_ONLY" }
+  ],
+  "note": "Demo role switching is available only for synthetic tenants; real access remains the server session/participant token."
+}

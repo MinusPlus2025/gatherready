@@ -613,7 +613,7 @@ Motion checks: entrance inventory, hover response, reduced-motion behaviour, foc
       "outlineWidth": 2,
       "visible": true
     },
-    "cls": 0.024
+    "cls": 0.052
   },
   "preferences:phone": {
     "axe": [],

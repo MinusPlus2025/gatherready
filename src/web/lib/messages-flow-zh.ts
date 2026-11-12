@@ -287,5 +287,11 @@ export const flowZh: Record<string,string> = {
   "flow.preferences.diagnostics": "技术细节（版本、提取方式）",
   "flow.preferences.diagnostics.version": "版本",
   "flow.preferences.diagnostics.extraction": "提取方式",
-  "flow.preferences.diagnostics.confirmed": "确认时间"
+  "flow.preferences.diagnostics.confirmed": "确认时间",
+  "flow.plan.decisions.aria": "方案决策",
+  "flow.plan.decisions.closest": "最接近成班的时间",
+  "flow.plan.decisions.missing": "还缺什么",
+  "flow.plan.decisions.next": "下一步",
+  "flow.plan.decisions.none": "暂无动作",
+  "flow.plan.decisions.wait": "等待再有一位确认——没有哪个问题能补上这个缺口。"
 };

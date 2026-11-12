@@ -1,5 +1,5 @@
 {
-  "capturedAt": "2026-11-12T15:33:13.285Z",
+  "capturedAt": "2026-11-12T16:18:12.815Z",
   "health": {
     "ok": true,
     "paypal": "simulated",
@@ -7,7 +7,7 @@
   },
   "sentence": "I can do Saturday morning only, starting at 10.",
   "savedBefore": {
-    "participantId": "par_A_6DNNs26eKJ",
+    "participantId": "par_zy-omyaNuMr_",
     "displayName": "Finn",
     "version": 1,
     "status": "CONFIRMED",
@@ -43,9 +43,9 @@
       "meetsMinimum": false
     }
   ],
-  "previewMs": 1503,
+  "previewMs": 4510,
   "preview": {
-    "participantId": "par_A_6DNNs26eKJ",
+    "participantId": "par_zy-omyaNuMr_",
     "displayName": "Finn",
     "version": 2,
     "status": "DRAFT",

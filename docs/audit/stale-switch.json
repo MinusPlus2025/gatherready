@@ -1,0 +1,11 @@
+{
+  "capturedAt": "2026-11-13T00:10:00+08:00",
+  "method": "delay POST /api/demo/view by 1200ms, click Experience as organizer from a participant session",
+  "samples": [
+    { "afterMs": 100, "header": null, "body": "Loading the workshop…" },
+    { "afterMs": 400, "header": null, "body": "Loading the workshop…" },
+    { "afterMs": 800, "header": "You are the organizer", "body": "organizer setup" }
+  ],
+  "previousIdentityShownDuringSwitch": false,
+  "final": { "url": "/organizer/setup", "identity": "You are the organizer" }
+}

@@ -232,6 +232,46 @@
       "file": "language-menu-390.png",
       "route": "/",
       "state": "Language menu on a phone"
+    },
+    {
+      "file": "plan-decisions-1440.png",
+      "route": "/",
+      "state": "Organizer plan first screen: closest time / what is missing / next step"
+    },
+    {
+      "file": "plan-decisions-390.png",
+      "route": "/",
+      "state": "Organizer plan decisions on a phone"
+    },
+    {
+      "file": "landing-new-hero-1440.png",
+      "route": "/",
+      "state": "Landing hero: benefit first, two explicit demo entries"
+    },
+    {
+      "file": "landing-transform-1440.png",
+      "route": "/",
+      "state": "Real live snapshot: scattered conditions \u2192 confirmed preferences \u2192 executable plan"
+    },
+    {
+      "file": "landing-participant-session-1440.png",
+      "route": "/",
+      "state": "Landing while a participant session is active"
+    },
+    {
+      "file": "participant-from-preview-1440.png",
+      "route": "/",
+      "state": "Participant preview link lands on the participant screen"
+    },
+    {
+      "file": "repro-participant-organizer-conflict-1440.png",
+      "route": "/",
+      "state": "Reproduction before fix: participant session opened organizer plan"
+    },
+    {
+      "file": "matrix-shuffled-1440.png",
+      "route": "/",
+      "state": "Matrix after shuffling server participant order: headers and cells still match by ID"
     }
   ]
 }
