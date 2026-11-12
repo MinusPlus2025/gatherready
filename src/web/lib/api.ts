@@ -181,6 +181,9 @@ export const api = {
   withdrawParticipant(id: string, token: string | null = null) {
     return post(`/participants/${encodeURIComponent(id)}/withdraw`, {}, token);
   },
+  reconcileWorkshop(id: string, token: string | null = null) {
+    return post(`/workshops/${encodeURIComponent(id)}/reconcile`, {}, token);
+  },
   settleWorkshop(id: string, token: string | null = null) {
     return post(`/workshops/${encodeURIComponent(id)}/settle`, {}, token);
   },

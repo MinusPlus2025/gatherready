@@ -1,0 +1,10 @@
+.reconcile-panel{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1.25rem;margin-block:0 1.5rem;padding:1.25rem;border:1px solid currentColor;border-radius:1rem;overflow-wrap:anywhere}
+.reconcile-panel__eyebrow{font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.reconcile-panel h2{font-size:1.15rem;line-height:1.3;margin:.4rem 0}
+.reconcile-panel p{font-size:.9rem;line-height:1.55;margin:.65rem 0}
+.reconcile-panel summary{cursor:pointer;min-height:44px;padding:.6rem 0;font-weight:650}
+.reconcile-panel__consent{display:flex;align-items:flex-start;gap:.65rem;line-height:1.5;font-size:.9rem;padding:.75rem 0;cursor:pointer}
+.reconcile-panel input{flex:none;width:20px;height:20px;margin-top:.15rem}
+.reconcile-panel button{min-height:44px;max-width:100%;white-space:normal;text-align:center}
+.reconcile-panel :focus-visible{outline:3px solid currentColor;outline-offset:4px}
+@media(max-width:700px){.reconcile-panel{grid-template-columns:minmax(0,1fr);gap:.5rem;padding:1rem}.reconcile-panel button{width:100%}}

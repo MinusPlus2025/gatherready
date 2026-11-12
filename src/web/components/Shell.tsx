@@ -11,6 +11,7 @@ import { useEffect } from 'react';
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
 import { useI18n } from '../lib/i18n';
 import { useApp } from '../lib/store';
+import { ServerlessReconcile } from './ServerlessReconcile';
 import { DemoBar } from './DemoBar';
 import { LanguageSwitch } from './LanguageSwitch';
 import { ThemeSwitch } from './ThemeSwitch';
@@ -174,6 +175,7 @@ export function Shell() {
           </InlineNotice>
         ) : null}
         <div className="route-enter" key={location.pathname}>
+          <ServerlessReconcile />
           <Outlet />
         </div>
       </main>

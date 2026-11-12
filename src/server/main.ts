@@ -17,7 +17,7 @@ assertSandbox(cfg);
 const repo = new Repo((await openDb(process.env.LIBSQL_URL ?? cfg.dbPath, { authToken: process.env.LIBSQL_AUTH_TOKEN, migrate: !process.env.LIBSQL_URL })));
 const service = new Service(cfg, repo);
 const app = buildApp({ cfg, repo, service });
-const scheduler = (await startScheduler({
+const scheduler = process.env.GATHERREADY_SERVERLESS_EXPERIMENT === 'true' ? { stop() {} } : (await startScheduler({
     repo,
     paypal: service.paypal,
     now: () => service.now(),
