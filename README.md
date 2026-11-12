@@ -96,6 +96,8 @@ and state behind every file, and each screen shows the same mode banner the app 
 | Workshop home, 简体中文 | [`organizer-plan-zh-1440.png`](docs/screenshots/organizer-plan-zh-1440.png) |
 | Organizer setup, 简体中文 | [`organizer-setup-zh-1440.png`](docs/screenshots/organizer-setup-zh-1440.png) |
 | Landing, 日本語 (compact language menu) | [`landing-ja-1440.png`](docs/screenshots/landing-ja-1440.png) |
+| Language menu (8 locales, desktop) | [`language-menu-1440.png`](docs/screenshots/language-menu-1440.png) |
+| Language menu (8 locales, phone) | [`language-menu-390.png`](docs/screenshots/language-menu-390.png) |
 
 In this snapshot the banner reads **Simulated PayPal — no real money** because sandbox keys are absent;
 the same screens render the sandbox badge without code changes once keys are supplied.

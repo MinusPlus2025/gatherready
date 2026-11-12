@@ -99,7 +99,7 @@
       "route": "/organizer/funding",
       "width": 1440,
       "height": 2096,
-      "state": "authorized, not charged — collect is a separate action"
+      "state": "authorized, not charged \u2014 collect is a separate action"
     },
     {
       "file": "docs/screenshots/organizer-result-1440.png",
@@ -142,6 +142,20 @@
       "width": 1440,
       "height": 3238,
       "state": "Japanese landing after switching the interface language"
+    },
+    {
+      "file": "language-menu-1440.png",
+      "route": "/",
+      "width": 1440,
+      "height": 1000,
+      "state": "Language menu (8 locales), desktop"
+    },
+    {
+      "file": "language-menu-390.png",
+      "route": "/",
+      "width": 390,
+      "height": 844,
+      "state": "Language menu (8 locales), phone"
     }
   ]
 }
