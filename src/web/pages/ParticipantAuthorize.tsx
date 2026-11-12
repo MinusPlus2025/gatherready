@@ -169,12 +169,12 @@ export default function ParticipantAuthorize() {
     <div className="page page--narrow">
       <PageHeader
         eyebrow={t('flow.participant.eyebrow', { name: me.displayName })}
-        title={t('flow.authorize.title')}
+        title={settled ? (myPayment?.statusLabel ?? t('doc.result')) : authorized ? t('flow.authorize.authorized.headline') : t('flow.authorize.title')}
         intro={settled ? t('flow.authorize.settled.statusFromServer', { status: paymentStatusWord[myPayment?.status ?? 'NONE'] }) : authorized ? (myPayment?.simulated ? t('shell.mode.simulated') : t('flow.authorize.authorized.body', { amount: amountLabel })) : t('flow.authorize.intro')}
         actions={
           myPayment && myPayment.status !== 'NONE' ? (
             <StatusBadge
-              tone={authorized ? 'success' : checking ? 'progress' : settled ? 'warning' : 'neutral'}
+              tone={authorized || myPayment?.status === 'CAPTURED' ? 'success' : checking ? 'progress' : settled ? 'warning' : 'neutral'}
               word={myPayment.statusLabel}
             />
           ) : undefined
@@ -229,6 +229,12 @@ export default function ParticipantAuthorize() {
         </p>
       </section>
 
+      {authorized || settled ? (
+        <details className="panel consent-record">
+          <summary>{t('flow.authorize.consent.title')}</summary>
+          <p className="consent-text">{offer.consent.text}</p>
+        </details>
+      ) : (
       <section className="panel consent-panel" aria-labelledby="consent-title">
         <h2 id="consent-title">{t('flow.authorize.consent.title')}</h2>
         <p className="consent-text">{offer.consent.text}</p>
@@ -240,6 +246,7 @@ export default function ParticipantAuthorize() {
           hint={t('flow.authorize.consent.hint')}
         />
       </section>
+      )}
 
       <section className="panel pay-panel" aria-labelledby="pay-title">
         <h2 id="pay-title">{t('flow.authorize.pay.title')}</h2>
@@ -329,7 +336,7 @@ export default function ParticipantAuthorize() {
         )}
       </section>
 
-      <p className="page__footnote">{t('flow.authorize.footnote')}</p>
+      {!settled && <p className="page__footnote">{t('flow.authorize.footnote')}</p>}
     </div>
   );
 }

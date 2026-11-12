@@ -12,6 +12,7 @@ import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
 import { useI18n } from '../lib/i18n';
 import { useApp } from '../lib/store';
 import { ServerlessReconcile } from './ServerlessReconcile';
+import { JourneyNav } from './JourneyNav';
 import { DemoBar } from './DemoBar';
 import { LanguageSwitch } from './LanguageSwitch';
 import { ThemeSwitch } from './ThemeSwitch';
@@ -89,7 +90,7 @@ export function Shell() {
   return (
     <div className="app-shell">
       <a className="skip-link" href="#main">
-        Skip to main content
+        {t('shell.skip')}
       </a>
 
       <header className="topbar">
@@ -166,6 +167,7 @@ export function Shell() {
       ) : null}
 
       <main id="main" className="container main" tabIndex={-1}>
+        <JourneyNav />
         {state && loadError ? (
           <InlineNotice kind="warn" title={t('shell.refreshFailed')}>
             {loadError}{' '}
