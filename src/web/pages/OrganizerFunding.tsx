@@ -94,6 +94,7 @@ export default function OrganizerFunding() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const simulated = state?.mode.paypal !== 'sandbox';
   const workshop = state?.workshop ?? null;
   const offer = state?.offer ?? null;
   const batch = state?.batch ?? null;
@@ -312,7 +313,7 @@ export default function OrganizerFunding() {
         ) : (
           <>
             <p>
-              {t('money.funding.collectPre')}
+              {t(simulated ? 'money.funding.simulatedCollectPre' : 'money.funding.collectPre')}
               <strong>
                 {t(
                   authorized.length === 1
@@ -339,7 +340,7 @@ export default function OrganizerFunding() {
               disabled={!canCollect || busy}
               aria-describedby={blockers.length > 0 ? 'collect-blockers' : undefined}
             >
-              {busy ? t('money.funding.collecting') : t('money.funding.collect')}
+              {busy ? t('money.funding.collecting') : t(simulated ? 'money.funding.simulatedCollect' : 'money.funding.collect')}
             </button>
             {!canCollect ? <p className="muted">{t('money.funding.disabledHint')}</p> : null}
           </>
