@@ -1,5 +1,5 @@
 {
-  "capturedAt": "2026-11-12T10:23:15.505Z",
+  "capturedAt": "2026-11-12T10:44:42.371Z",
   "source": "live server + built UI (no mock state)",
   "mode": "PayPal simulated, AI recorded/structured (no credentials on this machine)",
   "shots": [
@@ -14,7 +14,7 @@
       "file": "docs/screenshots/landing-420.png",
       "route": "/",
       "width": 420,
-      "height": 4331,
+      "height": 4313,
       "state": "landing (mobile)"
     },
     {
@@ -63,7 +63,7 @@
       "file": "docs/screenshots/organizer-plan-suggestion-420.png",
       "route": "/organizer/plan",
       "width": 420,
-      "height": 2788,
+      "height": 2770,
       "state": "plan with suggestion (mobile)"
     },
     {
@@ -91,7 +91,7 @@
       "file": "docs/screenshots/participant-authorize-420.png",
       "route": "/participant/authorize",
       "width": 420,
-      "height": 4021,
+      "height": 4002,
       "state": "consent screen (mobile)"
     },
     {

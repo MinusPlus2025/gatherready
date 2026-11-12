@@ -66,7 +66,7 @@ The mark is the product in one glyph: three candidate times (three stems) conver
 (the ring), and the check inside it is the participant's own consent. The interface pairs self-hosted
 **Inter Variable** (UI) with **Fraunces Variable** (display), uses one deep-green accent plus semantic
 status colours that always carry a word, and keeps one page-load entrance, button press states and
-reduced-motion support. Four CC0/public-domain photographs (credited in the footer and in
+reduced-motion support. Three full-colour Pexels-licensed photographs (credited in the footer and in
 `public/images/README.md`) give the workshop a real scene without pretending they are the client's
 premises or participants. [docs/design.md](docs/design.md) documents the tokens, the open-source fonts and
 icons (OFL-1.1 / ISC), the accessibility audit, and the agent skills used for the redesign.

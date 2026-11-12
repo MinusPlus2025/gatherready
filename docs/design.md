@@ -145,18 +145,18 @@ for a UI this size.
 
 ## 9. Photography
 
-The product previously read as "all text". It now uses four **CC0 / public-domain** photographs as
-stand-ins for the synthetic workshop — sourced from Openverse, downloaded locally, resized to ≤1024px,
-JPEG q82, with a credit line in the footer. They are explicitly *not* the client's premises, staff or
+The product previously read as "all text" and then as a black-and-white scene. It now uses three **full-colour**
+photographs under the [Pexels License](https://www.pexels.com/license/) (free to use, modification allowed,
+no attribution required — credited anyway), downloaded locally and resized to ≤1800px, JPEG q82. They are explicitly *not* the client's premises, staff or
 participants, and no image is presented as a testimonial or a real attendee.
 
 | Where | Image | Role |
 |---|---|---|
-| Landing hero (right column, above the live product frame) | hands throwing a pot, black and white | the subject matter in one glance: a real workshop happens with hands |
-| Landing photo band (two frames) | studio shelves of unglazed work; hands centering clay | context: the room and the craft, not stock "teamwork" imagery |
-| Organizer home workshop strip | studio shelves | the workshop being coordinated is a place, not a database row |
-| Participant home workshop strip | studio shelves | same |
-| Consent screen, fixed-offer panel | hands on the wheel, warm | what the participant is about to fund |
+| Landing hero (right column, above the live product frame) | warm colour close-up of hands shaping a pot on the wheel | the subject matter in one glance: a real workshop happens with hands |
+| Landing photo band (two frames) | a working workshop interior; a bright studio full of colour-glazed vessels | context: the room and the craft, not stock "teamwork" imagery |
+| Organizer home workshop strip | working workshop interior | the workshop being coordinated is a place, not a database row |
+| Participant home workshop strip | same | same |
+| Consent screen, fixed-offer panel | same cover | what the participant is about to fund |
 
 Rules applied:
 
@@ -169,7 +169,7 @@ Rules applied:
   states only the extraction mode. The demo bar never wraps a single control onto its own row: the role
   strip scrolls on desktop and wraps on phones, and the Screens menu is a popover that closes on outside
   click, Escape and navigation.
-- **Licences:** CC0 1.0, source URLs and creators recorded in
+- **Licences:** Pexels License; source URLs and photographers recorded in
   [`public/images/README.md`](../public/images/README.md).
 
 ## 10. Review tooling and measured results

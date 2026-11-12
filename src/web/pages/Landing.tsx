@@ -87,10 +87,10 @@ export default function Landing() {
         <div className="hero__media">
           <figure className="hero__figure">
             <img
-              src="/images/pottery-wheel-bw.jpg"
-              alt="Hands shaping a clay pot on a spinning potter's wheel"
-              width={1024}
-              height={683}
+              src="/images/pottery-hands.jpg"
+              alt="Hands shaping a pot on a potter's wheel, wet clay glistening in warm light"
+              width={1600}
+              height={968}
               fetchPriority="high"
             />
           </figure>
@@ -168,19 +168,19 @@ export default function Landing() {
       <section className="photo-band" aria-label="Pottery workshop context">
         <figure>
           <img
-            src="/images/pottery-studio-shelves.jpg"
-            alt="Shelves of unglazed ceramics in a pottery studio"
-            width={960}
-            height={640}
+            src="/images/pottery-workshop.jpg"
+            alt="A working pottery workshop: shelves of finished pieces, wheels and drying pots"
+            width={1600}
+            height={1200}
             loading="lazy"
           />
         </figure>
         <figure>
           <img
-            src="/images/pottery-wheel-bw-2.jpg"
-            alt="Hands centering clay on a potter's wheel"
-            width={960}
-            height={640}
+            src="/images/pottery-studio.jpg"
+            alt="A bright pottery studio with colourful handmade vessels on shelves"
+            width={1600}
+            height={1067}
             loading="lazy"
           />
         </figure>

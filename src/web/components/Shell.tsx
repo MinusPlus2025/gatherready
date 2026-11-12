@@ -188,8 +188,8 @@ export function Shell() {
               clearly labelled simulated adapter. No real money moves.
             </p>
             <p className="footer__credit">
-              Photographs: CC0 / public domain via Openverse (Rawpixel, StockSnap). Synthetic demo context, not
-              the organiser's premises or participants.
+              Photographs: Pexels license — igovar igovar, eiakash, Christian Alemu. Synthetic demo context, not the
+              organiser's premises or participants.
             </p>
           </div>
           <nav className="footer__nav" aria-label="Demo screens">

@@ -267,7 +267,8 @@ export default function ParticipantPreferences() {
       {workshop ? (
         <section className="workshop-strip workshop-strip--participant" aria-label="The workshop">
           {workshop.coverImageUrl ? (
-            <img className="workshop-strip__cover" src={workshop.coverImageUrl} alt="" width={132} height={99} loading="lazy" />
+            <img className="workshop-strip__cover" src={workshop.coverImageUrl} alt=""
+            onError={(event) => { event.currentTarget.style.display = 'none'; }} width={132} height={99} loading="lazy" />
           ) : null}
           <div className="workshop-strip__body">
             <p className="workshop-strip__title">{workshop.title}</p>

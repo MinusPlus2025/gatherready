@@ -191,7 +191,8 @@ export default function ParticipantAuthorize() {
 
       <section className="panel offer-panel" aria-labelledby="offer-summary-title">
         {workshop?.coverImageUrl ? (
-          <img className="offer-cover" src={workshop.coverImageUrl} alt="" width={1024} height={420} loading="lazy" />
+          <img className="offer-cover" src={workshop.coverImageUrl} alt=""
+            onError={(event) => { event.currentTarget.style.display = 'none'; }} width={1024} height={420} loading="lazy" />
         ) : null}
         <div className="panel__head">
           <div>

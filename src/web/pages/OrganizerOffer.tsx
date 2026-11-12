@@ -102,7 +102,8 @@ export default function OrganizerOffer() {
   const strip = (
     <section className="offer-workshop-strip" aria-label="Workshop">
       {workshop.coverImageUrl ? (
-        <img className="offer-workshop-strip__cover" src={workshop.coverImageUrl} alt="" width={132} height={99} loading="lazy" />
+        <img className="offer-workshop-strip__cover" src={workshop.coverImageUrl} alt=""
+            onError={(event) => { event.currentTarget.style.display = 'none'; }} width={132} height={99} loading="lazy" />
       ) : null}
       <div>
         <p className="offer-workshop-strip__title">{workshop.title}</p>

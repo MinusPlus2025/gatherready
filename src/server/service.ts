@@ -220,7 +220,7 @@ export class Service {
       if (!validated.ok) {
         throw new AppError('SAMPLE_INVALID', 'the synthetic sample failed validation', 500, validated.errors);
       }
-      const workshop = this.insertWorkshop(ctx, validated.value, now, '/images/pottery-studio-shelves.jpg');
+      const workshop = this.insertWorkshop(ctx, validated.value, now, '/images/pottery-workshop.jpg');
       const slots = this.repo.listSlots(workshop.id);
       for (const persona of sample.personas) {
         const token = newParticipantToken();

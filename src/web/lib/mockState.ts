@@ -238,7 +238,7 @@ function buildWorkshop(bundle: SampleBundle, status: WorkshopView['status']): Wo
     cancellationPolicyVersion: 'v1',
     cancellationSummary: CANCELLATION_SUMMARY,
     failureHandlingSummary: FAILURE_SUMMARY,
-    coverImageUrl: '/images/pottery-studio-shelves.jpg',
+    coverImageUrl: '/images/pottery-workshop.jpg',
     status,
     slots,
   };

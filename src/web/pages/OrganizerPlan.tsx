@@ -136,6 +136,7 @@ export default function OrganizerPlan() {
         {workshop.coverImageUrl ? (
           <img
             className="workshop-strip__cover"
+            onError={(event) => { event.currentTarget.style.display = 'none'; }}
             src={workshop.coverImageUrl}
             alt=""
             width={168}
