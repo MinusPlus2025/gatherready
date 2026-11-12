@@ -143,7 +143,32 @@ for a UI this size.
 | Plain flat cards | Refined depth system (`--shadow-card` / `--shadow-float`), radius scale, sticky translucent header |
 
 
-## 9. Review tooling and measured results
+## 9. Photography
+
+The product previously read as "all text". It now uses four **CC0 / public-domain** photographs as
+stand-ins for the synthetic workshop — sourced from Openverse, downloaded locally, resized to ≤1024px,
+JPEG q82, with a credit line in the footer. They are explicitly *not* the client's premises, staff or
+participants, and no image is presented as a testimonial or a real attendee.
+
+| Where | Image | Role |
+|---|---|---|
+| Landing hero (right column, above the live product frame) | hands throwing a pot, black and white | the subject matter in one glance: a real workshop happens with hands |
+| Landing photo band (two frames) | studio shelves of unglazed work; hands centering clay | context: the room and the craft, not stock "teamwork" imagery |
+| Organizer home workshop strip | studio shelves | the workshop being coordinated is a place, not a database row |
+| Participant home workshop strip | studio shelves | same |
+| Consent screen, fixed-offer panel | hands on the wheel, warm | what the participant is about to fund |
+
+Rules applied:
+
+- **Sizing for zero layout shift:** explicit `width`/`height` and CSS `aspect-ratio` on every frame; the
+  UI review still reports CLS 0 across 20 state×viewport combinations.
+- **Loading:** hero image `fetchPriority="high"`; the rest `loading="lazy"`.
+- **Alt text** describes the scene for screen readers; decorative reuse is `alt=""`.
+- **No captions under images** (the image is context, not a claim); credits live in one footer line.
+- **Licences:** CC0 1.0, source URLs and creators recorded in
+  [`public/images/README.md`](../public/images/README.md).
+
+## 10. Review tooling and measured results
 
 Design was not signed off by eye. The repo ships a review harness that measures the built UI in Chrome
 and writes a report:

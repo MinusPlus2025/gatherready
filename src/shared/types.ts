@@ -63,6 +63,8 @@ export interface Workshop {
   failureHandlingSummary: string;
   status: WorkshopStatus;
   version: number;
+  /** Synthetic demo cover photo; real workshops may leave this null. */
+  coverImageUrl?: string | null;
   createdAt: IsoUtc;
   updatedAt: IsoUtc;
 }

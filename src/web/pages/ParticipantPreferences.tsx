@@ -16,7 +16,7 @@ import type { PreferenceView } from '../../shared/api.js';
 import { formatInstantLabel } from '../../shared/time.js';
 import { apiFieldErrors, describeError } from '../lib/api.js';
 import { useApp } from '../lib/store.js';
-import { participantStatus } from '../lib/status.js';
+import { money, participantStatus, shortSlot } from '../lib/status.js';
 import { ParticipantSteps, StatusBand } from '../components/workshop.js';
 import {
   CheckboxField,
@@ -263,6 +263,26 @@ export default function ParticipantPreferences() {
           ) : undefined
         }
       />
+
+      {workshop ? (
+        <section className="workshop-strip workshop-strip--participant" aria-label="The workshop">
+          {workshop.coverImageUrl ? (
+            <img className="workshop-strip__cover" src={workshop.coverImageUrl} alt="" width={132} height={99} loading="lazy" />
+          ) : null}
+          <div className="workshop-strip__body">
+            <p className="workshop-strip__title">{workshop.title}</p>
+            <p className="workshop-strip__facts">
+              <span>{workshop.merchantName}</span>
+              <span aria-hidden="true">·</span>
+              <span>{workshop.slots.map((slot) => shortSlot(slot.rangeLabel)).join(' · ')}</span>
+              <span aria-hidden="true">·</span>
+              <span>{money(workshop.priceCents)}</span>
+              <span aria-hidden="true">·</span>
+              <span>minimum {workshop.minParticipants}</span>
+            </p>
+          </div>
+        </section>
+      ) : null}
 
       {participantSummary ? (
         <>

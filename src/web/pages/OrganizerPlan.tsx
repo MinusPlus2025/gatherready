@@ -133,6 +133,17 @@ export default function OrganizerPlan() {
       />
 
       <section className="workshop-strip" aria-label="Workshop facts">
+        {workshop.coverImageUrl ? (
+          <img
+            className="workshop-strip__cover"
+            src={workshop.coverImageUrl}
+            alt=""
+            width={168}
+            height={126}
+            loading="lazy"
+          />
+        ) : null}
+        <div className="workshop-strip__body">
         <p className="workshop-strip__title">{workshop.title}</p>
         <p className="workshop-strip__facts">
           <span>{workshop.merchantName}</span>
@@ -143,6 +154,7 @@ export default function OrganizerPlan() {
           <span aria-hidden="true">·</span>
           <span>minimum {workshop.minParticipants}</span>
         </p>
+        </div>
       </section>
 
       {notice ? (

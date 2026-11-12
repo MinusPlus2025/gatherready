@@ -4011,3 +4011,158 @@ h3 {
 .legend-item--conditional::before { background: var(--warn-tint); border: 1px dashed var(--warn); }
 .legend-item--unknown::before { background: var(--surface-2); border: 1px dashed var(--border-strong); }
 .legend-item--cannot::before { background: var(--surface-2); border: 1px solid var(--border); }
+
+/* ==========================================================================
+   Photography: hero scene, studio band, workshop covers.
+   All images are CC0 stand-ins for the synthetic demo (public/images/README.md).
+   Explicit width/height + aspect-ratio keep layout shift at zero.
+   ========================================================================== */
+
+.hero--photo {
+  display: grid;
+  grid-template-columns: minmax(0, 0.98fr) minmax(0, 1.02fr);
+  gap: clamp(24px, 4vw, 56px);
+  align-items: center;
+  max-width: none;
+  padding: 36px 0 26px;
+}
+
+.hero__media {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+}
+
+.hero__figure {
+  margin: 0;
+  border-radius: 20px;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+  box-shadow: 0 30px 60px -42px rgba(19, 23, 19, 0.6);
+  border: 1px solid var(--border);
+  animation: gr-rise 720ms 120ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
+}
+
+.hero__figure img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.92) contrast(1.02);
+}
+
+.app-frame--overlap {
+  position: static;
+  width: 100%;
+}
+
+.photo-band {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.photo-band figure {
+  margin: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  aspect-ratio: 16 / 10;
+  background: var(--surface-2);
+}
+
+.photo-band img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 600ms cubic-bezier(0.2, 0.75, 0.25, 1);
+}
+
+.photo-band figure:hover img {
+  transform: scale(1.025);
+}
+
+.workshop-strip {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.workshop-strip__cover {
+  flex: none;
+  width: 168px;
+  height: 126px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+
+.workshop-strip__body {
+  min-width: 0;
+}
+
+.workshop-strip--participant {
+  margin-bottom: 14px;
+}
+
+.workshop-strip--participant .workshop-strip__cover {
+  width: 132px;
+  height: 99px;
+}
+
+.offer-cover {
+  display: block;
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  border: 1px solid var(--border);
+}
+
+.footer__credit {
+  margin-top: 6px;
+  font-size: 0.72rem;
+  color: var(--ink-3);
+  max-width: 56ch;
+}
+
+@media (max-width: 1000px) {
+  .hero--photo {
+    grid-template-columns: minmax(0, 1fr);
+    padding-top: 26px;
+  }
+
+  .hero__media {
+    max-width: 620px;
+  }
+}
+
+@media (max-width: 640px) {
+  .photo-band {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .photo-band figure {
+    aspect-ratio: 16 / 9;
+  }
+
+  .workshop-strip {
+    align-items: flex-start;
+  }
+
+  .workshop-strip__cover {
+    width: 104px;
+    height: 78px;
+  }
+
+  .workshop-strip--participant .workshop-strip__cover {
+    width: 88px;
+    height: 66px;
+  }
+
+  .offer-cover {
+    height: 160px;
+  }
+}

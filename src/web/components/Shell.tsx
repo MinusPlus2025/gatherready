@@ -182,6 +182,10 @@ export function Shell() {
               PayPal AI Hackathon sandbox prototype. Payments run against the PayPal sandbox or the
               clearly labelled simulated adapter. No real money moves.
             </p>
+            <p className="footer__credit">
+              Photographs: CC0 / public domain via Openverse (Rawpixel, StockSnap). Synthetic demo context, not
+              the organiser's premises or participants.
+            </p>
           </div>
           <nav className="footer__nav" aria-label="Demo screens">
             <NavLink to="/organizer/setup">Organizer setup</NavLink>

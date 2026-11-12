@@ -1,5 +1,5 @@
 {
-  "capturedAt": "2026-11-12T09:59:48.263Z",
+  "capturedAt": "2026-11-12T10:13:05.686Z",
   "source": "live server + built UI (no mock state)",
   "mode": "PayPal simulated, AI recorded/structured (no credentials on this machine)",
   "shots": [
@@ -7,112 +7,112 @@
       "file": "docs/screenshots/landing-1440.png",
       "route": "/",
       "width": 1440,
-      "height": 1895,
+      "height": 2545,
       "state": "landing"
     },
     {
       "file": "docs/screenshots/landing-420.png",
       "route": "/",
       "width": 420,
-      "height": 3565,
+      "height": 4370,
       "state": "landing (mobile)"
     },
     {
       "file": "docs/screenshots/organizer-setup-1440.png",
       "route": "/organizer/setup",
       "width": 1440,
-      "height": 1218,
+      "height": 1261,
       "state": "organizer setup after loading synthetic sample"
     },
     {
       "file": "docs/screenshots/organizer-plan-1440.png",
       "route": "/organizer/plan",
       "width": 1440,
-      "height": 1400,
+      "height": 1510,
       "state": "no workable plan yet: 3 confirmed fits, one condition not counted"
     },
     {
       "file": "docs/screenshots/participant-preferences-1440.png",
       "route": "/participant/preferences",
       "width": 1440,
-      "height": 2810,
+      "height": 3011,
       "state": "participant view: own sentence prefilled"
     },
     {
       "file": "docs/screenshots/participant-preferences-parsed-1440.png",
       "route": "/participant/preferences",
       "width": 1440,
-      "height": 3334,
+      "height": 3535,
       "state": "reviewable card with verbatim quote"
     },
     {
       "file": "docs/screenshots/participant-preferences-confirmed-1440.png",
       "route": "/participant/preferences",
       "width": 1440,
-      "height": 1444,
+      "height": 1645,
       "state": "confirmed preference (still not a fit)"
     },
     {
       "file": "docs/screenshots/organizer-plan-suggestion-1440.png",
       "route": "/organizer/plan",
       "width": 1440,
-      "height": 1611,
+      "height": 1722,
       "state": "one suggested question with the fact and the gap it closes"
     },
     {
       "file": "docs/screenshots/organizer-plan-suggestion-420.png",
       "route": "/organizer/plan",
       "width": 420,
-      "height": 2712,
+      "height": 2827,
       "state": "plan with suggestion (mobile)"
     },
     {
       "file": "docs/screenshots/participant-clarify-1440.png",
       "route": "/participant/clarify",
       "width": 1440,
-      "height": 1415,
+      "height": 1458,
       "state": "participant sees only their own question"
     },
     {
       "file": "docs/screenshots/organizer-offer-1440.png",
       "route": "/organizer/offer",
       "width": 1440,
-      "height": 1726,
+      "height": 1769,
       "state": "one frozen offer: terms and fingerprint"
     },
     {
       "file": "docs/screenshots/participant-authorize-1440.png",
       "route": "/participant/authorize",
       "width": 1440,
-      "height": 2593,
+      "height": 2872,
       "state": "fixed summary + unchecked consent + PayPal button"
     },
     {
       "file": "docs/screenshots/participant-authorize-420.png",
       "route": "/participant/authorize",
       "width": 420,
-      "height": 3822,
+      "height": 4059,
       "state": "consent screen (mobile)"
     },
     {
       "file": "docs/screenshots/organizer-funding-1440.png",
       "route": "/organizer/funding",
       "width": 1440,
-      "height": 2025,
+      "height": 2068,
       "state": "authorized, not charged — collect is a separate action"
     },
     {
       "file": "docs/screenshots/organizer-result-1440.png",
       "route": "/organizer/result",
       "width": 1440,
-      "height": 1919,
+      "height": 1961,
       "state": "workshop confirmed only after every capture completed"
     },
     {
       "file": "docs/screenshots/organizer-plan-no-plan-1440.png",
       "route": "/organizer/plan",
       "width": 1440,
-      "height": 1400,
+      "height": 1510,
       "state": "no plan: minimum not reached, no invented compromise"
     }
   ]

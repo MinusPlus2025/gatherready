@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-12T09:59:03.335Z",
+  "generatedAt": "2026-11-12T10:10:35.657Z",
   "base": "http://localhost:5180",
   "findings": [],
   "metrics": {
@@ -324,16 +324,17 @@
       "cls": 0
     },
     "motionInventory": {
-      "count": 6,
+      "count": 7,
       "durations": [
         620,
         620,
         620,
         620,
         620,
+        720,
         700
       ],
-      "heroVisible": "0.999093"
+      "heroVisible": "0.999094"
     },
     "hover": {
       "before": {
@@ -346,7 +347,7 @@
       }
     },
     "reducedMotion": {
-      "animations": 6,
+      "animations": 7,
       "longRunning": 0,
       "heroOpacity": "1"
     }

@@ -112,6 +112,7 @@ export function workshopView(w: Workshop, slots: Slot[]): WorkshopView {
     cancellationSummary: w.cancellationSummary,
     failureHandlingSummary: w.failureHandlingSummary,
     status: w.status,
+    coverImageUrl: w.coverImageUrl ?? null,
     slots: slotViews,
   };
 }

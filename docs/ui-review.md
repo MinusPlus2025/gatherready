@@ -336,16 +336,17 @@ Motion checks: entrance inventory, hover response, reduced-motion behaviour, foc
     "cls": 0
   },
   "motionInventory": {
-    "count": 6,
+    "count": 7,
     "durations": [
       620,
       620,
       620,
       620,
       620,
+      720,
       700
     ],
-    "heroVisible": "0.999093"
+    "heroVisible": "0.999094"
   },
   "hover": {
     "before": {
@@ -358,7 +359,7 @@ Motion checks: entrance inventory, hover response, reduced-motion behaviour, foc
     }
   },
   "reducedMotion": {
-    "animations": 6,
+    "animations": 7,
     "longRunning": 0,
     "heroOpacity": "1"
   }

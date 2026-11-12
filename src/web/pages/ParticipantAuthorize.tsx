@@ -190,6 +190,9 @@ export default function ParticipantAuthorize() {
       {notice ? <InlineNotice kind="info">{notice}</InlineNotice> : null}
 
       <section className="panel offer-panel" aria-labelledby="offer-summary-title">
+        {workshop?.coverImageUrl ? (
+          <img className="offer-cover" src={workshop.coverImageUrl} alt="" width={1024} height={420} loading="lazy" />
+        ) : null}
         <div className="panel__head">
           <div>
             <h2 id="offer-summary-title">1 · The fixed offer</h2>

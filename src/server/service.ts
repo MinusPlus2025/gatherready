@@ -220,7 +220,7 @@ export class Service {
       if (!validated.ok) {
         throw new AppError('SAMPLE_INVALID', 'the synthetic sample failed validation', 500, validated.errors);
       }
-      const workshop = this.insertWorkshop(ctx, validated.value, now);
+      const workshop = this.insertWorkshop(ctx, validated.value, now, '/images/pottery-studio-shelves.jpg');
       const slots = this.repo.listSlots(workshop.id);
       for (const persona of sample.personas) {
         const token = newParticipantToken();
@@ -279,7 +279,12 @@ export class Service {
     return this.state(ctx, { notice: { kind: 'info', message: 'Workshop created.' } });
   }
 
-  private insertWorkshop(ctx: SessionContext, value: ValidatedWorkshop, now: string): Workshop {
+  private insertWorkshop(
+    ctx: SessionContext,
+    value: ValidatedWorkshop,
+    now: string,
+    coverImageUrl: string | null = null,
+  ): Workshop {
     const workshop: Workshop = {
       id: newId('wsh'),
       tenantId: ctx.tenantId,
@@ -302,6 +307,7 @@ export class Service {
         'Collection is per person, not atomic. If any authorized payment cannot be collected, the workshop is not confirmed; uncaptured holds are released and captured amounts are refunded.',
       status: 'COLLECTING_INTEREST',
       version: 1,
+      coverImageUrl,
       createdAt: now,
       updatedAt: now,
     };

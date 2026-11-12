@@ -54,7 +54,7 @@ export default function Landing() {
 
   return (
     <div className="landing">
-      <section className="hero hero--split" aria-labelledby="hero-title">
+      <section className="hero hero--photo" aria-labelledby="hero-title">
         <div className="hero__copy">
           <p className="eyebrow">Consensus workshops · PayPal sandbox</p>
           <h1 id="hero-title">A workshop happens only when enough people actually say yes.</h1>
@@ -84,7 +84,20 @@ export default function Landing() {
           </ul>
         </div>
 
-        <aside className="app-frame" aria-label="Preview of the organizer plan screen with synthetic demo data">
+        <div className="hero__media">
+          <figure className="hero__figure">
+            <img
+              src="/images/pottery-wheel-bw.jpg"
+              alt="Hands shaping a clay pot on a spinning potter's wheel"
+              width={1024}
+              height={683}
+              fetchPriority="high"
+            />
+          </figure>
+          <aside
+            className="app-frame app-frame--overlap"
+            aria-label="Preview of the organizer plan screen with synthetic demo data"
+          >
           <div className="app-frame__chrome">
             <span className="app-frame__dots" aria-hidden="true">
               <i />
@@ -136,7 +149,8 @@ export default function Landing() {
             <Fingerprint size={14} strokeWidth={2} aria-hidden="true" />
             Offer fingerprint 4a96… · every money state is read back from the server
           </div>
-        </aside>
+          </aside>
+        </div>
       </section>
 
       <section className="state-strip" aria-label="Four states GatherReady keeps separate">
@@ -149,6 +163,27 @@ export default function Landing() {
             <p>{item.detail}</p>
           </div>
         ))}
+      </section>
+
+      <section className="photo-band" aria-label="Pottery workshop context">
+        <figure>
+          <img
+            src="/images/pottery-studio-shelves.jpg"
+            alt="Shelves of unglazed ceramics in a pottery studio"
+            width={960}
+            height={640}
+            loading="lazy"
+          />
+        </figure>
+        <figure>
+          <img
+            src="/images/pottery-wheel-bw-2.jpg"
+            alt="Hands centering clay on a potter's wheel"
+            width={960}
+            height={640}
+            loading="lazy"
+          />
+        </figure>
       </section>
 
       {workshop ? (

@@ -84,6 +84,8 @@ export interface WorkshopView {
   cancellationSummary: string;
   failureHandlingSummary: string;
   status: WorkshopStatus;
+  /** Synthetic demo cover photo, if the workshop has one. */
+  coverImageUrl: string | null;
   slots: SlotView[];
 }
 

@@ -67,6 +67,7 @@ function migrate(db: DB): void {
     failure_handling_summary TEXT NOT NULL,
     status TEXT NOT NULL,
     version INTEGER NOT NULL DEFAULT 1,
+    cover_image_url TEXT,
     created_at TEXT NOT NULL,
     updated_at TEXT NOT NULL
   );
@@ -260,4 +261,11 @@ function migrate(db: DB): void {
   );
   CREATE INDEX IF NOT EXISTS llm_calls_created ON llm_calls(created_at);
   `);
+
+  // Lightweight column migrations (existing demo databases created before the
+  // cover image existed). CREATE TABLE IF NOT EXISTS cannot add columns.
+  const workshopColumns = db.prepare('PRAGMA table_info(workshops)').all() as Array<{ name: string }>;
+  if (!workshopColumns.some((column) => column.name === 'cover_image_url')) {
+    db.exec('ALTER TABLE workshops ADD COLUMN cover_image_url TEXT');
+  }
 }

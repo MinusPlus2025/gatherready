@@ -107,6 +107,7 @@ export function mapWorkshop(row: Row): Workshop {
     failureHandlingSummary: str(row, 'failure_handling_summary'),
     status: str(row, 'status') as WorkshopStatus,
     version: num(row, 'version'),
+    coverImageUrl: maybeStr(row, 'cover_image_url'),
     createdAt: str(row, 'created_at'),
     updatedAt: str(row, 'updated_at'),
   };
@@ -382,8 +383,8 @@ export class Repo {
     this.run(
       `INSERT INTO workshops (id, tenant_id, merchant_name, title, description, venue, timezone, duration_minutes,
         price_cents, currency, inclusions_json, min_participants, capacity, auth_deadline_utc,
-        cancellation_policy_version, cancellation_summary, failure_handling_summary, status, version, created_at, updated_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        cancellation_policy_version, cancellation_summary, failure_handling_summary, status, version, cover_image_url, created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       w.id,
       w.tenantId,
       w.merchantName,
@@ -403,6 +404,7 @@ export class Repo {
       w.failureHandlingSummary,
       w.status,
       n(w.version),
+      n(w.coverImageUrl),
       w.createdAt,
       w.updatedAt,
     );
