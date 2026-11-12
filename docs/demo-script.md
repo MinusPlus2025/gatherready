@@ -3,6 +3,17 @@
 Rules we hold ourselves to: show the running product, not slides; state what is pre-staged; never imply
 a simulated payment is a real sandbox payment; include one failure/compensation path.
 
+## Recorded walkthrough (already produced)
+
+[`demo/gatherready-walkthrough.mp4`](demo/gatherready-walkthrough.mp4) — 60 seconds, silent, recorded by
+`npm run record-demo` from the live server + built UI. Every state change is a real HTTP call; the PayPal
+adapter is the labelled **simulated** one because no sandbox credentials exist on this machine, and the
+badge stays visible in every frame. Use it as a shot-list reference, or play it with your own narration.
+
+It is **not** the submission video: a submission recording needs your voice, and ideally sandbox
+credentials so the real PayPal approval window and the sandbox badge appear. The timeline below is for
+that recording.
+
 ## Before recording (pre-staged, and said out loud on camera)
 
 - `npm run preflight` shown once (or in the video description) so the viewer knows which mode was used.

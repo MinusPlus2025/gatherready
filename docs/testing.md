@@ -24,6 +24,7 @@ Nothing in this file is a projected or hand-written result; commands can be re-r
 | AI evaluation | `npx tsx scripts/ai-eval.ts` | **33/33 cases match expectation; 0 safety violations** (recorded path) |
 | Preflight | `npx tsx scripts/preflight.ts` | **passed** with 3 degraded-mode warnings (PayPal keys, model key, secrets file) |
 | Real screenshots | `npx tsx scripts/capture-live.ts` | **16 PNGs**, captured from the live server + built UI (no mock state) |
+| Silent walkthrough video | `npx tsx scripts/record-demo.ts` | **60 s MP4** (`docs/demo/gatherready-walkthrough.mp4`), live server, simulated PayPal badge in every frame |
 | Real PayPal sandbox spine | `npx tsx scripts/sandbox-spine.ts` | **BLOCKED — no credentials**; exits 2 with instructions (never fakes a result) |
 
 ### Test breakdown

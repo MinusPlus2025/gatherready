@@ -22,7 +22,8 @@
     "capture-shots": "tsx scripts/capture-shots.ts",
     "seed": "tsx scripts/seed.ts",
     "sandbox-spine": "tsx scripts/sandbox-spine.ts",
-    "capture-live": "tsx scripts/capture-live.ts"
+    "capture-live": "tsx scripts/capture-live.ts",
+    "record-demo": "tsx scripts/record-demo.ts"
   },
   "dependencies": {
     "@fastify/cookie": "^11.0.2",

@@ -83,6 +83,12 @@ and state behind every file, and each screen shows the same mode banner the app 
 In this snapshot the banner reads **Simulated PayPal — no real money** because sandbox keys are absent;
 the same screens render the sandbox badge without code changes once keys are supplied.
 
+There is also a **60-second silent walkthrough** recorded from the live product by
+`npm run record-demo`: [`docs/demo/gatherready-walkthrough.mp4`](docs/demo/gatherready-walkthrough.mp4)
+(a real server, real state changes, simulated PayPal badge in every frame). It is a recording aid — the
+submission video needs your own narration and, if available, sandbox credentials so the sandbox badge is
+visible; see [`docs/demo-script.md`](docs/demo-script.md).
+
 ## Run it
 
 Requires Node.js ≥ 22.5 (uses the built-in `node:sqlite`).
@@ -214,7 +220,7 @@ docs/         CONTRACT, architecture, testing, ai-evaluation, submission, demo s
 - [`docs/testing.md`](docs/testing.md) — what was run, what passed, what is simulated vs sandbox (T01–T20 matrix)
 - [`docs/ai-evaluation.md`](docs/ai-evaluation.md) — cases, results and the baseline comparison
 - [`docs/submission.md`](docs/submission.md) — Devpost copy and the honest feature list
-- [`docs/demo-script.md`](docs/demo-script.md) — the under-three-minute demo plan
+- [`docs/demo-script.md`](docs/demo-script.md) — the under-three-minute demo plan, with the recorded walkthrough
 
 ## License
 
