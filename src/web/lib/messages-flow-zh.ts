@@ -1,6 +1,10 @@
 /* zh flow. */
 
 export const flowZh: Record<string,string> = {
+  "flow.authorize.recovery.button": "查看最新状态",
+  "flow.authorize.recovery.busy": "正在查看状态…",
+  "flow.authorize.recovery.body": "这里只读取最新记录，不会创建或重试付款。如问题仍未解决，请先联系活动组织者，不要重复付款。",
+
   "flow.action.setUpWorkshop": "设置工作坊",
   "flow.action.done": "已完成",
   "flow.participant.eyebrow": "参与者 · {name}",

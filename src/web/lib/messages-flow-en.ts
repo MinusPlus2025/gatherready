@@ -1,6 +1,10 @@
 /* en flow. */
 
 export const flowEn: Record<string,string> = {
+  "flow.authorize.recovery.button": "Check latest status",
+  "flow.authorize.recovery.busy": "Checking status…",
+  "flow.authorize.recovery.body": "This reads the latest saved status; it does not create or retry a payment. If the problem remains, contact the workshop organizer before trying to pay again.",
+
   "flow.action.setUpWorkshop": "Set up a workshop",
   "flow.action.done": "Done",
   "flow.participant.eyebrow": "Participant · {name}",

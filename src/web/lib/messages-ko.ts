@@ -4,6 +4,10 @@ export const ko: Record<string,string> = {
   "onboard.setup.compact.intro": "아래 예시를 수정하세요. 확인하기 전에는 워크숍이 생성되지 않아요.",
   "onboard.setup.compact.guide": "만드는 방법 · 예시 체험",
   "onboard.setup.compact.sample": "예시 워크숍 만들기",
+  "flow.authorize.recovery.button": "최신 상태 확인",
+  "flow.authorize.recovery.busy": "상태 확인 중…",
+  "flow.authorize.recovery.body": "저장된 최신 상태만 확인하며 결제를 생성하거나 재시도하지 않습니다. 문제가 계속되면 다시 결제하기 전에 주최자에게 문의하세요.",
+
   "onboard.setup.preview.title": "워크숍 미리 보기",
   "onboard.setup.preview.draft": "저장되지 않은 초안",
   "onboard.setup.preview.note": "미리 보기입니다. 워크숍과 제안이 확정되기 전에는 게시되거나 예약되지 않습니다.",

@@ -4,6 +4,10 @@ export const fr: Record<string,string> = {
   "onboard.setup.compact.intro": "Modifiez l’exemple ci-dessous. L’atelier ne sera créé qu’après votre confirmation.",
   "onboard.setup.compact.guide": "Comment procéder · ou essayer un exemple",
   "onboard.setup.compact.sample": "Créer l’atelier d’exemple",
+  "flow.authorize.recovery.button": "Vérifier le statut",
+  "flow.authorize.recovery.busy": "Vérification…",
+  "flow.authorize.recovery.body": "Cette action lit le dernier statut enregistré, sans créer ni relancer de paiement. Si le problème persiste, contactez l’organisateur avant de payer à nouveau.",
+
   "onboard.setup.preview.title": "Votre atelier prend forme",
   "onboard.setup.preview.draft": "BROUILLON NON ENREGISTRÉ",
   "onboard.setup.preview.note": "Aperçu uniquement. Rien n’est publié ni réservable avant confirmation de l’atelier et de l’offre.",

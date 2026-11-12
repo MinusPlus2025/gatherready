@@ -4,6 +4,10 @@ export const zhTW: Record<string, string> = {
   "onboard.setup.compact.intro": "可直接修改下方範例，確認建立前不會儲存工作坊。",
   "onboard.setup.compact.guide": "建立說明與範例體驗",
   "onboard.setup.compact.sample": "建立範例工作坊",
+  "flow.authorize.recovery.button": "查看最新狀態",
+  "flow.authorize.recovery.busy": "正在查看狀態…",
+  "flow.authorize.recovery.body": "這裡只讀取最新記錄，不會建立或重試付款。如問題仍未解決，請先聯絡活動組織者，不要重複付款。",
+
   "onboard.setup.preview.title": "工作坊草稿預覽",
   "onboard.setup.preview.draft": "尚未儲存的草稿",
   "onboard.setup.preview.note": "僅供預覽。工作坊與方案確認前，不會發布，也不可預訂。",

@@ -34,12 +34,13 @@ import {
   StatusBadge,
   TermsList,
 } from '../components/ui.js';
+import { PaymentRecovery } from '../components/PaymentRecovery.js';
 import { PaypalButton } from '../components/PayPalButton.js';
 
 const IN_FLIGHT = ['ORDER_CREATED', 'APPROVED', 'AUTHORIZING'];
 
 export default function ParticipantAuthorize() {
-  const { state, act, mock, fetchedAtMs } = useApp();
+  const { state, act, mock, fetchedAtMs, refresh } = useApp();
   const { t, locale } = useI18n();
   const [consent, setConsent] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -182,6 +183,7 @@ export default function ParticipantAuthorize() {
       />
 
       {participantSummary ? <ParticipantSteps steps={participantSummary.steps} /> : null}
+      {myPayment && ['FAILED', 'UNKNOWN', 'MANUAL_REVIEW', 'REFUNDING', 'VOIDING'].includes(myPayment.status) && <PaymentRecovery refresh={() => refresh(true)} />}
 
       {error ? (
         <InlineNotice kind="error" title={t('flow.authorize.errorTitle')}>

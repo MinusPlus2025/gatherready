@@ -4,6 +4,10 @@ export const ja: Record<string,string> = {
   "onboard.setup.compact.intro": "下のサンプルを編集できます。確定するまでワークショップは作成されません。",
   "onboard.setup.compact.guide": "作成方法・サンプルを試す",
   "onboard.setup.compact.sample": "サンプルのワークショップを作成",
+  "flow.authorize.recovery.button": "最新の状態を確認",
+  "flow.authorize.recovery.busy": "確認中…",
+  "flow.authorize.recovery.body": "保存された最新の状態を確認するだけで、支払いの作成や再試行は行いません。解決しない場合は、再度支払う前に主催者に連絡してください。",
+
   "onboard.setup.preview.title": "ワークショップの下書き",
   "onboard.setup.preview.draft": "未保存の下書き",
   "onboard.setup.preview.note": "プレビューのみ。ワークショップと条件が確定するまで公開・予約はできません。",

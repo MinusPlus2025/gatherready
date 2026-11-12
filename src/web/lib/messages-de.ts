@@ -4,6 +4,10 @@ export const de: Record<string,string> = {
   "onboard.setup.compact.intro": "Bearbeiten Sie das Beispiel unten. Erst nach Ihrer Bestätigung wird der Workshop erstellt.",
   "onboard.setup.compact.guide": "So funktioniert es · oder Beispiel ausprobieren",
   "onboard.setup.compact.sample": "Beispiel-Workshop erstellen",
+  "flow.authorize.recovery.button": "Aktuellen Status prüfen",
+  "flow.authorize.recovery.busy": "Status wird geprüft…",
+  "flow.authorize.recovery.body": "Hier wird nur der gespeicherte Status gelesen; keine Zahlung wird erstellt oder wiederholt. Wenden Sie sich bei weiteren Problemen vor einer erneuten Zahlung an den Veranstalter.",
+
   "onboard.setup.preview.title": "Ihr Workshop nimmt Gestalt an",
   "onboard.setup.preview.draft": "UNGESPEICHERTER ENTWURF",
   "onboard.setup.preview.note": "Nur eine Vorschau. Vor Bestätigung des Workshops und Angebots wird nichts veröffentlicht oder buchbar.",
