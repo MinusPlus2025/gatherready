@@ -419,9 +419,16 @@ export default function ParticipantPreferences() {
               </div>
             ) : (
             <section className="panel" aria-labelledby="answer-panel">
-              <h2 id="answer-panel">{preference ? t('flow.preferences.answer.changeTitle') : t('flow.preferences.answer.title')}</h2>
-              <p className="muted">{t('flow.preferences.answer.equalPaths')}</p>
-              <p className="muted">{t('flow.preferences.answer.purpose')}</p>
+              <h2
+                id="answer-panel"
+                className={editing && preference?.status === 'CONFIRMED' ? 'visually-hidden' : undefined}
+              >
+                {preference ? t('flow.preferences.answer.changeTitle') : t('flow.preferences.answer.title')}
+              </h2>
+              <div className="compose-intro">
+                <p>{t('flow.preferences.answer.equalPaths')}</p>
+                <p className="compose-intro__purpose">{t('flow.preferences.answer.purpose')}</p>
+              </div>
 
               <div className="mode-switch" role="group" aria-label={t('flow.preferences.mode.aria')}>
                 <button

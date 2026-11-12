@@ -1,9 +1,9 @@
 {
   "file": "docs/demo/gatherready-walkthrough.mp4",
-  "sha256": "28842b7376d24158b6fcaa004e264eb35284566d0a1961c5a5b4861c46d1739f",
-  "bytes": 2454288,
-  "recordedAt": "2026-11-13T01:40:00+08:00",
-  "build": "final simulated-label build; result page shows Simulated capture \u2014 no PayPal transaction",
+  "sha256": "1143e490ef552e0b25b3bb87298e72aa540c8f01d21012f861750085abb09557",
+  "bytes": 2472159,
+  "recordedAt": "2026-11-13T01:47:00+08:00",
+  "build": "current build with simulated result copy + optimized participant compose layout",
   "paypal": "simulated (no credentials; no real transaction)",
   "ai": "local Ollama qwen2.5:7b-instruct",
   "uploadedToYouTube": false,
