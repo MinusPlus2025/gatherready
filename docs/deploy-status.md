@@ -5,6 +5,20 @@ Decision: **no public URL was created.** The project is complete locally, but th
 available account/credential set does not satisfy the deployment rules without
 creating a paid service or a new account. No paid service was started.
 
+## PayPal diagnosis (no secrets read)
+
+- `forcedSimulation: false`; `PAYPAL_FORCE_SIMULATED` is not set.
+- `clientIdLoaded`, `clientSecretLoaded`, `webhookIdLoaded`, buyer credentials: **all false**.
+- `PAYPAL_BASE_URL` is the real sandbox REST host; unauthenticated requests to
+  `/v1/oauth2/token` and `/v1/notifications/webhooks` return **401**, so TLS/network
+  is reachable but no authenticated call can be made.
+- `npm run paypal-preflight` returns **BLOCKED**.
+- No authorization/capture/void was attempted; no new sandbox account was created.
+- Raw non-sensitive record: [`audit/paypal-diagnosis.json`](audit/paypal-diagnosis.json).
+
+Therefore `paypal: simulated` is caused by missing server credentials only, not by a
+forced simulation flag.
+
 ## Account / credential audit
 
 | Target | What exists | Result |

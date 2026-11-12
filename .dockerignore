@@ -1,0 +1,11 @@
+.git
+node_modules
+dist
+data
+secrets
+docs/demo
+docs/screenshots
+docs/audit
+plans
+.audit-cache
+*.log

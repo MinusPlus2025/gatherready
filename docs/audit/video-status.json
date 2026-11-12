@@ -1,0 +1,11 @@
+{
+  "file": "docs/demo/gatherready-walkthrough.mp4",
+  "sha256": "3509491fc236be1b8c74a09f3343cb50d5b891ff80ff36f45ed441a6bbf63145",
+  "bytes": 2400032,
+  "recordedAt": "2026-11-13T00:38:00+08:00",
+  "build": "final local build after logo/pill and role consistency pass",
+  "paypal": "simulated (not sandbox)",
+  "ai": "local Ollama qwen2.5:7b-instruct",
+  "uploadedToYouTube": false,
+  "note": "Local walkthrough evidence only. It does not claim a real PayPal sandbox transaction. Upload/review access remains an owner action."
+}

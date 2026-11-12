@@ -1,0 +1,37 @@
+{
+  "capturedAt": "2026-11-13T00:36:00+08:00",
+  "healthz": { "ok": true, "paypal": "simulated", "ai": "live" },
+  "forcedSimulation": false,
+  "credentials": {
+    "secretsFileExists": true,
+    "clientIdLoaded": false,
+    "clientSecretLoaded": false,
+    "jsClientIdLoaded": false,
+    "webhookIdLoaded": false,
+    "merchantEmailLoaded": false,
+    "buyerEmailLoaded": false,
+    "buyerPasswordLoaded": false,
+    "envClientIdPresent": false,
+    "envClientSecretPresent": false,
+    "envForceSimulatedSet": false
+  },
+  "sandboxApi": {
+    "baseUrl": "https://api-m.sandbox.paypal.com",
+    "oauthTokenWithoutCredentialsHttpStatus": 401,
+    "webhooksWithoutCredentialsHttpStatus": 401,
+    "networkAndTlsReachable": true,
+    "authenticatedCallAttempted": false
+  },
+  "preflight": {
+    "command": "npm run paypal-preflight",
+    "result": "BLOCKED: no PayPal sandbox credentials found",
+    "realSandboxClaimed": false
+  },
+  "transaction": {
+    "buyer": null,
+    "authorization": "not attempted",
+    "captureOrVoid": "not attempted",
+    "reason": "No existing sandbox app client id/secret or test-buyer credentials are available; no new sandbox account was created."
+  },
+  "conclusion": "Simulated mode is caused only by missing server credentials, not by PAYPAL_FORCE_SIMULATED. The sandbox REST host is reachable but every authenticated call is blocked without the existing app/buyer credentials. The app must stay labelled simulated until a real sandbox authorization/capture or void succeeds."
+}
