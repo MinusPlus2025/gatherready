@@ -1,6 +1,8 @@
 /* en base. */
 
 export const en: Record<string,string> = {
+  "flow.preferences.extraction.label.failed": "AI extraction failed",
+  "flow.preferences.extraction.failed": "AI could not extract reliable times. Nothing was accepted automatically. Retry your sentence or pick times directly; confirm only after reviewing.",
   "pay.status.NONE": "Not started",
   "pay.status.ORDER_CREATED": "Order created — awaiting approval",
   "pay.status.APPROVED": "Approved — authorizing",

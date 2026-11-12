@@ -1,6 +1,8 @@
 /* ja dictionary. */
 
 export const ja: Record<string,string> = {
+  "flow.preferences.extraction.label.failed": "AI の抽出に失敗しました",
+  "flow.preferences.extraction.failed": "AI は時間を確実に読み取れませんでした。自動で選択された項目はありません。文章を修正して再試行するか、時間を直接選び、内容を確認してください。",
   "pay.status.NONE": "未開始",
   "pay.status.ORDER_CREATED": "注文作成済み・承認待ち",
   "pay.status.APPROVED": "承認済み・オーソリ処理中",

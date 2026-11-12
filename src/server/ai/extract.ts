@@ -15,7 +15,7 @@
    - With no model key, `mode: 'recorded'` is returned ONLY for the six checked-in
      demo persona sentences; any other text becomes `mode: 'structured'` with
      empty constraints and one clarifying question. Never a fake success.
-   - Two failed live attempts fall back to `mode: 'recorded'` with a note; the
+   - Two failed live attempts fall back to `mode: 'failed'` with a note; the
      note never repeats participant text or model text.
    - Calls are bounded per UTC day by the client's attached budget.
    ========================================================================== */
@@ -143,7 +143,7 @@ function fallbackQuestion(input: ExtractInput): string {
 }
 
 function fallback(
-  mode: 'structured' | 'recorded',
+  mode: 'structured' | 'recorded' | 'failed',
   attempts: number,
   note: string,
   input: ExtractInput,
@@ -342,7 +342,7 @@ export async function extractPreferences(llm: LlmClient, input: ExtractInput): P
 
   const detail = lastErrors.length > 0 ? summarizeErrors(lastErrors) : lastTransport || 'no usable answer';
   return fallback(
-    'recorded',
+    'failed',
     attempts,
     `No usable model answer was produced (${detail}), so nothing was accepted automatically. ` +
       'The form below starts empty — choose your times and confirm.',

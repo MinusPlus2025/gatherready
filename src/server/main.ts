@@ -36,7 +36,7 @@ app
   .then(() => {
     console.log(`[gatherready] listening on http://localhost:${cfg.port}`);
     console.log(
-      `[gatherready] paypal: ${service.paypal.mode}${service.paypal.mode === 'simulated' ? ' (no credentials found)' : ' (sandbox REST)'}`,
+      `[gatherready] paypal: ${service.paypal.mode}${service.paypal.mode === 'simulated' ? ' (simulation; no PayPal API transactions)' : ' (sandbox REST)'}`,
     );
     console.log(
       `[gatherready] ai: ${service.llm.enabled ? `${service.llm.provider} / ${service.llm.model}` : 'structured baseline (no model key)'}`,
@@ -45,7 +45,7 @@ app
     console.log(`[gatherready] secrets file: ${cfg.secretsPath}${cfg.hasSecrets ? '' : ' (missing)'}`);
     if (service.paypal.mode === 'simulated') {
       console.warn(
-        '[gatherready] degraded mode: PayPal money movement is SIMULATED and labelled in the UI. Run `npm run setup` to add sandbox keys.',
+        '[gatherready] degraded mode: PayPal money movement is SIMULATED and labelled in the UI. This startup mode does not establish whether sandbox credentials are configured.',
       );
     }
     if (!service.llm.enabled) {

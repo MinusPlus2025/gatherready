@@ -208,6 +208,6 @@ export const RevisePreferencesRequestSchema = z.object({
   uncertainties: z
     .array(z.object({ field: z.string().max(40), question: z.string().max(300), sourceQuote: z.string().max(400) }))
     .max(3),
-  extractionMode: z.enum(['live', 'recorded', 'structured', 'seed']),
+  extractionMode: z.enum(['live', 'recorded', 'structured', 'failed', 'seed']),
   extractionModel: z.string().max(120).nullable(),
 });

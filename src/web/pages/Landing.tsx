@@ -52,7 +52,6 @@ export default function Landing() {
 
   const preferences = state?.preferences ?? [];
   const firstCondition = preferences.flatMap((preference) => preference.conditions)[0] ?? null;
-  const confirmedPreferences = preferences.filter((preference) => preference.status === 'CONFIRMED').length;
   const bestPlanSlot = (state?.plan?.slots ?? []).slice().sort((a, b) => b.fits - a.fits || a.ordinal - b.ordinal)[0] ?? null;
   const tiltBox = useRef<DOMRect | null>(null);
   const tiltFrame = useRef<number | null>(null);
@@ -200,8 +199,7 @@ export default function Landing() {
             <div className="transform__step">
               <span className="transform__label">{t('landing.states.fits')}</span>
               <p>
-                {t('landing.transform.confirmed', { count: confirmedPreferences })}
-                {bestPlanSlot ? ` · ${bestPlanSlot.fits}/${workshop.minParticipants}` : ''}
+                {bestPlanSlot ? `${bestPlanSlot.fits} / ${workshop.minParticipants}` : '—'}
               </p>
             </div>
             <div className="transform__step">
@@ -212,7 +210,7 @@ export default function Landing() {
                   : t('landing.current.statusCollecting')}
               </p>
               <Link className="app-frame__link" to={state?.session.role === 'participant' ? '/participant/preferences' : '/organizer/plan'}>
-                {t('landing.current.openPlan')}
+                {t(state?.session.role === 'participant' ? 'landing.current.openParticipant' : 'landing.current.openPlan')}
               </Link>
             </div>
           </div>
@@ -258,13 +256,10 @@ export default function Landing() {
             />
           </div>
           <div className="landing__links">
-            <Link className="btn btn-primary" to="/organizer/plan">
-              {t('landing.current.openPlan')}
+            <Link className="btn btn-primary" to={state?.session.role === 'participant' ? '/participant/preferences' : '/organizer/plan'}>
+              {t(state?.session.role === 'participant' ? 'landing.current.openParticipant' : 'landing.current.openPlan')}
             </Link>
-            <Link className="btn btn-secondary" to="/participant/preferences">
-              {t('landing.current.openParticipant')}
-            </Link>
-            {workshop.status === 'CONFIRMED' || workshop.status === 'CANCELLED' ? (
+            {state?.session.role === 'organizer' && (workshop.status === 'CONFIRMED' || workshop.status === 'CANCELLED') ? (
               <Link className="btn btn-ghost" to="/organizer/result">
                 {t('landing.current.seeResult')}
               </Link>

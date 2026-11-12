@@ -10,8 +10,9 @@
  *   authorization → capture → query capture → refund → query refund
  *   authorization → void    → query authorization
  *
- * Each step reuses a stable PayPal-Request-Id, so re-running after a timeout cannot
- * move money twice.
+ * Each step uses a request id for its own resource. A new invocation creates a
+ * new test run; do not rerun blindly after a timeout. Query the printed resource
+ * ids first to establish the previous outcome.
  *
  * It refuses to run without sandbox credentials:
  *   node scripts/setup-access.mjs     # then re-run this
@@ -97,6 +98,7 @@ async function main(): Promise<void> {
     if (authA.status !== 'CREATED' && authA.status !== 'AUTHORIZED' && authA.status !== 'CAPTURED') {
       throw new Error(`authorization is ${authA.status}`);
     }
+    if (authA.amountCents !== AMOUNT_CENTS || authA.currency !== CURRENCY) throw new Error('authorization amount/currency mismatch');
     const authARead = await paypal.getAuthorization(authA.authorizationId);
     line(`authorization queried: ${redact(authA.authorizationId)} status=${authARead.status}`);
 
@@ -111,6 +113,7 @@ async function main(): Promise<void> {
       `spine-a-capture-${authA.authorizationId}`,
     );
     line(`capture: ${redact(captureA.captureId)} status=${captureA.status} amount=${centsToDecimal(captureA.amountCents)} ${captureA.currency}`);
+    if (captureA.amountCents !== AMOUNT_CENTS || captureA.currency !== CURRENCY) throw new Error('capture amount/currency mismatch');
     const captureARead = await paypal.getCapture(captureA.captureId);
     line(`capture queried: ${redact(captureA.captureId)} status=${captureARead.status} refunded=${centsToDecimal(captureARead.refundedCents)}`);
     if (captureARead.status !== 'COMPLETED') throw new Error(`capture is ${captureARead.status}; not complete`);
@@ -122,6 +125,7 @@ async function main(): Promise<void> {
     line(`refund: ${redact(refundA.refundId)} status=${refundA.status} amount=${centsToDecimal(refundA.amountCents)}`);
     const refundARead = await paypal.getRefund(refundA.refundId);
     line(`refund queried: ${redact(refundA.refundId)} status=${refundARead.status}`);
+    if (refundARead.status !== 'COMPLETED') throw new Error(`refund is ${refundARead.status}; not complete`);
 
     /* ---------------- Path B: authorize → void ---------------- */
     header('PATH B — authorization, void');
@@ -147,7 +151,7 @@ async function main(): Promise<void> {
     line(`void: status=${voidB.status}`);
     const authBRead = await paypal.getAuthorization(authB.authorizationId);
     line(`authorization queried: ${redact(authB.authorizationId)} status=${authBRead.status}`);
-    if (authBRead.status !== 'VOIDED' && authBRead.status !== 'CAPTURED') {
+    if (authBRead.status !== 'VOIDED') {
       throw new Error(`void did not reach VOIDED (status ${authBRead.status})`);
     }
 

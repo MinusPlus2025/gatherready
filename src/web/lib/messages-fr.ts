@@ -1,6 +1,8 @@
 /* fr dictionary. */
 
 export const fr: Record<string,string> = {
+  "flow.preferences.extraction.label.failed": "Échec de l’extraction IA",
+  "flow.preferences.extraction.failed": "L’IA n’a pas identifié d’horaires fiables. Aucun choix n’a été accepté automatiquement. Réessayez avec votre phrase ou choisissez directement les horaires, puis vérifiez avant de confirmer.",
   "pay.status.NONE": "Pas commencé",
   "pay.status.ORDER_CREATED": "Commande créée — en attente de validation",
   "pay.status.APPROVED": "Validé — autorisation en cours",

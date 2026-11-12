@@ -182,17 +182,8 @@ export function Shell() {
         <div className="container footer__inner">
           <div>
             <p className="footer__title">GatherReady</p>
-            <p className="footer__text">{t('shell.footer.text')}</p>
+            <p className="footer__text">{t(state.mode.paypal === 'simulated' ? 'shell.mode.simulated' : 'shell.mode.sandbox')}</p>
             <p className="footer__credit">{t('shell.footer.credit')}</p>
-            <p className="footer__credit">{t('shell.footer.languageNote')}</p>
-            <p className="footer__credit">
-              {t('shell.extraction.prefix')}{' '}
-              {state.mode.ai === 'live'
-                ? `${t('shell.extraction.live')}${state.mode.llmModel ? ` · ${state.mode.llmModel}` : ''}`
-                : state.mode.ai === 'recorded'
-                  ? t('shell.extraction.recorded')
-                  : t('shell.extraction.structured')}
-            </p>
           </div>
           <nav className="footer__nav" aria-label={t('shell.footer.navLabel')}>
             {state.session.role === 'participant' ? (

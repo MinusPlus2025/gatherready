@@ -1,6 +1,8 @@
 /* ko dictionary. */
 
 export const ko: Record<string,string> = {
+  "flow.preferences.extraction.label.failed": "AI 추출 실패",
+  "flow.preferences.extraction.failed": "AI가 시간을 정확히 파악하지 못했습니다. 자동으로 선택된 항목은 없습니다. 문장을 수정해 다시 시도하거나 시간을 직접 선택한 후 확인하세요.",
   "pay.status.NONE": "시작 전",
   "pay.status.ORDER_CREATED": "주문 생성 — 승인 대기",
   "pay.status.APPROVED": "PayPal 승인됨 — 승인 처리 중",

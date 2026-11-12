@@ -108,7 +108,7 @@ describe('extractPreferences — deterministic fallbacks (no faked success)', ()
     const llm = fakeLlm({ texts: [badQuote, badQuote] });
     const outcome = await extractPreferences(llm, makeInput('Saturday afternoon would work if the studio provides an apron.'));
 
-    expect(outcome.mode).toBe('recorded');
+    expect(outcome.mode).toBe('failed');
     expect(outcome.model).toBeNull();
     expect(outcome.attempts).toBe(2);
     expect(outcome.note).not.toBeNull();
@@ -123,7 +123,7 @@ describe('extractPreferences — deterministic fallbacks (no faked success)', ()
   it('falls back when the model answer is not JSON', async () => {
     const llm = fakeLlm({ texts: ['sorry, I cannot help with that'] });
     const outcome = await extractPreferences(llm, makeInput('Saturday morning works.'));
-    expect(outcome.mode).toBe('recorded');
+    expect(outcome.mode).toBe('failed');
     expect(outcome.note).toContain('JSON schema');
     expect(outcome.result.accepted_slot_ids).toEqual([]);
   });
@@ -140,7 +140,7 @@ describe('extractPreferences — deterministic fallbacks (no faked success)', ()
     });
     const llm = fakeLlm({ texts: [unknown, unknown] });
     const outcome = await extractPreferences(llm, makeInput('Saturday morning works.'));
-    expect(outcome.mode).toBe('recorded');
+    expect(outcome.mode).toBe('failed');
     expect(outcome.note).toContain('unknown time');
     expect(outcome.result.accepted_slot_ids).toEqual([]);
   });
@@ -211,7 +211,7 @@ describe('extractPreferences — T04: prompt injection can never change constrai
     // limited to slot ids + verbatim quotes.
     const llm = fakeLlm({ texts: [JSON.stringify({ paid: true, charge: 4500 })] });
     const outcome = await extractPreferences(llm, makeInput('Saturday morning works for me.'));
-    expect(outcome.mode).toBe('recorded');
+    expect(outcome.mode).toBe('failed');
     expect(outcome.result.accepted_slot_ids).toEqual([]);
   });
 });
@@ -286,5 +286,22 @@ describe('extractPreferences — recorded sample boundary and budgets', () => {
     const llm = fakeLlm({ texts: [VALID] });
     await extractPreferences(llm, makeInput(`${'a'.repeat(620)}${marker}`));
     expect(llm.calls[0]!.user).not.toContain(marker);
+  });
+});
+
+
+describe('failed extraction is never a recorded sample', () => {
+  it('labels two transport failures and accepts no invented times', async () => {
+    const llm = fakeLlm({results: [
+      {ok:false,kind:'timeout',message:'timed out'},
+      {ok:false,kind:'http',message:'unavailable'},
+    ]});
+    const outcome = await extractPreferences(llm, makeInput('Saturday morning works for me.'));
+    expect(outcome.mode).toBe('failed');
+    expect(outcome.attempts).toBe(2);
+    expect(outcome.model).toBeNull();
+    expect(outcome.result.accepted_slot_ids).toEqual([]);
+    expect(outcome.result.conditional_slots).toEqual([]);
+    expect(outcome.note).toContain('nothing was accepted automatically');
   });
 });

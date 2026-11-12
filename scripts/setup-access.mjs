@@ -15,6 +15,7 @@
  */
 import { existsSync, mkdirSync, readFileSync, writeFileSync, chmodSync } from 'node:fs';
 import { createInterface } from 'node:readline/promises';
+import { Writable } from 'node:stream';
 import path from 'node:path';
 
 const ROOT = process.cwd();
@@ -60,20 +61,39 @@ async function main() {
   if (!existsSync(path.join(ROOT, 'package.json')) || readFileSync(path.join(ROOT, 'package.json'), 'utf8').includes('"gatherready"') === false) {
     console.warn('warning: run this from the gatherready project root.');
   }
-  const rl = createInterface({ input: process.stdin, output: process.stdout });
+  if (!process.stdin.isTTY || !process.stdout.isTTY) {
+    throw new Error('Interactive setup requires a local terminal. Use --check for non-interactive status.');
+  }
+  if (!isIgnored()) throw new Error('secrets/ must be git-ignored before saving credentials.');
+  let muted = false;
+  const safeOutput = new Writable({
+    write(chunk, encoding, callback) {
+      if (!muted) process.stdout.write(chunk, encoding);
+      callback();
+    },
+  });
+  safeOutput.isTTY = true;
+  const rl = createInterface({ input: process.stdin, output: safeOutput, terminal: true });
+  async function hiddenQuestion(prompt) {
+    const answer = rl.question(prompt);
+    muted = true;
+    try { return await answer; }
+    finally { muted = false; process.stdout.write('\n'); }
+  }
   console.log('GatherReady setup — sandbox credentials only. Press Enter to keep an existing value or skip.');
   const existing = loadSecrets();
   const pp = existing.paypal ?? {};
   const llm = existing.llm ?? {};
 
   const clientId = (await rl.question(`PayPal sandbox client ID${pp.clientId ? ' [kept]' : ''}: `)).trim() || pp.clientId || '';
-  const clientSecret = (await rl.question(`PayPal sandbox client secret${pp.clientSecret ? ' [kept]' : ''}: `)).trim() || pp.clientSecret || '';
+  const clientSecret = (await hiddenQuestion(`PayPal sandbox client secret${pp.clientSecret ? ' [kept]' : ''}: `)).trim() || pp.clientSecret || '';
   const webhookId = (await rl.question(`PayPal webhook ID (optional, press Enter to skip): `)).trim() || pp.webhookId || '';
   const merchantEmail = (await rl.question(`Sandbox business account email (optional, for your own reference): `)).trim() || pp.merchantEmail || '';
-  const llmKey = (await rl.question(`Model API key (optional; Enter = structured baseline): `)).trim() || llm.apiKey || '';
-  const llmProvider = (await rl.question(`Model provider (openai|gemini|ollama) [${llm.provider || 'openai'}]: `)).trim() || llm.provider || 'openai';
-  const llmModel = (await rl.question(`Model name [${llm.model || 'gpt-4o-mini'}]: `)).trim() || llm.model || 'gpt-4o-mini';
-  const llmBaseUrl = (await rl.question(`Model base URL (optional): `)).trim() || llm.baseUrl || '';
+  const paypalOnly = process.argv.includes('--paypal-only');
+  const llmKey = paypalOnly ? (llm.apiKey || '') : (await hiddenQuestion(`Model API key (optional; Enter = structured baseline): `)).trim() || llm.apiKey || '';
+  const llmProvider = paypalOnly ? (llm.provider || 'openai') : (await rl.question(`Model provider (openai|gemini|ollama) [${llm.provider || 'openai'}]: `)).trim() || llm.provider || 'openai';
+  const llmModel = paypalOnly ? (llm.model || 'gpt-4o-mini') : (await rl.question(`Model name [${llm.model || 'gpt-4o-mini'}]: `)).trim() || llm.model || 'gpt-4o-mini';
+  const llmBaseUrl = paypalOnly ? (llm.baseUrl || '') : (await rl.question(`Model base URL (optional): `)).trim() || llm.baseUrl || '';
   rl.close();
 
   if (!clientId || !clientSecret) {
@@ -81,8 +101,9 @@ async function main() {
   }
   mkdirSync(SECRETS_DIR, { recursive: true });
   const payload = {
-    paypal: { clientId: clientId || '', clientSecret: clientSecret || '', webhookId: webhookId || '', merchantEmail: merchantEmail || '' },
-    llm: { apiKey: llmKey || '', provider: llmProvider, model: llmModel, baseUrl: llmBaseUrl },
+    ...existing,
+    paypal: { ...pp, clientId: clientId || '', clientSecret: clientSecret || '', webhookId: webhookId || '', merchantEmail: merchantEmail || '' },
+    llm: paypalOnly ? llm : { apiKey: llmKey || '', provider: llmProvider, model: llmModel, baseUrl: llmBaseUrl },
   };
   writeFileSync(SECRETS_PATH, `${JSON.stringify(payload, null, 2)}\n`, { mode: 0o600 });
   chmodSync(SECRETS_PATH, 0o600);
@@ -92,7 +113,8 @@ async function main() {
   }
   console.log(`\nWrote ${SECRETS_PATH} (0600, git-ignored).`);
   console.log('Restart the server, then check: npm run verify');
-  console.log('After configuring PayPal, `npm run verify` exercises real sandbox authorization, capture, void and refund.');
+  console.log('`npm run verify` uses simulated payments; it is not real PayPal Sandbox evidence.');
+  console.log('For real Sandbox checks, run `npm run paypal-preflight`, then `npm run sandbox-spine` in an interactive terminal for buyer approval.');
 }
 
 main().catch((err) => {

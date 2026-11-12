@@ -6,12 +6,26 @@
 
 A small web product for the [PayPal AI Hackathon 2026](https://paypalaihackathon.devpost.com/):
 an AI reads messy availability messages into reviewable constraints, a deterministic solver finds the
-one time a group can actually agree on, a participant answers at most one clarifying question, and
-PayPal authorizations are collected only against the exact plan each person accepted. Money is
-captured only when the minimum group is real — otherwise holds are released and completed charges
-refunded.
+one time a group can actually agree on, and a participant answers at most one clarifying question.
+The payment implementation is designed to collect PayPal authorizations only against the exact plan
+each person accepted, then capture when the minimum group is met, or compensate failed batches.
+These implemented behaviours must not be confused with completed Sandbox verification.
 
-**Sandbox only · no real money · MIT**
+**Sandbox-targeted prototype · no real funds · MIT**
+
+### Verification status — 12 November 2026
+
+- **Verified against PayPal Sandbox:** OAuth authentication, Orders v2 `AUTHORIZE` order creation and
+  retrieval, and the provider-returned USD 45.00 amount.
+- **Not yet verified:** buyer approval, authorization resources, capture, void, refund, public HTTPS
+  callbacks or webhook delivery. Creating an order is not a completed payment.
+- **Recorded UI payment demonstrations are simulated** unless the specific recording explicitly
+  documents a successful Sandbox transaction. A Sandbox mode badge alone is not proof of payment.
+- **AI:** local Ollama inference has been exercised; each extraction still needs its own success
+  check and participant confirmation. Missing/unavailable models and failed extractions are not live AI.
+
+See [`docs/audit/paypal-sandbox-evidence.json`](docs/audit/paypal-sandbox-evidence.json) for the
+non-sensitive verification snapshot. The public repository may lag local work until changes are pushed.
 
 ---
 
@@ -105,17 +119,16 @@ and state behind every file, and each screen shows the same mode banner the app 
 | Language menu (8 locales, desktop) | [`language-menu-1440.png`](docs/screenshots/language-menu-1440.png) |
 | Language menu (8 locales, phone) | [`language-menu-390.png`](docs/screenshots/language-menu-390.png) |
 
-In this snapshot the banner reads **Demo payment — no PayPal transaction** because sandbox app credentials are absent;
-the same screens render the sandbox badge without code changes once keys are supplied.
+The existing screenshots and repository walkthrough were captured with the **simulated payment
+adapter**. They are historical artifacts, not proof of current Sandbox checkout or of the latest UI.
+The current walkthrough file is [`docs/demo/gatherready-walkthrough.mp4`](docs/demo/gatherready-walkthrough.mp4).
+Its final submission version and duration must be checked after the final build; no older duration is
+claimed here. `npm run record-demo` is a recording aid, not a Sandbox acceptance test. The final video
+must use truthful mode labels and the matching final code version. See [`docs/demo-script.md`](docs/demo-script.md).
 
-There is also an **~80-second silent walkthrough** recorded from the live product by
-`npm run record-demo`: [`docs/demo/gatherready-walkthrough.mp4`](docs/demo/gatherready-walkthrough.mp4)
-(a real server, real state changes, simulated PayPal badge in every frame). The interaction motion is
-recorded separately by `npm run record:motion` → [`docs/motion-demo.mp4`](docs/motion-demo.mp4) /
-[`docs/motion-demo.gif`](docs/motion-demo.gif), and `npm run test:motion` asserts the motion contract
-(including that reduced motion removes movement). It is a recording aid — the
-submission video needs your own narration and, if available, sandbox credentials so the sandbox badge is
-visible; see [`docs/demo-script.md`](docs/demo-script.md).
+Motion examples: [`docs/motion-demo.mp4`](docs/motion-demo.mp4) and
+[`docs/motion-demo.gif`](docs/motion-demo.gif). `npm run test:motion` checks the motion contract,
+including reduced-motion behaviour.
 
 ## Independent UI/UX audit
 
@@ -153,8 +166,7 @@ buttons, form labels and client-side validation, consent steps, payment state wo
 footer and language note.
 
 What stays in its creation language, on purpose: workshop facts, server-formatted slot labels, AI questions and
-verbatim quotes, participant names, the official offer terms and server error text. The footer says this in every
-language, so switching language never pretends to translate a legal term or a person's own words.
+verbatim quotes, participant names, the official offer terms and server error text. Switching interface language does not translate legal terms or a person's own words.
 
 Honesty note on the translations: English and Chinese are the submission languages. 繁體中文 is derived from the
 简体 dictionary with OpenCC plus a small terminology pass; Español, Français, Deutsch, 日本語 and 한국어 were
@@ -163,8 +175,7 @@ language) and dictionary-parity tested, but a native review is still a to-do bef
 
 Implementation: `src/web/lib/i18n.tsx` (provider, lazy dictionary loading, `t()` with `{placeholders}`),
 `src/web/lib/locales.ts` (registry + `<html lang>` tags), five dictionary namespaces under
-`src/web/lib/messages-*.ts` plus one file per language, `LanguageSwitch` in the shell. `npm run test:i18n`
-via `vitest` checks every locale has the same 810 keys, identical placeholders, and no empty strings;
+`src/web/lib/messages-*.ts` plus one file per language, `LanguageSwitch` in the shell. The i18n tests run by `npm test` check every locale has the same keys, identical placeholders, and no empty strings;
 `npm run ui-review` reviews English, Chinese and Japanese layouts at four widths; `npm run typecheck:web`
 typechecks the web app (the root tsconfig excludes `src/web`).
 
@@ -185,61 +196,138 @@ Semantic status colours, the PayPal button, photography and typography do **not*
 theme. Implementation: `src/web/lib/theme.ts`, `src/web/components/ThemeSwitch.tsx`; screenshots:
 [`appearance-menu-1440.png`](docs/screenshots/appearance-menu-1440.png), [`appearance-custom-1440.png`](docs/screenshots/appearance-custom-1440.png).
 
-## Run it
+## Run it from a fresh clone
 
-Requires Node.js ≥ 22.5 (uses the built-in `node:sqlite`).
+### 1. Install and start the baseline
+
+Requirements: [Git](https://git-scm.com/downloads), [Node.js](https://nodejs.org/en/download) **22.5 or
+newer** (the app uses built-in `node:sqlite`), npm, and a modern browser. A local run does not require
+a hosting subscription. Dependency/model downloads require internet access and sufficient disk space.
 
 ```bash
+git clone https://github.com/MinusPlus2025/gatherready.git
 cd gatherready
-npm install                 # dependencies are already present in this checkout
-npm run preflight           # what is real / what is degraded, no secrets printed
-node scripts/setup-access.mjs   # optional: PayPal sandbox keys + model key (written to git-ignored secrets/)
-# or, if you are in a GUI session: copy one value at a time, then run one line — nothing is echoed
-node scripts/setup-access-clipboard.mjs client-id
-node scripts/setup-access-clipboard.mjs client-secret
-
-npm run dev                 # API on http://localhost:5180
-npm run dev:web             # UI on http://localhost:5181 (proxies /api to 5180)
-
-# optional: live AI without a cloud key (what this checkout's screenshots/video used)
-ollama pull qwen2.5:7b-instruct
-LLM_OLLAMA=1 LLM_MODEL=qwen2.5:7b-instruct npm start
-
-# or one process:
-npm run build && npm start  # http://localhost:5180
+node --version
+npm ci
+npm run typecheck
+npm run typecheck:web
+npm test
+npm run build
+npm run preflight
+npm start
 ```
 
-Then open the UI, click **Load sample (synthetic demo data)**, and follow *Demo walkthrough* below.
-Every visitor gets a freshly isolated synthetic tenant and role switching is limited to that tenant.
+Open **http://localhost:5180**. With no credentials/model configuration, this is a labelled
+**simulated-payment, structured/recorded-demo baseline**, not a live AI + PayPal demonstration.
+Click **Load sample (synthetic demo data)** to create an isolated synthetic session. Do not reset an
+existing session containing work you want to retain. Stop the server with Ctrl+C before restarting
+it with changed configuration. `npm start` serves the built UI; rebuild after UI changes.
 
-## Modes — what is real right now
+### 2. Enable local live AI without a cloud API key
 
-The app never hides this: the top banner and every payment row state the mode. The same server code
-path is used for both adapters.
+Install Ollama from its [official download page](https://ollama.com/download) for your OS and launch
+it. On installations where the background server is not already running, run `ollama serve` in a
+separate terminal. Then, from the project directory:
 
-| Part | With no credentials (default here) | With credentials |
+```bash
+ollama pull qwen2.5:7b-instruct
+LLM_OLLAMA=1 LLM_MODEL=qwen2.5:7b-instruct LLM_TIMEOUT_MS=60000 npm start
+```
+
+The model is a multi-gigabyte download; inference speed depends on your machine. Keep Ollama running.
+A prior `secrets/access.json` model configuration takes precedence over some environment variables:
+if you have configured another provider, use the interactive setup to select `ollama` and the intended
+model rather than assuming the command overrides that file. Never paste keys into chat or a public issue.
+
+`GET /healthz` reports **configuration**, not proof that a particular model call succeeded. Submit a
+new sentence, inspect the per-extraction status, review the extracted facts, and explicitly confirm.
+A failed call must show failure and allow retry/manual selection; checked-in recorded samples are not
+live inference. A cloud provider is optional and may incur charges; it is not required for this local path.
+
+### 3. Configure your own PayPal Sandbox app securely
+
+Use the **Sandbox** section of the [PayPal Developer Dashboard](https://developer.paypal.com/dashboard/).
+Use a Sandbox business app for server credentials and a separate **Personal Sandbox test buyer** for
+checkout. Never use real card data or a production PayPal secret. In a local interactive terminal:
+
+```bash
+node scripts/setup-access.mjs --paypal-only
+node scripts/setup-access.mjs --check
+```
+
+The setup writes `secrets/access.json` with mode `0600`, verifies it is Git-ignored, and hides Secret
+input. `--paypal-only` preserves model configuration. Webhook ID and the reference merchant email can
+initially be skipped. Keep the PayPal API host at
+`https://api-m.sandbox.paypal.com`; this app rejects non-Sandbox hosts.
+
+**Keep simulated and Sandbox data separate.** Stop your own GatherReady server before switching
+payment mode. Do not restart a Sandbox adapter against a database containing simulated payment
+records: the recovery scheduler starts automatically. Preserve that database and use a separate new
+file for Sandbox UI tests (do not delete existing data):
+
+```bash
+GATHERREADY_DB=./data/gatherready-sandbox.db npm start
+```
+
+For the previous simulated workspace, explicitly use `PAYPAL_FORCE_SIMULATED=1 npm start` even
+when Sandbox credentials are now saved. The standalone preflight/spine scripts verify the API
+separately and do not turn the existing UI recording into a real-payment recording.
+
+Do not commit `.env`, `secrets/`, database files, tokens or buyer passwords. For an independent clone,
+reviewers configure their own Sandbox app/test buyer; this repository contains no shared credentials.
+
+### 4. Verify the right thing
+
+```bash
+# Local synthetic HTTP tests: always force simulated payments, even when keys exist.
+npm run verify
+
+# Real Sandbox API readiness: OAuth + order creation/query.
+npm run paypal-preflight
+
+# Optional interactive payment acceptance test; review the scope below before running.
+npm run sandbox-spine
+```
+
+`verify` is **not real PayPal transaction evidence**. `paypal-preflight` creates a USD 45.00 test order,
+without buyer approval or capture. When `PUBLIC_BASE_URL` is HTTPS it may register the app webhook;
+otherwise registration is skipped. Registration alone does not prove webhook delivery.
+
+`sandbox-spine` creates two USD 45.00 virtual test orders: authorization → capture → refund, then
+separate authorization → void. It needs an interactive terminal and the operator's approval with an
+existing Personal Sandbox buyer on PayPal's hosted page. No real funds are used. This extended test is
+for this product's payment implementation, **not a universal competition requirement**. Do not rerun
+blindly after a timeout: inspect the prior order/resource status first. Do not claim an authorization,
+capture or refund until the provider confirms its status and amount.
+
+Public HTTPS is needed to test externally delivered webhooks and public callbacks; it is not a
+prerequisite for standalone OAuth or order API checks. Webhook testing remains separate from the
+browser return and from the local synthetic tests.
+
+### Development and hosting limits
+
+For two-process development, use `npm run dev` (API, port 5180) and `npm run dev:web` (Vite, port 5181)
+in separate terminals. For reproducible evaluation, prefer the single built server above. If port 5180
+is occupied, stop your own prior GatherReady process rather than killing unrelated projects.
+
+SQLite persists under `data/` by default. This is a single-process application with a 30-second
+in-process recovery scheduler and, in the local AI setup, a local Ollama endpoint. It is **not ready
+for a direct serverless/Vercel deployment without adapting storage, scheduling and the model endpoint**.
+There is no verified public deployment in this snapshot. Complete local setup is provided instead.
+
+## Modes — implementation versus evidence
+
+| Part | Without configuration | Configured implementation / limits |
 |---|---|---|
-| PayPal | `simulated` adapter: deterministic `SIM-` ids, PayPal-shaped states, labelled **Demo payment — no PayPal transaction** | Real Sandbox REST: Orders v2 `intent=AUTHORIZE`, Payments v2 authorize/void/capture/refund, webhook signature verification |
-| Language model | No live model: structured form + checked-in **Recorded sample** only for the six synthetic persona sentences; labelled per preference | OpenAI-compatible, Gemini or **local Ollama**; JSON-constrained decoding, schema + verbatim-quote verification, one bounded retry, then structured fallback |
-| Database | SQLite file (`data/gatherready.db`), WAL, `BEGIN IMMEDIATE` for money paths | same |
-| Money | **Nothing leaves the machine** | Sandbox money only; the process refuses to boot against a non-sandbox PayPal host |
+| PayPal | Simulated adapter, labelled **Demo payment — no PayPal transaction** | Sandbox REST adapter; current verified scope is OAuth + order create/query only |
+| AI | Structured input and explicitly labelled recorded synthetic samples | Ollama or supported cloud provider; every result needs validation; failed inference is not a recorded success |
+| Database | Local SQLite file | Not a hosted database; do not assume local disk persists on serverless hosts |
+| Payments | No PayPal transaction | Sandbox virtual funds only; credentials or a mode badge do not prove transaction success |
 
-**Honest status:** two halves are in different states, and the UI says which on every screen.
-
-- **AI is real on this machine.** A local **`qwen2.5:7b-instruct`** model (via Ollama) performs the
-  extraction and the clarification wording; every answer still passes the schema + verbatim-quote
-  verifier. The AI evidence in [`docs/ai-evaluation.md`](docs/ai-evaluation.md) is a live-model run
-  (28/33 answered live, **0 unsafe acceptances, 0 quote failures**, review cost −43% in the heuristic),
-  and the screenshots/video show the `Live AI` banner. A hosted key (OpenAI-compatible or Gemini) is a
-  drop-in replacement for a deployment where Ollama is not available. A smaller 3B model was measured and
-  rejected: it made the review *more* expensive than the form, and that result is in the report too.
-- **PayPal is still simulated here.** No PayPal sandbox credentials exist on this machine, so no real
-  sandbox transaction has been executed. The simulated adapter is labelled in the UI, API and docs, and
-  [`docs/testing.md`](docs/testing.md) keeps simulated-mode results and real-sandbox evidence in separate
-  columns. With sandbox keys in place, `npm run paypal-preflight` proves OAuth/order-create/query and
-  registers the webhook, and `npm run sandbox-spine` walks the real authorization → capture → query →
-  refund → query and authorization → void → query paths with you approving each order in PayPal's hosted
-  UI. It prints the real resource ids for the evidence table.
+The local AI evaluation in [`docs/ai-evaluation.md`](docs/ai-evaluation.md) is a historical measured run,
+not a promise that every new input succeeds. Payment architecture, automated tests and recorded UI
+flows are not substitutes for provider-confirmed payment evidence. Keep these categories separate
+when reviewing the screenshots, video and test reports.
 
 ## Demo walkthrough (synthetic data)
 
@@ -255,7 +343,8 @@ path is used for both adapters.
    supported: his original preference stands and he is not asked again.)
 5. **Publish one offer** for Saturday 10:00–12:00. The terms and fingerprint are frozen.
 6. As each of the four included participants: read the fixed summary, tick the consent box,
-   **Continue to PayPal** (simulated here), return — the server records the authorization.
+   **Continue to PayPal**. In a simulated run, the result is only a local simulated authorization;
+   in a Sandbox run, approval and provider confirmation must actually succeed.
 7. As organizer: **Confirm workshop and collect**. The batch is locked, each authorization is
    captured in turn and queried; the workshop becomes `CONFIRMED` only after every capture is confirmed.
 8. Reset the demo and publish below the minimum to see the honest failure path (no fabricated
@@ -279,7 +368,7 @@ path is used for both adapters.
   [`docs/ai-evaluation.md`](docs/ai-evaluation.md). The stop condition is written down: if the AI
   needs more corrections than the form, the claim of AI advantage is dropped.
 
-## Money path (what actually protects the money)
+## Payment implementation (not a claim of fully verified Sandbox settlement)
 
 - Amount, currency, merchant and description come from the immutable offer **server-side**; the client
   sends only ids and a consent checkbox that the server re-checks.
@@ -299,7 +388,8 @@ path is used for both adapters.
 ## What this is not (limitations, stated up front)
 
 - One merchant, one workshop, one currency (USD), one adult audience. No platform payouts or escrow.
-- **No real PayPal sandbox transactions were verified in this snapshot** (see mode table).
+- Only OAuth and order creation/query have been verified against Sandbox in this snapshot;
+  buyer approval, authorization, capture, void, refund and external callbacks remain unverified.
 - Cross-buyer capture is not atomic, and refunds/holds are not instant; no fee claims are made.
 - Demand, willingness to pay, and improvement over a form-based workflow are **not validated** here.
   No interviews or conversion experiments are claimed. Public policy sources are cited; commercial
@@ -343,5 +433,5 @@ docs/         CONTRACT, architecture, testing, ai-evaluation, submission, demo s
 
 ## License
 
-MIT — see [LICENSE](LICENSE). Dependency licences are compatible; the project owner should confirm the
-licence choice before publishing.
+MIT — see [LICENSE](LICENSE). Third-party images, fonts and dependencies retain their own licences
+and attribution requirements; see the asset and design documentation.

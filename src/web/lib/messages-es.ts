@@ -1,6 +1,8 @@
 /* es dictionary. */
 
 export const es: Record<string,string> = {
+  "flow.preferences.extraction.label.failed": "La extracción con IA falló",
+  "flow.preferences.extraction.failed": "La IA no pudo identificar horarios fiables. No se aceptó ninguna opción automáticamente. Reintenta con tu frase o elige los horarios directamente y revísalos antes de confirmar.",
   "pay.status.NONE": "Sin empezar",
   "pay.status.ORDER_CREATED": "Pedido creado — pendiente de aprobación",
   "pay.status.APPROVED": "Aprobado — autorizando",

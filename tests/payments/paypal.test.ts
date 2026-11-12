@@ -394,6 +394,7 @@ describe('real sandbox request construction (mocked fetch, never PayPal itself)'
     const headers = orderCall?.init.headers as Record<string, string>;
     expect(headers.Authorization).toBe('Bearer sandbox-token');
     expect(headers['PayPal-Request-Id']).toBe('create-order:real:1');
+    expect(headers.Prefer).toBe('return=representation');
     const body = JSON.parse(String(orderCall?.init.body)) as Record<string, unknown>;
     expect(body.intent).toBe('AUTHORIZE');
     const units = body.purchase_units as Array<Record<string, unknown>>;

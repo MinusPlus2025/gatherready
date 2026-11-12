@@ -1,6 +1,8 @@
 /* de dictionary. */
 
 export const de: Record<string,string> = {
+  "flow.preferences.extraction.label.failed": "KI-Auswertung fehlgeschlagen",
+  "flow.preferences.extraction.failed": "Die KI konnte keine verlässlichen Zeiten ermitteln. Es wurde nichts automatisch übernommen. Versuche es erneut oder wähle die Zeiten direkt und prüfe sie vor der Bestätigung.",
   "common.errorTitle": "Es gibt ein Problem",
   "common.loading": "Wird geladen…",
   "common.loadErrorTitle": "Diese Seite lässt sich nicht laden",

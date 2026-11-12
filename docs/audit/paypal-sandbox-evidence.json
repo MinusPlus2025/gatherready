@@ -1,0 +1,27 @@
+{
+  "checkedAt": "2026-11-12T18:31:26.378430+00:00",
+  "environment": "PayPal Sandbox (no real funds)",
+  "verified": [
+    "OAuth authentication",
+    "Orders v2 AUTHORIZE order creation",
+    "Orders v2 order retrieval",
+    "amount USD 45.00 returned by PayPal"
+  ],
+  "preflightOrderId": "33C16164XB8601942",
+  "adapterOrderId": "8KC519834U456690M",
+  "adapterOrderStatus": "CREATED",
+  "amountCents": 4500,
+  "currency": "USD",
+  "notVerified": [
+    "buyer approval",
+    "authorization resource",
+    "capture",
+    "void",
+    "refund",
+    "public HTTPS callbacks",
+    "webhook delivery"
+  ],
+  "implementationFix": "Request Prefer: return=representation so response parsers receive provider-confirmed amounts.",
+  "sourceBaseline": "e98f95c plus pending changes",
+  "limitation": "Order creation proves real Sandbox API integration, not successful payment or full product payment flow. No secrets, authentication tokens or buyer details are included."
+}

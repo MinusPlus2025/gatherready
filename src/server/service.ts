@@ -446,7 +446,7 @@ export class Service {
           ? { kind: 'info', message: `Live AI read of your message (${outcome.model}). Edit anything that is wrong, then confirm.` }
           : {
               kind: 'warn',
-              message: `No live AI used (${outcome.mode}). The card below comes from ${outcome.mode === 'recorded' ? 'a checked-in recorded sample' : 'the structured form'} — review every line before confirming.`,
+              message: outcome.mode === 'failed' ? 'AI could not extract reliable times. Nothing was accepted automatically. Retry your sentence or pick times directly.' : `No live AI used (${outcome.mode}). The card below comes from ${outcome.mode === 'recorded' ? 'a checked-in recorded sample' : 'the structured form'} — review every line before confirming.`,
             };
     }
 

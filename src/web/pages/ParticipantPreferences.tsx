@@ -68,6 +68,8 @@ function extractionNote(preference: PreferenceView, t: Translate): string {
       return preference.extractionModel
         ? t('flow.preferences.extraction.liveWithModel', { model: preference.extractionModel })
         : t('flow.preferences.extraction.live');
+    case 'failed':
+      return t('flow.preferences.extraction.failed');
     case 'recorded':
       return t('flow.preferences.extraction.recorded');
     case 'structured':
@@ -81,6 +83,8 @@ function extractionLabel(preference: PreferenceView, t: Translate): string {
   switch (preference.extractionMode) {
     case 'live':
       return t('flow.preferences.extraction.label.live');
+    case 'failed':
+      return t('flow.preferences.extraction.label.failed');
     case 'recorded':
       return t('flow.preferences.extraction.label.recorded');
     case 'structured':
@@ -146,13 +150,13 @@ export default function ParticipantPreferences() {
 
   async function parseFreeText(): Promise<void> {
     if (!viewerId) return;
-    const text = freeText.trim();
-    const structuredTicks = slots.filter((slot) => ticks[slot.id]);
+    const text = mode === 'describe' ? freeText.trim() : '';
+    const structuredTicks = mode === 'pick' ? slots.filter((slot) => ticks[slot.id]) : [];
     if (!text && structuredTicks.length === 0) {
       setErrors([{ field: 'sourceText', message: t('flow.preferences.error.needSomething') }]);
       return;
     }
-    const structuredCondition = conditionText.trim();
+    const structuredCondition = mode === 'pick' ? conditionText.trim() : '';
     const composedParts = [
       text ||
         t('flow.preferences.compose.times', {
@@ -313,7 +317,7 @@ export default function ParticipantPreferences() {
   const participantSummary = participantStatus(state, locale);
 
   return (
-    <div className="page page--narrow">
+    <div className={`page page--narrow preferences-page${composerOpen || !preference ? ' preferences-page--composing' : ''}`}>
       <PageHeader
         eyebrow={t('flow.participant.eyebrow', { name: me.displayName })}
         title={editing && preference?.status === 'CONFIRMED' ? t('flow.preferences.answer.changeTitle') : confirmed && preference ? t('flow.preferences.confirmed.title') : t('flow.preferences.title')}
@@ -369,13 +373,6 @@ export default function ParticipantPreferences() {
         {t('flow.preferences.timezone', { tz: workshop.timezone })}
       </p>
 
-      {participantSummary ? (
-        <>
-          <StatusBand model={participantSummary} />
-          <ParticipantSteps steps={participantSummary.steps} />
-        </>
-      ) : null}
-
       {editing && preference ? (
         <div className="editing-banner">
           <p>{t('flow.preferences.edit.savedNotice', { version: preference.version })}</p>
@@ -396,6 +393,22 @@ export default function ParticipantPreferences() {
         </InlineNotice>
       ) : null}
       <ErrorSummary errors={errors} />
+
+      {activePreference?.extractionMode === 'failed' ? (
+        <InlineNotice kind="error" title={t('flow.preferences.extraction.label.failed')}>
+          <p>{t('flow.preferences.extraction.failed')}</p>
+          <div className="button-row">
+            <button type="button" className="btn btn-secondary" disabled={busy !== null}
+              onClick={() => { setMode('describe'); setComposerOpen(true); }}>
+              {t('flow.preferences.mode.describe')}
+            </button>
+            <button type="button" className="btn btn-primary" disabled={busy !== null}
+              onClick={() => { setMode('pick'); setComposerOpen(true); }}>
+              {t('flow.preferences.mode.pick')}
+            </button>
+          </div>
+        </InlineNotice>
+      ) : null}
 
       {confirmed && preference ? (
         <ConfirmedView
@@ -427,10 +440,6 @@ export default function ParticipantPreferences() {
               >
                 {preference ? t('flow.preferences.answer.changeTitle') : t('flow.preferences.answer.title')}
               </h2>
-              <div className="compose-intro">
-                <p>{t('flow.preferences.answer.equalPaths')}</p>
-                <p className="compose-intro__purpose">{t('flow.preferences.answer.purpose')}</p>
-              </div>
 
               <div className="mode-switch" role="group" aria-label={t('flow.preferences.mode.aria')}>
                 <button
@@ -469,7 +478,8 @@ export default function ParticipantPreferences() {
                   />
                   <button
                     type="button"
-                    className="btn btn-secondary"
+                    className="btn btn-primary"
+                    aria-busy={busy === 'parse'}
                     onClick={() => void parseFreeText()}
                     disabled={busy !== null}
                   >
@@ -515,13 +525,18 @@ export default function ParticipantPreferences() {
                   </SelectField>
                   <button
                     type="button"
-                    className="btn btn-secondary"
+                    className="btn btn-primary"
+                    aria-busy={busy === 'parse'}
                     onClick={() => void parseFreeText()}
                     disabled={busy !== null}
                   >
                     {busy === 'parse' ? t('flow.preferences.structured.building') : t('flow.preferences.structured.useTimes')}
                   </button>
                 </div>
+              </div>
+              <div className="compose-intro">
+                <p>{t('flow.preferences.answer.equalPaths')}</p>
+                <p className="compose-intro__purpose">{t('flow.preferences.answer.purpose')}</p>
               </div>
             </section>
             )
@@ -540,6 +555,13 @@ export default function ParticipantPreferences() {
           ) : null}
         </>
       )}
+
+      {participantSummary ? (
+        <>
+          <StatusBand model={participantSummary} />
+          <ParticipantSteps steps={participantSummary.steps} />
+        </>
+      ) : null}
 
       {preference ? (
         <Disclosure summary={t('flow.preferences.diagnostics')}>

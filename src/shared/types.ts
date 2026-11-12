@@ -106,7 +106,7 @@ export interface Preference {
   updatedAt: IsoUtc;
 }
 
-export type ExtractionMode = 'live' | 'recorded' | 'structured' | 'seed';
+export type ExtractionMode = 'live' | 'recorded' | 'structured' | 'failed' | 'seed';
 
 export interface Participant {
   id: string;

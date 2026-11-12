@@ -1,6 +1,8 @@
 /* zh base. */
 
 export const zh: Record<string,string> = {
+  "flow.preferences.extraction.label.failed": "AI 提取未成功",
+  "flow.preferences.extraction.failed": "AI 未能可靠识别时间，没有自动接受任何选项。你可以重新输入并提取，或直接选择时间，核对后再确认。",
   "pay.status.NONE": "未开始",
   "pay.status.ORDER_CREATED": "订单已创建 · 等待确认",
   "pay.status.APPROVED": "已批准 · 授权中",

@@ -108,7 +108,9 @@ async function main(): Promise<void> {
   /* 4. Register the webhook (idempotent by URL lookup first) */
   const url = `${cfg.publicBaseUrl}/api/paypal/webhook`;
   if (!/^https:\/\//.test(url)) {
-    console.log(`WARN webhook URL is not https (${url}); PayPal will reject it from a public deployment.`);
+    console.log('SKIP webhook registration: PUBLIC_BASE_URL is not HTTPS. OAuth and order creation/query above are independent of webhook delivery.');
+    console.log('Public webhook verification is still pending; no callback or webhook success is claimed.');
+    return;
   }
   const listRes = await api('GET', '/v1/notifications/webhooks');
   if (listRes.ok) {

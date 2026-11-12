@@ -929,6 +929,8 @@ function createSandboxPaypal(cfg: AppConfig): Paypal {
     const headers: Record<string, string> = { Authorization: `Bearer ${token}`, Accept: 'application/json' };
     if (options.body !== undefined) headers['Content-Type'] = 'application/json';
     if (options.requestId) headers['PayPal-Request-Id'] = options.requestId;
+    // Orders default to minimal responses; parsers need provider-confirmed amounts.
+    if (method === 'POST') headers.Prefer = 'return=representation';
     let res: Response;
     try {
       res = await fetch(`${base}${path}`, {

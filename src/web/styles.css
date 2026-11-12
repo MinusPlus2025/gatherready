@@ -6576,3 +6576,56 @@ html[data-theme-mode='dark'] .eyebrow {
 .brand__mark {
   color: #0d5a45;
 }
+
+/* Isolated usability pass: semantic rhythm, input first, state feedback. */
+.preferences-page .page-head h1 {font-size:clamp(1.9rem,3.5vw,2.65rem);line-height:1.13;text-wrap:balance;max-width:24ch;}
+.preferences-page .page-head {margin-bottom:20px;}
+.preferences-page--composing .workshop-strip {padding:14px 18px;}
+.preferences-page--composing .workshop-strip__cover {width:72px;height:60px;object-fit:cover;}
+.preferences-page--composing .participant-dates {display:none;}
+.preferences-page .compose-intro {margin-top:24px;font-size:.82rem;border-top:1px solid var(--border);padding-top:14px;}
+.preferences-page .compose-intro__purpose {font-size:.78rem;line-height:1.5;}
+.preferences-page .answer-path h3 {display:none;}
+.preferences-page .mode-switch {margin-bottom:8px;}
+.preferences-page textarea {transition:border-color .18s,box-shadow .18s;background:var(--surface);}
+.preferences-page textarea:focus {border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 13%,transparent);}
+.preferences-page button[aria-busy="true"] {cursor:progress;}
+.preferences-page button[aria-busy="true"]::before {content:"";width:14px;height:14px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:grBusy .75s linear infinite;}
+@keyframes grBusy {to {transform:rotate(360deg);}}
+@media (max-width:640px) {
+ .preferences-page {padding-top:22px;}
+ .preferences-page .page-head h1 {font-size:1.85rem;max-width:21ch;}
+ .preferences-page .page-head__intro {font-size:.95rem;line-height:1.5;}
+ .preferences-page .workshop-strip {padding:12px;gap:12px;}
+ .preferences-page .editing-banner {padding:12px;gap:8px;}
+ .preferences-page .editing-banner p {font-size:.85rem;line-height:1.4;}
+ .preferences-page .panel {padding:18px;}
+ .preferences-page .answer-path > .btn {width:100%;min-height:48px;}
+ .preferences-page .mode-switch {width:100%;}
+ .preferences-page .mode-switch__button {min-width:0;white-space:normal;line-height:1.3;}
+}
+@media (prefers-reduced-motion:reduce) {
+ .preferences-page textarea {transition:none;}
+ .preferences-page button[aria-busy="true"]::before {animation:none;}
+}
+
+/* Compact product footer and a wider saved-preference workspace. */
+.preferences-page {max-width:1040px;}
+.preferences-page--composing {max-width:920px;}
+.preferences-page .page-head h1 {max-width:30ch;text-wrap:balance;}
+.preferences-page .page-head__intro {max-width:68ch;}
+.preferences-page .panel--card .detail-grid {grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:24px;}
+.footer__inner {padding-top:18px;padding-bottom:18px;gap:12px 28px;align-items:center;}
+.footer__title {font-size:.9rem;}
+.footer__text {font-size:.78rem;line-height:1.45;margin-top:2px;}
+.footer__credit {font-size:.72rem;line-height:1.45;margin-top:3px;max-width:65ch;}
+.footer__nav {gap:6px 18px;}
+@media(max-width:640px) {
+ .preferences-page,.preferences-page--composing {max-width:100%;}
+ .preferences-page .panel--card .detail-grid {grid-template-columns:minmax(0,1fr);gap:18px;}
+ .preferences-page .page-head h1 {font-size:1.85rem;line-height:1.15;}
+ .preferences-page .page-head__intro {font-size:.95rem;line-height:1.5;}
+ .footer__inner {display:grid;grid-template-columns:minmax(0,1fr);padding-top:16px;padding-bottom:16px;gap:10px;}
+ .footer__nav {gap:4px 20px;}
+ .footer__nav a {display:inline-flex;align-items:center;min-height:44px;}
+}
