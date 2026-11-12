@@ -5,8 +5,8 @@
    view may contain.
    ========================================================================== */
 
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import type { AppState } from '../../shared/api.js';
 import { describeError } from '../lib/api.js';
 import { useApp } from '../lib/store.js';
@@ -37,8 +37,31 @@ function nextRouteFor(state: AppState): string {
 export function DemoBar({ state }: { state: AppState }) {
   const { act, mock } = useApp();
   const navigate = useNavigate();
+  const location = useLocation();
   const [busy, setBusy] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [screensOpen, setScreensOpen] = useState(false);
+  const screensRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    setScreensOpen(false);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    if (!screensOpen) return;
+    const onPointerDown = (event: PointerEvent) => {
+      if (!screensRef.current?.contains(event.target as Node)) setScreensOpen(false);
+    };
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setScreensOpen(false);
+    };
+    document.addEventListener('pointerdown', onPointerDown);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('pointerdown', onPointerDown);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [screensOpen]);
   const suffix = mock ? '?mock=1' : '';
   const current = state.session.viewParticipantId;
 
@@ -99,19 +122,36 @@ export function DemoBar({ state }: { state: AppState }) {
             ))}
           </div>
           <div className="demo-bar__spacer" />
-          <details className="demo-bar__screens">
-            <summary>Screens</summary>
-            <ul>
-              {DEMO_ROUTES.map((route) => (
-                <li key={route.path}>
-                  <Link to={route.path + suffix}>{route.label}</Link>
-                </li>
-              ))}
-            </ul>
-          </details>
-          <button type="button" className="btn btn-ghost btn--small" onClick={() => void resetDemo()} disabled={busy !== null}>
-            Reset demo
-          </button>
+          <div className="demo-bar__tools">
+            <div className="demo-bar__screens" ref={screensRef}>
+              <button
+                type="button"
+                className="demo-bar__screens-toggle"
+                aria-expanded={screensOpen}
+                aria-haspopup="menu"
+                onClick={() => setScreensOpen((open) => !open)}
+              >
+                Screens
+              </button>
+              {screensOpen ? (
+                <>
+                  <div className="demo-bar__screens-scrim" aria-hidden="true" onClick={() => setScreensOpen(false)} />
+                  <ul role="menu" className="demo-bar__screens-menu">
+                    {DEMO_ROUTES.map((route) => (
+                      <li key={route.path} role="none">
+                        <Link role="menuitem" to={route.path + suffix} onClick={() => setScreensOpen(false)}>
+                          {route.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              ) : null}
+            </div>
+            <button type="button" className="btn btn-ghost btn--small" onClick={() => void resetDemo()} disabled={busy !== null}>
+              Reset demo
+            </button>
+          </div>
         </div>
         {error ? (
           <p className="demo-bar__error" role="alert">

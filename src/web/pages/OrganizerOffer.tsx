@@ -1,16 +1,19 @@
 /* ==========================================================================
    Organizer: publish exactly one fixed offer.
 
-   Before publishing the merchant must affirm the terms; after publishing the
-   terms are immutable and shown with their fingerprint. Any change requires a
-   new offer and fresh consent from every participant, which the screen says in
-   plain words instead of hiding behind a version number.
+   IA pass: this is not a numbered "step 3" form. The screen states the truth
+   (nothing can be published yet / choose a time / published), shows each
+   candidate as a card with the confirmed fit names, then the exact terms and a
+   single primary action. Fieldset/legend markup is gone so headings cannot
+   collide with notices; terms and fingerprint are collapsed after publishing.
    ========================================================================== */
 
 import { useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
 import type { SlotView, WorkshopView } from '../../shared/api.js';
 import { apiFieldErrors, describeError } from '../lib/api.js';
+import { money, shortSlot } from '../lib/status.js';
 import { useApp } from '../lib/store.js';
 import {
   AuditTrail,
@@ -24,6 +27,7 @@ import {
   TermsList,
   type SummaryError,
 } from '../components/ui.js';
+import { Disclosure, StatusBand } from '../components/workshop.js';
 
 function termsRowsFor(workshop: WorkshopView, slot: SlotView): Array<{ label: string; value: string }> {
   return [
@@ -43,6 +47,7 @@ function termsRowsFor(workshop: WorkshopView, slot: SlotView): Array<{ label: st
 
 export default function OrganizerOffer() {
   const { state, act } = useApp();
+  const navigate = useNavigate();
   const [selectedSlotId, setSelectedSlotId] = useState<string | null>(null);
   const [merchantConfirmed, setMerchantConfirmed] = useState(false);
   const [errors, setErrors] = useState<SummaryError[]>([]);
@@ -55,9 +60,10 @@ export default function OrganizerOffer() {
   const slots = workshop?.slots ?? [];
 
   const workable = useMemo(() => plan?.slots.filter((slot) => slot.meetsMinimum) ?? [], [plan]);
-  const effectiveSlotId = selectedSlotId ?? plan?.workableSlotId ?? plan?.slots[0]?.slotId ?? slots[0]?.id ?? null;
+  const effectiveSlotId = selectedSlotId ?? plan?.workableSlotId ?? workable[0]?.slotId ?? null;
   const selectedSlot = slots.find((slot) => slot.id === effectiveSlotId) ?? null;
   const selectedPlanSlot = plan?.slots.find((slot) => slot.slotId === effectiveSlotId) ?? null;
+  const blocked = Boolean(plan) && workable.length === 0;
 
   async function publish(): Promise<void> {
     if (!selectedSlot) {
@@ -93,16 +99,52 @@ export default function OrganizerOffer() {
     );
   }
 
+  const strip = (
+    <section className="offer-workshop-strip" aria-label="Workshop">
+      {workshop.coverImageUrl ? (
+        <img className="offer-workshop-strip__cover" src={workshop.coverImageUrl} alt="" width={132} height={99} loading="lazy" />
+      ) : null}
+      <div>
+        <p className="offer-workshop-strip__title">{workshop.title}</p>
+        <p className="offer-workshop-strip__facts">
+          <span>{workshop.merchantName}</span>
+          <span aria-hidden="true">·</span>
+          <span>{workshop.slots.map((slot) => shortSlot(slot.rangeLabel)).join(' · ')}</span>
+          <span aria-hidden="true">·</span>
+          <span>{money(workshop.priceCents)} per person</span>
+          <span aria-hidden="true">·</span>
+          <span>minimum {workshop.minParticipants}</span>
+        </p>
+      </div>
+    </section>
+  );
+
   if (offer) {
     const fitNames = plan?.slots.find((slot) => slot.slotId === offer.slotId)?.fitNames ?? [];
     return (
       <div className="page">
         <PageHeader
-          eyebrow="Organizer · step 3"
-          title="Your offer is published"
+          eyebrow="Organizer · Offer"
+          title="Offer published"
           intro="These terms are fixed. Participants see exactly this summary, verbatim, before any PayPal button."
           actions={<StatusBadge tone="success" word="Offer open for authorization" />}
         />
+        {strip}
+        <div className="status-row">
+          <StatusBand
+            model={{
+              tone: 'success',
+              headline: `${shortSlot(offer.slotLabel)} · terms frozen`,
+              detail: `${fitNames.length} confirmed fit${fitNames.length === 1 ? '' : 's'} · ${
+                money(workshop.priceCents)
+              } · minimum ${workshop.minParticipants} · closes ${workshop.authDeadlineLabel}.`,
+              action: null,
+            }}
+          />
+          <Link className="btn btn-primary status-row__action" to="/organizer/funding">
+            Open funding <ArrowRight size={15} strokeWidth={2.2} aria-hidden="true" />
+          </Link>
+        </div>
 
         {apiError ? (
           <InlineNotice kind="error" title="That did not work">
@@ -122,162 +164,169 @@ export default function OrganizerOffer() {
           </div>
 
           <TermsList rows={offer.termsRows} />
-
-          <Fingerprint shortHash={offer.shortHash} fullHash={offer.offerHash} />
-
           <div className="lock-note" role="note">
             <h3>Changing anything now needs a new offer</h3>
             <p>
-              This offer is locked to fingerprint <code>{offer.shortHash}</code>. If any term changes — price,
-              time, venue, inclusions, minimum — you must publish a new offer, and every participant must
-              review it and consent again. There is no way to quietly edit a live offer.
+              This offer is locked to fingerprint <code>{offer.shortHash}</code>. If any term changes — price, time,
+              venue, inclusions, minimum — you must publish a new offer, and every participant must review it and
+              consent again. There is no way to quietly edit a live offer.
             </p>
           </div>
-
           <p className="muted">
             {fitNames.length > 0
-              ? `Confirmed fit: ${fitNames.join(', ')} (${fitNames.length} of a minimum ${workshop.minParticipants}).`
-              : `No confirmed fit list is available for this time yet.`}
+              ? `Included participants: ${fitNames.join(', ')} (${fitNames.length} of a minimum ${workshop.minParticipants}).`
+              : 'No confirmed fit list is available for this time yet.'}
           </p>
-
           <div className="button-row">
-            <Link className="btn btn-primary" to="/organizer/funding">
-              Go to funding
-            </Link>
             <Link className="btn btn-secondary" to="/participant/authorize">
               See the participant view
             </Link>
           </div>
         </section>
 
-        <AuditTrail events={state?.audit ?? []} />
+        <Disclosure summary="Technical details (offer fingerprint, audit)">
+          <Fingerprint shortHash={offer.shortHash} fullHash={offer.offerHash} />
+          <AuditTrail events={state.audit ?? []} />
+        </Disclosure>
       </div>
     );
   }
 
+  const status = blocked
+    ? {
+        tone: 'warn' as const,
+        headline: 'No time meets the minimum yet',
+        detail: `Publishing is blocked until a time has at least ${workshop.minParticipants} confirmed fits. Ask the one question on the plan, or wait for another confirmation.`,
+        action: null,
+      }
+    : {
+        tone: 'info' as const,
+        headline: 'Choose a time and confirm the terms',
+        detail: `Only a time with at least ${workshop.minParticipants} confirmed fits can be offered. Publishing freezes price, time and terms for everyone.`,
+        action: null,
+      };
+
   return (
     <div className="page">
       <PageHeader
-        eyebrow="Organizer · step 3"
+        eyebrow="Organizer · Offer"
         title="Publish one fixed offer"
-        intro="Pick the time that works, read the exact terms participants will see, and confirm them as the merchant. After publishing, the terms cannot change — only a new offer can replace them."
+        intro="One time, one price, one set of terms. After publishing, nothing can be edited in place — a change means a new offer and fresh consent from every participant."
       />
+      {strip}
+
+      <div className="status-row">
+        <StatusBand model={status} />
+        <Link className="btn btn-secondary status-row__action" to="/organizer/plan">
+          Back to the plan
+        </Link>
+      </div>
+
+      {apiError ? (
+        <InlineNotice kind="error" title="The offer was not published">
+          {apiError}
+        </InlineNotice>
+      ) : null}
+      <ErrorSummary errors={errors} />
 
       {!plan ? (
-        <EmptyState
-          title="The plan is not computed yet"
-          action={<Link className="btn btn-secondary" to="/organizer/plan">Go to the plan</Link>}
-        >
+        <EmptyState title="The plan is not computed yet">
           <p>An offer can only be published for a time that meets the minimum.</p>
         </EmptyState>
       ) : (
-        <>
-          {workable.length === 0 ? (
-            <InlineNotice kind="warn" title="No time meets the minimum yet">
-              Publishing is blocked until a time has at least {plan.minimum} confirmed fits. Go back to the plan
-              to see the pending condition or suggested question.
-            </InlineNotice>
-          ) : null}
-
-          {apiError ? (
-            <InlineNotice kind="error" title="The offer was not published">
-              {apiError}
-            </InlineNotice>
-          ) : null}
-          <ErrorSummary errors={errors} />
-
-          <form
-            className="form"
-            onSubmit={(event) => {
-              event.preventDefault();
-              void publish();
-            }}
-            noValidate
-          >
-            <fieldset className="fieldset">
-              <legend>Choose the time</legend>
-              <p className="fieldset__hint">Only a time that already meets the minimum can be offered.</p>
-              <div className="slot-choice-list" id="offer-slot">
-                {slots.map((slot) => {
-                  const planSlot = plan.slots.find((item) => item.slotId === slot.id);
-                  const disabled = !planSlot?.meetsMinimum;
-                  return (
-                    <label
-                      key={slot.id}
-                      className={`slot-choice${disabled ? ' slot-choice--disabled' : ''}${
-                        effectiveSlotId === slot.id ? ' slot-choice--selected' : ''
-                      }`}
-                    >
-                      <input
-                        type="radio"
-                        name="offer-slot"
-                        value={slot.id}
-                        checked={effectiveSlotId === slot.id}
-                        disabled={disabled}
-                        onChange={() => setSelectedSlotId(slot.id)}
-                      />
-                      <span className="slot-choice__body">
-                        <span className="slot-choice__label">{slot.rangeLabel}</span>
-                        <span className="slot-choice__meta">
-                          {planSlot
-                            ? `${planSlot.fits} confirmed fit${planSlot.fits === 1 ? '' : 's'}${
-                                planSlot.meetsMinimum
-                                  ? ' — meets the minimum'
-                                  : ` — needs ${Math.max(0, plan.minimum - planSlot.fits)} more`
-                              }`
-                            : 'Plan not available for this time'}
-                        </span>
-                      </span>
-                    </label>
-                  );
-                })}
-              </div>
-            </fieldset>
-
-            {selectedSlot ? (
-              <section className="panel offer-preview" aria-labelledby="offer-preview-title">
-                <h2 id="offer-preview-title">The exact summary participants will see</h2>
-                <p className="muted">
-                  Order is fixed: merchant, workshop, date and time, timezone, venue, includes, total, minimum,
-                  authorization deadline, cancellation, if collection fails.
-                </p>
-                <TermsList rows={termsRowsFor(workshop, selectedSlot)} />
-                <Fingerprint shortHash="not assigned yet" fullHash="Generated by the server over these terms at publish time" />
-                <p className="muted">
-                  The real fingerprint is computed by the server over these terms when you publish.
-                </p>
-              </section>
-            ) : null}
-
-            <section className="panel merchant-confirm" aria-labelledby="merchant-confirm-title">
-              <h2 id="merchant-confirm-title">Merchant confirmation</h2>
-              <CheckboxField
-                id="merchant-confirm"
-                checked={merchantConfirmed}
-                onChange={setMerchantConfirmed}
-                label="I confirm these terms are final for this offer."
-                hint="Publishing locks the price, time, venue, inclusions and minimum. Any later change requires a new offer and a new consent from every participant."
-              />
-              <p className="muted">
-                The server re-checks that the time meets the minimum and that the deadline is still ahead before
-                the offer goes out. The AI never publishes anything.
-              </p>
-              <div className="form-actions">
-                <button
-                  type="submit"
-                  className="btn btn-primary btn--large"
-                  disabled={busy || !merchantConfirmed || !selectedPlanSlot?.meetsMinimum}
+        <section className="panel" aria-labelledby="choose-time">
+          <h2 id="choose-time">Candidate times</h2>
+          <p className="muted">
+            Confirmed fit counts only. A conditional participant never counts until they answer yes; a confirmed
+            time is still not a payment.
+          </p>
+          <div className="offer-slot-list" role="radiogroup" aria-labelledby="choose-time">
+            {plan.slots.map((row) => {
+              const slot = slots.find((item) => item.id === row.slotId);
+              if (!slot) return null;
+              const selected = effectiveSlotId === row.slotId;
+              return (
+                <label
+                  key={row.slotId}
+                  className={`offer-slot${selected ? ' offer-slot--selected' : ''}${row.meetsMinimum ? '' : ' offer-slot--disabled'}`}
                 >
-                  {busy ? 'Publishing…' : 'Publish offer'}
-                </button>
-                <Link className="btn btn-ghost" to="/organizer/plan">
-                  Back to the plan
-                </Link>
-              </div>
-            </section>
-          </form>
-        </>
+                  <input
+                    type="radio"
+                    name="offer-slot"
+                    value={row.slotId}
+                    checked={selected}
+                    disabled={!row.meetsMinimum}
+                    onChange={() => setSelectedSlotId(row.slotId)}
+                  />
+                  <span className="offer-slot__body">
+                    <span className="offer-slot__label">{slot.rangeLabel}</span>
+                    <span className="offer-slot__meta">
+                      {row.fits} confirmed fit{row.fits === 1 ? '' : 's'}
+                      {row.meetsMinimum
+                        ? ` · meets minimum ${plan.minimum}`
+                        : ` · needs ${Math.max(plan.minimum - row.fits, 0)} more`}
+                    </span>
+                    {row.fitNames.length > 0 ? <span className="offer-slot__names">{row.fitNames.join(', ')}</span> : null}
+                  </span>
+                  <span className={`offer-slot__badge${row.meetsMinimum ? '' : ' offer-slot__badge--blocked'}`}>
+                    {row.meetsMinimum ? 'Meets minimum' : 'Blocked'}
+                  </span>
+                </label>
+              );
+            })}
+          </div>
+
+          {selectedSlot && selectedPlanSlot?.meetsMinimum ? (
+            <>
+              <h3 className="offer-preview-title">The exact summary participants will see</h3>
+              <p className="muted">
+                Order is fixed: merchant, workshop, date and time, timezone, venue, includes, total, minimum,
+                authorization deadline, cancellation, if collection fails.
+              </p>
+              <TermsList rows={termsRowsFor(workshop, selectedSlot)} />
+              <p className="muted">
+                The fingerprint is computed by the server over exactly these terms at publish time.
+              </p>
+
+              <section className="merchant-confirm" aria-labelledby="merchant-confirm-title">
+                <h3 id="merchant-confirm-title">Merchant confirmation</h3>
+                <CheckboxField
+                  id="merchant-confirm"
+                  checked={merchantConfirmed}
+                  onChange={setMerchantConfirmed}
+                  label="I confirm these terms are final for this offer."
+                  hint="Publishing locks the price, time, venue, inclusions and minimum. Any later change requires a new offer and a new consent from every participant."
+                />
+                <div className="form-actions">
+                  <button
+                    type="button"
+                    className="btn btn-primary btn--large"
+                    disabled={busy || !merchantConfirmed}
+                    onClick={() => void publish()}
+                  >
+                    {busy ? 'Publishing…' : 'Publish offer'}
+                  </button>
+                  <button type="button" className="btn btn-ghost" onClick={() => navigate('/organizer/plan')}>
+                    Back to the plan
+                  </button>
+                </div>
+              </section>
+            </>
+          ) : (
+            <p className="muted">
+              Select a time that meets the minimum to see the exact terms. Nothing can be published for a time that is
+              still short of {plan.minimum} confirmed participants.
+            </p>
+          )}
+        </section>
       )}
+
+      <Disclosure summary="Technical details (plan inputs hash, audit)">
+        <p className="muted">
+          Plan inputs hash: <code>{plan?.planInputsHash ?? '—'}</code>
+        </p>
+        <AuditTrail events={state.audit ?? []} />
+      </Disclosure>
     </div>
   );
 }

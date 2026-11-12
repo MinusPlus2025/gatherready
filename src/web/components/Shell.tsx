@@ -97,10 +97,11 @@ export function Shell() {
             </span>
           </Link>
           <div className="topbar__meta">
-            <span className="chip chip--sandbox">Sandbox · No real money</span>
             {state.mode.paypal === 'simulated' ? (
               <span className="chip chip--sim">Simulated PayPal — no real money</span>
-            ) : null}
+            ) : (
+              <span className="chip chip--sandbox">PayPal sandbox — no real money</span>
+            )}
             <span className="chip chip--role">{roleLabel}</span>
           </div>
         </div>
@@ -143,11 +144,15 @@ export function Shell() {
       {state?.mode.banner ? (
         <div className="mode-banner">
           <div className="container mode-banner__inner">
-            <span className="mode-banner__text">{state.mode.banner}</span>
-            <span className="mode-banner__modes">
-              Payments: {state.mode.paypal === 'sandbox' ? 'PayPal sandbox' : 'Simulated PayPal'} · Extraction:{' '}
-              {state.mode.ai === 'live' ? 'live model' : state.mode.ai === 'recorded' ? 'recorded sample' : 'structured (no AI)'}
+            <span className="mode-banner__text">
+              Extraction:{' '}
+              {state.mode.ai === 'live'
+                ? `live model${state.mode.llmModel ? ` · ${state.mode.llmModel}` : ''}`
+                : state.mode.ai === 'recorded'
+                  ? 'recorded sample'
+                  : 'structured (no AI)'}
             </span>
+            <span className="mode-banner__modes">Payments are labelled above · no real money</span>
           </div>
         </div>
       ) : null}

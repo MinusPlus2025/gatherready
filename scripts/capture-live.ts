@@ -70,6 +70,13 @@ async function asParticipant(participantId: string | null): Promise<void> {
 async function shoot(slug: string, route: string, label: string): Promise<void> {
   await page.setViewport({ width: currentWidth, height: 900, deviceScaleFactor: 1 });
   await page.goto(`${BASE}${route}`, { waitUntil: 'networkidle0', timeout: 30_000 });
+  // load lazy images below the fold before the full-page capture
+  await page.evaluate(async () => {
+    window.scrollTo(0, document.body.scrollHeight);
+    await new Promise((resolve) => setTimeout(resolve, 350));
+    window.scrollTo(0, 0);
+    await new Promise((resolve) => setTimeout(resolve, 150));
+  });
   await new Promise((r) => setTimeout(r, 350));
   const file = path.join(OUT, `${slug}-${currentWidth}.png`);
   await page.screenshot({ path: file, fullPage: true });

@@ -165,6 +165,10 @@ Rules applied:
 - **Loading:** hero image `fetchPriority="high"`; the rest `loading="lazy"`.
 - **Alt text** describes the scene for screen readers; decorative reuse is `alt=""`.
 - **No captions under images** (the image is context, not a claim); credits live in one footer line.
+- **One mode chip, not three warnings**: the payment mode is one chip in the identity bar; the banner below
+  states only the extraction mode. The demo bar never wraps a single control onto its own row: the role
+  strip scrolls on desktop and wraps on phones, and the Screens menu is a popover that closes on outside
+  click, Escape and navigation.
 - **Licences:** CC0 1.0, source URLs and creators recorded in
   [`public/images/README.md`](../public/images/README.md).
 

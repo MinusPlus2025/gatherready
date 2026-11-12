@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-12T10:10:35.657Z",
+  "generatedAt": "2026-11-12T10:19:53.148Z",
   "base": "http://localhost:5180",
   "findings": [],
   "metrics": {
@@ -11,6 +11,10 @@
         "offenders": []
       },
       "smallTargets": [],
+      "layoutSmells": {
+        "clipped": [],
+        "negative": []
+      },
       "focus": {
         "checked": true,
         "outlineStyle": "solid",
@@ -27,6 +31,10 @@
         "offenders": []
       },
       "smallTargets": [],
+      "layoutSmells": {
+        "clipped": [],
+        "negative": []
+      },
       "focus": {
         "checked": true,
         "outlineStyle": "solid",
@@ -43,6 +51,10 @@
         "offenders": []
       },
       "smallTargets": [],
+      "layoutSmells": {
+        "clipped": [],
+        "negative": []
+      },
       "focus": {
         "checked": true,
         "outlineStyle": "solid",
@@ -59,6 +71,10 @@
         "offenders": []
       },
       "smallTargets": [],
+      "layoutSmells": {
+        "clipped": [],
+        "negative": []
+      },
       "focus": {
         "checked": true,
         "outlineStyle": "solid",
@@ -75,6 +91,10 @@
         "offenders": []
       },
       "smallTargets": [],
+      "layoutSmells": {
+        "clipped": [],
+        "negative": []
+      },
       "focus": {
         "checked": true,
         "outlineStyle": "solid",
@@ -91,6 +111,10 @@
         "offenders": []
       },
       "smallTargets": [],
+      "layoutSmells": {
+        "clipped": [],
+        "negative": []
+      },
       "focus": {
         "checked": true,
         "outlineStyle": "solid",
@@ -107,6 +131,10 @@
         "offenders": []
       },
       "smallTargets": [],
+      "layoutSmells": {
+        "clipped": [],
+        "negative": []
+      },
       "focus": {
         "checked": true,
         "outlineStyle": "solid",
@@ -123,6 +151,10 @@
         "offenders": []
       },
       "smallTargets": [],
+      "layoutSmells": {
+        "clipped": [],
+        "negative": []
+      },
       "focus": {
         "checked": true,
         "outlineStyle": "solid",
@@ -139,6 +171,10 @@
         "offenders": []
       },
       "smallTargets": [],
+      "layoutSmells": {
+        "clipped": [],
+        "negative": []
+      },
       "focus": {
         "checked": true,
         "outlineStyle": "solid",
@@ -155,6 +191,10 @@
         "offenders": []
       },
       "smallTargets": [],
+      "layoutSmells": {
+        "clipped": [],
+        "negative": []
+      },
       "focus": {
         "checked": true,
         "outlineStyle": "solid",
@@ -171,6 +211,10 @@
         "offenders": []
       },
       "smallTargets": [],
+      "layoutSmells": {
+        "clipped": [],
+        "negative": []
+      },
       "focus": {
         "checked": true,
         "outlineStyle": "solid",
@@ -187,6 +231,90 @@
         "offenders": []
       },
       "smallTargets": [],
+      "layoutSmells": {
+        "clipped": [],
+        "negative": []
+      },
+      "focus": {
+        "checked": true,
+        "outlineStyle": "solid",
+        "outlineWidth": 2,
+        "visible": true
+      },
+      "cls": 0
+    },
+    "offer:desktop": {
+      "axe": [],
+      "overflow": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "offenders": []
+      },
+      "smallTargets": [],
+      "layoutSmells": {
+        "clipped": [],
+        "negative": []
+      },
+      "focus": {
+        "checked": true,
+        "outlineStyle": "solid",
+        "outlineWidth": 2,
+        "visible": true
+      },
+      "cls": 0
+    },
+    "offer:tablet": {
+      "axe": [],
+      "overflow": {
+        "scrollWidth": 834,
+        "clientWidth": 834,
+        "offenders": []
+      },
+      "smallTargets": [],
+      "layoutSmells": {
+        "clipped": [],
+        "negative": []
+      },
+      "focus": {
+        "checked": true,
+        "outlineStyle": "solid",
+        "outlineWidth": 2,
+        "visible": true
+      },
+      "cls": 0
+    },
+    "offer:phone": {
+      "axe": [],
+      "overflow": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "offenders": []
+      },
+      "smallTargets": [],
+      "layoutSmells": {
+        "clipped": [],
+        "negative": []
+      },
+      "focus": {
+        "checked": true,
+        "outlineStyle": "solid",
+        "outlineWidth": 2,
+        "visible": true
+      },
+      "cls": 0
+    },
+    "offer:small-phone": {
+      "axe": [],
+      "overflow": {
+        "scrollWidth": 320,
+        "clientWidth": 320,
+        "offenders": []
+      },
+      "smallTargets": [],
+      "layoutSmells": {
+        "clipped": [],
+        "negative": []
+      },
       "focus": {
         "checked": true,
         "outlineStyle": "solid",
@@ -203,6 +331,10 @@
         "offenders": []
       },
       "smallTargets": [],
+      "layoutSmells": {
+        "clipped": [],
+        "negative": []
+      },
       "focus": {
         "checked": true,
         "outlineStyle": "solid",
@@ -219,6 +351,10 @@
         "offenders": []
       },
       "smallTargets": [],
+      "layoutSmells": {
+        "clipped": [],
+        "negative": []
+      },
       "focus": {
         "checked": true,
         "outlineStyle": "solid",
@@ -235,6 +371,10 @@
         "offenders": []
       },
       "smallTargets": [],
+      "layoutSmells": {
+        "clipped": [],
+        "negative": []
+      },
       "focus": {
         "checked": true,
         "outlineStyle": "solid",
@@ -251,6 +391,10 @@
         "offenders": []
       },
       "smallTargets": [],
+      "layoutSmells": {
+        "clipped": [],
+        "negative": []
+      },
       "focus": {
         "checked": true,
         "outlineStyle": "solid",
@@ -267,6 +411,10 @@
         "offenders": []
       },
       "smallTargets": [],
+      "layoutSmells": {
+        "clipped": [],
+        "negative": []
+      },
       "focus": {
         "checked": true,
         "outlineStyle": "solid",
@@ -283,6 +431,10 @@
         "offenders": []
       },
       "smallTargets": [],
+      "layoutSmells": {
+        "clipped": [],
+        "negative": []
+      },
       "focus": {
         "checked": true,
         "outlineStyle": "solid",
@@ -299,6 +451,10 @@
         "offenders": []
       },
       "smallTargets": [],
+      "layoutSmells": {
+        "clipped": [],
+        "negative": []
+      },
       "focus": {
         "checked": true,
         "outlineStyle": "solid",
@@ -315,6 +471,10 @@
         "offenders": []
       },
       "smallTargets": [],
+      "layoutSmells": {
+        "clipped": [],
+        "negative": []
+      },
       "focus": {
         "checked": true,
         "outlineStyle": "solid",
@@ -334,7 +494,7 @@
         720,
         700
       ],
-      "heroVisible": "0.999094"
+      "heroVisible": "0.999093"
     },
     "hover": {
       "before": {
