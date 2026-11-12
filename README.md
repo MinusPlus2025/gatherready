@@ -108,6 +108,24 @@ recorded separately by `npm run record:motion` → [`docs/motion-demo.mp4`](docs
 submission video needs your own narration and, if available, sandbox credentials so the sandbox badge is
 visible; see [`docs/demo-script.md`](docs/demo-script.md).
 
+## Independent UI/UX audit
+
+An evidence-based audit is checked in at [`docs/uiux-audit.md`](docs/uiux-audit.md) (2026-11-12). It was produced with
+open-source tooling, not opinion:
+
+- **axe-core** — 0 violations across 10 routes × desktop/phone (`npm run audit:axe`, `docs/audit/axe.json`)
+- **Lighthouse 12.2.1** — mobile landing 32 → 61 performance, LCP 12.4 s → 3.2 s, SEO 58 → 100; reports in
+  `docs/audit/lighthouse/` (before/after JSON + HTML)
+- **ESLint + eslint-plugin-jsx-a11y** — static accessibility lint (`npm run audit:lint`), 0 problems after fixes
+- **Vercel Web Interface Guidelines** — rule-by-rule code review, findings + status in the audit
+- **improve-animations skill** — motion audit with three implemented plans and one backlog plan in `plans/`
+- **design-taste-frontend skill** — design critique, alternative art directions and verdict in the audit
+
+The audit records what was fixed in the pass (dead error links, fake ARIA menu, missing focus trap, dead hero tilt,
+press-feedback cascade, dead count-up loops, SEO/robots, compression, responsive WebP, route code-splitting) and
+what is still open (collect confirmation, unsaved-changes guards, mobile TBT, lightbox exit animation). It does not
+claim user testing or a screen-reader pass.
+
 ## Interface language
 
 The whole interface switches between **English** and **简体中文** from the `English | 中文` control in the header

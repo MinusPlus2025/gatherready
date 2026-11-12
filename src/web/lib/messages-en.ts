@@ -242,4 +242,8 @@ export const en: Record<string, string> = {
     'Nothing counted and nobody was pushed: the count stays at 3, and the organizer can ask someone else or pick another time.',
   'landing.frame.noNote': 'No change',
   'landing.frame.slot1metaYes': '4 confirmed · 0 conditional',
+  'workshop.questionAnsweredYes': 'answered yes',
+  'workshop.questionAnsweredNo': 'answered no',
+  'workshop.questionSentStatus': 'sent',
+  'workshop.questionProposedStatus': 'proposed',
 };

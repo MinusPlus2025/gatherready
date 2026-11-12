@@ -1,6 +1,7 @@
 import path from 'node:path';
 import { existsSync } from 'node:fs';
 import Fastify, { type FastifyInstance, type FastifyReply, type FastifyRequest } from 'fastify';
+import compress from '@fastify/compress';
 import cookie from '@fastify/cookie';
 import fastifyStatic from '@fastify/static';
 import { ZodError } from 'zod';
@@ -49,6 +50,9 @@ type Body = Record<string, unknown>;
 export function buildApp(deps: RouteDeps): FastifyInstance {
   const { cfg, repo, service } = deps;
   const app = Fastify({ logger: false, bodyLimit: 256 * 1024, trustProxy: false });
+
+  // Text compression for JS/CSS/HTML/JSON (open source @fastify/compress).
+  app.register(compress, { global: true, threshold: 1024 });
 
   app.register(cookie, {});
 
@@ -328,6 +332,10 @@ export function buildApp(deps: RouteDeps): FastifyInstance {
   app.get('/cancel', async (_req, reply) => reply.redirect('/participant/authorize?cancelled=1', 302));
 
   /* ------------------------------- static ------------------------------- */
+
+  app.get('/robots.txt', async (_req, reply) => {
+    reply.type('text/plain').send('User-agent: *\nAllow: /\n');
+  });
 
   const hasWeb = existsSync(path.join(cfg.webDist, 'index.html'));
   if (hasWeb) {

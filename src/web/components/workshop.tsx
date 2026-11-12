@@ -197,7 +197,18 @@ function ExpandDetail({ row, state, preferences, clarifications, onAsk, asking, 
                     : preference?.extractionMode === 'recorded'
                       ? t('workshop.ai.recorded')
                       : t('workshop.ai.structured')}
-                  {clarification ? ` · ${t('workshop.questionStatus', { status: clarification.status.replace('ANSWERED_', 'answered ') })}` : ''}
+                  {clarification
+                    ? ` · ${t('workshop.questionStatus', {
+                        status:
+                          clarification.status === 'ANSWERED_YES'
+                            ? t('workshop.questionAnsweredYes')
+                            : clarification.status === 'ANSWERED_NO'
+                              ? t('workshop.questionAnsweredNo')
+                              : clarification.status === 'SENT'
+                                ? t('workshop.questionSentStatus')
+                                : t('workshop.questionProposedStatus'),
+                      })}`
+                    : ''}
                 </p>
               </div>
               <div className="matrix-person__actions">

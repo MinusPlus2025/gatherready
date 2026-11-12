@@ -238,4 +238,8 @@ export const zh: Record<string, string> = {
   'landing.frame.noBody': '不计入、也不勉强任何人：人数保持 3，组织者可以再问别人或换时间。',
   'landing.frame.noNote': '人数不变',
   'landing.frame.slot1metaYes': '4 人确认 · 0 人有条件',
+  'workshop.questionAnsweredYes': '已回答“可以”',
+  'workshop.questionAnsweredNo': '已回答“不行”',
+  'workshop.questionSentStatus': '已发送',
+  'workshop.questionProposedStatus': '待发送',
 };

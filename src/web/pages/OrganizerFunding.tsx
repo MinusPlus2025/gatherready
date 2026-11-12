@@ -324,7 +324,7 @@ export default function OrganizerFunding() {
               {t('money.funding.collectPost')}
             </p>
             {blockers.length > 0 ? (
-              <ul className="blocker-list" id="collect-blockers">
+              <ul className="blocker-list" id="collect-blockers" aria-describedby="collect-blockers">
                 {blockers.map((blocker) => (
                   <li key={blocker}>{blocker}</li>
                 ))}

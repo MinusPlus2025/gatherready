@@ -1,0 +1,128 @@
+{
+  "generatedAt": "2026-11-12T14:04:42.327Z",
+  "base": "http://localhost:5180",
+  "tool": "axe-core (wcag2a/wcag2aa/wcag21a/wcag21aa)",
+  "totalViolationNodes": 0,
+  "results": [
+    {
+      "route": "/",
+      "name": "landing",
+      "viewport": "desktop",
+      "violations": []
+    },
+    {
+      "route": "/organizer/setup",
+      "name": "organizer setup",
+      "viewport": "desktop",
+      "violations": []
+    },
+    {
+      "route": "/organizer/plan",
+      "name": "organizer plan",
+      "viewport": "desktop",
+      "violations": []
+    },
+    {
+      "route": "/organizer/offer",
+      "name": "organizer offer",
+      "viewport": "desktop",
+      "violations": []
+    },
+    {
+      "route": "/organizer/funding",
+      "name": "organizer funding",
+      "viewport": "desktop",
+      "violations": []
+    },
+    {
+      "route": "/organizer/result",
+      "name": "organizer result",
+      "viewport": "desktop",
+      "violations": []
+    },
+    {
+      "route": "/participant/preferences",
+      "name": "participant preferences",
+      "viewport": "desktop",
+      "violations": []
+    },
+    {
+      "route": "/participant/clarify",
+      "name": "participant clarify",
+      "viewport": "desktop",
+      "violations": []
+    },
+    {
+      "route": "/participant/authorize",
+      "name": "participant authorize",
+      "viewport": "desktop",
+      "violations": []
+    },
+    {
+      "route": "/does-not-exist",
+      "name": "not found",
+      "viewport": "desktop",
+      "violations": []
+    },
+    {
+      "route": "/",
+      "name": "landing",
+      "viewport": "phone",
+      "violations": []
+    },
+    {
+      "route": "/organizer/setup",
+      "name": "organizer setup",
+      "viewport": "phone",
+      "violations": []
+    },
+    {
+      "route": "/organizer/plan",
+      "name": "organizer plan",
+      "viewport": "phone",
+      "violations": []
+    },
+    {
+      "route": "/organizer/offer",
+      "name": "organizer offer",
+      "viewport": "phone",
+      "violations": []
+    },
+    {
+      "route": "/organizer/funding",
+      "name": "organizer funding",
+      "viewport": "phone",
+      "violations": []
+    },
+    {
+      "route": "/organizer/result",
+      "name": "organizer result",
+      "viewport": "phone",
+      "violations": []
+    },
+    {
+      "route": "/participant/preferences",
+      "name": "participant preferences",
+      "viewport": "phone",
+      "violations": []
+    },
+    {
+      "route": "/participant/clarify",
+      "name": "participant clarify",
+      "viewport": "phone",
+      "violations": []
+    },
+    {
+      "route": "/participant/authorize",
+      "name": "participant authorize",
+      "viewport": "phone",
+      "violations": []
+    },
+    {
+      "route": "/does-not-exist",
+      "name": "not found",
+      "viewport": "phone",
+      "violations": []
+    }
+  ]
+}

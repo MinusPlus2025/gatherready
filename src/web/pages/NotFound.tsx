@@ -6,6 +6,7 @@ export default function NotFound() {
   const { t } = useI18n();
   return (
     <EmptyState
+      level={1}
       title={t('notfound.title')}
       action={
         <Link className="btn btn-primary" to="/">

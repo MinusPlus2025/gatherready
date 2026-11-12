@@ -9,3 +9,4 @@ secrets/
 captures/
 *.log
 .DS_Store
+.audit-cache/

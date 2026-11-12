@@ -20,6 +20,7 @@ import { formatInstantLabel } from '../../shared/time.js';
 import { apiFieldErrors, describeError } from '../lib/api.js';
 import { useI18n, type Translate } from '../lib/i18n.js';
 import { useApp } from '../lib/store.js';
+import { webpSrcSet } from '../lib/images.js';
 import { money, participantStatus, shortSlot } from '../lib/status.js';
 import { ParticipantSteps, StatusBand } from '../components/workshop.js';
 import {
@@ -280,8 +281,11 @@ export default function ParticipantPreferences() {
       {workshop ? (
         <section className="workshop-strip workshop-strip--participant" aria-label={t('flow.preferences.strip.aria')}>
           {workshop.coverImageUrl ? (
-            <img className="workshop-strip__cover" src={workshop.coverImageUrl} alt=""
-            onError={(event) => { event.currentTarget.style.display = 'none'; }} width={132} height={99} loading="lazy" />
+            <picture>
+              <source type="image/webp" srcSet={webpSrcSet(workshop.coverImageUrl)} sizes="132px" />
+              <img className="workshop-strip__cover" src={workshop.coverImageUrl} alt=""
+              onError={(event) => { event.currentTarget.style.display = 'none'; }} width={132} height={99} loading="lazy" />
+            </picture>
           ) : null}
           <div className="workshop-strip__body">
             <p className="workshop-strip__title">{workshop.title}</p>

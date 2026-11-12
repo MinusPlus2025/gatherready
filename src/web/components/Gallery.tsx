@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Maximize2, X } from 'lucide-react';
 import { useI18n } from '../lib/i18n.js';
+import { webpSrcSet } from '../lib/images.js';
 
 interface GalleryItem {
   src: string;
@@ -34,6 +35,11 @@ export function WorkshopGallery() {
     if (openIndex === null) return;
     const onKey = (event: KeyboardEvent) => {
       if (event.key === 'Escape') setOpenIndex(null);
+      // The dialog has one focusable control (close). Keep Tab inside it.
+      if (event.key === 'Tab') {
+        event.preventDefault();
+        closedRef.current?.focus();
+      }
     };
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -51,7 +57,7 @@ export function WorkshopGallery() {
 
   return (
     <>
-      <section className="gallery" aria-labelledby="gallery-title" data-reveal>
+      <section className="gallery" aria-labelledby="gallery-title" data-reveal aria-hidden={open ? true : undefined}>
         <div className="gallery__head">
           <h2 id="gallery-title">{t('landing.gallery.title')}</h2>
           <p className="muted">{t('landing.gallery.intro')}</p>
@@ -65,7 +71,20 @@ export function WorkshopGallery() {
                 onClick={() => setOpenIndex(index)}
                 aria-label={`${t(item.labelKey)} — ${t('landing.gallery.open')}`}
               >
-                <img src={item.src} alt="" width={item.width} height={item.height} loading="lazy" />
+                <picture>
+                  <source
+                    type="image/webp"
+                    srcSet={webpSrcSet(item.src)}
+                    sizes={
+                      item.size === 'large'
+                        ? '(max-width: 920px) 100vw, 50vw'
+                        : item.size === 'wide'
+                          ? '100vw'
+                          : '(max-width: 920px) 50vw, 25vw'
+                    }
+                  />
+                  <img src={item.src} alt="" width={item.width} height={item.height} loading="lazy" decoding="async" fetchPriority="low" />
+                </picture>
                 <span className="gallery__overlay">
                   <span className="gallery__label">{t(item.labelKey)}</span>
                   <Maximize2 size={15} strokeWidth={2} aria-hidden="true" />
@@ -78,8 +97,14 @@ export function WorkshopGallery() {
 
       {open
         ? createPortal(
-            <div className="lightbox" role="dialog" aria-modal="true" aria-label={t('landing.gallery.dialog')} onClick={() => setOpenIndex(null)}>
-              <figure className="lightbox__figure" onClick={(event) => event.stopPropagation()}>
+            <div className="lightbox" role="dialog" aria-modal="true" aria-label={t('landing.gallery.dialog')}>
+              <button
+                type="button"
+                className="lightbox__backdrop"
+                aria-label={t('landing.gallery.close')}
+                onClick={() => setOpenIndex(null)}
+              />
+              <figure className="lightbox__figure">
                 <img src={open.src} alt="" width={open.width} height={open.height} />
                 <figcaption className="lightbox__caption">
                   <span>{t(open.labelKey)}</span>

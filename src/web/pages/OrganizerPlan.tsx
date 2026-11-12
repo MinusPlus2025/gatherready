@@ -22,6 +22,7 @@ import { apiFieldErrors, describeError } from '../lib/api.js';
 import { useI18n } from '../lib/i18n.js';
 import { money, organizerRails, organizerStatus, matrixRows, shortSlot } from '../lib/status.js';
 import { useApp } from '../lib/store.js';
+import { webpSrcSet } from '../lib/images.js';
 import { AuditTrail, EmptyState, InlineNotice, PageHeader } from '../components/ui.js';
 import { Disclosure, Rails, SlotMatrix, StatusBand } from '../components/workshop.js';
 
@@ -139,15 +140,18 @@ export default function OrganizerPlan() {
 
       <section className="workshop-strip" aria-label={t('flow.plan.strip.aria')}>
         {workshop.coverImageUrl ? (
-          <img
-            className="workshop-strip__cover"
-            onError={(event) => { event.currentTarget.style.display = 'none'; }}
-            src={workshop.coverImageUrl}
-            alt=""
-            width={168}
-            height={126}
-            loading="lazy"
-          />
+          <picture>
+            <source type="image/webp" srcSet={webpSrcSet(workshop.coverImageUrl)} sizes="168px" />
+            <img
+              className="workshop-strip__cover"
+              onError={(event) => { event.currentTarget.style.display = 'none'; }}
+              src={workshop.coverImageUrl}
+              alt=""
+              width={168}
+              height={126}
+              loading="lazy"
+            />
+          </picture>
         ) : null}
         <div className="workshop-strip__body">
         <p className="workshop-strip__title">{workshop.title}</p>

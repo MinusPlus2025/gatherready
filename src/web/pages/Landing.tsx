@@ -22,9 +22,10 @@ import {
 import { useRef } from 'react';
 import { formatCents } from '../lib/format';
 import { useI18n } from '../lib/i18n';
-import { useCountUp, usePrefersReducedMotion, useRevealOnScroll } from '../lib/motion';
+import { usePrefersReducedMotion, useRevealOnScroll } from '../lib/motion';
 import { useApp } from '../lib/store';
 import { WorkshopGallery } from '../components/Gallery';
+import { webpSrcSet } from '../lib/images';
 import { PlanPreview } from '../components/PlanPreview';
 import { StatusBadge } from '../components/ui';
 
@@ -42,25 +43,47 @@ export default function Landing() {
   const workshop = state?.workshop ?? null;
   const reduced = usePrefersReducedMotion();
   const figureRef = useRef<HTMLElement | null>(null);
-  const interested = useCountUp(6);
-  const fitting = useCountUp(3);
   useRevealOnScroll([workshop]);
 
-  function tilt(event: React.PointerEvent<HTMLDivElement>) {
-    if (reduced) return;
-    if (typeof window.matchMedia === 'function' && !window.matchMedia('(pointer: fine)').matches) return;
+  const tiltBox = useRef<DOMRect | null>(null);
+  const tiltFrame = useRef<number | null>(null);
+
+  function tiltEnabled(): boolean {
+    if (reduced) return false;
+    return typeof window.matchMedia !== 'function' ? true : window.matchMedia('(pointer: fine)').matches;
+  }
+
+  function startTilt() {
     const figure = figureRef.current;
-    if (!figure) return;
-    const box = figure.getBoundingClientRect();
-    const x = (event.clientX - box.left) / box.width - 0.5;
-    const y = (event.clientY - box.top) / box.height - 0.5;
-    figure.style.setProperty('--tilt-y', `${(x * 4).toFixed(2)}deg`);
-    figure.style.setProperty('--tilt-x', `${(y * -3).toFixed(2)}deg`);
+    if (!figure || !tiltEnabled()) return;
+    tiltBox.current = figure.getBoundingClientRect();
+    figure.dataset.tilting = 'true';
+  }
+
+  function tilt(event: React.PointerEvent<HTMLDivElement>) {
+    const figure = figureRef.current;
+    const box = tiltBox.current;
+    if (!figure || !box || tiltFrame.current !== null) return;
+    const clientX = event.clientX;
+    const clientY = event.clientY;
+    tiltFrame.current = requestAnimationFrame(() => {
+      tiltFrame.current = null;
+      const x = (clientX - box.left) / box.width - 0.5;
+      const y = (clientY - box.top) / box.height - 0.5;
+      figure.style.setProperty('--tilt-y', `${(x * 4).toFixed(2)}deg`);
+      figure.style.setProperty('--tilt-x', `${(y * -3).toFixed(2)}deg`);
+    });
   }
 
   function resetTilt() {
     const figure = figureRef.current;
+    tiltBox.current = null;
+    if (tiltFrame.current !== null) {
+      cancelAnimationFrame(tiltFrame.current);
+      tiltFrame.current = null;
+    }
     if (!figure) return;
+    delete figure.dataset.tilting;
     figure.style.setProperty('--tilt-y', '0deg');
     figure.style.setProperty('--tilt-x', '0deg');
   }
@@ -93,15 +116,22 @@ export default function Landing() {
           </ul>
         </div>
 
-        <div className="hero__media" onPointerMove={tilt} onPointerLeave={resetTilt}>
+        <div className="hero__media" onPointerEnter={startTilt} onPointerMove={tilt} onPointerLeave={resetTilt}>
           <figure className="hero__figure" ref={figureRef}>
-            <img
-              src="/images/pottery-hands.jpg"
-              alt={t('landing.photo.altHands')}
-              width={1600}
-              height={968}
-              fetchPriority="high"
-            />
+            <picture>
+              <source
+                type="image/webp"
+                srcSet={webpSrcSet('/images/pottery-hands.jpg')}
+                sizes="(max-width: 1000px) 92vw, 520px"
+              />
+              <img
+                src="/images/pottery-hands.jpg"
+                alt={t('landing.photo.altHands')}
+                width={1600}
+                height={968}
+                fetchPriority="high"
+              />
+            </picture>
             <figcaption className="hero__caption">{t('landing.hero.caption')}</figcaption>
           </figure>
           <PlanPreview />

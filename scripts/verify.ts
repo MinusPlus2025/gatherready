@@ -19,7 +19,8 @@ import os from 'node:os';
 import path from 'node:path';
 
 const ROOT = process.cwd();
-const PORT = Number(process.env.VERIFY_PORT ?? 5190);
+// 5190 is used by another local app on this machine; the verifier owns 5192.
+const PORT = Number(process.env.VERIFY_PORT ?? 5192);
 const BASE = `http://127.0.0.1:${PORT}`;
 const DB_PATH = path.join(os.tmpdir(), `gatherready-verify-${process.pid}-${Date.now()}.db`);
 

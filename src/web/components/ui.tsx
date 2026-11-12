@@ -305,14 +305,17 @@ export function EmptyState({
   title,
   children,
   action,
+  level = 2,
 }: {
   title: string;
   children?: ReactNode;
   action?: ReactNode;
+  level?: 1 | 2;
 }) {
+  const Heading = level === 1 ? 'h1' : 'h2';
   return (
     <section className="empty" aria-live="polite">
-      <h2 className="empty__title">{title}</h2>
+      <Heading className="empty__title">{title}</Heading>
       {children ? <div className="empty__body">{children}</div> : null}
       {action ? <div className="empty__action">{action}</div> : null}
     </section>
@@ -364,7 +367,7 @@ export function Countdown({
   const view = countdownFor(deadlineUtc, serverNowUtc, fetchedAtMs);
   void tick;
   return (
-    <span className={`countdown${view.expired ? ' countdown--expired' : ''}`}>
+    <span className={`countdown${view.expired ? ' countdown--expired' : ''}`} aria-live="polite">
       <span className="countdown__label">
         {view.expired ? t('shell.countdown.closed') : t('shell.countdown.closes')}
       </span>

@@ -22,6 +22,7 @@ import { describeError } from '../lib/api.js';
 import { formatCents, paymentStatusWord } from '../lib/format.js';
 import { useI18n } from '../lib/i18n.js';
 import { offerMoneyNotes, participantStatus } from '../lib/status.js';
+import { webpSrcSet } from '../lib/images.js';
 import { Disclosure, ParticipantSteps } from '../components/workshop.js';
 import {
   CheckboxField,
@@ -191,8 +192,11 @@ export default function ParticipantAuthorize() {
 
       <section className="panel offer-panel" aria-labelledby="offer-summary-title">
         {workshop?.coverImageUrl ? (
-          <img className="offer-cover" src={workshop.coverImageUrl} alt=""
-            onError={(event) => { event.currentTarget.style.display = 'none'; }} width={1024} height={420} loading="lazy" />
+          <picture>
+            <source type="image/webp" srcSet={webpSrcSet(workshop.coverImageUrl)} sizes="(max-width: 640px) 100vw, 1000px" />
+            <img className="offer-cover" src={workshop.coverImageUrl} alt=""
+              onError={(event) => { event.currentTarget.style.display = 'none'; }} width={1024} height={420} loading="lazy" />
+          </picture>
         ) : null}
         <div className="panel__head">
           <div>

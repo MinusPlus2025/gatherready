@@ -130,7 +130,7 @@ export function DemoBar({ state }: { state: AppState }) {
                 type="button"
                 className="demo-bar__screens-toggle"
                 aria-expanded={screensOpen}
-                aria-haspopup="menu"
+                
                 onClick={() => setScreensOpen((open) => !open)}
               >
                 {t('demo.screens')}
@@ -138,10 +138,10 @@ export function DemoBar({ state }: { state: AppState }) {
               {screensOpen ? (
                 <>
                   <div className="demo-bar__screens-scrim" aria-hidden="true" onClick={() => setScreensOpen(false)} />
-                  <ul role="menu" className="demo-bar__screens-menu">
+                  <ul className="demo-bar__screens-menu">
                     {DEMO_ROUTES.map((route) => (
-                      <li key={route.path} role="none">
-                        <Link role="menuitem" to={route.path + suffix} onClick={() => setScreensOpen(false)}>
+                      <li key={route.path}>
+                        <Link to={route.path + suffix} onClick={() => setScreensOpen(false)}>
                           {t(route.key)}
                         </Link>
                       </li>

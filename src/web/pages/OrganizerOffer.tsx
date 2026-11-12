@@ -13,6 +13,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import type { SlotView, WorkshopView } from '../../shared/api.js';
 import { apiFieldErrors, describeError } from '../lib/api.js';
+import { webpSrcSet } from '../lib/images.js';
 import { money, shortSlot } from '../lib/status.js';
 import { useI18n, type Translate } from '../lib/i18n';
 import { useApp } from '../lib/store.js';
@@ -118,8 +119,11 @@ export default function OrganizerOffer() {
   const strip = (
     <section className="offer-workshop-strip" aria-label={t('money.offer.stripAria')}>
       {workshop.coverImageUrl ? (
-        <img className="offer-workshop-strip__cover" src={workshop.coverImageUrl} alt=""
+        <picture>
+          <source type="image/webp" srcSet={webpSrcSet(workshop.coverImageUrl)} sizes="132px" />
+          <img className="offer-workshop-strip__cover" src={workshop.coverImageUrl} alt=""
             onError={(event) => { event.currentTarget.style.display = 'none'; }} width={132} height={99} loading="lazy" />
+        </picture>
       ) : null}
       <div>
         <p className="offer-workshop-strip__title">{workshop.title}</p>
@@ -270,7 +274,7 @@ export default function OrganizerOffer() {
         <section className="panel" aria-labelledby="choose-time">
           <h2 id="choose-time">{t('money.offer.candidateTimes')}</h2>
           <p className="muted">{t('money.offer.candidateIntro')}</p>
-          <div className="offer-slot-list" role="radiogroup" aria-labelledby="choose-time">
+          <div className="offer-slot-list" id="offer-slot" role="radiogroup" aria-labelledby="choose-time">
             {plan.slots.map((row) => {
               const slot = slots.find((item) => item.id === row.slotId);
               if (!slot) return null;
