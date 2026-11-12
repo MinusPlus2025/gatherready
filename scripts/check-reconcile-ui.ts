@@ -15,7 +15,7 @@ try {
    void req.continue();
   });
   await page.goto('http://localhost:5295/organizer/funding');await page.waitForSelector('.reconcile-panel');
-  assert.equal(posts,0);await page.click('.reconcile-panel summary');
+  assert.equal(posts,0);assert.equal(await page.$eval('.journey-nav [aria-current=page]', e=>e.getAttribute('href')),'/organizer/funding');await page.click('.reconcile-panel summary');
   assert.equal(await page.$eval('.reconcile-panel button',(e:any)=>e.disabled),true);
   await page.click('.reconcile-panel input');await page.click('.reconcile-panel button');
   await page.waitForFunction(()=>document.querySelector('.reconcile-panel [role=status]')?.textContent?.includes('check finished'));
