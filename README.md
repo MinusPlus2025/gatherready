@@ -4,6 +4,46 @@
 
 **Turn conditional workshop interest into one plan people actually agree to fund.**
 
+## Judge quick start
+
+**[Watch the final demo on YouTube](https://youtu.be/pv0dfdEiFC4)** ·
+[Sandbox UI evidence and limits](docs/audit/ui-sandbox-spine-20261112.md) ·
+[Verified API capture](docs/audit/paypal-live-core.json) · [MIT license](LICENSE)
+
+**Run locally:** install [Node.js 22.5+](https://nodejs.org/en/download) and Git. In a macOS/Linux terminal:
+
+```bash
+git clone https://github.com/MinusPlus2025/gatherready.git
+cd gatherready
+npm ci
+npm run build
+PAYPAL_FORCE_SIMULATED=1 GATHERREADY_DB=./data/judge-demo.db npm start
+```
+
+Open **http://localhost:5180**. Choose **Load sample** for a synthetic tour, or create a workshop and
+use **Invite participants** on the Plan page. No public deployment is claimed; localhost invitation
+links work on the same computer. This first run uses **simulated payments**, not PayPal transactions.
+Without a configured model, use direct time selection or clearly labelled recorded samples.
+
+**Live AI:** install and start [Ollama](https://ollama.com/download), run
+`ollama pull qwen2.5:7b-instruct`, then stop GatherReady and restart with
+`PAYPAL_FORCE_SIMULATED=1 GATHERREADY_DB=./data/judge-demo.db LLM_OLLAMA=1 LLM_MODEL=qwen2.5:7b-instruct LLM_TIMEOUT_MS=60000 npm start`.
+The model is a multi-gigabyte download; each extraction must succeed and be confirmed by the participant.
+
+**Real Sandbox testing:** in your own local terminal run `node scripts/setup-access.mjs --paypal-only`
+with your Sandbox app credentials. Do not share secrets in chat, source or video. Stop the server,
+then use a **separate new database** and unset any forced-simulation variable:
+`PAYPAL_FORCE_SIMULATED=0 GATHERREADY_DB=./data/judge-sandbox.db LLM_OLLAMA=1 LLM_MODEL=qwen2.5:7b-instruct LLM_TIMEOUT_MS=60000 npm start`.
+Use a Personal Sandbox buyer for approval, never a real card. Do not mix simulated payment records
+with the Sandbox adapter. Webhook/public-callback verification is not claimed. See
+[complete setup and test instructions](#run-it-from-a-fresh-clone) for configuration precedence and limits.
+
+The video distinguishes simulated UI footage from the independently verified real Sandbox payment
+segment. Sandbox uses virtual funds. From-zero setup through payment has not been verified as one
+uninterrupted UI flow; the evidence below states exactly what was tested.
+
+---
+
 A small web product for the [PayPal AI Hackathon 2026](https://paypalaihackathon.devpost.com/):
 an AI reads messy availability messages into reviewable constraints, a deterministic solver finds the
 one time a group can actually agree on, and a participant answers at most one clarifying question.
