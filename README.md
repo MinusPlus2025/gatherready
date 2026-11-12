@@ -15,11 +15,18 @@ These implemented behaviours must not be confused with completed Sandbox verific
 
 ### Verification status — 12 November 2026
 
+The organizer can now create private participant invitations in the Plan page. This local-only
+prototype does not email invitations; the organizer must copy the generated link and share it
+privately. Localhost links are not publicly reachable. This entry is not a claim of public hosting.
+
 - **Verified with the independent PayPal Sandbox adapter test:** OAuth, Orders v2 `AUTHORIZE` order
   creation/retrieval, buyer approval, a retrieved authorization for USD 45.00, and a retrieved capture
   with `COMPLETED` status for USD 45.00. These are virtual Sandbox funds, not a real-money charge.
-- **Not yet verified:** the complete product UI payment workflow, void, refund, public HTTPS callbacks
-  or webhook delivery. The independent adapter test does not prove the UI checkout end-to-end.
+- **Also verified in an isolated UI payment experiment:** participant consent, Sandbox checkout return,
+  authorization display, and the organizer's USD 45.00 capture/result. The participant and published
+  offer were prepared through the service, so this does **not** prove from-zero UI setup/invitation/publishing.
+- **Not yet verified:** from-zero UI setup through payment, void, refund, public HTTPS callbacks or
+  webhook delivery. See [the UI experiment and its limits](docs/audit/ui-sandbox-spine-20261112.md).
 - **Recorded UI payment demonstrations are simulated** unless the specific recording explicitly
   documents a successful Sandbox transaction. A Sandbox mode badge alone is not proof of payment.
 - **AI:** local Ollama inference has been exercised; each extraction still needs its own success
@@ -321,7 +328,7 @@ There is no verified public deployment in this snapshot. Complete local setup is
 
 | Part | Without configuration | Configured implementation / limits |
 |---|---|---|
-| PayPal | Simulated adapter, labelled **Demo payment — no PayPal transaction** | Sandbox REST adapter; independent approval/authorization/capture verified, full UI flow unverified |
+| PayPal | Simulated adapter, labelled **Demo payment — no PayPal transaction** | Sandbox REST adapter; independent API and isolated UI payment segment verified; from-zero setup through payment unverified |
 | AI | Structured input and explicitly labelled recorded synthetic samples | Ollama or supported cloud provider; every result needs validation; failed inference is not a recorded success |
 | Database | Local SQLite file | Not a hosted database; do not assume local disk persists on serverless hosts |
 | Payments | No PayPal transaction | Sandbox virtual funds only; credentials or a mode badge do not prove transaction success |
@@ -390,8 +397,8 @@ when reviewing the screenshots, video and test reports.
 ## What this is not (limitations, stated up front)
 
 - One merchant, one workshop, one currency (USD), one adult audience. No platform payouts or escrow.
-- Independent Sandbox adapter approval, authorization and USD 45.00 capture have been verified;
-  the full product UI payment workflow, void, refund and external callbacks remain unverified.
+- Independent Sandbox API tests and an isolated UI payment segment have been verified for USD 45.00;
+  from-zero UI setup/invitation/publishing through payment, void, refund and external callbacks remain unverified.
 - Cross-buyer capture is not atomic, and refunds/holds are not instant; no fee claims are made.
 - Demand, willingness to pay, and improvement over a form-based workflow are **not validated** here.
   No interviews or conversion experiments are claimed. Public policy sources are cited; commercial

@@ -16,6 +16,7 @@
    ========================================================================== */
 
 import { useRef, useState } from 'react';
+import { InviteParticipants } from '../components/InviteParticipants.js';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { ArrowRight, RefreshCw } from 'lucide-react';
 import { apiFieldErrors, describeError } from '../lib/api.js';
@@ -212,6 +213,8 @@ export default function OrganizerPlan() {
           )}
         </div>
       </section>
+
+      <InviteParticipants />
 
       <Rails rails={rails} />
 

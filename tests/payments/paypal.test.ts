@@ -442,7 +442,7 @@ describe('real sandbox request construction (mocked fetch, never PayPal itself)'
 
     const auth = await paypal.authorizeOrder('ORDER-1', 'authorize:ORDER-1');
     expect(auth.authorizationId).toBe('AUTH-1');
-    expect(auth.status).toBe('CREATED');
+    expect(auth.status).toBe('AUTHORIZED'); // provider CREATED is an uncaptured authorization
     expect(auth.orderId).toBe('ORDER-1');
     const capture = await paypal.captureAuthorization(CAPTURE_INPUT, 'capture:pay_1');
     expect(capture.captureId).toBe('CAPTURE-1');

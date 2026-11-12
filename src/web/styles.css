@@ -6629,3 +6629,11 @@ html[data-theme-mode='dark'] .eyebrow {
  .footer__nav {gap:4px 20px;}
  .footer__nav a {display:inline-flex;align-items:center;min-height:44px;}
 }
+
+/* Organizer invitations: private bearer links, responsive without horizontal overflow. */
+.invite-panel { margin-block: 1.5rem; }
+.invite-form { display: flex; gap: 1rem; align-items: end; margin-block: 1rem; }
+.invite-form label { display: grid; gap: .4rem; flex: 1; min-width: 0; }
+.invite-form input, .invite-link input { width: 100%; min-width: 0; border: 1px solid #cfd5cc; border-radius: .6rem; padding: .75rem; background: white; color: #1b2720; }
+.invite-link { display: grid; grid-template-columns: minmax(5rem, .35fr) minmax(0, 1fr) auto; gap: .65rem; align-items: center; margin-block: .75rem; }
+@media(max-width: 600px) { .invite-form { align-items: stretch; flex-direction: column; } .invite-link { grid-template-columns: minmax(0,1fr) auto; } .invite-link strong { grid-column: 1 / -1; } }

@@ -765,9 +765,12 @@ function authorizationSnapshotFrom(data: JsonObject, fallbackOrderId: string | n
       debugId: null,
     });
   }
+  // PayPal authorization CREATED means a valid uncaptured authorization.
+  // Normalize only this authorization resource state, never an order CREATED.
+  const providerStatus = asString(nested.status) || asString(data.status) || 'UNKNOWN';
   return {
     authorizationId,
-    status: asString(nested.status) || asString(data.status) || 'UNKNOWN',
+    status: providerStatus === 'CREATED' ? 'AUTHORIZED' : providerStatus,
     amountCents: amount.cents,
     currency: amount.currency,
     createTime: asString(nested.create_time) || asString(data.create_time) || null,

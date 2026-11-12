@@ -139,6 +139,9 @@ export const api = {
     return request<AppState>(`/state${query}`, { token });
   },
 
+  addParticipant(displayName: string) {
+    return request<AppState & { inviteToken: string }>('/participants', { method: 'POST', body: { displayName } });
+  },
   createWorkshop(body: CreateWorkshopRequest, token: string | null = null) {
     return post('/workshop', body, token);
   },

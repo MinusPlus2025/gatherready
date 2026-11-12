@@ -1104,7 +1104,9 @@ export class Service {
 
     let auth;
     try {
-      auth = await this.paypal.authorizeOrder(orderId, `authorize:${orderId}`);
+      auth = payment.authorizationId
+        ? await this.paypal.getAuthorization(payment.authorizationId)
+        : await this.paypal.authorizeOrder(orderId, `authorize:${orderId}`);
     } catch (err) {
       this.repo.updatePayment(payment.id, {
         status: 'UNKNOWN',
@@ -1127,7 +1129,13 @@ export class Service {
         authorizedAt: now,
         updatedAt: now,
       });
-      this.repo.insertOperation({
+      const previousOperation = this.repo.getOperationByKey(`authorize:${orderId}`);
+      if (previousOperation) {
+        this.repo.updateOperation(previousOperation.id, {
+          status: auth.status === 'AUTHORIZED' || auth.status === 'CAPTURED' ? 'SUCCEEDED' : 'UNKNOWN',
+          providerRef: auth.authorizationId, lastError: null, updatedAt: now,
+        });
+      } else this.repo.insertOperation({
         id: newId('op'),
         tenantId: ctx.tenantId,
         batchId: null,

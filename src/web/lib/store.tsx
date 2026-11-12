@@ -26,6 +26,7 @@ import type { AppState } from '../../shared/api.js';
 import { api, describeError } from './api.js';
 import type { WebAction } from './actions.js';
 import { needsMoneyPolling } from './format.js';
+import { clearParticipantAccess } from './participant-access.js';
 
 const AWAITING_KEY = 'gr_awaiting_paypal';
 const TOKEN_KEY = 'gr_ptoken';
@@ -152,7 +153,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [fetchedAtMs, setFetchedAtMs] = useState(() => Date.now());
-  const token = useMemo(() => readToken(), [location.pathname, location.search]);
+  const [token, setToken] = useState(() => readToken());
   const mock = useMemo(() => isMockRequested(), []);
   const tokenRef = useRef(token);
   tokenRef.current = token;
@@ -206,8 +207,11 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   // Reload on route change: the mock picks the scene that makes each screen
   // meaningful; a real session just re-reads the one snapshot.
   useEffect(() => {
+    const nextToken = readToken();
+    tokenRef.current = nextToken;
+    setToken(nextToken);
     void loadRef.current();
-  }, [location.pathname, mock]);
+  }, [location.pathname, location.search, mock]);
 
   // Narrow polling: only while money is moving or right after PayPal.
   useEffect(() => {
@@ -271,6 +275,13 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           mockViewerRef.current = next.session.viewParticipantId;
         } else {
           next = await dispatchHttp(action, tokenRef.current);
+        }
+        if (identityChange) {
+          // The server has accepted the identity switch. Do not re-bind it on
+          // the next GET with the prior participant's bearer credential.
+          try { clearParticipantAccess(sessionStorage, window.location.href, (path) => window.history.replaceState(window.history.state, '', path)); } catch { /* storage may be disabled */ }
+          tokenRef.current = null;
+          setToken(null);
         }
         fetchedAtRef.current = Date.now();
         setFetchedAtMs(fetchedAtRef.current);
