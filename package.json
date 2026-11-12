@@ -3,9 +3,9 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "GatherReady \u2014 turn conditional workshop interest into one plan everyone agrees to, then fund it with a real PayPal sandbox authorization.",
+  "description": "GatherReady — turn conditional workshop interest into one plan everyone agrees to, then fund it with a real PayPal sandbox authorization.",
   "engines": {
-    "node": ">=22.5"
+    "node": "^22.13.0 || >=24.0.0"
   },
   "scripts": {
     "dev": "tsx watch src/server/main.ts",

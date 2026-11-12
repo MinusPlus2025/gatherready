@@ -10,7 +10,7 @@
 [Sandbox UI evidence and limits](docs/audit/ui-sandbox-spine-20261112.md) ·
 [Verified API capture](docs/audit/paypal-live-core.json) · [MIT license](LICENSE)
 
-**Run locally:** install [Node.js 22.5+](https://nodejs.org/en/download) and Git. In a macOS/Linux terminal:
+**Run locally:** install [Node.js 24 LTS](https://nodejs.org/en/download) and Git. In a macOS/Linux terminal:
 
 ```bash
 git clone https://github.com/MinusPlus2025/gatherready.git
@@ -249,8 +249,7 @@ theme. Implementation: `src/web/lib/theme.ts`, `src/web/components/ThemeSwitch.t
 
 ### 1. Install and start the baseline
 
-Requirements: [Git](https://git-scm.com/downloads), [Node.js](https://nodejs.org/en/download) **22.5 or
-newer** (the app uses built-in `node:sqlite`), npm, and a modern browser. A local run does not require
+Requirements: [Git](https://git-scm.com/downloads), [Node.js](https://nodejs.org/en/download) **22.13+ within Node 22, or Node 24+** (the app uses built-in `node:sqlite`), npm, and a modern browser. Node 24 LTS is recommended; this release was tested on 24.18.0. Node 22.5 is insufficient: [SQLite became flag-free in 22.13](https://nodejs.org/docs/latest-v22.x/api/sqlite.html), and the installed Vite 7 build requires at least 22.12 on the Node 22 line. A local run does not require
 a hosting subscription. Dependency/model downloads require internet access and sufficient disk space.
 
 ```bash
