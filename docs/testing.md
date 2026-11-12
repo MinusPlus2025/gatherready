@@ -3,7 +3,7 @@
 Everything below was produced on this machine on **2026-11-12** (Asia/Shanghai), on the commit shown.
 Nothing in this file is a projected or hand-written result; commands can be re-run.
 
-- Commit: `8911c9a` (`gatherready/`)
+- Commit: `c972fba` (`gatherready/`) — the commit that contains the application code, tests and screenshots below; this file was updated in a follow-up commit only to record the hash (no number changed).
 - Machine: macOS, Node.js **24.14.0**, SQLite 3 via `node:sqlite`
 - Credentials present: **none** (`secrets/` empty, no `PAYPAL_*` / `LLM_*` environment variables)
 - Therefore every money result in this document comes from the **simulated PayPal adapter**, and every
