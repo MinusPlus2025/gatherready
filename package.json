@@ -23,7 +23,8 @@
     "seed": "tsx scripts/seed.ts",
     "sandbox-spine": "tsx scripts/sandbox-spine.ts",
     "capture-live": "tsx scripts/capture-live.ts",
-    "record-demo": "tsx scripts/record-demo.ts"
+    "record-demo": "tsx scripts/record-demo.ts",
+    "paypal-preflight": "tsx scripts/paypal-preflight.ts"
   },
   "dependencies": {
     "@fastify/cookie": "^11.0.2",

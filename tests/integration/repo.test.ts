@@ -190,3 +190,54 @@ describe('repo — persistence and safety constraints', () => {
     expect(repo.getWebhookEvent('WH-1')?.processedAt).toBe(NOW);
   });
 });
+
+describe('demo data retention (brief §9)', () => {
+  it('purges only old synthetic tenants, and never one with money in flight', () => {
+    const repo = makeRepo();
+    const old = repo.createTenant(true, '2026-10-01T00:00:00Z');
+    const recent = repo.createTenant(true, '2026-11-11T00:00:00Z');
+    const busy = repo.createTenant(true, '2026-10-01T00:00:00Z');
+
+    const { workshop } = seedWorkshop(repo, old);
+    seedParticipantWithPreference(repo, workshop, 'Alice');
+
+    const busyWorkshop = seedWorkshop(repo, busy).workshop;
+    repo.insertOffer({
+      id: newId('off'),
+      tenantId: busy,
+      workshopId: busyWorkshop.id,
+      version: 1,
+      slotId: 'slot_a',
+      terms: {} as never,
+      offerHash: 'c'.repeat(64),
+      status: 'OPEN',
+      confirmedByMerchantAt: NOW,
+      createdAt: NOW,
+      closedAt: null,
+    });
+    repo.insertBatch({
+      id: newId('bat'),
+      tenantId: busy,
+      workshopId: busyWorkshop.id,
+      offerId: repo.getLatestOffer(busyWorkshop.id)!.id,
+      offerHash: 'c'.repeat(64),
+      status: 'CAPTURING',
+      paymentIds: [],
+      expectedParticipantCount: 4,
+      expectedCents: 18000,
+      capturedCents: 0,
+      refundedCents: 0,
+      reason: null,
+      startedAt: NOW,
+      deadlineUtc: '2026-11-13T08:00:00Z',
+      finishedAt: null,
+    });
+
+    const purged = repo.purgeSyntheticTenantsOlderThan('2026-11-05T00:00:00Z');
+    expect(purged).toBe(1);
+    expect(repo.getTenant(old)).toBeNull();
+    expect(repo.getTenant(recent)).not.toBeNull();
+    expect(repo.getTenant(busy)).not.toBeNull(); // in-flight money is never garbage collected
+    expect(repo.listParticipants(workshop.id)).toHaveLength(0);
+  });
+});

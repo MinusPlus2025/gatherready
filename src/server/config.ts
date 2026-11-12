@@ -54,6 +54,8 @@ export interface AppConfig {
     isolatedTenants: boolean;
     /** Days until the synthetic demo workshop starts (relative to now). */
     workshopOffsetDays: number;
+    /** Synthetic tenant text is deleted after this many days (brief §9). */
+    retentionDays: number;
   };
   /** Extensions used by the UI build. */
   webDist: string;
@@ -164,6 +166,7 @@ export function loadConfig(overrides: Partial<AppConfig> = {}): AppConfig {
     demo: {
       isolatedTenants: envBool('DEMO_ISOLATED_TENANTS', true),
       workshopOffsetDays: Number(env('DEMO_WORKSHOP_OFFSET_DAYS', '9')),
+      retentionDays: Number(env('DEMO_RETENTION_DAYS', '7')),
     },
     webDist: path.join(ROOT, 'dist', 'web'),
     ...overrides,

@@ -22,12 +22,15 @@ import { compensateBatch, recoverPending, voidAuthorizedPayment, type RecoverySu
 export interface SchedulerOptions {
   /** Default 30_000. Values below 1s are clamped so a demo cannot spin. */
   intervalMs?: number;
+  /** Synthetic demo tenants older than this are deleted (brief §9). Default 7 days. */
+  retentionDays?: number;
 }
 
 export interface SchedulerTickResult {
   cancelledOffers: number;
   voidedPayments: number;
   manualReview: number;
+  purgedTenants: number;
   recovery: RecoverySummary;
 }
 
@@ -125,11 +128,15 @@ async function cancelExpiredOffer(
 }
 
 /** One scheduler pass. Exported so tests can run it with an injected clock. */
-export async function runSchedulerTick(deps: SettlementDeps): Promise<SchedulerTickResult> {
+export async function runSchedulerTick(
+  deps: SettlementDeps,
+  opts: { retentionDays?: number } = {},
+): Promise<SchedulerTickResult> {
   const result: SchedulerTickResult = {
     cancelledOffers: 0,
     voidedPayments: 0,
     manualReview: 0,
+    purgedTenants: 0,
     recovery: { reconciled: 0, captured: 0, voided: 0, refunded: 0, manualReview: 0 },
   };
   const now = deps.now();
@@ -151,6 +158,17 @@ export async function runSchedulerTick(deps: SettlementDeps): Promise<SchedulerT
 
   result.recovery = await recoverPending(deps);
   result.manualReview += result.recovery.manualReview;
+
+  // Retention: synthetic demo text should not live forever. Never touches money
+  // still in flight (the repo skips those tenants). A failure here is counted,
+  // not fatal — the next tick retries.
+  try {
+    const retentionDays = Math.max(1, opts.retentionDays ?? 7);
+    const cutoff = new Date(Date.parse(now) - retentionDays * 86_400_000).toISOString();
+    result.purgedTenants = deps.repo.purgeSyntheticTenantsOlderThan(cutoff);
+  } catch {
+    result.manualReview += 1;
+  }
   return result;
 }
 
@@ -167,12 +185,12 @@ export function startScheduler(deps: SettlementDeps, opts: SchedulerOptions = {}
     if (stopped || running) return; // no overlapping ticks, no pile-up
     running = true;
     try {
-      const result = await runSchedulerTick(deps);
-      if (result.cancelledOffers > 0 || result.recovery.reconciled > 0) {
+      const result = await runSchedulerTick(deps, { retentionDays: opts.retentionDays });
+      if (result.cancelledOffers > 0 || result.recovery.reconciled > 0 || result.purgedTenants > 0) {
         // Counts only: no emails, tokens, or provider payloads in logs.
         console.log(
           `[scheduler] cancelled=${result.cancelledOffers} voided=${result.voidedPayments} ` +
-            `reconciled=${result.recovery.reconciled} manual=${result.manualReview}`,
+            `reconciled=${result.recovery.reconciled} purged=${result.purgedTenants} manual=${result.manualReview}`,
         );
       }
     } catch {

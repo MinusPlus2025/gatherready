@@ -22,11 +22,14 @@ const repo = new Repo(openDb(cfg.dbPath));
 const service = new Service(cfg, repo);
 const app = buildApp({ cfg, repo, service });
 
-const scheduler = startScheduler({
-  repo,
-  paypal: service.paypal,
-  now: () => service.now(),
-});
+const scheduler = startScheduler(
+  {
+    repo,
+    paypal: service.paypal,
+    now: () => service.now(),
+  },
+  { retentionDays: cfg.demo.retentionDays },
+);
 
 app
   .listen({ port: cfg.port, host: '0.0.0.0' })

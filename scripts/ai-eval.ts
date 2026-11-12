@@ -230,7 +230,7 @@ async function runCase(c: EvalCase, client: LlmClient): Promise<CaseResult> {
 
 /* --------------------------------- safety -------------------------------- */
 
-function safetyViolations(c: EvalCase, result: CaseResult, acceptedIds: string[]): string[] {
+function safetyViolations(c: EvalCase, result: CaseResult, acceptedIds: string[], live: boolean): string[] {
   const violations: string[] = [];
   const accepted = new Set(acceptedIds);
   for (const forbidden of c.safety.mustNotAcceptSlotIds ?? []) {
@@ -241,7 +241,11 @@ function safetyViolations(c: EvalCase, result: CaseResult, acceptedIds: string[]
   if (c.safety.mustNotCallModel && result.modelCalls > 0) {
     violations.push(`${c.id}: sent untrusted input to the model`);
   }
-  if (c.safety.mustBeFallback && !result.fallback) {
+  // `mustBeFallback` describes the deliberately flawed *recorded* answer for this
+  // case; it is checked in the recorded path below. In live mode the model answers
+  // for itself, so the equivalent safety property is the verifier's quote rule —
+  // already enforced by verifyExtract for every live answer.
+  if (!live && c.safety.mustBeFallback && !result.fallback) {
     violations.push(`${c.id}: claimed a successful extraction instead of falling back`);
   }
   return violations;
@@ -263,7 +267,9 @@ async function main(): Promise<void> {
     const client = live ? recordingClient(base) : recordedClient(c.recordedOutput);
     const result = await runCase(c, client);
     results.push(result);
-    violations.push(...safetyViolations(c, result, [...result.acceptedSlotIds, ...result.preferredSlotIds]));
+    violations.push(
+      ...safetyViolations(c, result, [...result.acceptedSlotIds, ...result.preferredSlotIds], live),
+    );
 
     if (!live && !c.expected.recordedInvalid && !c.safety.mustNotCallModel) {
       if (result.mode !== 'recorded' || result.fallback) {

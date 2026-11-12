@@ -247,6 +247,9 @@ export function createLlm(cfg: AppConfig): LlmClient {
                 { role: 'user', content: req.user },
               ],
               stream: false,
+              // Ollama can constrain decoding to valid JSON. This is a decoding
+              // constraint, not a schema guarantee: verifier still runs.
+              format: 'json',
               options: { temperature: 0, num_predict: maxTokens },
             }),
           },

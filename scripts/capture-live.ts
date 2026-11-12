@@ -98,8 +98,11 @@ function startServer(): ChildProcess {
     GATHERREADY_DB: DB,
     PUBLIC_BASE_URL: BASE,
     PAYPAL_FORCE_SIMULATED: '1',
-    LLM_PROVIDER: '',
-    LLM_API_KEY: '',
+    // Opt-in: CAPTURE_LIVE_AI=1 with LLM_OLLAMA=1/LLM_MODEL=... records the live-AI
+    // banner and real model answers instead of the recorded/structured fallback.
+    ...(process.env.CAPTURE_LIVE_AI === '1'
+      ? { LLM_OLLAMA: process.env.LLM_OLLAMA ?? '1', LLM_MODEL: process.env.LLM_MODEL ?? '', LLM_TIMEOUT_MS: process.env.LLM_TIMEOUT_MS ?? '60000' }
+      : { LLM_PROVIDER: '', LLM_API_KEY: '', LLM_OLLAMA: '' }),
   };
   const tsx = path.join(ROOT, 'node_modules', '.bin', 'tsx');
   const child = spawn(tsx, ['src/server/main.ts'], { cwd: ROOT, env, stdio: ['ignore', 'pipe', 'pipe'] });

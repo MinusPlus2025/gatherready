@@ -293,6 +293,11 @@ export default function ParticipantPreferences() {
                 Both paths are equal: if you would rather not write free text, the checkboxes below work without
                 any AI. Start from either one to rebuild the card underneath.
               </p>
+              <p className="muted">
+                Purpose notice: your sentence is sent only to the configured model service to extract these
+                constraints. It is not written to logs, and synthetic demo text is deleted within 7 days. This is
+                a sandbox prototype — no real money moves.
+              </p>
 
               <div className="answer-grid">
                 <div className="answer-path">

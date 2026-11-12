@@ -35,7 +35,7 @@ export function makeCfg(overrides: { llm?: Partial<AppConfig['llm']> } = {}): Ap
       timeoutMs: 12000,
       ...overrides.llm,
     },
-    demo: { isolatedTenants: true, workshopOffsetDays: 9 },
+    demo: { isolatedTenants: true, workshopOffsetDays: 9, retentionDays: 7 },
     webDist: '/tmp/gatherready/dist/web',
   };
 }

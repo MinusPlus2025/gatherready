@@ -982,4 +982,52 @@ export class Repo {
   countLlmCallsSince(sinceIso: string): number {
     return num(this.one('SELECT COUNT(*) AS c FROM llm_calls WHERE created_at >= ?', sinceIso) ?? {}, 'c');
   }
+
+  /* ------------------------- demo data retention ------------------------- */
+
+  /**
+   * Delete synthetic demo tenants older than the cutoff (brief §9: demo text is
+   * short-lived). Never deletes a tenant whose money is still moving — those
+   * need a human or the scheduler, not a garbage collector.
+   * Returns the number of tenants purged.
+   */
+  purgeSyntheticTenantsOlderThan(cutoffIso: string): number {
+    const tenants = this.all<{ id: string }>(
+      "SELECT id FROM tenants WHERE synthetic = 1 AND created_at < ? ORDER BY created_at ASC",
+      cutoffIso,
+    );
+    let purged = 0;
+    for (const tenant of tenants) {
+      const busy = this.one<{ c: number }>(
+        `SELECT COUNT(*) AS c FROM settlement_batches
+         WHERE tenant_id = ? AND status IN ('LOCKED','CAPTURING','COMPENSATING','MANUAL_REVIEW')`,
+        tenant.id,
+      );
+      if ((busy?.c ?? 0) > 0) continue;
+      this.tx(() => {
+        // Child rows first (FK order), then the tenant itself.
+        for (const table of [
+          'operations',
+          'payments',
+          'consents',
+          'settlement_batches',
+          'clarifications',
+          'preferences',
+          'offers',
+          'participants',
+          'audit_events',
+          'sessions',
+        ]) {
+          this.run(`DELETE FROM ${table} WHERE tenant_id = ?`, tenant.id);
+        }
+        // slots are scoped by workshop, not by tenant
+        this.run('DELETE FROM slots WHERE workshop_id IN (SELECT id FROM workshops WHERE tenant_id = ?)', tenant.id);
+        this.run('DELETE FROM workshops WHERE tenant_id = ?', tenant.id);
+        this.run('DELETE FROM llm_calls WHERE tenant_id = ?', tenant.id);
+        this.run('DELETE FROM tenants WHERE id = ?', tenant.id);
+      });
+      purged += 1;
+    }
+    return purged;
+  }
 }

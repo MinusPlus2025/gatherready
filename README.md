@@ -102,6 +102,10 @@ node scripts/setup-access.mjs   # optional: PayPal sandbox keys + model key (wri
 npm run dev                 # API on http://localhost:5180
 npm run dev:web             # UI on http://localhost:5181 (proxies /api to 5180)
 
+# optional: live AI without a cloud key (what this checkout's screenshots/video used)
+ollama pull qwen2.5:7b-instruct
+LLM_OLLAMA=1 LLM_MODEL=qwen2.5:7b-instruct npm start
+
 # or one process:
 npm run build && npm start  # http://localhost:5180
 ```
@@ -117,16 +121,26 @@ path is used for both adapters.
 | Part | With no credentials (default here) | With credentials |
 |---|---|---|
 | PayPal | `simulated` adapter: deterministic `SIM-` ids, PayPal-shaped states, labelled **Simulated PayPal — no real money** | Real Sandbox REST: Orders v2 `intent=AUTHORIZE`, Payments v2 authorize/void/capture/refund, webhook signature verification |
-| Language model | No live model: structured form + checked-in **Recorded sample** only for the six synthetic persona sentences; labelled per preference | OpenAI-compatible, Gemini or local Ollama; schema-validated, one bounded retry, then structured fallback |
+| Language model | No live model: structured form + checked-in **Recorded sample** only for the six synthetic persona sentences; labelled per preference | OpenAI-compatible, Gemini or **local Ollama**; JSON-constrained decoding, schema + verbatim-quote verification, one bounded retry, then structured fallback |
 | Database | SQLite file (`data/gatherready.db`), WAL, `BEGIN IMMEDIATE` for money paths | same |
 | Money | **Nothing leaves the machine** | Sandbox money only; the process refuses to boot against a non-sandbox PayPal host |
 
-**Honest status:** at the time this repository snapshot was produced, **no PayPal sandbox transaction
-had been executed on this machine** — sandbox credentials were not available. The simulated adapter is
-labelled as such everywhere, and [`docs/testing.md`](docs/testing.md) keeps simulated-mode results and
-real-sandbox evidence in separate columns. With sandbox keys in place, `npm run sandbox-spine` walks the
-real authorization → capture → query → refund → query and authorization → void → query paths with you
-approving the order in PayPal's hosted UI; it prints the real resource ids for the evidence table.
+**Honest status:** two halves are in different states, and the UI says which on every screen.
+
+- **AI is real on this machine.** A local **`qwen2.5:7b-instruct`** model (via Ollama) performs the
+  extraction and the clarification wording; every answer still passes the schema + verbatim-quote
+  verifier. The AI evidence in [`docs/ai-evaluation.md`](docs/ai-evaluation.md) is a live-model run
+  (28/33 answered live, **0 unsafe acceptances, 0 quote failures**, review cost −43% in the heuristic),
+  and the screenshots/video show the `Live AI` banner. A hosted key (OpenAI-compatible or Gemini) is a
+  drop-in replacement for a deployment where Ollama is not available. A smaller 3B model was measured and
+  rejected: it made the review *more* expensive than the form, and that result is in the report too.
+- **PayPal is still simulated here.** No PayPal sandbox credentials exist on this machine, so no real
+  sandbox transaction has been executed. The simulated adapter is labelled in the UI, API and docs, and
+  [`docs/testing.md`](docs/testing.md) keeps simulated-mode results and real-sandbox evidence in separate
+  columns. With sandbox keys in place, `npm run paypal-preflight` proves OAuth/order-create/query and
+  registers the webhook, and `npm run sandbox-spine` walks the real authorization → capture → query →
+  refund → query and authorization → void → query paths with you approving each order in PayPal's hosted
+  UI. It prints the real resource ids for the evidence table.
 
 ## Demo walkthrough (synthetic data)
 
@@ -221,6 +235,8 @@ docs/         CONTRACT, architecture, testing, ai-evaluation, submission, demo s
 - [`docs/ai-evaluation.md`](docs/ai-evaluation.md) — cases, results and the baseline comparison
 - [`docs/submission.md`](docs/submission.md) — Devpost copy and the honest feature list
 - [`docs/demo-script.md`](docs/demo-script.md) — the under-three-minute demo plan, with the recorded walkthrough
+- [`docs/DEPLOY.md`](docs/DEPLOY.md) — judge-accessible hosting, sandbox test account, post-deploy checklist
+- [`docs/P0-ACCEPTANCE.md`](docs/P0-ACCEPTANCE.md) — the brief's P0 list, audited item by item with evidence and owner blocks
 
 ## License
 

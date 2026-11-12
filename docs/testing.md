@@ -5,9 +5,11 @@ Nothing in this file is a projected or hand-written result; commands can be re-r
 
 - Commit: `c972fba` (`gatherready/`) — the commit that contains the application code, tests and screenshots below; this file was updated in a follow-up commit only to record the hash (no number changed).
 - Machine: macOS, Node.js **24.14.0**, SQLite 3 via `node:sqlite`
-- Credentials present: **none** (`secrets/` empty, no `PAYPAL_*` / `LLM_*` environment variables)
-- Therefore every money result in this document comes from the **simulated PayPal adapter**, and every
-  language-model result comes from the **recorded/structured path**. Both are labelled in the product.
+- PayPal sandbox credentials present: **none** (`secrets/` empty, no `PAYPAL_*` variables) → every money
+  result below comes from the **simulated PayPal adapter**.
+- Language model: **live local Ollama `qwen2.5:7b-instruct`** (no cloud key needed). The AI results in §3
+  are real model calls; the product labels the model on every card.
+- Where a path is simulated or recorded, the product labels it; this document keeps those results separate.
 
 > **The separation that matters:** simulated-mode passes are *not* PayPal sandbox evidence. The two
 > columns at the bottom are deliberately disjoint, and the sandbox column is empty until credentials are
@@ -17,14 +19,17 @@ Nothing in this file is a projected or hand-written result; commands can be re-r
 
 | Check | Command | Result |
 |---|---|---|
-| Unit / domain / AI / payment-safety / integration tests | `npx vitest run` | **16 files, 231 tests passed, 0 failed** |
+| Unit / domain / AI / payment-safety / integration tests | `npx vitest run` | **16 files, 232 tests passed, 0 failed** |
 | Server + shared typecheck | `npx tsc -p tsconfig.json --noEmit` | **exit 0** |
 | UI production build | `npx vite build` | **success** (`dist/web`, ~366 kB JS / 32 kB CSS) |
 | End-to-end product loop over HTTP | `npx tsx scripts/verify.ts` | **62/62 checks passed** (simulated money path) |
-| AI evaluation | `npx tsx scripts/ai-eval.ts` | **33/33 cases match expectation; 0 safety violations** (recorded path) |
+| AI evaluation (live model) | `LLM_OLLAMA=1 LLM_MODEL=qwen2.5:7b-instruct npx tsx scripts/ai-eval.ts` | **live: 28/33 answered live, 0 unsafe acceptances, 0 quote failures, 5 fallbacks** (strict exact-match 15/33; see §3) |
 | Preflight | `npx tsx scripts/preflight.ts` | **passed** with 3 degraded-mode warnings (PayPal keys, model key, secrets file) |
-| Real screenshots | `npx tsx scripts/capture-live.ts` | **16 PNGs**, captured from the live server + built UI (no mock state) |
-| Silent walkthrough video | `npx tsx scripts/record-demo.ts` | **60 s MP4** (`docs/demo/gatherready-walkthrough.mp4`), live server, simulated PayPal badge in every frame |
+| Real screenshots | `CAPTURE_LIVE_AI=1 LLM_MODEL=qwen2.5:7b-instruct npx tsx scripts/capture-live.ts` | **16 PNGs**, live server + built UI, live model banner, simulated PayPal badge |
+| PayPal readiness (needs keys) | `npx tsx scripts/paypal-preflight.ts` | **BLOCKED** — no credentials; script exits 2 without faking a result |
+| Demo retention job | scheduler tick, `DEMO_RETENTION_DAYS` | `tests/integration/repo.test.ts` (purges old synthetic tenants, never in-flight money) |
+| CI workflow | `.github/workflows/ci.yml` | typecheck + tests + build + preflight + simulated walkthrough on push |
+| Silent walkthrough video | `CAPTURE_LIVE_AI=1 npx tsx scripts/record-demo.ts` | **55 s MP4** (`docs/demo/gatherready-walkthrough.mp4`), live server + live model, simulated PayPal badge in every frame |
 | Real PayPal sandbox spine | `npx tsx scripts/sandbox-spine.ts` | **BLOCKED — no credentials**; exits 2 with instructions (never fakes a result) |
 
 ### Test breakdown
@@ -100,25 +105,28 @@ NOTE: this run used the SIMULATED PayPal adapter — it is not sandbox evidence.
 “simulated” means the PayPal adapter was the labelled simulated one. The logic (lock rules, idempotency,
 compensation, state merging) is the same code the real adapter runs, but **no PayPal API was involved**.
 
-## 3. AI evaluation (recorded evidence — no model key present)
+## 3. AI evaluation (live local model)
 
-From `fixtures/ai/last-run.json` (`npm run ai-eval`), 33 cases = 27 synthetic + 6 demo personas:
+Full report: [`docs/ai-evaluation.md`](ai-evaluation.md). Source data: `fixtures/ai/last-run.json`
+(`"evidence": "live"`).
 
 | Metric | Value |
 |---|---|
-| Evidence | `recorded` (no live model; `live: false`, `model: null`) |
-| Cases matching the checked-in expectation | 33 / 33 |
-| Recorded successes / structured / fallbacks | 26 / 5 / 7 (fallback rate 21.2%) |
-| Attempts / model calls | 30 / **0** (no key, no network calls) |
-| Schema failures / quote-verbatim failures (deliberate fixtures) | 1 / 1 |
-| Safety violations (injection reaching the model or changing constraints) | **0** |
-| Manual-edit heuristic: form path vs reviewed-extraction path | 79 vs 23 edits (−56, **−70.9%**) |
+| Model | Ollama `qwen2.5:7b-instruct` (local; no cloud key) |
+| Cases | 33 (27 synthetic + 6 demo personas) |
+| Live successes / structured fallbacks | 28 / 5 (15.2%) |
+| Model calls / attempts | 33 / 33 |
+| Schema failures / quote-verbatim failures | 5 / **0** |
+| Unsafe acceptances (a time the person did not accept) | **0** |
+| Strict exact-match vs fixture expectation | 15 / 33 (differences analyzed in the report; mostly an extra preferred/uncertainty, one genuine semantic miss) |
+| Interaction-edit heuristic: form vs reviewed card | 79 → 45 (**−43%**) |
 
-Read this narrowly: the edit numbers are a **documented heuristic** (one edit per form toggle/condition
-quote/ambiguity answer/confirmation), not a user study. They are measured against recorded model answers,
-not a live model. The 5 safety pre-screen fallbacks are deliberate (3 injection cases + 2 empty inputs);
-the 2 verifier fallbacks are the two intentionally invalid recorded fixtures. Configure
-`LLM_PROVIDER`/`LLM_API_KEY` (or `LLM_OLLAMA=1`) and re-run `npm run ai-eval` for a `live` report.
+Model choice was measured rather than assumed: `qwen2.5:3b` produced only 12 live answers and made the
+review cost *worse* than the form (+8), so it is not used for the demo. Reproduce with
+`ollama pull qwen2.5:7b-instruct` then the command in §1.
+
+What this does **not** prove: real organiser demand, willingness to pay, or that AI beats a form for real
+people. It is 33 synthetic cases and a heuristic, on one local model.
 
 ## 4. Accessibility and layout
 
@@ -163,7 +171,7 @@ line `Simulated failure for testing: …`. No screen or document claims PayPal r
 ## 7. Known gaps
 
 - No real PayPal sandbox call has been made (no credentials on this machine) — see §5.
-- No live model call has been made (no key) — the AI evidence is recorded-fixture evidence.
+- AI evidence is a **local** model on the build machine; a hosted model must be re-measured after deployment (`npm run ai-eval` with the deployed provider).
 - No human usability test or organiser interview; demand and willingness to pay are not validated.
 - Browser automation covers screenshots + axe, not a scripted click-through E2E (Playwright is not a
   dependency). The API-level end-to-end walkthrough (`scripts/verify.ts`) is the functional gate.
