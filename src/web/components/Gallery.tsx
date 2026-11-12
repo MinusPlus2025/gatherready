@@ -19,11 +19,9 @@ interface GalleryItem {
 }
 
 const ITEMS: GalleryItem[] = [
-  { src: '/images/pottery-workshop.jpg', width: 1600, height: 1200, labelKey: 'landing.gallery.room', size: 'large' },
-  { src: '/images/pottery-terracotta.jpg', width: 1200, height: 1800, labelKey: 'landing.gallery.fresh', size: 'tall' },
+  { src: '/images/pottery-trimming.jpg', width: 1600, height: 954, labelKey: 'landing.gallery.trimming', size: 'large' },
   { src: '/images/pottery-studio.jpg', width: 1600, height: 1067, labelKey: 'landing.gallery.shelves', size: 'small' },
-  { src: '/images/pottery-trimming.jpg', width: 1600, height: 954, labelKey: 'landing.gallery.trimming', size: 'small' },
-  { src: '/images/pottery-detail.jpg', width: 1600, height: 1067, labelKey: 'landing.gallery.detail', size: 'wide' },
+  { src: '/images/pottery-detail.jpg', width: 1600, height: 1067, labelKey: 'landing.gallery.detail', size: 'small' },
 ];
 
 export function WorkshopGallery() {
@@ -57,7 +55,7 @@ export function WorkshopGallery() {
 
   return (
     <>
-      <section className="gallery" aria-labelledby="gallery-title" data-reveal aria-hidden={open ? true : undefined}>
+      <section className="gallery gallery--editorial" id="workshop-gallery" aria-labelledby="gallery-title" data-reveal aria-hidden={open ? true : undefined}>
         <div className="gallery__head">
           <h2 id="gallery-title">{t('landing.gallery.title')}</h2>
           <p className="muted">{t('landing.gallery.intro')}</p>
@@ -71,7 +69,7 @@ export function WorkshopGallery() {
                 onClick={() => setOpenIndex(index)}
                 aria-label={`${t(item.labelKey)} — ${t('landing.gallery.open')}`}
               >
-                <picture>
+                <picture className="gallery__photo">
                   <source
                     type="image/webp"
                     srcSet={webpSrcSet(item.src)}
@@ -86,6 +84,7 @@ export function WorkshopGallery() {
                   <img src={item.src} alt="" width={item.width} height={item.height} loading="lazy" decoding="async" fetchPriority="low" />
                 </picture>
                 <span className="gallery__overlay">
+                  <span className="gallery__number" aria-hidden="true">0{index + 1}</span>
                   <span className="gallery__label">{t(item.labelKey)}</span>
                   <Maximize2 size={15} strokeWidth={2} aria-hidden="true" />
                 </span>
@@ -102,10 +101,11 @@ export function WorkshopGallery() {
                 type="button"
                 className="lightbox__backdrop"
                 aria-label={t('landing.gallery.close')}
+                tabIndex={-1}
                 onClick={() => setOpenIndex(null)}
               />
               <figure className="lightbox__figure">
-                <img src={open.src} alt="" width={open.width} height={open.height} />
+                <img src={open.src} alt={t(open.labelKey)} width={open.width} height={open.height} />
                 <figcaption className="lightbox__caption">
                   <span>{t(open.labelKey)}</span>
                   <span className="lightbox__credit">{t('landing.gallery.credit')}</span>
