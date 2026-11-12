@@ -312,6 +312,11 @@
       "file": "theme-dark-1440.png",
       "route": "/",
       "state": "Dark interface palette"
+    },
+    {
+      "file": "logo-fixed-color-1440.png",
+      "route": "/",
+      "state": "Brand mark stays fixed green/ivory when the accent theme changes"
     }
   ]
 }

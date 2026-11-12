@@ -6570,3 +6570,9 @@ html[data-theme-mode='dark'] .eyebrow {
     justify-content: center;
   }
 }
+
+/* The brand mark is identity, not a theme colour: it must not follow the
+   user-selectable accent. Keep the fixed green/ivory artwork. */
+.brand__mark {
+  color: #0d5a45;
+}
