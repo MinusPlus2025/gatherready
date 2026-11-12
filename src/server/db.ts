@@ -1,7 +1,7 @@
-import { DatabaseSync } from 'node:sqlite';
+import { createClient, type Client } from '@libsql/client';
+import { pathToFileURL } from 'node:url';
 import { mkdirSync } from 'node:fs';
 import path from 'node:path';
-
 /* ==========================================================================
    Persistence: plain SQLite through node:sqlite (no native build, no ORM).
 
@@ -13,26 +13,22 @@ import path from 'node:path';
      participant+offer, one batch per offer, one operation per idempotency key,
      one webhook row per provider event id).
    ========================================================================== */
-
-export type DB = DatabaseSync;
-
+export type DB = Client;
 export interface OpenDbOptions {
-  /** `:memory:` for tests. */
-  path: string;
+    /** `:memory:` for tests. */
+    path: string;
 }
-
-export function openDb(dbPath: string): DB {
-  if (dbPath !== ':memory:') mkdirSync(path.dirname(dbPath), { recursive: true });
-  const db = new DatabaseSync(dbPath);
-  db.exec('PRAGMA journal_mode = WAL;');
-  db.exec('PRAGMA foreign_keys = ON;');
-  db.exec('PRAGMA busy_timeout = 5000;');
-  migrate(db);
-  return db;
+export async function openDb(dbPath: string, options: { authToken?: string; migrate?: boolean } = {}): Promise<DB> {
+    const remote = /^(libsql|https?):/.test(dbPath);
+    if (!remote && dbPath !== ':memory:') mkdirSync(path.dirname(dbPath), { recursive: true });
+    const url = dbPath === ':memory:' ? 'file::memory:' : remote ? dbPath : pathToFileURL(path.resolve(dbPath)).href;
+    const db = createClient({ url, authToken: options.authToken });
+    if (!remote) await db.execute('PRAGMA foreign_keys = ON');
+    if (options.migrate !== false) await migrate(db);
+    return db;
 }
-
-function migrate(db: DB): void {
-  db.exec(`
+async function migrate(db: DB): Promise<void> {
+    await db.executeMultiple(`
   CREATE TABLE IF NOT EXISTS tenants (
     id TEXT PRIMARY KEY,
     synthetic INTEGER NOT NULL DEFAULT 1,
@@ -261,11 +257,12 @@ function migrate(db: DB): void {
   );
   CREATE INDEX IF NOT EXISTS llm_calls_created ON llm_calls(created_at);
   `);
-
-  // Lightweight column migrations (existing demo databases created before the
-  // cover image existed). CREATE TABLE IF NOT EXISTS cannot add columns.
-  const workshopColumns = db.prepare('PRAGMA table_info(workshops)').all() as Array<{ name: string }>;
-  if (!workshopColumns.some((column) => column.name === 'cover_image_url')) {
-    db.exec('ALTER TABLE workshops ADD COLUMN cover_image_url TEXT');
-  }
+    // Lightweight column migrations (existing demo databases created before the
+    // cover image existed). CREATE TABLE IF NOT EXISTS cannot add columns.
+    const workshopColumns = (await db.execute('PRAGMA table_info(workshops)')).rows as unknown as Array<{
+        name: string;
+    }>;
+    if (!workshopColumns.some((column) => column.name === 'cover_image_url')) {
+        await db.execute('ALTER TABLE workshops ADD COLUMN cover_image_url TEXT');
+    }
 }
