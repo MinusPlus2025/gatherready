@@ -90,3 +90,59 @@ export function splitCount(value: string): { current: number; total: string } | 
   if (!match) return null;
   return { current: Number(match[1]), total: match[2] ?? '' };
 }
+
+
+/**
+ * Counts up from 0 the first time the value is rendered (marketing numbers).
+ * Reduced motion jumps straight to the value.
+ */
+export function useCountUp(value: number, duration = 900): number {
+  const [display, setDisplay] = useState(0);
+  const reduced = usePrefersReducedMotion();
+  const frameRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (reduced) {
+      setDisplay(value);
+      return;
+    }
+    const start = performance.now();
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - t, 3);
+      setDisplay(Math.round(value * eased));
+      if (t < 1) frameRef.current = requestAnimationFrame(tick);
+    };
+    frameRef.current = requestAnimationFrame(tick);
+    return () => {
+      if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
+    };
+  }, [value, duration, reduced]);
+
+  return display;
+}
+
+/** Adds `is-visible` to `[data-reveal]` elements as they scroll into view. */
+export function useRevealOnScroll(): void {
+  const reduced = usePrefersReducedMotion();
+  useEffect(() => {
+    const elements = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'));
+    if (elements.length === 0) return;
+    if (reduced) {
+      for (const element of elements) element.classList.add('is-visible');
+      return;
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      },
+      { rootMargin: '0px 0px -10% 0px', threshold: 0.12 },
+    );
+    for (const element of elements) observer.observe(element);
+    return () => observer.disconnect();
+  }, [reduced]);
+}

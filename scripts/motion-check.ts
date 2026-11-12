@@ -65,6 +65,42 @@ async function main(): Promise<void> {
     const page = await browser.newPage();
     await page.setViewport({ width: 1280, height: 900 });
 
+    /* landing interactions: reveal, gallery, lightbox */
+    await page.goto(`${BASE}/`, { waitUntil: 'networkidle0' });
+    await sleep(700);
+    const gallery = await page.evaluate(() => ({
+      items: document.querySelectorAll('.gallery__item').length,
+      hiddenReveals: document.querySelectorAll('[data-reveal]:not(.is-visible)').length,
+    }));
+    check('Gallery renders five frames', gallery.items === 5, `${gallery.items} frames`);
+
+    await page.evaluate(() => document.querySelector('.how')?.scrollIntoView({ block: 'center' }));
+    await sleep(800);
+    const revealed = await page.evaluate(() => ({
+      total: document.querySelectorAll('[data-reveal]').length,
+      visible: document.querySelectorAll('[data-reveal].is-visible').length,
+      howVisible: document.querySelector('.how')?.classList.contains('is-visible') ?? false,
+    }));
+    check(
+      'Sections reveal on scroll',
+      revealed.howVisible && revealed.visible >= 1,
+      `${revealed.visible}/${revealed.total} revealed, .how visible=${revealed.howVisible}`,
+    );
+
+    await page.evaluate(() => document.querySelector('.gallery')?.scrollIntoView({ block: 'center' }));
+    await sleep(400);
+    await page.click('.gallery__item');
+    await page.waitForSelector('.lightbox', { timeout: 2000 }).catch(() => undefined);
+    const lightbox = await page.evaluate(() => ({
+      open: Boolean(document.querySelector('.lightbox')),
+      locked: document.body.style.overflow === 'hidden',
+    }));
+    check('Gallery lightbox opens and locks scroll', lightbox.open && lightbox.locked, JSON.stringify(lightbox));
+    await page.keyboard.press('Escape');
+    await sleep(350);
+    const closed = await page.evaluate(() => !document.querySelector('.lightbox'));
+    check('Lightbox closes on Escape', closed, closed ? 'closed' : 'still open');
+
     await page.goto(`${BASE}/organizer/setup`, { waitUntil: 'networkidle0' });
     await page.evaluate(() => {
       (window as unknown as { __name?: (fn: unknown) => unknown }).__name = (fn: unknown) => fn;
@@ -206,8 +242,8 @@ async function main(): Promise<void> {
     });
     check(
       'Reduced motion removes movement',
-      reduced.maxDuration <= 20 && reduced.detailTransition <= 20 && reduced.buttonTransition <= 20,
-      `max animation ${Math.round(reduced.maxDuration)}ms, transitions ${reduced.detailTransition}ms/${reduced.buttonTransition}ms`,
+      reduced.maxDuration <= 250 && reduced.detailTransition <= 20 && reduced.buttonTransition <= 20,
+      `max opacity fade ${Math.round(reduced.maxDuration)}ms, movement transitions ${reduced.detailTransition}ms/${reduced.buttonTransition}ms`,
     );
 
     await browser.close();

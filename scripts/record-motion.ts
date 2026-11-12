@@ -77,7 +77,7 @@ async function main(): Promise<void> {
     });
     const page = await browser.newPage();
     await page.setViewport({ width: 1280, height: 800, deviceScaleFactor: 1 });
-    await page.goto(`${BASE}/organizer/setup`, { waitUntil: 'networkidle0' });
+    await page.goto(`${BASE}/`, { waitUntil: 'networkidle0' });
 
     const client = await page.createCDPSession();
     const frames: number[] = [];
@@ -108,10 +108,37 @@ async function main(): Promise<void> {
       everyNthFrame: 1,
     });
 
-    /* 1. load the synthetic sample */
-    await sleep(500);
-    await clickText(page, 'Load a sample');
+    /* 0. landing: count-up, scroll reveal, gallery hover + lightbox */
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await sleep(900);
+    await page.evaluate(async () => {
+      const step = 420;
+      for (let y = 0; y < document.body.scrollHeight; y += step) {
+        window.scrollTo(0, y);
+        await new Promise((resolve) => setTimeout(resolve, 140));
+      }
+    });
+    await sleep(600);
+    await page.evaluate(() => document.querySelector('.gallery')?.scrollIntoView({ block: 'center' }));
+    await sleep(800);
+    await page.hover('.gallery__item');
+    await sleep(650);
+    await page.click('.gallery__item');
+    await page.waitForSelector('.lightbox', { timeout: 2500 }).catch(() => undefined);
+    await sleep(1100);
+    await page.keyboard.press('Escape');
+    await sleep(450);
+
+    console.log('landing sequence done');
+
+    /* 1. load the sample workshop */
+    await page.goto(`${BASE}/organizer/setup`, { waitUntil: 'networkidle0' });
+    await sleep(600);
+    const clickedSample = await clickText(page, 'Load a sample');
+    if (!clickedSample) console.warn('sample button not found');
     await sleep(1900);
+
+    console.log('sample loaded');
 
     /* 2. route into the plan */
     await page.goto(`${BASE}/organizer/plan`, { waitUntil: 'networkidle0' });
@@ -129,6 +156,8 @@ async function main(): Promise<void> {
     );
     await sleep(700);
 
+    console.log('plan interaction done');
+
     /* 5. screens popover opens from its trigger */
     await page.evaluate(() => document.querySelector<HTMLButtonElement>('.demo-bar__screens-toggle')?.click());
     await sleep(750);
@@ -139,6 +168,8 @@ async function main(): Promise<void> {
     await clickText(page, 'Diego');
     await waitText(page, 'What would make this workshop work');
     await sleep(850);
+
+    console.log('identity switch done');
 
     /* 7. confirm preferences -> status sentence, steps and rails change */
     await page.evaluate(() => {
@@ -153,6 +184,8 @@ async function main(): Promise<void> {
     await waitText(page, 'Preferences confirmed');
     await sleep(1500);
 
+    console.log('participant confirmed');
+
     /* 8. back to the organizer plan (explicit route: the timer must end on a
        composed screen, not a role guard placeholder) */
     await clickText(page, 'Organizer');
@@ -160,6 +193,7 @@ async function main(): Promise<void> {
     await page.goto(`${BASE}/organizer/plan`, { waitUntil: 'networkidle0' });
     await sleep(1200);
 
+    console.log('organizer plan reached');
     recording = false;
     await client.send('Page.stopScreencast').catch(() => undefined);
     await writeChain;

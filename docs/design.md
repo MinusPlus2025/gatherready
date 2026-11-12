@@ -145,15 +145,16 @@ for a UI this size.
 
 ## 9. Photography
 
-The product previously read as "all text" and then as a black-and-white scene. It now uses three **full-colour**
-photographs under the [Pexels License](https://www.pexels.com/license/) (free to use, modification allowed,
-no attribution required — credited anyway), downloaded locally and resized to ≤1800px, JPEG q82. They are explicitly *not* the client's premises, staff or
+The product previously read as "all text" and then as a flat strip of images. The landing now uses **six
+full-colour photographs** under the [Pexels License](https://www.pexels.com/license/) (free to use, modification
+allowed, no attribution required — credited anyway): a mounted hero print, a five-frame bento gallery with a real
+lightbox, and the workshop cover used inside the app. They are explicitly *not* the client's premises, staff or
 participants, and no image is presented as a testimonial or a real attendee.
 
 | Where | Image | Role |
 |---|---|---|
-| Landing hero (right column, above the live product frame) | warm colour close-up of hands shaping a pot on the wheel | the subject matter in one glance: a real workshop happens with hands |
-| Landing photo band (two frames) | a working workshop interior; a bright studio full of colour-glazed vessels | context: the room and the craft, not stock "teamwork" imagery |
+| Landing hero (right column, above the live product frame) | warm colour close-up of hands shaping a pot on the wheel, in a paper-mounted frame with a small caption chip | the subject matter in one glance: a real workshop happens with hands |
+| Landing gallery (five frames, bento) | workshop interior, stacked terracotta, studio shelves, trimming, surface detail | context at three scales; clicking any frame opens a lightbox with Esc/backdrop close, focus return and body-scroll lock |
 | Organizer home workshop strip | working workshop interior | the workshop being coordinated is a place, not a database row |
 | Participant home workshop strip | same | same |
 | Consent screen, fixed-offer panel | same cover | what the participant is about to fund |
@@ -161,7 +162,9 @@ participants, and no image is presented as a testimonial or a real attendee.
 Rules applied:
 
 - **Sizing for zero layout shift:** explicit `width`/`height` and CSS `aspect-ratio` on every frame; the
-  UI review still reports CLS 0 across 20 state×viewport combinations.
+  UI review still reports CLS 0 across 32 state×viewport combinations.
+- **Scroll reveal:** gallery/sections fade and lift in once as they enter the viewport (`IntersectionObserver`);
+  reduced motion keeps a 180ms opacity fade and drops the movement.
 - **Loading:** hero image `fetchPriority="high"`; the rest `loading="lazy"`.
 - **Alt text** describes the scene for screen readers; decorative reuse is `alt=""`.
 - **No captions under images** (the image is context, not a claim); credits live in one footer line.
@@ -187,7 +190,9 @@ two small hooks (`src/web/lib/motion.ts`):
 | Payment in progress | slow 1.4s dot pulse | tells the user the system is working; it stops when the state is final |
 | Screens / popovers | 160ms scale from the trigger, origin top-right | the menu belongs to the button that opened it |
 | Pressables | `scale(0.97)` on `:active` (130ms) | immediate feedback on every button, chip, row |
-| Hover (fine pointers only) | icons slide 2px, rows and cards lift 1px | affordance without movement on touch |
+| Hover (fine pointers only) | icons slide 2px, rows and cards lift 1px, gallery frames zoom 4.5% and reveal their label | affordance without movement on touch |
+| Landing hero | pointer-driven 3–4° tilt, count-up numbers (6 / 3 / 0), staggered hero entrance | the page feels alive on first contact; reduced motion keeps the counters instant and drops the tilt |
+| Landing gallery | lightbox fade/scale 220ms, scroll-reveal 620ms once per section | images are the product context; click-to-enlarge is the honest interaction |
 
 All position movement is removed under `prefers-reduced-motion: reduce` (opacity/colour stay). Durations stay
 under 300ms for UI; only the hero entrance (620ms, once) is longer.

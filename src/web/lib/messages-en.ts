@@ -214,4 +214,17 @@ export const en: Record<string, string> = {
   'pay.paypal.opening': 'Opening PayPal…',
   'pay.paypal.openingAria': 'Opening PayPal',
   'pay.paypal.continue': 'Continue to PayPal to authorize {amount}',
+  'landing.hero.caption': 'Wheel-throwing · two hours',
+  'landing.gallery.title': 'Inside the two hours',
+  'landing.gallery.intro':
+    'A working studio, finished work on the shelves, and clay still wet on the wheel. Open any frame.',
+  'landing.gallery.room': 'The room',
+  'landing.gallery.fresh': 'Fresh from the wheel',
+  'landing.gallery.shelves': 'Studio shelves',
+  'landing.gallery.trimming': 'Trimming',
+  'landing.gallery.detail': 'Surface and texture',
+  'landing.gallery.open': 'open larger',
+  'landing.gallery.close': 'Close image',
+  'landing.gallery.dialog': 'Workshop photographs',
+  'landing.gallery.credit': 'Sample imagery · Pexels License',
 };

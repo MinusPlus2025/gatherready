@@ -19,9 +19,12 @@ import {
   ShieldCheck,
   X,
 } from 'lucide-react';
+import { useRef } from 'react';
 import { formatCents } from '../lib/format';
 import { useI18n } from '../lib/i18n';
+import { useCountUp, usePrefersReducedMotion, useRevealOnScroll } from '../lib/motion';
 import { useApp } from '../lib/store';
+import { WorkshopGallery } from '../components/Gallery';
 import { StatusBadge } from '../components/ui';
 
 const FOUR_STATES = ['interested', 'fits', 'authorized', 'captured'] as const;
@@ -36,6 +39,30 @@ export default function Landing() {
   const { t } = useI18n();
   const { state } = useApp();
   const workshop = state?.workshop ?? null;
+  const reduced = usePrefersReducedMotion();
+  const figureRef = useRef<HTMLElement | null>(null);
+  const interested = useCountUp(6);
+  const fitting = useCountUp(3);
+  useRevealOnScroll();
+
+  function tilt(event: React.PointerEvent<HTMLDivElement>) {
+    if (reduced) return;
+    if (typeof window.matchMedia === 'function' && !window.matchMedia('(pointer: fine)').matches) return;
+    const figure = figureRef.current;
+    if (!figure) return;
+    const box = figure.getBoundingClientRect();
+    const x = (event.clientX - box.left) / box.width - 0.5;
+    const y = (event.clientY - box.top) / box.height - 0.5;
+    figure.style.setProperty('--tilt-y', `${(x * 4).toFixed(2)}deg`);
+    figure.style.setProperty('--tilt-x', `${(y * -3).toFixed(2)}deg`);
+  }
+
+  function resetTilt() {
+    const figure = figureRef.current;
+    if (!figure) return;
+    figure.style.setProperty('--tilt-y', '0deg');
+    figure.style.setProperty('--tilt-x', '0deg');
+  }
 
   return (
     <div className="landing">
@@ -65,8 +92,8 @@ export default function Landing() {
           </ul>
         </div>
 
-        <div className="hero__media">
-          <figure className="hero__figure">
+        <div className="hero__media" onPointerMove={tilt} onPointerLeave={resetTilt}>
+          <figure className="hero__figure" ref={figureRef}>
             <img
               src="/images/pottery-hands.jpg"
               alt={t('landing.photo.altHands')}
@@ -74,6 +101,7 @@ export default function Landing() {
               height={968}
               fetchPriority="high"
             />
+            <figcaption className="hero__caption">{t('landing.hero.caption')}</figcaption>
           </figure>
           <aside
             className="app-frame app-frame--overlap"
@@ -89,11 +117,11 @@ export default function Landing() {
           </div>
           <div className="app-frame__counts">
             <div>
-              <span className="app-frame__num">6</span>
+              <span className="app-frame__num">{interested}</span>
               <span className="app-frame__lbl">{t('landing.frame.interested')}</span>
             </div>
             <div>
-              <span className="app-frame__num">3</span>
+              <span className="app-frame__num">{fitting}</span>
               <span className="app-frame__lbl">{t('landing.frame.fits')}</span>
             </div>
             <div>
@@ -133,7 +161,7 @@ export default function Landing() {
         </div>
       </section>
 
-      <section className="state-strip" aria-label={t('landing.states.aria')}>
+      <section className="state-strip" aria-label={t('landing.states.aria')} data-reveal>
         {FOUR_STATES.map((key) => (
           <div className="state-strip__item" key={key}>
             <p className="state-strip__label">
@@ -145,26 +173,7 @@ export default function Landing() {
         ))}
       </section>
 
-      <section className="photo-band" aria-label={t('landing.photo.altWorkshop')}>
-        <figure>
-          <img
-            src="/images/pottery-workshop.jpg"
-            alt={t('landing.photo.altWorkshop')}
-            width={1600}
-            height={1200}
-            loading="lazy"
-          />
-        </figure>
-        <figure>
-          <img
-            src="/images/pottery-studio.jpg"
-            alt={t('landing.photo.altStudio')}
-            width={1600}
-            height={1067}
-            loading="lazy"
-          />
-        </figure>
-      </section>
+      <WorkshopGallery />
 
       {workshop ? (
         <section className="panel panel--summary" aria-labelledby="current-workshop">
@@ -206,7 +215,7 @@ export default function Landing() {
         </section>
       ) : null}
 
-      <section className="how" aria-labelledby="how-it-works">
+      <section className="how" aria-labelledby="how-it-works" data-reveal>
         <h2 id="how-it-works">{t('landing.how.title')}</h2>
         <p className="how__intro">{t('landing.how.intro')}</p>
         <ol className="how__list">
@@ -225,7 +234,7 @@ export default function Landing() {
         </ol>
       </section>
 
-      <section className="panel honest honest--split" aria-labelledby="limits">
+      <section className="panel honest honest--split" aria-labelledby="limits" data-reveal>
         <div className="honest__col honest__col--does">
           <h2 id="limits">{t('landing.honest.doesTitle')}</h2>
           <ul className="honest__list">

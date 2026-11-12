@@ -70,12 +70,18 @@ async function asParticipant(participantId: string | null): Promise<void> {
 async function shoot(slug: string, route: string, label: string): Promise<void> {
   await page.setViewport({ width: currentWidth, height: 900, deviceScaleFactor: 1 });
   await page.goto(`${BASE}${route}`, { waitUntil: 'networkidle0', timeout: 30_000 });
-  // load lazy images below the fold before the full-page capture
+  // load lazy images and trigger scroll-reveal sections before the full-page capture:
+  // an instant jump to the bottom can skip a section's intersection entirely.
   await page.evaluate(async () => {
+    const step = Math.max(320, Math.round(window.innerHeight * 0.6));
+    for (let y = 0; y < document.body.scrollHeight; y += step) {
+      window.scrollTo(0, y);
+      await new Promise((resolve) => setTimeout(resolve, 120));
+    }
     window.scrollTo(0, document.body.scrollHeight);
-    await new Promise((resolve) => setTimeout(resolve, 350));
+    await new Promise((resolve) => setTimeout(resolve, 300));
     window.scrollTo(0, 0);
-    await new Promise((resolve) => setTimeout(resolve, 150));
+    await new Promise((resolve) => setTimeout(resolve, 200));
   });
   await new Promise((r) => setTimeout(r, 350));
   const file = path.join(OUT, `${slug}-${currentWidth}.png`);

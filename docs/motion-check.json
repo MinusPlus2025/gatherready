@@ -1,9 +1,29 @@
 {
-  "generatedAt": "2026-11-12T11:40:53.248Z",
+  "generatedAt": "2026-11-12T12:35:52.239Z",
   "base": "http://127.0.0.1:5181",
-  "passed": 7,
-  "total": 7,
+  "passed": 11,
+  "total": 11,
   "results": [
+    {
+      "name": "Gallery renders five frames",
+      "pass": true,
+      "detail": "5 frames"
+    },
+    {
+      "name": "Sections reveal on scroll",
+      "pass": true,
+      "detail": "3/4 revealed, .how visible=true"
+    },
+    {
+      "name": "Gallery lightbox opens and locks scroll",
+      "pass": true,
+      "detail": "{\"open\":true,\"locked\":true}"
+    },
+    {
+      "name": "Lightbox closes on Escape",
+      "pass": true,
+      "detail": "closed"
+    },
     {
       "name": "Route change animates",
       "pass": true,
@@ -37,7 +57,7 @@
     {
       "name": "Reduced motion removes movement",
       "pass": true,
-      "detail": "max animation 0ms, transitions 0.00001ms/0.00001ms"
+      "detail": "max opacity fade 180ms, movement transitions 0.00001ms/0.00001ms"
     }
   ]
 }
