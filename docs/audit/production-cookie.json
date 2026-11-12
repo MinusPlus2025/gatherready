@@ -1,0 +1,7 @@
+{
+  "capturedAt": "2026-11-13T00:30:00+08:00",
+  "command": "PORT=5197 PUBLIC_BASE_URL=https://judge.example.test GATHERREADY_DB=/tmp/gr-cookie-test.db npm start; curl -D - http://localhost:5197/api/state",
+  "setCookie": "gr_session=<redacted>; Max-Age=2592000; Path=/; HttpOnly; Secure; SameSite=Lax",
+  "trustProxy": true,
+  "note": "Only HTTPS PUBLIC_BASE_URL enables Secure cookies and proxy trust; local http mode keeps Secure off so localhost works."
+}

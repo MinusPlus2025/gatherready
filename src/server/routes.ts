@@ -50,7 +50,10 @@ type Body = Record<string, unknown>;
 
 export function buildApp(deps: RouteDeps): FastifyInstance {
   const { cfg, repo, service } = deps;
-  const app = Fastify({ logger: false, bodyLimit: 256 * 1024, trustProxy: false });
+  // HTTPS deployments terminate TLS at the platform proxy/tunnel. Trust the
+  // forwarded protocol/IP only in that mode, and then require secure cookies.
+  const httpsDeployment = cfg.publicBaseUrl.startsWith('https://');
+  const app = Fastify({ logger: false, bodyLimit: 256 * 1024, trustProxy: httpsDeployment });
 
   // Text compression for JS/CSS/HTML/JSON (open source @fastify/compress).
   app.register(compress, { global: true, threshold: 1024 });
@@ -124,7 +127,7 @@ export function buildApp(deps: RouteDeps): FastifyInstance {
         sameSite: 'lax',
         path: '/',
         maxAge: SESSION_MAX_AGE,
-        secure: false,
+        secure: httpsDeployment,
       });
     }
 

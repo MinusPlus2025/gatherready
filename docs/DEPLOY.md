@@ -1,5 +1,10 @@
 # Deploying the judge-accessible demo
 
+> **Current status (2026-11-13): not deployed.** No cloud host account/token, hosted
+> model key or PayPal sandbox keys are available in this environment; no paid service
+> was started. See [`deploy-status.md`](deploy-status.md) for the account audit, costs,
+> local persistence/isolation evidence and the exact owner inputs needed.
+
 Rules require the project to be runnable by judges and **free and available through the end of judging
 (2026-12-15 08:00 PT)**. Two acceptable paths: a hosted demo URL, or complete setup/run instructions.
 The repo already has the second path; this file is the first path.
@@ -22,15 +27,23 @@ The repo already has the second path; this file is the first path.
 
 `PAYPAL_FORCE_SIMULATED=1` is only for local demos/tests. Leave it unset on the public deployment.
 
-## Render (free web service + disk)
+## Render (paid web service + disk — not free)
+
+Render **Free** web services have an ephemeral filesystem and **cannot attach a
+persistent disk**. Free instances also spin down after 15 minutes idle; SQLite data
+would be lost. A compliant deployment therefore needs the cheapest paid web plan
+(0.5 CPU / 512 MB, **$7/month**) plus a 1 GB disk (**$0.25/GB/month**), about
+**$7.25/month** before bandwidth overage. Do not start it without owner approval.
 
 1. Push the repository (public) to GitHub. The needed license/README are already in place.
-2. Render → **New → Web Service** → connect the repo.
+2. Render → **New → Web Service** → connect the repo. Alternatively sync the
+   checked-in [`render.yaml`](../render.yaml) after adding secret values.
    - Build command: `npm ci && npm run build`
    - Start command: `npm start`
-   - Environment: Node 24.
+   - Environment: Node 24; plan `0.5c-512mb` (paid).
 3. Add a **disk** (1 GB is enough), mount at `/var/data`, and set `GATHERREADY_DB=/var/data/gatherready.db`.
-   Without a disk the app still works (SQLite is recreated), but every restart forgets browser sessions.
+   Without a disk the app still works, but every restart forgets browser sessions and
+   violates the persistence acceptance check.
 4. Environment variables:
    - `PUBLIC_BASE_URL=https://<service>.onrender.com`
    - `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET`

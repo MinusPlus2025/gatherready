@@ -1,0 +1,38 @@
+# Render blueprint for a judge-accessible demo.
+# NOTE: a persistent disk requires a PAID web service; Render free instances have
+# an ephemeral filesystem and cannot keep SQLite. Cost starts at $7/month compute
+# + $0.25/GB/month disk. Do not sync this blueprint until the owner approves the
+# spend and supplies the secret values (sync: false).
+services:
+  - type: web
+    name: gatherready
+    runtime: node
+    plan: 0.5c-512mb
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /healthz
+    disk:
+      name: gatherready-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: NODE_VERSION
+        value: "24"
+      - key: GATHERREADY_DB
+        value: /var/data/gatherready.db
+      - key: PUBLIC_BASE_URL
+        sync: false
+      - key: LLM_PROVIDER
+        sync: false
+      - key: LLM_MODEL
+        sync: false
+      - key: LLM_API_KEY
+        sync: false
+      - key: LLM_MAX_CALLS_PER_DAY
+        value: "400"
+      - key: PAYPAL_CLIENT_ID
+        sync: false
+      - key: PAYPAL_CLIENT_SECRET
+        sync: false
+      - key: PAYPAL_WEBHOOK_ID
+        sync: false

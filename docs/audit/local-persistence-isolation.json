@@ -1,0 +1,19 @@
+{
+  "before": {
+    "aTenant": "tn_Ts7TyFv2uoXc",
+    "bTenant": "tn_6o1YiPle-89W",
+    "aWorkshop": "wsh_Mhy5hY1b4_ER",
+    "bWorkshop": "wsh_KlMIv8dNDphc",
+    "distinctTenants": true,
+    "distinctWorkshops": true
+  },
+  "refreshSame": true,
+  "restartSame": true,
+  "aTenantAfterRestart": "tn_Ts7TyFv2uoXc",
+  "aWorkshopAfterRestart": "wsh_Mhy5hY1b4_ER",
+  "bTenantAfterRestart": "tn_6o1YiPle-89W",
+  "bWorkshopAfterRestart": "wsh_KlMIv8dNDphc",
+  "tenantAUnchanged": true,
+  "bTenantUnchanged": true,
+  "visitorsStillDistinct": true
+}
