@@ -285,6 +285,10 @@ export class Service {
         token: string;
     }> {
         const workshop = (await this.requireOrganizer(ctx));
+        // Membership freezes when an offer is published; preserve settled state.
+        if ((await this.repo.getLatestOffer(workshop.id)) || !['COLLECTING_INTEREST', 'CLARIFYING'].includes(workshop.status)) {
+            throw new AppError('INVITATIONS_CLOSED', 'New invitations are closed after an offer is published or the workshop has closed. Existing invitation links remain valid.', 409);
+        }
         const now = this.now();
         const count = (await this.repo.countParticipants(workshop.id));
         if (count >= 12)
