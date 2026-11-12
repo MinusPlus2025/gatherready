@@ -96,7 +96,7 @@ and state behind every file, and each screen shows the same mode banner the app 
 In this snapshot the banner reads **Simulated PayPal — no real money** because sandbox keys are absent;
 the same screens render the sandbox badge without code changes once keys are supplied.
 
-There is also a **60-second silent walkthrough** recorded from the live product by
+There is also an **~80-second silent walkthrough** recorded from the live product by
 `npm run record-demo`: [`docs/demo/gatherready-walkthrough.mp4`](docs/demo/gatherready-walkthrough.mp4)
 (a real server, real state changes, simulated PayPal badge in every frame). The interaction motion is
 recorded separately by `npm run record:motion` → [`docs/motion-demo.mp4`](docs/motion-demo.mp4) /
