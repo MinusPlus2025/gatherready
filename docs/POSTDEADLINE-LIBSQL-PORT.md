@@ -22,6 +22,8 @@ Port: 4de89af, adapted from prototype a46ef71. No web/UI files changed by this p
 - No remote DB configured, no new accounts/resources, no hosted deployment.
 - No remote transaction/concurrency, Vercel cold-start, real cloud AI or HTTPS callback acceptance.
 - API adapter requires remote LIBSQL_URL and GATHERREADY_SERVERLESS_EXPERIMENT=true.
-- No unattended background scheduler in Vercel adapter. Must implement and disclose serverless reconciliation semantics before publicly claiming full behavior.
+- No unattended background scheduler in Vercel adapter. Organizer-triggered reconciliation is implemented and tested locally; remote acceptance remains required. See SERVERLESS-RECONCILIATION.md.
 - Cloud credentials/quotas must be checked and authorized; no automatic paid fallback.
 - No contest master or submission changes; do not merge or replace original submission after cutoff without organizer permission.
+
+Current offline configuration command: `npm run deploy:check:serverless`. Do not use the legacy persistent-disk `deploy:check` for this Vercel branch. Latest verification: 304 local tests and both TypeScript checks pass; no remote acceptance implied.

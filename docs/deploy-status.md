@@ -134,7 +134,7 @@ Required inputs (never commit them):
 Then:
 
 ```bash
-npm run deploy:check   # prints READY/BLOCKED, never secrets
+npm run deploy:check   # single-instance + persistent disk only; NOT the Vercel gate
 # after deploy:
 curl -s https://<host>/healthz
 # expect {"ok":true,"paypal":"sandbox","ai":"live"}
@@ -158,3 +158,9 @@ persistence, and no secrets in screenshots/video.
 | Production HTTPS cookies / limits | **cookie+proxy verified locally**; cloud TLS not exercised |
 | Costs | Render ≈$7.25/mo for a disk-backed instance; no charge made |
 | Source/video/submission alignment | public repo, YouTube and Devpost not published; local build/video are current commit |
+
+## Independent Vercel branch configuration check
+
+For `deploy/post-submission-libsql`, use `npm run deploy:check:serverless`. This offline command only checks environment configuration, does not load local secret files, and never creates directories/resources or sends provider requests. `configurationComplete` is not deployment acceptance: `productionReady` deliberately remains false until the documented remote database, global quota, Sandbox callback and public browser checks are completed.
+
+Do not use `npm run deploy:check` for Vercel: it is the legacy single-instance persistent-disk checker, and its local filesystem requirements do not apply to the remote-libSQL adapter. No public URL or cloud deployment is established by either command.
