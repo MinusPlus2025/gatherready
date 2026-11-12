@@ -21,12 +21,12 @@ export function BrandMark({ size = 36, title }: { size?: number; title?: string 
       <rect width="64" height="64" rx="14" fill="currentColor" />
       <path
         d="M46 24.5A16 16 0 1 0 48 32H36.5"
-        stroke="#F7F6F0"
+        style={{ stroke: 'var(--accent-contrast, #F7F6F0)' }}
         strokeWidth="4.6"
         fill="none"
         strokeLinecap="round"
       />
-      <circle cx="49" cy="32" r="3" fill="#F7F6F0" />
+      <circle cx="49" cy="32" r="3" style={{ fill: 'var(--accent-contrast, #F7F6F0)' }} />
     </svg>
   );
 }

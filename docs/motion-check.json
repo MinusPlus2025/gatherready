@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-12T15:34:14.930Z",
+  "generatedAt": "2026-11-12T16:33:20.728Z",
   "base": "http://127.0.0.1:5181",
   "passed": 11,
   "total": 11,
@@ -57,7 +57,7 @@
     {
       "name": "Reduced motion removes movement",
       "pass": true,
-      "detail": "max opacity fade 180ms, movement transitions 0.00001ms/0.00001ms"
+      "detail": "max opacity fade 180ms, movement transitions 0.00001ms/0.000001ms"
     }
   ]
 }

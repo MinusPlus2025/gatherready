@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-12T16:23:39.396Z",
+  "generatedAt": "2026-11-12T16:31:54.882Z",
   "base": "http://localhost:5180",
   "findings": [],
   "metrics": {
@@ -735,7 +735,7 @@
         720,
         700
       ],
-      "heroVisible": "0.999093"
+      "heroVisible": "0.999094"
     },
     "hover": {
       "before": {
@@ -743,8 +743,8 @@
         "boxShadow": "rgba(19, 23, 19, 0.12) 0px 2px 4px 0px, rgba(19, 23, 19, 0.35) 0px 14px 28px -14px"
       },
       "after": {
-        "transform": "matrix(1, 0, 0, 1, 0, -1)",
-        "boxShadow": "rgba(19, 23, 19, 0.12) 0px 2px 4px 0px, rgba(19, 23, 19, 0.35) 0px 14px 28px -14px"
+        "transform": "matrix(1, 0, 0, 1, 0, -2)",
+        "boxShadow": "rgba(19, 35, 25, 0.12) 0px 2px 4px 0px, rgba(19, 35, 25, 0.55) 0px 12px 24px -14px"
       }
     },
     "reducedMotion": {

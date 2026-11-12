@@ -272,6 +272,16 @@
       "file": "matrix-shuffled-1440.png",
       "route": "/",
       "state": "Matrix after shuffling server participant order: headers and cells still match by ID"
+    },
+    {
+      "file": "header-logo-pill-1440.png",
+      "route": "/",
+      "state": "Visible brand mark and pill buttons"
+    },
+    {
+      "file": "hero-buttons-pill-1440.png",
+      "route": "/",
+      "state": "Pill CTA buttons with smooth hover/press motion"
     }
   ]
 }

@@ -747,7 +747,7 @@ Motion checks: entrance inventory, hover response, reduced-motion behaviour, foc
       720,
       700
     ],
-    "heroVisible": "0.999093"
+    "heroVisible": "0.999094"
   },
   "hover": {
     "before": {
@@ -755,8 +755,8 @@ Motion checks: entrance inventory, hover response, reduced-motion behaviour, foc
       "boxShadow": "rgba(19, 23, 19, 0.12) 0px 2px 4px 0px, rgba(19, 23, 19, 0.35) 0px 14px 28px -14px"
     },
     "after": {
-      "transform": "matrix(1, 0, 0, 1, 0, -1)",
-      "boxShadow": "rgba(19, 23, 19, 0.12) 0px 2px 4px 0px, rgba(19, 23, 19, 0.35) 0px 14px 28px -14px"
+      "transform": "matrix(1, 0, 0, 1, 0, -2)",
+      "boxShadow": "rgba(19, 35, 25, 0.12) 0px 2px 4px 0px, rgba(19, 35, 25, 0.55) 0px 12px 24px -14px"
     }
   },
   "reducedMotion": {

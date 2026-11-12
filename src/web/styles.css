@@ -6040,11 +6040,11 @@ a {
   border-top: 1px solid var(--border);
 }
 
-/* Custom accents keep white/dark text legible. */
+/* Custom accents keep button labels legible. The brand mark keeps its own
+   accent fill in .brand__mark below; it must never inherit the button colour. */
 .btn-primary,
 .btn-primary:hover,
-.btn-primary:focus-visible,
-.brand__mark {
+.btn-primary:focus-visible {
   color: var(--accent-contrast, #fff);
 }
 
@@ -6368,5 +6368,54 @@ a {
 
   .transform__flow {
     grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   Pill buttons with one smooth motion language.
+   Visual radius and movement are shared by every .btn variant; reduced motion
+   removes the lift/scale while keeping colour feedback.
+   ========================================================================== */
+
+.btn {
+  border-radius: 999px;
+  transition:
+    transform 180ms var(--ease-out),
+    box-shadow 180ms var(--ease-out),
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 18px -12px rgb(19 35 25 / 0.55);
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    box-shadow:
+      0 2px 4px rgb(19 35 25 / 0.12),
+      0 12px 24px -14px rgb(19 35 25 / 0.55);
+  }
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(0) scale(0.97);
+  box-shadow: none;
+}
+
+/* Keep the pill radius for icon-only and compact button variants. */
+.btn--small,
+.btn--large {
+  border-radius: 999px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn,
+  .btn:hover:not(:disabled),
+  .btn:active:not(:disabled) {
+    transform: none !important;
+    transition-duration: 0.001ms !important;
   }
 }
