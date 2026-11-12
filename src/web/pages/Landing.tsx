@@ -181,7 +181,6 @@ export default function Landing() {
             </picture>
             <figcaption className="hero__caption">{t('landing.hero.caption')}</figcaption>
           </figure>
-          <PlanPreview />
         </div>
       </section>
 
@@ -231,6 +230,28 @@ export default function Landing() {
         ))}
       </section>
 
+      <section className="how how--demo" aria-labelledby="how-it-works" data-reveal>
+        <div className="how__story">
+        <h2 id="how-it-works">{t('landing.how.title')}</h2>
+        <p className="how__intro">{t('landing.how.intro')}</p>
+        <ol className="how__list">
+          {HOW_STEPS.map((step) => {
+            const Icon = step.icon;
+            return (
+              <li className="how__step" key={step.key}>
+                <span className="how__icon" aria-hidden="true">
+                  <Icon size={20} strokeWidth={2} />
+                </span>
+                <h3>{t(`landing.how.${step.key}.title`)}</h3>
+                <p>{t(`landing.how.${step.key}.body`)}</p>
+              </li>
+            );
+          })}
+        </ol>
+        </div>
+        <PlanPreview />
+      </section>
+
       <WorkshopGallery />
 
       {workshop ? (
@@ -270,24 +291,7 @@ export default function Landing() {
         </section>
       ) : null}
 
-      <section className="how" aria-labelledby="how-it-works" data-reveal>
-        <h2 id="how-it-works">{t('landing.how.title')}</h2>
-        <p className="how__intro">{t('landing.how.intro')}</p>
-        <ol className="how__list">
-          {HOW_STEPS.map((step) => {
-            const Icon = step.icon;
-            return (
-              <li className="how__step" key={step.key}>
-                <span className="how__icon" aria-hidden="true">
-                  <Icon size={20} strokeWidth={2} />
-                </span>
-                <h3>{t(`landing.how.${step.key}.title`)}</h3>
-                <p>{t(`landing.how.${step.key}.body`)}</p>
-              </li>
-            );
-          })}
-        </ol>
-      </section>
+
 
       <section className="panel honest honest--split" aria-labelledby="limits" data-reveal>
         <div className="honest__col honest__col--does">
