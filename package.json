@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "GatherReady — turn conditional workshop interest into one plan everyone agrees to, then fund it with a real PayPal sandbox authorization.",
+  "description": "GatherReady \u2014 turn conditional workshop interest into one plan everyone agrees to, then fund it with a real PayPal sandbox authorization.",
   "engines": {
     "node": ">=22.5"
   },
@@ -25,7 +25,8 @@
     "capture-live": "tsx scripts/capture-live.ts",
     "record-demo": "tsx scripts/record-demo.ts",
     "paypal-preflight": "tsx scripts/paypal-preflight.ts",
-    "test:ui": "tsx scripts/ui-smoke.ts"
+    "test:ui": "tsx scripts/ui-smoke.ts",
+    "ui-review": "tsx scripts/ui-review.ts"
   },
   "dependencies": {
     "@fastify/cookie": "^11.0.2",

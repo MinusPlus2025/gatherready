@@ -13,7 +13,7 @@ import { paymentStatusWord } from '../lib/format';
 import { useApp } from '../lib/store';
 import { DemoBar } from './DemoBar';
 import { BrandMark } from './Logo';
-import { Countdown, InlineNotice, LoadErrorState, LoadingState, StatusBadge } from './ui';
+import { Countdown, InlineNotice, StatusBadge } from './ui';
 
 const ROUTE_TITLES: Array<{ prefix: string; title: string }> = [
   { prefix: '/organizer/setup', title: 'Set up a workshop' },
@@ -54,6 +54,30 @@ export function Shell() {
       ? `Viewing as ${state.participants.find((p) => p.id === state.session.viewParticipantId)?.displayName ?? 'participant'}`
       : 'Viewing as Organizer';
 
+  if (!state) {
+    return (
+      <div className="app-shell">
+        <a className="skip-link" href="#main">
+          Skip to main content
+        </a>
+        <main id="main" className="boot" tabIndex={-1} aria-busy={loading} aria-live="polite">
+          <span className="boot__mark">
+            <BrandMark size={48} />
+          </span>
+          <p className="boot__name">GatherReady</p>
+          <p className="boot__text">
+            {loading ? 'Loading the workshop…' : loadError ? 'The server did not answer.' : 'Loading…'}
+          </p>
+          {loadError ? (
+            <button type="button" className="btn btn-secondary" onClick={() => void refresh()}>
+              Try again
+            </button>
+          ) : null}
+        </main>
+      </div>
+    );
+  }
+
   return (
     <div className="app-shell">
       <a className="skip-link" href="#main">
@@ -73,7 +97,7 @@ export function Shell() {
           </Link>
           <div className="topbar__meta">
             <span className="chip chip--sandbox">Sandbox · No real money</span>
-            {state?.mode.paypal === 'simulated' ? (
+            {state.mode.paypal === 'simulated' ? (
               <span className="chip chip--sim">Simulated PayPal — no real money</span>
             ) : null}
             <span className="chip chip--role">{roleLabel}</span>
@@ -138,8 +162,6 @@ export function Shell() {
       {state?.demo.canSwitchRoles ? <DemoBar state={state} /> : null}
 
       <main id="main" className="container main" tabIndex={-1}>
-        {loading && !state ? <LoadingState label="Loading the workshop…" /> : null}
-        {loadError && !state ? <LoadErrorState message={loadError} onRetry={() => void refresh()} /> : null}
         {state && loadError ? (
           <InlineNotice kind="warn" title="We could not refresh">
             {loadError}{' '}
@@ -148,7 +170,7 @@ export function Shell() {
             </button>
           </InlineNotice>
         ) : null}
-        {state ? <Outlet /> : null}
+        <Outlet />
       </main>
 
       <footer className="footer">

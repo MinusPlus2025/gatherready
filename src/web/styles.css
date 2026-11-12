@@ -3249,3 +3249,54 @@ h3 {
 .empty-note--ok svg {
   color: var(--success);
 }
+
+
+/* ------------------------ stable first paint (CLS) ------------------------ */
+
+/* First paint is a full-viewport brand screen, not a skeleton of the app shell.
+   The real shell renders only once state exists, so nothing moves when data
+   arrives (the loader is replaced; appearing content is not a layout shift). */
+
+.boot {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
+  padding: 32px 24px;
+}
+
+.boot__mark {
+  color: var(--accent);
+  box-shadow: var(--shadow-float);
+  border-radius: 12px;
+}
+
+.boot__name {
+  font-family: var(--font-display);
+  font-weight: 620;
+  font-size: 1.5rem;
+  letter-spacing: -0.02em;
+}
+
+.boot__text {
+  color: var(--ink-2);
+  font-size: 0.92rem;
+}
+
+/* Checkbox rows: the label is the real target, so give it a 44px-tall hit area
+   while the 22px control keeps its visual size. */
+
+.field--checkbox .checkbox-row {
+  min-height: 44px;
+  align-items: center;
+}
+
+.field--checkbox .field__label--inline {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 4px 0;
+}

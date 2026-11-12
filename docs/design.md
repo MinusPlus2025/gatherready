@@ -141,3 +141,67 @@ for a UI this size.
 | "Fits this plan: 0" when nothing was workable | Em dash + explanation sentence |
 | Flat click states | Hover lift, press, visible focus ring, one hero entrance, reduced-motion respected |
 | Plain flat cards | Refined depth system (`--shadow-card` / `--shadow-float`), radius scale, sticky translucent header |
+
+
+## 9. Review tooling and measured results
+
+Design was not signed off by eye. The repo ships a review harness that measures the built UI in Chrome
+and writes a report:
+
+```bash
+npm run build && npm start          # the harness needs the running app
+npm run ui-review                   # → docs/ui-review.md + docs/ui-review.json
+```
+
+What it measures, per state (landing, organizer setup, plan, participant preferences, consent screen) and
+per viewport (1440 / 834 / 390 / 320):
+
+| Check | How |
+|---|---|
+| Accessibility | `axe-core` WCAG 2.1 A/AA, every state and width |
+| Horizontal overflow | `scrollWidth` vs `clientWidth`, with the offending elements |
+| Tap targets | every control measured; a checkbox is measured through its `label` hit area, not its 22px box |
+| Focus ring | focus the first control, require a visible ≥2px outline |
+| Layout shift | `PerformanceObserver` `layout-shift`, 600ms window, >0.1 fails |
+| Entrance motion | `document.getAnimations()` inventory, hero opacity after load |
+| Hover response | real mouse move over the primary button, computed transform before/after |
+| Reduced motion | `prefers-reduced-motion: reduce` emulation: no long-running animation, nothing hidden |
+| Console errors | page errors and `console.error` during the run |
+
+**Result on this commit: 0 findings across 20 state×viewport combinations.**
+
+- Cumulative layout shift: **0.0** everywhere. The first version measured up to 0.98 because the header
+  chips, mode banner and demo bar appeared after the state fetch; first paint is now a full-viewport brand
+  screen, and the real shell renders once, fully (a 54px boot screen replaces a 0.98 shift).
+- Tap targets: checkbox rows now have a 44px-tall label hit area (the control stays 22px).
+- Motion: 6 entrance animations at 620–700ms, hero fully visible after the run, primary button lifts 1px
+  on hover, and `prefers-reduced-motion` leaves 0 long-running animations with all content visible.
+- Accessibility: axe reports 0 violations in every reviewed state at every width.
+
+### Skills and tools used for review
+
+Installed from the skills.sh ecosystem (workspace `.agents/skills/`, not shipped in the repo):
+
+| Skill | Purpose |
+|---|---|
+| `emilkowalski/skills@improve-animations` | audit-then-plan motion review: easing, origin, interruptibility, performance, accessibility, cohesion |
+| `emilkowalski/skills@review-animations` | the per-diff motion review bar (installed; this harness does not expose it as a model-invocable tool, so its rules were applied through the audit skill) |
+| `vercel-labs/agent-skills@web-design-guidelines` | interface checklist (labels, focus, tap targets, head/meta) |
+| `leonxlnx/taste-skill@design-taste-frontend` | anti-slop visual direction and review criteria |
+| `anthropics/skills@frontend-design` | design-lead framing and self-critique |
+| `emilkowalski/skills@emil-design-eng` | component polish philosophy |
+
+DSH plugin bundles were checked with the plugin manager: the 28 available bundles are runtime/host
+plugins (sessions, sandbox, web UI, inspector, voice, plugin market); **none provides UI design or UI
+review tooling**, so a plugin install would not solve this. The review loop is therefore skills (judgment)
++ open-source browser tooling (measurement):
+
+| Tool | Licence | Role |
+|---|---|---|
+| `puppeteer-core` + system Chrome DevTools Protocol | Apache-2.0 | drive the real UI, `Input.dispatchMouseEvent` for hover, `emulateMediaFeatures` for reduced motion, `getAnimations()` for motion inventory |
+| `axe-core` | MPL-2.0 | WCAG 2.1 audit |
+| `PerformanceObserver` (`layout-shift`) | — | CLS measurement |
+| `scripts/ui-review.ts` | MIT (this repo) | the harness that combines the above into one pass/fail report |
+
+Playwright and Lighthouse are the obvious alternatives if the team standardises on them; the harness is
+deliberately dependency-light (one browser driver plus axe) so it runs on the same machine as the app.

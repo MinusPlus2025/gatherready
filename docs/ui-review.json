@@ -1,0 +1,354 @@
+{
+  "generatedAt": "2026-11-12T09:45:40.620Z",
+  "base": "http://localhost:5180",
+  "findings": [],
+  "metrics": {
+    "landing:desktop": {
+      "axe": [],
+      "overflow": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "offenders": []
+      },
+      "smallTargets": [],
+      "focus": {
+        "checked": true,
+        "outlineStyle": "solid",
+        "outlineWidth": 2,
+        "visible": true
+      },
+      "cls": 0
+    },
+    "landing:tablet": {
+      "axe": [],
+      "overflow": {
+        "scrollWidth": 834,
+        "clientWidth": 834,
+        "offenders": []
+      },
+      "smallTargets": [],
+      "focus": {
+        "checked": true,
+        "outlineStyle": "solid",
+        "outlineWidth": 2,
+        "visible": true
+      },
+      "cls": 0
+    },
+    "landing:phone": {
+      "axe": [],
+      "overflow": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "offenders": []
+      },
+      "smallTargets": [],
+      "focus": {
+        "checked": true,
+        "outlineStyle": "solid",
+        "outlineWidth": 2,
+        "visible": true
+      },
+      "cls": 0
+    },
+    "landing:small-phone": {
+      "axe": [],
+      "overflow": {
+        "scrollWidth": 320,
+        "clientWidth": 320,
+        "offenders": []
+      },
+      "smallTargets": [],
+      "focus": {
+        "checked": true,
+        "outlineStyle": "solid",
+        "outlineWidth": 2,
+        "visible": true
+      },
+      "cls": 0
+    },
+    "setup:desktop": {
+      "axe": [],
+      "overflow": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "offenders": []
+      },
+      "smallTargets": [],
+      "focus": {
+        "checked": true,
+        "outlineStyle": "solid",
+        "outlineWidth": 2,
+        "visible": true
+      },
+      "cls": 0
+    },
+    "setup:tablet": {
+      "axe": [],
+      "overflow": {
+        "scrollWidth": 834,
+        "clientWidth": 834,
+        "offenders": []
+      },
+      "smallTargets": [],
+      "focus": {
+        "checked": true,
+        "outlineStyle": "solid",
+        "outlineWidth": 2,
+        "visible": true
+      },
+      "cls": 0
+    },
+    "setup:phone": {
+      "axe": [],
+      "overflow": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "offenders": []
+      },
+      "smallTargets": [],
+      "focus": {
+        "checked": true,
+        "outlineStyle": "solid",
+        "outlineWidth": 2,
+        "visible": true
+      },
+      "cls": 0
+    },
+    "setup:small-phone": {
+      "axe": [],
+      "overflow": {
+        "scrollWidth": 320,
+        "clientWidth": 320,
+        "offenders": []
+      },
+      "smallTargets": [],
+      "focus": {
+        "checked": true,
+        "outlineStyle": "solid",
+        "outlineWidth": 2,
+        "visible": true
+      },
+      "cls": 0
+    },
+    "plan:desktop": {
+      "axe": [],
+      "overflow": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "offenders": []
+      },
+      "smallTargets": [],
+      "focus": {
+        "checked": true,
+        "outlineStyle": "solid",
+        "outlineWidth": 2,
+        "visible": true
+      },
+      "cls": 0
+    },
+    "plan:tablet": {
+      "axe": [],
+      "overflow": {
+        "scrollWidth": 834,
+        "clientWidth": 834,
+        "offenders": []
+      },
+      "smallTargets": [],
+      "focus": {
+        "checked": true,
+        "outlineStyle": "solid",
+        "outlineWidth": 2,
+        "visible": true
+      },
+      "cls": 0
+    },
+    "plan:phone": {
+      "axe": [],
+      "overflow": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "offenders": []
+      },
+      "smallTargets": [],
+      "focus": {
+        "checked": true,
+        "outlineStyle": "solid",
+        "outlineWidth": 2,
+        "visible": true
+      },
+      "cls": 0
+    },
+    "plan:small-phone": {
+      "axe": [],
+      "overflow": {
+        "scrollWidth": 320,
+        "clientWidth": 320,
+        "offenders": []
+      },
+      "smallTargets": [],
+      "focus": {
+        "checked": true,
+        "outlineStyle": "solid",
+        "outlineWidth": 2,
+        "visible": true
+      },
+      "cls": 0
+    },
+    "preferences:desktop": {
+      "axe": [],
+      "overflow": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "offenders": []
+      },
+      "smallTargets": [],
+      "focus": {
+        "checked": true,
+        "outlineStyle": "solid",
+        "outlineWidth": 2,
+        "visible": true
+      },
+      "cls": 0
+    },
+    "preferences:tablet": {
+      "axe": [],
+      "overflow": {
+        "scrollWidth": 834,
+        "clientWidth": 834,
+        "offenders": []
+      },
+      "smallTargets": [],
+      "focus": {
+        "checked": true,
+        "outlineStyle": "solid",
+        "outlineWidth": 2,
+        "visible": true
+      },
+      "cls": 0
+    },
+    "preferences:phone": {
+      "axe": [],
+      "overflow": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "offenders": []
+      },
+      "smallTargets": [],
+      "focus": {
+        "checked": true,
+        "outlineStyle": "solid",
+        "outlineWidth": 2,
+        "visible": true
+      },
+      "cls": 0
+    },
+    "preferences:small-phone": {
+      "axe": [],
+      "overflow": {
+        "scrollWidth": 320,
+        "clientWidth": 320,
+        "offenders": []
+      },
+      "smallTargets": [],
+      "focus": {
+        "checked": true,
+        "outlineStyle": "solid",
+        "outlineWidth": 2,
+        "visible": true
+      },
+      "cls": 0
+    },
+    "authorize:desktop": {
+      "axe": [],
+      "overflow": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "offenders": []
+      },
+      "smallTargets": [],
+      "focus": {
+        "checked": true,
+        "outlineStyle": "solid",
+        "outlineWidth": 2,
+        "visible": true
+      },
+      "cls": 0
+    },
+    "authorize:tablet": {
+      "axe": [],
+      "overflow": {
+        "scrollWidth": 834,
+        "clientWidth": 834,
+        "offenders": []
+      },
+      "smallTargets": [],
+      "focus": {
+        "checked": true,
+        "outlineStyle": "solid",
+        "outlineWidth": 2,
+        "visible": true
+      },
+      "cls": 0
+    },
+    "authorize:phone": {
+      "axe": [],
+      "overflow": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "offenders": []
+      },
+      "smallTargets": [],
+      "focus": {
+        "checked": true,
+        "outlineStyle": "solid",
+        "outlineWidth": 2,
+        "visible": true
+      },
+      "cls": 0
+    },
+    "authorize:small-phone": {
+      "axe": [],
+      "overflow": {
+        "scrollWidth": 320,
+        "clientWidth": 320,
+        "offenders": []
+      },
+      "smallTargets": [],
+      "focus": {
+        "checked": true,
+        "outlineStyle": "solid",
+        "outlineWidth": 2,
+        "visible": true
+      },
+      "cls": 0
+    },
+    "motionInventory": {
+      "count": 6,
+      "durations": [
+        620,
+        620,
+        620,
+        620,
+        620,
+        700
+      ],
+      "heroVisible": "0.999092"
+    },
+    "hover": {
+      "before": {
+        "transform": "none",
+        "boxShadow": "rgba(13, 90, 69, 0.12) 0px 2px 4px 0px, rgba(13, 90, 69, 0.4) 0px 14px 28px -14px"
+      },
+      "after": {
+        "transform": "matrix(1, 0, 0, 1, 0, -1)",
+        "boxShadow": "rgba(13, 90, 69, 0.12) 0px 2px 4px 0px, rgba(13, 90, 69, 0.4) 0px 14px 28px -14px"
+      }
+    },
+    "reducedMotion": {
+      "animations": 6,
+      "longRunning": 0,
+      "heroOpacity": "1"
+    }
+  }
+}

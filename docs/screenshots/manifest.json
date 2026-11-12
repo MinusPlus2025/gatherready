@@ -1,5 +1,5 @@
 {
-  "capturedAt": "2026-11-12T09:29:22.155Z",
+  "capturedAt": "2026-11-12T09:47:06.314Z",
   "source": "live server + built UI (no mock state)",
   "mode": "PayPal simulated, AI recorded/structured (no credentials on this machine)",
   "shots": [
@@ -35,14 +35,14 @@
       "file": "docs/screenshots/participant-preferences-1440.png",
       "route": "/participant/preferences",
       "width": 1440,
-      "height": 2527,
+      "height": 2614,
       "state": "participant view: own sentence prefilled"
     },
     {
       "file": "docs/screenshots/participant-preferences-parsed-1440.png",
       "route": "/participant/preferences",
       "width": 1440,
-      "height": 3030,
+      "height": 3138,
       "state": "reviewable card with verbatim quote"
     },
     {
@@ -84,14 +84,14 @@
       "file": "docs/screenshots/participant-authorize-1440.png",
       "route": "/participant/authorize",
       "width": 1440,
-      "height": 2435,
+      "height": 2443,
       "state": "fixed summary + unchecked consent + PayPal button"
     },
     {
       "file": "docs/screenshots/participant-authorize-420.png",
       "route": "/participant/authorize",
       "width": 420,
-      "height": 3474,
+      "height": 3482,
       "state": "consent screen (mobile)"
     },
     {
