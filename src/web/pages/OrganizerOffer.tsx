@@ -68,6 +68,7 @@ export default function OrganizerOffer() {
   const plan = state?.plan ?? null;
   const offer = state?.offer ?? null;
   const slots = workshop?.slots ?? [];
+  const previewParticipant = state?.demo.canSwitchRoles ? state.participants[0] : undefined;
 
   const workable = useMemo(() => plan?.slots.filter((slot) => slot.meetsMinimum) ?? [], [plan]);
   const effectiveSlotId = selectedSlotId ?? plan?.workableSlotId ?? workable[0]?.slotId ?? null;
@@ -215,9 +216,20 @@ export default function OrganizerOffer() {
               : t('money.offer.noFitList')}
           </p>
           <div className="button-row">
-            <Link className="btn btn-secondary" to="/participant/authorize">
-              {t('money.offer.seeParticipant')}
-            </Link>
+            {previewParticipant ? (
+              <button className="btn btn-secondary" type="button" disabled={busy} onClick={async () => {
+                setBusy(true); setApiError(null);
+                try {
+                  await act({ type: 'demo.view', payload: { participantId: previewParticipant.id } });
+                  navigate('/participant/authorize');
+                } catch (error) { setApiError(describeError(error)); }
+                finally { setBusy(false); }
+              }}>
+                {t('money.offer.seeParticipant')} · {previewParticipant.displayName}
+              </button>
+            ) : (
+              <Link className="btn btn-secondary" to="/organizer/plan">{t('money.shared.backToPlan')}</Link>
+            )}
           </div>
         </section>
 

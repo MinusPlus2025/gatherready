@@ -6648,3 +6648,14 @@ html[data-theme-mode='dark'] .eyebrow {
 @keyframes inviteArrive {from {opacity:0;transform:translateY(6px);} to {opacity:1;transform:translateY(0);}}
 @media(max-width:600px) {.invite-form .btn,.invite-link .btn {min-height:44px;}.hero__invite-hint {max-width:none;flex-basis:100%;}}
 @media(prefers-reduced-motion:reduce) {.invite-link {animation:none;}.invite-form input,.invite-link input {transition:none;}}
+
+/* Mobile: preserve payment warning while moving useful content higher. */
+@media(max-width:600px) {
+ .topbar__inner {gap:8px;padding-top:8px;padding-bottom:8px;}
+ .topbar__meta {display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:6px;width:100%;}
+ .topbar__meta > .chip--sim,.topbar__meta > .chip--sandbox {grid-column:1;grid-row:1;justify-self:start;white-space:normal;line-height:1.3;}
+ .topbar__meta > .chip--role {grid-column:1;grid-row:2;justify-self:start;}
+ .topbar__meta > :nth-child(3) {grid-column:2;grid-row:1 / 3;align-self:center;}
+ .topbar__meta > :nth-child(4) {grid-column:3;grid-row:1 / 3;align-self:center;}
+ .context-row {padding-top:7px;padding-bottom:7px;gap:4px;}
+}

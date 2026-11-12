@@ -170,7 +170,7 @@ export default function ParticipantAuthorize() {
       <PageHeader
         eyebrow={t('flow.participant.eyebrow', { name: me.displayName })}
         title={t('flow.authorize.title')}
-        intro={t('flow.authorize.intro')}
+        intro={settled ? t('flow.authorize.settled.statusFromServer', { status: paymentStatusWord[myPayment?.status ?? 'NONE'] }) : authorized ? (myPayment?.simulated ? t('shell.mode.simulated') : t('flow.authorize.authorized.body', { amount: amountLabel })) : t('flow.authorize.intro')}
         actions={
           myPayment && myPayment.status !== 'NONE' ? (
             <StatusBadge
@@ -255,7 +255,7 @@ export default function ParticipantAuthorize() {
           <div className="status-panel status-panel--success" role="status" aria-live="polite">
             <h3>{t('flow.authorize.authorized.headline')}</h3>
             <p>
-              {t('flow.authorize.authorized.body', { amount: amountLabel })}
+              {myPayment?.simulated ? t('shell.mode.simulated') : t('flow.authorize.authorized.body', { amount: amountLabel })}
             </p>
             <dl className="detail-grid detail-grid--tight">
               <div>
@@ -288,6 +288,7 @@ export default function ParticipantAuthorize() {
         ) : settled ? (
           <div className="status-panel" role="status" aria-live="polite">
             <h3>{myPayment?.statusLabel ?? t('flow.authorize.settled.changed')}</h3>
+            {myPayment?.simulated && <p className="chip chip--sim">{t('shell.mode.simulated')}</p>}
             <p>
               {t('flow.authorize.settled.statusFromServer', { status: paymentStatusWord[myPayment?.status ?? 'NONE'] })}
             </p>
