@@ -1,6 +1,6 @@
-/* zh — generated with dictionary parity; edit values, keep the keys. */
+/* zh money. */
 
-export const moneyZh: Record<string, string> = {
+export const moneyZh: Record<string,string> = {
   "money.shared.organizer": "组织者",
   "money.shared.noWorkshopTitle": "还没有工作坊",
   "money.shared.setupWorkshop": "创建工作坊",
@@ -8,7 +8,7 @@ export const moneyZh: Record<string, string> = {
   "money.shared.simulatedChip": "演示支付 · 未发生 PayPal 交易",
   "money.offer.eyebrow": "组织者 · 方案",
   "money.offer.publishedTitle": "方案已发布",
-  "money.offer.publishedIntro": "这些条款已经固定。参与者在任何 PayPal 按钮出现之前，看到的就是这份摘要的逐字内容。",
+  "money.offer.publishedIntro": "条款已冻结。参与者会在任何支付按钮前，逐字看到这份完整摘要。",
   "money.offer.statusOpen": "方案开放授权中",
   "money.offer.stripAria": "工作坊",
   "money.offer.perPerson": "每人",
@@ -88,7 +88,7 @@ export const moneyZh: Record<string, string> = {
   "money.funding.summaryCaptured": "已扣款",
   "money.funding.ofMinimum": "（最低 {min} 人）",
   "money.funding.peopleTitle": "每位参与者的资金时间线",
-  "money.funding.peopleIntro": "等待确认 → 已授权 → 扣款中 → 已扣款。没有扣款就结束的冻结会显示为已解除；退款只有在 PayPal 确认后才会显示。",
+  "money.funding.peopleIntro": "等待批准 → 已授权 → 收款中 → 已收款。未完成收款的冻结会显示为已释放；只有支付服务商确认后才会显示退款。",
   "money.funding.noPayments": "还没有人开始授权。",
   "money.funding.you": "（你）",
   "money.funding.modeSimulated": "演示支付",
@@ -125,7 +125,7 @@ export const moneyZh: Record<string, string> = {
   "money.funding.blockerInFlight": "有授权或扣款仍在进行中。",
   "money.funding.blockerTooMany": "授权数量超过了名额上限。",
   "money.funding.allClear": "服务端当前的所有校验都已满足，但在扣款前它仍会重新校验每一行。",
-  "money.funding.collecting": "正在向 PayPal 确认…",
+  "money.funding.collecting": "正在确认支付…",
   "money.funding.collect": "确认工作坊并收款",
   "money.funding.disabledHint": "在上方每一项阻碍清除之前，按钮会一直保持禁用。",
   "money.funding.noOfferEyebrow": "组织者",
@@ -181,5 +181,15 @@ export const moneyZh: Record<string, string> = {
   "money.result.legend.attentionDetail": "结果未知，需人工核对；系统不会自动重试。",
   "money.result.batchTitle": "结算批次",
   "money.result.batchMeta": "{count} 位参与者 · 预计 {expected} · 已扣款 {captured} · 已退款 {refunded}",
-  "money.result.backToFunding": "返回收款"
+  "money.result.backToFunding": "返回收款",
+  "money.result.bannerCapturedSim": "模拟收款 · 未发生 PayPal 交易",
+  "money.result.bannerRefundedSim": "模拟退款 · 未发生 PayPal 交易",
+  "money.result.outcome.pendingSim": "正在核对模拟支付状态",
+  "money.result.pendingOneSim": "有 1 笔模拟收款需要人工核对本地记录",
+  "money.result.pendingManySim": "有 {count} 笔模拟收款需要人工核对本地记录",
+  "money.result.pendingBodySim": "这些模拟结果不明确，系统不会自动重试。请先核对本地模拟支付记录，不会向 PayPal 发起请求。",
+  "money.result.notConfirmedBodySim": "方案未能成班。模拟冻结会被释放，模拟已收款由本地适配器退款；不确定的结果转人工。未发生 PayPal 交易。",
+  "money.result.receiptIntroSim": "每一行都是服务器本地记录的模拟资金状态。模拟退款请求不等于退款；只有本地适配器记录完成后才标为已退款。",
+  "money.result.legend.capturedDetailSim": "模拟适配器已记录收款，未发生 PayPal 交易。",
+  "money.result.legend.refundedDetailSim": "模拟适配器已记录退款，未发生 PayPal 交易。"
 };

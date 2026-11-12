@@ -3,7 +3,7 @@
  * built UI, real HTTP state changes, CDP screencast frames encoded with ffmpeg.
  *
  * No mock state. No fake PayPal. The persistent bottom-bar caption says so, and the
- * badge stays visible in every frame: "PayPal sandbox — no real money" (or the
+ * badge stays visible in every frame: "Demo payment — no PayPal transaction" (or the
  * sandbox badge if credentials exist). Add your own narration over this file, or
  * use it as a shot-list reference for the final recording.
  *
@@ -36,7 +36,7 @@ let frameIndex = 0;
 const frames: Array<{ file: string; at: number }> = [];
 
 const CAPTIONS = {
-  mode: 'Automated walkthrough of the running product · real server state · SIMULATED PayPal (no real money)',
+  mode: 'Automated walkthrough of the running product · real server state · DEMO PAYMENT (no PayPal transaction)',
 } as const;
 
 async function caption(text: string): Promise<void> {
@@ -57,7 +57,7 @@ async function caption(text: string): Promise<void> {
       left.textContent = args.text;
       left.style.cssText = 'max-width:78%;';
       const right = document.createElement('span');
-      right.textContent = 'SIMULATED PAYPAL — NO REAL MONEY';
+      right.textContent = 'DEMO PAYMENT — NO PAYPAL TRANSACTION';
       right.style.cssText =
         'flex:none;font-size:12px;letter-spacing:.06em;font-weight:700;color:#ffd27a;' +
         'border:1px solid rgba(255,210,122,.5);border-radius:999px;padding:5px 10px;white-space:nowrap';
@@ -337,10 +337,10 @@ async function main(): Promise<void> {
 
     /* ---------- collect ---------- */
     const ready = await api('GET', '/api/state');
-    await caption('1:48  The organizer collects. The server re-validates, locks a batch, captures each payment, queries each one.');
+    await caption('1:48  The organizer collects. The server re-validates, locks a batch and records each simulated payment.');
     await api('POST', `/api/workshops/${ready.json.workshop.id}/settle`, {});
     await sleep(500);
-    await go('/organizer/result', '1:56  Confirmed only after every capture was queried. Four independent PayPal charges.', 3200);
+    await go('/organizer/result', '1:56  Confirmed only after every simulated capture was recorded. No PayPal transaction occurred.', 3200);
 
     /* ---------- honest failure path ---------- */
     await api('POST', '/api/demo/reset', {});

@@ -11,3 +11,7 @@ captures/
 .DS_Store
 .audit-cache/
 .audit-cache2/
+
+# local Vercel CLI token from device login; never commit
+.vercel-auth.json
+.vercel-cli/

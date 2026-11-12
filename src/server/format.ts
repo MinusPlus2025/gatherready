@@ -304,7 +304,7 @@ export function offerView(
 const PAYMENT_LABELS: Record<Payment['status'], string> = {
   NONE: 'Not started',
   ORDER_CREATED: 'Awaiting approval',
-  APPROVED: 'Approved with PayPal',
+  APPROVED: 'Approved — authorizing',
   AUTHORIZING: 'Authorizing',
   AUTHORIZED: 'Authorized — not charged',
   CAPTURING: 'Collecting',
@@ -314,7 +314,7 @@ const PAYMENT_LABELS: Record<Payment['status'], string> = {
   REFUNDING: 'Refunding',
   REFUNDED: 'Refunded',
   FAILED: 'Failed — needs attention',
-  UNKNOWN: 'Checking with PayPal',
+  UNKNOWN: 'Checking payment state',
   MANUAL_REVIEW: 'Needs manual review',
 };
 
@@ -353,7 +353,13 @@ export function batchLineView(p: Payment, name: string): BatchLineView {
     statusLabel: paymentStatusLabel(p.status),
     captureId: p.captureId,
     refundId: p.refundId,
-    detail: p.simulated ? 'Simulated PayPal — no real money' : 'PayPal sandbox',
+    detail: p.simulated
+      ? p.status === 'CAPTURED'
+        ? 'Simulated capture — no PayPal transaction'
+        : p.status === 'REFUNDED'
+          ? 'Simulated refund — no PayPal transaction'
+          : 'Simulated payment — no PayPal transaction'
+      : 'PayPal sandbox',
   };
 }
 
@@ -390,6 +396,7 @@ export function resultView(
   payments: Payment[],
   participants: Participant[],
   viewerId: string | null = null,
+  simulated = false,
 ): ResultView | null {
   if (!batch) return null;
   const lines = batch.paymentIds
@@ -407,12 +414,15 @@ export function resultView(
   if (workshop.status === 'CONFIRMED' || batch.status === 'CONFIRMED') {
     outcome = 'CONFIRMED';
     headline = 'Workshop confirmed';
-    detail = `${lines.length} participants were charged ${formatMoney(batch.capturedCents)} in total. Each charge was confirmed with PayPal individually.`;
+    detail = simulated
+      ? `${lines.length} participants were charged ${formatMoney(batch.capturedCents)} in total. Each simulated capture was recorded locally; no PayPal transaction occurred.`
+      : `${lines.length} participants were charged ${formatMoney(batch.capturedCents)} in total. Each charge was confirmed with PayPal individually.`;
   } else if (batch.status === 'COMPENSATING' || batch.status === 'MANUAL_REVIEW') {
     outcome = 'NEEDS_ATTENTION';
     headline = 'Workshop not confirmed — compensation in progress';
-    detail =
-      'Some charges could not be collected. Releasing holds and refunding completed charges is in progress; the list below is the source of truth. A refund is only marked complete when PayPal reports it complete.';
+    detail = simulated
+      ? 'Some simulated charges could not be collected. Releasing holds and refunding completed charges is in progress; the list below is the source of truth. A simulated refund is marked complete only by the local adapter.'
+      : 'Some charges could not be collected. Releasing holds and refunding completed charges is in progress; the list below is the source of truth. A refund is only marked complete when PayPal reports it complete.';
   } else if (batch.status === 'CANCELLED' || workshop.status === 'CANCELLED' || workshop.status === 'CANCELLING') {
     outcome = 'NOT_CONFIRMED';
     headline = 'Workshop not confirmed';
@@ -444,15 +454,15 @@ const AUDIT_SUMMARY: Record<string, string> = {
   'clarification.answered': 'Participant answered the clarification',
   'offer.published': 'Fixed offer published',
   'consent.recorded': 'Participant consented to the exact offer',
-  'checkout.order_created': 'PayPal order created',
-  'checkout.authorized': 'PayPal authorization recorded',
+  'checkout.order_created': 'Payment order created',
+  'checkout.authorized': 'Payment authorization recorded',
   'participant.withdrawn': 'Participant withdrew and requested a hold release',
   'batch.locked': 'Settlement batch locked',
   'batch.captured': 'Charges captured',
   'batch.confirmed': 'Workshop confirmed',
   'batch.compensating': 'Collection failed — compensation started',
   'batch.cancelled': 'Workshop cancelled',
-  'webhook.received': 'PayPal webhook processed',
+  'webhook.received': 'Payment webhook processed',
 };
 
 function factFromCondition(condition: string, workshop: Workshop): { label: string; value: string } {
@@ -612,7 +622,7 @@ export function buildState(inputs: StateInputs): AppState {
             workshop.timezone,
           )
         : null,
-    result: workshop ? resultView(workshop, batch, payments, participants, viewParticipantId) : null,
+    result: workshop ? resultView(workshop, batch, payments, participants, viewParticipantId, !cfg.paypal.live) : null,
     audit: auditViews(audit, workshop?.timezone ?? 'UTC'),
     checkout,
     demo: {

@@ -68,6 +68,7 @@ export default function OrganizerResult() {
   const workshop = state?.workshop ?? null;
   const result = state?.result ?? null;
   const batch = state?.batch ?? null;
+  const simulated = state?.mode.paypal === 'simulated';
 
   if (!workshop) {
     return (
@@ -114,16 +115,20 @@ export default function OrganizerResult() {
         eyebrow={t('money.result.eyebrow')}
         title={result.headline}
         intro={result.detail}
-        actions={<StatusBadge tone={outcomeTone(result.outcome)} word={outcomeWord(t, result.outcome)} />}
+        actions={<StatusBadge tone={outcomeTone(result.outcome)} word={simulated && result.outcome === 'PENDING' ? t('money.result.outcome.pendingSim') : outcomeWord(t, result.outcome)} />}
       />
 
       <div className={`result-banner result-banner--${result.outcome === 'CONFIRMED' ? 'ok' : notConfirmed ? 'no' : 'pending'}`}>
         <div>
-          <p className="result-banner__label">{t('money.result.bannerCaptured')}</p>
+          <p className="result-banner__label">
+            {t(simulated ? 'money.result.bannerCapturedSim' : 'money.result.bannerCaptured')}
+          </p>
           <p className="result-banner__value">{result.capturedLabel}</p>
         </div>
         <div>
-          <p className="result-banner__label">{t('money.result.bannerRefunded')}</p>
+          <p className="result-banner__label">
+            {t(simulated ? 'money.result.bannerRefundedSim' : 'money.result.bannerRefunded')}
+          </p>
           <p className="result-banner__value">{result.refundedLabel}</p>
         </div>
         <div>
@@ -136,17 +141,19 @@ export default function OrganizerResult() {
         <InlineNotice
           kind="warn"
           title={t(
-            result.pendingActionCount === 1 ? 'money.result.pendingOne' : 'money.result.pendingMany',
+            result.pendingActionCount === 1
+              ? simulated ? 'money.result.pendingOneSim' : 'money.result.pendingOne'
+              : simulated ? 'money.result.pendingManySim' : 'money.result.pendingMany',
             { count: result.pendingActionCount },
           )}
         >
-          {t('money.result.pendingBody')}
+          {t(simulated ? 'money.result.pendingBodySim' : 'money.result.pendingBody')}
         </InlineNotice>
       ) : null}
 
       {notConfirmed ? (
         <InlineNotice kind="error" title={t('money.result.notConfirmedTitle')}>
-          {t('money.result.notConfirmedBody')}
+          {t(simulated ? 'money.result.notConfirmedBodySim' : 'money.result.notConfirmedBody')}
         </InlineNotice>
       ) : null}
 
@@ -154,7 +161,7 @@ export default function OrganizerResult() {
         <h2 id="receipts-title">
           {notConfirmed ? t('money.result.perChargeTitle') : t('money.result.perPersonTitle')}
         </h2>
-        <p className="muted">{t('money.result.receiptIntro')}</p>
+        <p className="muted">{t(simulated ? 'money.result.receiptIntroSim' : 'money.result.receiptIntro')}</p>
         {result.lines.length === 0 ? (
           <p className="muted">{t('money.result.noCharges')}</p>
         ) : (
@@ -175,7 +182,7 @@ export default function OrganizerResult() {
           </div>
           <div>
             <dt>{t('money.result.legend.captured')}</dt>
-            <dd>{t('money.result.legend.capturedDetail')}</dd>
+            <dd>{t(simulated ? 'money.result.legend.capturedDetailSim' : 'money.result.legend.capturedDetail')}</dd>
           </div>
           <div>
             <dt>{t('money.result.legend.voided')}</dt>
@@ -187,7 +194,7 @@ export default function OrganizerResult() {
           </div>
           <div>
             <dt>{t('money.result.legend.refunded')}</dt>
-            <dd>{t('money.result.legend.refundedDetail')}</dd>
+            <dd>{t(simulated ? 'money.result.legend.refundedDetailSim' : 'money.result.legend.refundedDetail')}</dd>
           </div>
           <div>
             <dt>{t('money.result.legend.attention')}</dt>

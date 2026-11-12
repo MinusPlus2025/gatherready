@@ -404,6 +404,7 @@ export function participantStatus(state: AppState, locale: Locale = 'en'): Parti
   const failed = ['FAILED', 'UNKNOWN', 'MANUAL_REVIEW'].includes(paid);
   const released = ['VOIDED', 'REFUNDED', 'REFUNDING'].includes(paid);
   const includedInOffer = Boolean(offer?.isOpen && confirmed && offer.viewerIncluded);
+  const simulated = state.mode.paypal === 'simulated';
 
   const steps: ParticipantStep[] = [
     {
@@ -434,7 +435,7 @@ export function participantStatus(state: AppState, locale: Locale = 'en'): Parti
         ? paid === 'AUTHORIZED'
           ? translate(locale, 'flow.status.participant.step.authorization.authorized')
           : paid === 'CAPTURED'
-            ? translate(locale, 'flow.status.participant.step.authorization.charged')
+            ? translate(locale, simulated ? 'flow.status.participant.step.authorization.chargedSim' : 'flow.status.participant.step.authorization.charged')
             : translate(locale, 'flow.status.participant.step.authorization.capturing')
         : failed
           ? translate(locale, 'flow.status.participant.step.authorization.failed')
@@ -445,7 +446,7 @@ export function participantStatus(state: AppState, locale: Locale = 'en'): Parti
       label: translate(locale, 'flow.status.participant.step.charge'),
       state: charged || released ? 'done' : failed ? 'failed' : workshop?.status === 'CONFIRMED' ? 'current' : 'waiting',
       detail: charged
-        ? translate(locale, 'flow.status.participant.step.charge.charged')
+        ? translate(locale, simulated ? 'flow.status.participant.step.charge.chargedSim' : 'flow.status.participant.step.charge.charged')
         : paid === 'REFUNDED'
           ? translate(locale, 'flow.status.participant.step.charge.refunded')
           : paid === 'REFUNDING'
@@ -533,8 +534,8 @@ export function participantStatus(state: AppState, locale: Locale = 'en'): Parti
   if (charged) {
     return {
       tone: 'success',
-      headline: translate(locale, 'flow.status.participant.charged.headline'),
-      detail: translate(locale, 'flow.status.participant.charged.detail', { amount: money(workshop.priceCents) }),
+      headline: translate(locale, simulated ? 'flow.status.participant.charged.headlineSim' : 'flow.status.participant.charged.headline'),
+      detail: translate(locale, simulated ? 'flow.status.participant.charged.detailSim' : 'flow.status.participant.charged.detail', { amount: money(workshop.priceCents) }),
       steps,
       action: { label: translate(locale, 'flow.status.action.seeResult'), to: '/organizer/result', kind: 'result' },
     };

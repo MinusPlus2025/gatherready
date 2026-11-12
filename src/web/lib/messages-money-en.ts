@@ -1,6 +1,6 @@
-/* en — generated with dictionary parity; edit values, keep the keys. */
+/* en money. */
 
-export const moneyEn: Record<string, string> = {
+export const moneyEn: Record<string,string> = {
   "money.shared.organizer": "Organizer",
   "money.shared.noWorkshopTitle": "No workshop yet",
   "money.shared.setupWorkshop": "Set up a workshop",
@@ -8,7 +8,7 @@ export const moneyEn: Record<string, string> = {
   "money.shared.simulatedChip": "Demo payment — no PayPal transaction",
   "money.offer.eyebrow": "Organizer · Offer",
   "money.offer.publishedTitle": "Offer published",
-  "money.offer.publishedIntro": "These terms are fixed. Participants see exactly this summary, verbatim, before any PayPal button.",
+  "money.offer.publishedIntro": "These terms are fixed. Participants see exactly this summary, verbatim, before any payment button.",
   "money.offer.statusOpen": "Offer open for authorization",
   "money.offer.stripAria": "Workshop",
   "money.offer.perPerson": "per person",
@@ -88,7 +88,7 @@ export const moneyEn: Record<string, string> = {
   "money.funding.summaryCaptured": "Captured",
   "money.funding.ofMinimum": "of {min} minimum",
   "money.funding.peopleTitle": "Money timeline per person",
-  "money.funding.peopleIntro": "Awaiting approval → Authorized → Collecting → Captured. A hold that ends without capture is shown as released; a refund is shown only once PayPal confirms it.",
+  "money.funding.peopleIntro": "Awaiting approval → Authorized → Collecting → Captured. A hold that ends without capture is shown as released; a refund is shown only once the payment provider confirms it.",
   "money.funding.noPayments": "No one has started an authorization yet.",
   "money.funding.you": "(you)",
   "money.funding.modeSimulated": "Demo payment",
@@ -125,7 +125,7 @@ export const moneyEn: Record<string, string> = {
   "money.funding.blockerInFlight": "An authorization or capture is still in progress.",
   "money.funding.blockerTooMany": "There are more authorizations than seats.",
   "money.funding.allClear": "Everything the server checks is currently satisfied. It will still re-validate every row before capturing.",
-  "money.funding.collecting": "Confirming with PayPal…",
+  "money.funding.collecting": "Confirming payment…",
   "money.funding.collect": "Confirm workshop and collect",
   "money.funding.disabledHint": "The button stays disabled until every blocker above is cleared.",
   "money.funding.noOfferEyebrow": "Organizer",
@@ -181,5 +181,15 @@ export const moneyEn: Record<string, string> = {
   "money.result.legend.attentionDetail": "The outcome is unknown. A person must check it; nothing is retried automatically.",
   "money.result.batchTitle": "Settlement batch",
   "money.result.batchMeta": "{count} participants · expected {expected} · captured {captured} · refunded {refunded}",
-  "money.result.backToFunding": "Back to funding"
+  "money.result.backToFunding": "Back to funding",
+  "money.result.bannerCapturedSim": "Simulated capture — no PayPal transaction",
+  "money.result.bannerRefundedSim": "Simulated refund — no PayPal transaction",
+  "money.result.outcome.pendingSim": "Checking simulated payment state",
+  "money.result.pendingOneSim": "1 simulated charge needs a person to check its local record",
+  "money.result.pendingManySim": "{count} simulated charges need a person to check their local records",
+  "money.result.pendingBodySim": "These simulated outcomes are unclear and are never retried automatically. Check the local simulated payment record before deciding anything else; no PayPal request is made.",
+  "money.result.notConfirmedBodySim": "The plan did not come together. Simulated holds are released and simulated captures are refunded by the local adapter; anything uncertain is escalated to a person. No PayPal transaction occurred.",
+  "money.result.receiptIntroSim": "Each row is a simulated money state recorded locally by the server. A simulated refund request is not a refund; we only mark it refunded once the local adapter records it.",
+  "money.result.legend.capturedDetailSim": "The simulated adapter recorded the capture. No PayPal transaction occurred.",
+  "money.result.legend.refundedDetailSim": "The simulated adapter recorded the refund. No PayPal transaction occurred."
 };
