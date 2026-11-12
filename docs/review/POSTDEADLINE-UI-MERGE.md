@@ -21,3 +21,9 @@ Merged fbb179e, 6f48a67, 92a13f9, b894511, 50a6fc7 as 7ddc814, ea82cf5, 3d8d172,
 The service conflict was resolved by preserving the existing async implementation and awaiting getLatestOffer before enforcing frozen membership. Lifecycle tests were ported to async local libSQL: pre-offer additions work; published/closed workshop additions reject without changing membership or status; existing invite tokens remain valid; participants cannot add invitees.
 
 Fresh validation: 296/296 tests, 27 files, server/web TypeScript and frontend build pass. Funding copy tests cover all locales and both modes; these assert text, not real Sandbox success. 1440/390 browser fixture reconciliation checks again pass with JourneyNav present, no unsolicited reconciliation POST, explicit success/error, and no horizontal overflow. Temporary service uses a new local DB and simulated payments only; no accounts/resources/deployment changed. Contest master remains 8c11d27.
+
+## Follow-up through UI commit 03bd914
+
+Ported 6ef4aca/79efe69/3ba38d6/03bd914 to 92d4f77/a7e5c77/4421c4b/d5a8e88 without conflicts. PaymentRecovery receives only refresh from the application store; it does not invoke payment POST or serverless reconciliation. Organizer reconciliation remains a separate explicit confirmed action. JourneyNav and ServerlessReconcile remain in Shell; async database and invitation lifecycle restrictions remain unchanged.
+
+Server/web type checks and production build pass. 304/304 tests (30 files) pass, including uncertainty/read-only recovery markup, refund state, simulated/Sandbox copy, invitation restrictions and serverless reconciliation. No new browser acceptance was performed for this follow-up. No cloud resources, account authorizations, remote data, contest master or active preview changed.
