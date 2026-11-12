@@ -399,10 +399,10 @@ export function participantStatus(state: AppState, locale: Locale = 'en'): Parti
   const payment = participantPayment(state);
   const confirmed = preference?.status === 'CONFIRMED';
   const paid = payment?.status ?? 'NONE';
-  const authorized = ['AUTHORIZED', 'CAPTURING', 'CAPTURED'].includes(paid);
+  const authorized = ['AUTHORIZED', 'CAPTURING', 'CAPTURED', 'REFUNDING', 'REFUNDED', 'VOIDED'].includes(paid);
   const charged = paid === 'CAPTURED';
   const failed = ['FAILED', 'UNKNOWN', 'MANUAL_REVIEW'].includes(paid);
-  const released = ['VOIDED', 'REFUNDED', 'REFUNDING'].includes(paid);
+  const released = ['VOIDED', 'REFUNDED'].includes(paid);
   const includedInOffer = Boolean(offer?.isOpen && confirmed && offer.viewerIncluded);
   const simulated = state.mode.paypal === 'simulated';
 
@@ -431,7 +431,13 @@ export function participantStatus(state: AppState, locale: Locale = 'en'): Parti
       key: 'authorization',
       label: translate(locale, 'flow.status.participant.step.authorization'),
       state: authorized ? 'done' : failed ? 'failed' : includedInOffer ? 'current' : 'waiting',
-      detail: authorized
+      detail: paid === 'REFUNDING'
+        ? translate(locale, 'flow.status.participant.step.charge.refunding')
+        : paid === 'REFUNDED'
+          ? translate(locale, 'flow.status.participant.step.charge.refunded')
+          : paid === 'VOIDED'
+            ? translate(locale, 'flow.status.participant.step.charge.voided')
+            : authorized
         ? paid === 'AUTHORIZED'
           ? translate(locale, 'flow.status.participant.step.authorization.authorized')
           : paid === 'CAPTURED'
@@ -444,7 +450,7 @@ export function participantStatus(state: AppState, locale: Locale = 'en'): Parti
     {
       key: 'charge',
       label: translate(locale, 'flow.status.participant.step.charge'),
-      state: charged || released ? 'done' : failed ? 'failed' : workshop?.status === 'CONFIRMED' ? 'current' : 'waiting',
+      state: charged || released ? 'done' : paid === 'REFUNDING' ? 'current' : failed ? 'failed' : workshop?.status === 'CONFIRMED' ? 'current' : 'waiting',
       detail: charged
         ? translate(locale, simulated ? 'flow.status.participant.step.charge.chargedSim' : 'flow.status.participant.step.charge.charged')
         : paid === 'REFUNDED'

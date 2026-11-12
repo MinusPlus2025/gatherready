@@ -102,10 +102,10 @@ export const paymentStatusWord: Record<PaymentStatus, string> = {
   CAPTURED: 'Captured',
   VOIDING: 'Releasing hold',
   VOIDED: 'Hold released (voided)',
-  REFUNDING: 'Refund requested — waiting for PayPal',
+  REFUNDING: 'Refund requested — awaiting confirmation',
   REFUNDED: 'Refunded',
   FAILED: 'Failed — nothing captured',
-  UNKNOWN: 'Unknown — checking with PayPal',
+  UNKNOWN: 'Unknown — checking payment state',
   MANUAL_REVIEW: 'Needs manual attention',
 };
 
