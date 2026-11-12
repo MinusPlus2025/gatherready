@@ -60,9 +60,28 @@ AI's contribution is measurable and bounded; every number and every PayPal call 
 
 ## Screenshots
 
-Captured from the running app by `npm run capture-shots`; see
-[`docs/screenshots/`](docs/screenshots/) and the manifest printed by the script. The screenshots are
-labelled with the same mode banner the app shows (sandbox vs simulated, live vs recorded AI).
+Captured from the **live server + built UI** by `npm run capture-live` (a real synthetic session driven
+through the product's own HTTP API — no mock state, no dev banner). The manifest records the route, width
+and state behind every file, and each screen shows the same mode banner the app shows for that run.
+
+| Screen | Desktop |
+|---|---|
+| Landing | [`landing-1440.png`](docs/screenshots/landing-1440.png) |
+| Organizer setup (synthetic sample) | [`organizer-setup-1440.png`](docs/screenshots/organizer-setup-1440.png) |
+| Plan — no workable time yet | [`organizer-plan-1440.png`](docs/screenshots/organizer-plan-1440.png) |
+| Plan — one suggested question | [`organizer-plan-suggestion-1440.png`](docs/screenshots/organizer-plan-suggestion-1440.png) |
+| Participant preferences — own sentence | [`participant-preferences-1440.png`](docs/screenshots/participant-preferences-1440.png) |
+| Participant preferences — reviewable card | [`participant-preferences-parsed-1440.png`](docs/screenshots/participant-preferences-parsed-1440.png) |
+| Participant clarification | [`participant-clarify-1440.png`](docs/screenshots/participant-clarify-1440.png) |
+| Frozen offer | [`organizer-offer-1440.png`](docs/screenshots/organizer-offer-1440.png) |
+| Review and authorize (consent) | [`participant-authorize-1440.png`](docs/screenshots/participant-authorize-1440.png) |
+| Funding — authorized, not charged | [`organizer-funding-1440.png`](docs/screenshots/organizer-funding-1440.png) |
+| Result — workshop confirmed | [`organizer-result-1440.png`](docs/screenshots/organizer-result-1440.png) |
+| Mobile consent screen (420 px) | [`participant-authorize-420.png`](docs/screenshots/participant-authorize-420.png) |
+| Mobile plan (420 px) | [`organizer-plan-suggestion-420.png`](docs/screenshots/organizer-plan-suggestion-420.png) |
+
+In this snapshot the banner reads **Simulated PayPal — no real money** because sandbox keys are absent;
+the same screens render the sandbox badge without code changes once keys are supplied.
 
 ## Run it
 
@@ -192,7 +211,7 @@ docs/         CONTRACT, architecture, testing, ai-evaluation, submission, demo s
 
 - [`docs/CONTRACT.md`](docs/CONTRACT.md) — frozen interfaces and safety invariants
 - [`docs/architecture.md`](docs/architecture.md) — boundaries, state machines, compensation
-- [`docs/testing.md`](docs/testing.md) — what was run, what passed, what is simulated vs sandbox
+- [`docs/testing.md`](docs/testing.md) — what was run, what passed, what is simulated vs sandbox (T01–T20 matrix)
 - [`docs/ai-evaluation.md`](docs/ai-evaluation.md) — cases, results and the baseline comparison
 - [`docs/submission.md`](docs/submission.md) — Devpost copy and the honest feature list
 - [`docs/demo-script.md`](docs/demo-script.md) — the under-three-minute demo plan
