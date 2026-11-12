@@ -6689,3 +6689,5 @@ html[data-theme-mode='dark'] .eyebrow {
 /* Intrinsic dimensions must not stretch portrait viewports. */
 .lightbox__figure img { width: auto; height: auto; object-fit: contain; max-width: 100%; max-height: 72dvh; }
 .lightbox__caption { flex-wrap: wrap; }
+
+.gallery--editorial { scroll-margin-top: 100px; }

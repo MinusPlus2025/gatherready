@@ -28,6 +28,15 @@ export function WorkshopGallery() {
   const { t } = useI18n();
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const closedRef = useRef<HTMLButtonElement | null>(null);
+  const sectionRef = useRef<HTMLElement | null>(null);
+
+  // On a cold SPA load the hash can arrive before this section is mounted.
+  useEffect(() => {
+    if (window.location.hash !== '#workshop-gallery') return;
+    const frame = window.requestAnimationFrame(() => sectionRef.current?.scrollIntoView({ block: 'start', behavior: 'instant' }));
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
+
 
   useEffect(() => {
     if (openIndex === null) return;
@@ -55,7 +64,7 @@ export function WorkshopGallery() {
 
   return (
     <>
-      <section className="gallery gallery--editorial" id="workshop-gallery" aria-labelledby="gallery-title" data-reveal aria-hidden={open ? true : undefined}>
+      <section ref={sectionRef} className="gallery gallery--editorial" id="workshop-gallery" aria-labelledby="gallery-title" data-reveal aria-hidden={open ? true : undefined}>
         <div className="gallery__head">
           <h2 id="gallery-title">{t('landing.gallery.title')}</h2>
           <p className="muted">{t('landing.gallery.intro')}</p>
