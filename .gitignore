@@ -1,0 +1,11 @@
+node_modules/
+dist/
+data/*.db
+data/*.db-wal
+data/*.db-shm
+secrets/
+.env
+.env.local
+captures/
+*.log
+.DS_Store

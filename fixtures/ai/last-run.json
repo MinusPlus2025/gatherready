@@ -1,0 +1,813 @@
+{
+  "generatedAt": "2026-11-12T04:33:13Z",
+  "evidence": "recorded",
+  "live": false,
+  "provider": "none",
+  "model": null,
+  "callBudget": {
+    "maxCallsPerDay": 400
+  },
+  "cases": [
+    {
+      "id": "neg-01",
+      "category": "negation",
+      "mode": "recorded",
+      "attempts": 1,
+      "fallback": false,
+      "acceptedCount": 1,
+      "preferredCount": 0,
+      "conditionalCount": 0,
+      "uncertaintyCount": 0,
+      "modelCalls": 0,
+      "acceptedSlotIds": [
+        "slot_a"
+      ],
+      "preferredSlotIds": [],
+      "verifier": {
+        "ok": 1,
+        "schemaFailures": 0,
+        "quoteFailures": 0
+      },
+      "manualEditsFormPath": 2,
+      "manualEditsAiPath": 0,
+      "matchesExpected": true
+    },
+    {
+      "id": "neg-02",
+      "category": "negation",
+      "mode": "recorded",
+      "attempts": 1,
+      "fallback": false,
+      "acceptedCount": 0,
+      "preferredCount": 0,
+      "conditionalCount": 0,
+      "uncertaintyCount": 1,
+      "modelCalls": 0,
+      "acceptedSlotIds": [],
+      "preferredSlotIds": [],
+      "verifier": {
+        "ok": 1,
+        "schemaFailures": 0,
+        "quoteFailures": 0
+      },
+      "manualEditsFormPath": 2,
+      "manualEditsAiPath": 1,
+      "matchesExpected": true
+    },
+    {
+      "id": "neg-03",
+      "category": "negation",
+      "mode": "recorded",
+      "attempts": 1,
+      "fallback": false,
+      "acceptedCount": 1,
+      "preferredCount": 0,
+      "conditionalCount": 0,
+      "uncertaintyCount": 0,
+      "modelCalls": 0,
+      "acceptedSlotIds": [
+        "slot_b"
+      ],
+      "preferredSlotIds": [],
+      "verifier": {
+        "ok": 1,
+        "schemaFailures": 0,
+        "quoteFailures": 0
+      },
+      "manualEditsFormPath": 2,
+      "manualEditsAiPath": 0,
+      "matchesExpected": true
+    },
+    {
+      "id": "cond-01",
+      "category": "conditional",
+      "mode": "recorded",
+      "attempts": 1,
+      "fallback": false,
+      "acceptedCount": 0,
+      "preferredCount": 0,
+      "conditionalCount": 1,
+      "uncertaintyCount": 0,
+      "modelCalls": 0,
+      "acceptedSlotIds": [],
+      "preferredSlotIds": [],
+      "verifier": {
+        "ok": 1,
+        "schemaFailures": 0,
+        "quoteFailures": 0
+      },
+      "manualEditsFormPath": 3,
+      "manualEditsAiPath": 0,
+      "matchesExpected": true
+    },
+    {
+      "id": "cond-02",
+      "category": "conditional",
+      "mode": "recorded",
+      "attempts": 1,
+      "fallback": false,
+      "acceptedCount": 0,
+      "preferredCount": 0,
+      "conditionalCount": 1,
+      "uncertaintyCount": 0,
+      "modelCalls": 0,
+      "acceptedSlotIds": [],
+      "preferredSlotIds": [],
+      "verifier": {
+        "ok": 1,
+        "schemaFailures": 0,
+        "quoteFailures": 0
+      },
+      "manualEditsFormPath": 3,
+      "manualEditsAiPath": 0,
+      "matchesExpected": true
+    },
+    {
+      "id": "cond-03",
+      "category": "conditional",
+      "mode": "recorded",
+      "attempts": 1,
+      "fallback": false,
+      "acceptedCount": 0,
+      "preferredCount": 0,
+      "conditionalCount": 1,
+      "uncertaintyCount": 0,
+      "modelCalls": 0,
+      "acceptedSlotIds": [],
+      "preferredSlotIds": [],
+      "verifier": {
+        "ok": 1,
+        "schemaFailures": 0,
+        "quoteFailures": 0
+      },
+      "manualEditsFormPath": 3,
+      "manualEditsAiPath": 0,
+      "matchesExpected": true
+    },
+    {
+      "id": "contra-01",
+      "category": "contradictory",
+      "mode": "recorded",
+      "attempts": 1,
+      "fallback": false,
+      "acceptedCount": 0,
+      "preferredCount": 0,
+      "conditionalCount": 0,
+      "uncertaintyCount": 1,
+      "modelCalls": 0,
+      "acceptedSlotIds": [],
+      "preferredSlotIds": [],
+      "verifier": {
+        "ok": 1,
+        "schemaFailures": 0,
+        "quoteFailures": 0
+      },
+      "manualEditsFormPath": 2,
+      "manualEditsAiPath": 1,
+      "matchesExpected": true
+    },
+    {
+      "id": "contra-02",
+      "category": "contradictory",
+      "mode": "recorded",
+      "attempts": 1,
+      "fallback": false,
+      "acceptedCount": 0,
+      "preferredCount": 0,
+      "conditionalCount": 0,
+      "uncertaintyCount": 1,
+      "modelCalls": 0,
+      "acceptedSlotIds": [],
+      "preferredSlotIds": [],
+      "verifier": {
+        "ok": 1,
+        "schemaFailures": 0,
+        "quoteFailures": 0
+      },
+      "manualEditsFormPath": 2,
+      "manualEditsAiPath": 1,
+      "matchesExpected": true
+    },
+    {
+      "id": "amb-01",
+      "category": "ambiguous",
+      "mode": "recorded",
+      "attempts": 1,
+      "fallback": false,
+      "acceptedCount": 0,
+      "preferredCount": 0,
+      "conditionalCount": 0,
+      "uncertaintyCount": 1,
+      "modelCalls": 0,
+      "acceptedSlotIds": [],
+      "preferredSlotIds": [],
+      "verifier": {
+        "ok": 1,
+        "schemaFailures": 0,
+        "quoteFailures": 0
+      },
+      "manualEditsFormPath": 2,
+      "manualEditsAiPath": 1,
+      "matchesExpected": true
+    },
+    {
+      "id": "amb-02",
+      "category": "ambiguous",
+      "mode": "recorded",
+      "attempts": 1,
+      "fallback": false,
+      "acceptedCount": 0,
+      "preferredCount": 0,
+      "conditionalCount": 0,
+      "uncertaintyCount": 1,
+      "modelCalls": 0,
+      "acceptedSlotIds": [],
+      "preferredSlotIds": [],
+      "verifier": {
+        "ok": 1,
+        "schemaFailures": 0,
+        "quoteFailures": 0
+      },
+      "manualEditsFormPath": 2,
+      "manualEditsAiPath": 1,
+      "matchesExpected": true
+    },
+    {
+      "id": "amb-03",
+      "category": "ambiguous",
+      "mode": "recorded",
+      "attempts": 1,
+      "fallback": false,
+      "acceptedCount": 0,
+      "preferredCount": 0,
+      "conditionalCount": 0,
+      "uncertaintyCount": 1,
+      "modelCalls": 0,
+      "acceptedSlotIds": [],
+      "preferredSlotIds": [],
+      "verifier": {
+        "ok": 1,
+        "schemaFailures": 0,
+        "quoteFailures": 0
+      },
+      "manualEditsFormPath": 2,
+      "manualEditsAiPath": 1,
+      "matchesExpected": true
+    },
+    {
+      "id": "amb-04",
+      "category": "ambiguous",
+      "mode": "recorded",
+      "attempts": 1,
+      "fallback": false,
+      "acceptedCount": 0,
+      "preferredCount": 0,
+      "conditionalCount": 0,
+      "uncertaintyCount": 1,
+      "modelCalls": 0,
+      "acceptedSlotIds": [],
+      "preferredSlotIds": [],
+      "verifier": {
+        "ok": 1,
+        "schemaFailures": 0,
+        "quoteFailures": 0
+      },
+      "manualEditsFormPath": 2,
+      "manualEditsAiPath": 1,
+      "matchesExpected": true
+    },
+    {
+      "id": "amb-05",
+      "category": "ambiguous",
+      "mode": "recorded",
+      "attempts": 1,
+      "fallback": false,
+      "acceptedCount": 0,
+      "preferredCount": 0,
+      "conditionalCount": 0,
+      "uncertaintyCount": 1,
+      "modelCalls": 0,
+      "acceptedSlotIds": [],
+      "preferredSlotIds": [],
+      "verifier": {
+        "ok": 1,
+        "schemaFailures": 0,
+        "quoteFailures": 0
+      },
+      "manualEditsFormPath": 2,
+      "manualEditsAiPath": 1,
+      "matchesExpected": true
+    },
+    {
+      "id": "inj-01",
+      "category": "injection",
+      "mode": "structured",
+      "attempts": 0,
+      "fallback": true,
+      "acceptedCount": 0,
+      "preferredCount": 0,
+      "conditionalCount": 0,
+      "uncertaintyCount": 1,
+      "modelCalls": 0,
+      "acceptedSlotIds": [],
+      "preferredSlotIds": [],
+      "verifier": {
+        "ok": 1,
+        "schemaFailures": 0,
+        "quoteFailures": 0
+      },
+      "manualEditsFormPath": 2,
+      "manualEditsAiPath": 2,
+      "matchesExpected": true
+    },
+    {
+      "id": "inj-02",
+      "category": "injection",
+      "mode": "structured",
+      "attempts": 0,
+      "fallback": true,
+      "acceptedCount": 0,
+      "preferredCount": 0,
+      "conditionalCount": 0,
+      "uncertaintyCount": 1,
+      "modelCalls": 0,
+      "acceptedSlotIds": [],
+      "preferredSlotIds": [],
+      "verifier": {
+        "ok": 1,
+        "schemaFailures": 0,
+        "quoteFailures": 0
+      },
+      "manualEditsFormPath": 2,
+      "manualEditsAiPath": 2,
+      "matchesExpected": true
+    },
+    {
+      "id": "inj-03",
+      "category": "injection",
+      "mode": "structured",
+      "attempts": 0,
+      "fallback": true,
+      "acceptedCount": 0,
+      "preferredCount": 0,
+      "conditionalCount": 0,
+      "uncertaintyCount": 1,
+      "modelCalls": 0,
+      "acceptedSlotIds": [],
+      "preferredSlotIds": [],
+      "verifier": {
+        "ok": 1,
+        "schemaFailures": 0,
+        "quoteFailures": 0
+      },
+      "manualEditsFormPath": 2,
+      "manualEditsAiPath": 2,
+      "matchesExpected": true
+    },
+    {
+      "id": "empty-01",
+      "category": "empty",
+      "mode": "structured",
+      "attempts": 0,
+      "fallback": true,
+      "acceptedCount": 0,
+      "preferredCount": 0,
+      "conditionalCount": 0,
+      "uncertaintyCount": 1,
+      "modelCalls": 0,
+      "acceptedSlotIds": [],
+      "preferredSlotIds": [],
+      "verifier": {
+        "ok": 1,
+        "schemaFailures": 0,
+        "quoteFailures": 0
+      },
+      "manualEditsFormPath": 2,
+      "manualEditsAiPath": 2,
+      "matchesExpected": true
+    },
+    {
+      "id": "empty-02",
+      "category": "empty",
+      "mode": "structured",
+      "attempts": 0,
+      "fallback": true,
+      "acceptedCount": 0,
+      "preferredCount": 0,
+      "conditionalCount": 0,
+      "uncertaintyCount": 1,
+      "modelCalls": 0,
+      "acceptedSlotIds": [],
+      "preferredSlotIds": [],
+      "verifier": {
+        "ok": 1,
+        "schemaFailures": 0,
+        "quoteFailures": 0
+      },
+      "manualEditsFormPath": 2,
+      "manualEditsAiPath": 2,
+      "matchesExpected": true
+    },
+    {
+      "id": "multi-01",
+      "category": "multi-slot",
+      "mode": "recorded",
+      "attempts": 1,
+      "fallback": false,
+      "acceptedCount": 2,
+      "preferredCount": 0,
+      "conditionalCount": 0,
+      "uncertaintyCount": 0,
+      "modelCalls": 0,
+      "acceptedSlotIds": [
+        "slot_a",
+        "slot_c"
+      ],
+      "preferredSlotIds": [],
+      "verifier": {
+        "ok": 1,
+        "schemaFailures": 0,
+        "quoteFailures": 0
+      },
+      "manualEditsFormPath": 3,
+      "manualEditsAiPath": 0,
+      "matchesExpected": true
+    },
+    {
+      "id": "multi-02",
+      "category": "multi-slot",
+      "mode": "recorded",
+      "attempts": 1,
+      "fallback": false,
+      "acceptedCount": 3,
+      "preferredCount": 0,
+      "conditionalCount": 0,
+      "uncertaintyCount": 0,
+      "modelCalls": 0,
+      "acceptedSlotIds": [
+        "slot_a",
+        "slot_b",
+        "slot_c"
+      ],
+      "preferredSlotIds": [],
+      "verifier": {
+        "ok": 1,
+        "schemaFailures": 0,
+        "quoteFailures": 0
+      },
+      "manualEditsFormPath": 4,
+      "manualEditsAiPath": 0,
+      "matchesExpected": true
+    },
+    {
+      "id": "multi-03",
+      "category": "multi-slot",
+      "mode": "recorded",
+      "attempts": 1,
+      "fallback": false,
+      "acceptedCount": 2,
+      "preferredCount": 0,
+      "conditionalCount": 0,
+      "uncertaintyCount": 0,
+      "modelCalls": 0,
+      "acceptedSlotIds": [
+        "slot_a",
+        "slot_b"
+      ],
+      "preferredSlotIds": [],
+      "verifier": {
+        "ok": 1,
+        "schemaFailures": 0,
+        "quoteFailures": 0
+      },
+      "manualEditsFormPath": 3,
+      "manualEditsAiPath": 0,
+      "matchesExpected": true
+    },
+    {
+      "id": "quoted-01",
+      "category": "quoted-refusal",
+      "mode": "recorded",
+      "attempts": 1,
+      "fallback": false,
+      "acceptedCount": 0,
+      "preferredCount": 0,
+      "conditionalCount": 0,
+      "uncertaintyCount": 1,
+      "modelCalls": 0,
+      "acceptedSlotIds": [],
+      "preferredSlotIds": [],
+      "verifier": {
+        "ok": 1,
+        "schemaFailures": 0,
+        "quoteFailures": 0
+      },
+      "manualEditsFormPath": 2,
+      "manualEditsAiPath": 1,
+      "matchesExpected": true
+    },
+    {
+      "id": "quoted-02",
+      "category": "quoted-refusal",
+      "mode": "recorded",
+      "attempts": 1,
+      "fallback": false,
+      "acceptedCount": 1,
+      "preferredCount": 0,
+      "conditionalCount": 0,
+      "uncertaintyCount": 0,
+      "modelCalls": 0,
+      "acceptedSlotIds": [
+        "slot_c"
+      ],
+      "preferredSlotIds": [],
+      "verifier": {
+        "ok": 1,
+        "schemaFailures": 0,
+        "quoteFailures": 0
+      },
+      "manualEditsFormPath": 2,
+      "manualEditsAiPath": 0,
+      "matchesExpected": true
+    },
+    {
+      "id": "quoted-03",
+      "category": "quoted-refusal",
+      "mode": "recorded",
+      "attempts": 2,
+      "fallback": true,
+      "acceptedCount": 0,
+      "preferredCount": 0,
+      "conditionalCount": 0,
+      "uncertaintyCount": 1,
+      "modelCalls": 0,
+      "acceptedSlotIds": [],
+      "preferredSlotIds": [],
+      "verifier": {
+        "ok": 0,
+        "schemaFailures": 0,
+        "quoteFailures": 1
+      },
+      "manualEditsFormPath": 2,
+      "manualEditsAiPath": 2,
+      "matchesExpected": true
+    },
+    {
+      "id": "schema-01",
+      "category": "multi-slot",
+      "mode": "recorded",
+      "attempts": 2,
+      "fallback": true,
+      "acceptedCount": 0,
+      "preferredCount": 0,
+      "conditionalCount": 0,
+      "uncertaintyCount": 1,
+      "modelCalls": 0,
+      "acceptedSlotIds": [],
+      "preferredSlotIds": [],
+      "verifier": {
+        "ok": 0,
+        "schemaFailures": 1,
+        "quoteFailures": 0
+      },
+      "manualEditsFormPath": 2,
+      "manualEditsAiPath": 2,
+      "matchesExpected": true
+    },
+    {
+      "id": "t02-01",
+      "category": "negation",
+      "mode": "recorded",
+      "attempts": 1,
+      "fallback": false,
+      "acceptedCount": 1,
+      "preferredCount": 0,
+      "conditionalCount": 0,
+      "uncertaintyCount": 0,
+      "modelCalls": 0,
+      "acceptedSlotIds": [
+        "slot_b"
+      ],
+      "preferredSlotIds": [],
+      "verifier": {
+        "ok": 1,
+        "schemaFailures": 0,
+        "quoteFailures": 0
+      },
+      "manualEditsFormPath": 2,
+      "manualEditsAiPath": 0,
+      "matchesExpected": true
+    },
+    {
+      "id": "pref-01",
+      "category": "multi-slot",
+      "mode": "recorded",
+      "attempts": 1,
+      "fallback": false,
+      "acceptedCount": 2,
+      "preferredCount": 1,
+      "conditionalCount": 0,
+      "uncertaintyCount": 0,
+      "modelCalls": 0,
+      "acceptedSlotIds": [
+        "slot_a",
+        "slot_b"
+      ],
+      "preferredSlotIds": [
+        "slot_a"
+      ],
+      "verifier": {
+        "ok": 1,
+        "schemaFailures": 0,
+        "quoteFailures": 0
+      },
+      "manualEditsFormPath": 4,
+      "manualEditsAiPath": 0,
+      "matchesExpected": true
+    },
+    {
+      "id": "persona_alice",
+      "category": "persona",
+      "mode": "recorded",
+      "attempts": 1,
+      "fallback": false,
+      "acceptedCount": 1,
+      "preferredCount": 0,
+      "conditionalCount": 0,
+      "uncertaintyCount": 0,
+      "modelCalls": 0,
+      "acceptedSlotIds": [
+        "slot_a"
+      ],
+      "preferredSlotIds": [],
+      "verifier": {
+        "ok": 1,
+        "schemaFailures": 0,
+        "quoteFailures": 0
+      },
+      "manualEditsFormPath": 2,
+      "manualEditsAiPath": 0,
+      "matchesExpected": true
+    },
+    {
+      "id": "persona_ben",
+      "category": "persona",
+      "mode": "recorded",
+      "attempts": 1,
+      "fallback": false,
+      "acceptedCount": 1,
+      "preferredCount": 0,
+      "conditionalCount": 0,
+      "uncertaintyCount": 0,
+      "modelCalls": 0,
+      "acceptedSlotIds": [
+        "slot_a"
+      ],
+      "preferredSlotIds": [],
+      "verifier": {
+        "ok": 1,
+        "schemaFailures": 0,
+        "quoteFailures": 0
+      },
+      "manualEditsFormPath": 2,
+      "manualEditsAiPath": 0,
+      "matchesExpected": true
+    },
+    {
+      "id": "persona_cara",
+      "category": "persona",
+      "mode": "recorded",
+      "attempts": 1,
+      "fallback": false,
+      "acceptedCount": 2,
+      "preferredCount": 0,
+      "conditionalCount": 0,
+      "uncertaintyCount": 0,
+      "modelCalls": 0,
+      "acceptedSlotIds": [
+        "slot_a",
+        "slot_b"
+      ],
+      "preferredSlotIds": [],
+      "verifier": {
+        "ok": 1,
+        "schemaFailures": 0,
+        "quoteFailures": 0
+      },
+      "manualEditsFormPath": 3,
+      "manualEditsAiPath": 0,
+      "matchesExpected": true
+    },
+    {
+      "id": "persona_diego",
+      "category": "persona",
+      "mode": "recorded",
+      "attempts": 1,
+      "fallback": false,
+      "acceptedCount": 1,
+      "preferredCount": 1,
+      "conditionalCount": 1,
+      "uncertaintyCount": 0,
+      "modelCalls": 0,
+      "acceptedSlotIds": [
+        "slot_b"
+      ],
+      "preferredSlotIds": [
+        "slot_b"
+      ],
+      "verifier": {
+        "ok": 1,
+        "schemaFailures": 0,
+        "quoteFailures": 0
+      },
+      "manualEditsFormPath": 5,
+      "manualEditsAiPath": 0,
+      "matchesExpected": true
+    },
+    {
+      "id": "persona_elise",
+      "category": "persona",
+      "mode": "recorded",
+      "attempts": 1,
+      "fallback": false,
+      "acceptedCount": 1,
+      "preferredCount": 0,
+      "conditionalCount": 0,
+      "uncertaintyCount": 0,
+      "modelCalls": 0,
+      "acceptedSlotIds": [
+        "slot_b"
+      ],
+      "preferredSlotIds": [],
+      "verifier": {
+        "ok": 1,
+        "schemaFailures": 0,
+        "quoteFailures": 0
+      },
+      "manualEditsFormPath": 2,
+      "manualEditsAiPath": 0,
+      "matchesExpected": true
+    },
+    {
+      "id": "persona_finn",
+      "category": "persona",
+      "mode": "recorded",
+      "attempts": 1,
+      "fallback": false,
+      "acceptedCount": 1,
+      "preferredCount": 0,
+      "conditionalCount": 0,
+      "uncertaintyCount": 0,
+      "modelCalls": 0,
+      "acceptedSlotIds": [
+        "slot_c"
+      ],
+      "preferredSlotIds": [],
+      "verifier": {
+        "ok": 1,
+        "schemaFailures": 0,
+        "quoteFailures": 0
+      },
+      "manualEditsFormPath": 2,
+      "manualEditsAiPath": 0,
+      "matchesExpected": true
+    }
+  ],
+  "totals": {
+    "cases": 33,
+    "syntheticCases": 27,
+    "personaCases": 6,
+    "liveSuccesses": 0,
+    "recordedSuccesses": 26,
+    "structuredModes": 5,
+    "guardFallbacks": 5,
+    "modelFallbacks": 2,
+    "fallbacks": 7,
+    "fallbackRate": 0.2121,
+    "attempts": 30,
+    "modelCalls": 0,
+    "schemaFailures": 1,
+    "quoteFailures": 1,
+    "manualEditsFormPath": 79,
+    "manualEditsAiPath": 23,
+    "matchesExpected": 33,
+    "safetyViolations": 0,
+    "fixtureFailures": 0
+  },
+  "baseline": {
+    "description": "Manual edits compare the form path (toggles/condition text/quote/ambiguity answers/confirm) with the reviewed extraction path (corrections to the reviewed constraints, or the full form when the pipeline falls back).",
+    "manualEditsFormPath": 79,
+    "manualEditsAiPath": 23,
+    "editReduction": 56,
+    "editReductionPct": 70.9
+  },
+  "safety": {
+    "violations": [],
+    "fixtureFailures": []
+  },
+  "limitations": [
+    "Recorded evidence only: no model is configured, so these numbers come from the checked-in recorded model answers in fixtures/ai/cases.ts, NOT from a live model. Configure LLM_PROVIDER/LLM_API_KEY (or LLM_OLLAMA=1) and re-run to measure live behaviour.",
+    "Manual-edit counts are a documented heuristic, not a user study.",
+    "Cases are synthetic; the six demo personas are fictional sample data."
+  ]
+}
