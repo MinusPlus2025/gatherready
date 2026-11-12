@@ -1,5 +1,7 @@
 # GatherReady
 
+<p align="left"><img src="public/logo-mark.svg" width="56" height="56" alt="GatherReady logo" /></p>
+
 **Turn conditional workshop interest into one plan people actually agree to fund.**
 
 A small web product for the [PayPal AI Hackathon 2026](https://paypalaihackathon.devpost.com/):
@@ -57,6 +59,15 @@ AI's contribution is measurable and bounded; every number and every PayPal call 
    offer hash, amount, currency, authorization age (<48h), withdrawal state and the deadline, locks a
    batch, and captures serially. The workshop is `CONFIRMED` only when every capture is `COMPLETED`;
    any failure voids uncaptured authorizations and refunds captured ones.
+
+## Design and identity
+
+The mark is the product in one glyph: three candidate times (three stems) converge into one frozen offer
+(the ring), and the check inside it is the participant's own consent. The interface pairs self-hosted
+**Inter Variable** (UI) with **Fraunces Variable** (display), uses one deep-green accent plus semantic
+status colours that always carry a word, and keeps one page-load entrance, button press states and
+reduced-motion support. [docs/design.md](docs/design.md) documents the tokens, the open-source fonts and
+icons (OFL-1.1 / ISC), the accessibility audit, and the agent skills used for the redesign.
 
 ## Screenshots
 
@@ -238,6 +249,7 @@ docs/         CONTRACT, architecture, testing, ai-evaluation, submission, demo s
 - [`docs/ai-evaluation.md`](docs/ai-evaluation.md) — cases, results and the baseline comparison
 - [`docs/submission.md`](docs/submission.md) — Devpost copy and the honest feature list
 - [`docs/demo-script.md`](docs/demo-script.md) — the under-three-minute demo plan, with the recorded walkthrough
+- [`docs/design.md`](docs/design.md) — identity, palette, type, motion, accessibility and the open-source design toolkit
 - [`docs/DEPLOY.md`](docs/DEPLOY.md) — judge-accessible hosting, sandbox test account, post-deploy checklist
 - [`docs/P0-ACCEPTANCE.md`](docs/P0-ACCEPTANCE.md) — the brief's P0 list, audited item by item with evidence and owner blocks
 

@@ -12,6 +12,7 @@ import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
 import { paymentStatusWord } from '../lib/format';
 import { useApp } from '../lib/store';
 import { DemoBar } from './DemoBar';
+import { BrandMark } from './Logo';
 import { Countdown, InlineNotice, LoadErrorState, LoadingState, StatusBadge } from './ui';
 
 const ROUTE_TITLES: Array<{ prefix: string; title: string }> = [
@@ -63,7 +64,7 @@ export function Shell() {
         <div className="container topbar__inner">
           <Link to="/" className="brand">
             <span className="brand__mark" aria-hidden="true">
-              G
+              <BrandMark size={38} />
             </span>
             <span className="brand__text">
               <span className="brand__name">GatherReady</span>

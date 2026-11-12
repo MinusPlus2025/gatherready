@@ -11,6 +11,7 @@
    ========================================================================== */
 
 import { useState } from 'react';
+import { BadgeCheck, HelpCircle, MessagesSquare } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import type { PlanView } from '../../shared/api.js';
 import { apiFieldErrors, describeError } from '../lib/api.js';
@@ -138,8 +139,14 @@ export default function OrganizerPlan() {
         </div>
         <div className="count-card count-card--accent">
           <p className="count-card__label">Fits this plan</p>
-          <p className="count-card__value">{plan?.counts.fitsThisPlan ?? confirmedCount}</p>
-          <p className="count-card__detail">Confirmed preferences that fit one time</p>
+          <p className="count-card__value">
+            {plan ? (plan.workableSlotId ? plan.counts.fitsThisPlan : '—') : confirmedCount}
+          </p>
+          <p className="count-card__detail">
+            {plan && !plan.workableSlotId
+              ? 'No time has reached the minimum yet — each time below shows its own confirmed fits'
+              : 'Confirmed preferences that fit the plan'}
+          </p>
         </div>
         <div className="count-card">
           <p className="count-card__label">Payment authorized</p>
@@ -209,7 +216,13 @@ export default function OrganizerPlan() {
               <h2 id="pending-conditions">Pending conditions</h2>
               <p className="muted">What would have to be true before someone could fit. Constraints only, never private reasons.</p>
               {preferences.every((preference) => preference.conditions.length === 0) ? (
-                <p className="muted">No pending conditions.</p>
+                <div className="empty-note">
+                  <MessagesSquare size={18} strokeWidth={1.9} aria-hidden="true" />
+                  <p>
+                    No pending conditions. Every confirmed participant can already make one of the times, or nobody
+                    wrote a condition worth asking about.
+                  </p>
+                </div>
               ) : (
                 <ul className="condition-list">
                   {preferences.flatMap((preference) =>
@@ -319,13 +332,25 @@ export default function OrganizerPlan() {
                 </>
               ) : plan.workableSlotId ? (
                 <>
-                  <p className="muted">No question needed — the plan already works.</p>
+                  <div className="empty-note empty-note--ok">
+                    <BadgeCheck size={18} strokeWidth={2} aria-hidden="true" />
+                    <p>No question needed — the plan already works.</p>
+                  </div>
                   <Link className="btn btn-primary" to="/organizer/offer">
                     Publish the offer
                   </Link>
                 </>
               ) : (
-                <p className="muted">{plan.reason}</p>
+                <div className="empty-note">
+                  <HelpCircle size={18} strokeWidth={1.9} aria-hidden="true" />
+                  <div>
+                    <p>{plan.reason}</p>
+                    <p className="muted">
+                      A question is only suggested when one participant’s own condition, answered yes, would meet the
+                      minimum. Otherwise the honest answer is that this round does not work — no invented compromise.
+                    </p>
+                  </div>
+                </div>
               )}
             </section>
           </div>
