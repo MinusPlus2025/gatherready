@@ -3,7 +3,7 @@
 Everything below was produced on this machine on **2026-11-12** (Asia/Shanghai), on the commit shown.
 Nothing in this file is a projected or hand-written result; commands can be re-run.
 
-- Commit: `c972fba` (`gatherready/`) — the commit that contains the application code, tests and screenshots below; this file was updated in a follow-up commit only to record the hash (no number changed).
+- Commit: `5283b7d` (`gatherready/`) — the commit that contains the redo pass described here (this file was then updated to record the hash).
 - Machine: macOS, Node.js **24.14.0**, SQLite 3 via `node:sqlite`
 - PayPal sandbox credentials present: **none** (`secrets/` empty, no `PAYPAL_*` variables) → every money
   result below comes from the **simulated PayPal adapter**.
