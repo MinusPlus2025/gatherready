@@ -132,6 +132,12 @@ async function main(): Promise<void> {
     // Deterministic path for the UI smoke: tick a time and add one condition. This is
     // the no-AI path a participant can always use, so the test does not depend on the
     // model's wording (the live model has its own eval in docs/ai-evaluation.md).
+    if (!(await page.$('#tick-slot_b'))) {
+      // A seeded draft already exists, so the editor is collapsed behind
+      // "Change your answer"; open it before using the deterministic path.
+      if (!(await clickText(page, 'Change your answer'))) throw new Error('edit toggle missing');
+      await page.waitForFunction(() => Boolean(document.querySelector('#tick-slot_b')), { timeout: TIMEOUT });
+    }
     const tickB = await page.$('#tick-slot_b');
     if (!tickB) throw new Error('time checkbox #tick-slot_b missing');
     await tickB.click();

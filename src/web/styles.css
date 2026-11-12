@@ -5350,3 +5350,297 @@ a {
     text-align: left;
   }
 }
+
+/* ==========================================================================
+   Mobile adaptation pass.
+   Goals: less chrome above the fold, shorter landing, native-size controls.
+   ========================================================================== */
+
+@media (max-width: 640px) {
+  /* one-row demo role switcher instead of a wrapped block */
+  .demo-bar__label {
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+  }
+
+  .demo-bar__row {
+    gap: 6px;
+  }
+
+  .demo-bar__buttons {
+    flex-wrap: wrap;
+    overflow: visible;
+    padding-bottom: 2px;
+  }
+
+  .chip-button {
+    min-height: 44px;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+
+  .demo-bar__screens-toggle,
+  .demo-bar .btn--small {
+    min-height: 44px;
+    font-size: 0.78rem;
+  }
+
+  /* context row: two compact lines, no separator orphan */
+  .context-row {
+    gap: 6px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+
+  .context-row__workshop {
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .context-row__venue,
+  .context-row__sep {
+    display: none;
+  }
+
+  .context-row__deadline {
+    font-size: 0.78rem;
+  }
+
+  /* landing: shorter stacked sections */
+  .hero--photo {
+    padding-top: 18px;
+    padding-bottom: 10px;
+    gap: 20px;
+  }
+
+  .hero h1 {
+    font-size: clamp(2rem, 8.6vw, 2.45rem);
+    line-height: 1.02;
+  }
+
+  .hero__lede {
+    font-size: 0.95rem;
+  }
+
+  .hero__actions {
+    gap: 8px;
+  }
+
+  .hero__actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .state-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1px;
+    margin-top: 4px;
+  }
+
+  .state-strip__item {
+    padding: 10px 10px;
+  }
+
+  .state-strip__label {
+    font-size: 0.72rem;
+  }
+
+  .state-strip__item p:last-child {
+    font-size: 0.76rem;
+    line-height: 1.35;
+  }
+
+  /* gallery: two columns on phones, bento keeps one hero frame */
+  .gallery__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: 132px;
+    gap: 8px;
+  }
+
+  .gallery__cell--large {
+    grid-column: span 2;
+    grid-row: span 1;
+    aspect-ratio: auto;
+  }
+
+  .gallery__cell--tall {
+    grid-column: span 1;
+    grid-row: span 2;
+    aspect-ratio: auto;
+  }
+
+  .gallery__cell--small {
+    grid-column: span 1;
+    grid-row: span 1;
+    aspect-ratio: auto;
+  }
+
+  .gallery__cell--wide {
+    grid-column: span 2;
+    grid-row: span 1;
+    aspect-ratio: auto;
+  }
+
+  .gallery__head {
+    gap: 4px;
+    margin-bottom: 10px;
+  }
+
+  .gallery__overlay {
+    padding: 18px 10px 8px;
+  }
+
+  .gallery__label {
+    font-size: 0.7rem;
+  }
+
+  .gallery__item {
+    border-radius: 10px;
+  }
+
+  /* how steps: tighter, still readable */
+  .how {
+    margin: 8px 0;
+  }
+
+  .how__list {
+    gap: 10px;
+  }
+
+  .how__step {
+    padding: 12px 14px;
+  }
+
+  .how__step p {
+    font-size: 0.84rem;
+    line-height: 1.45;
+  }
+
+  .how__icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .honest {
+    padding: 14px;
+  }
+
+  .honest__list li {
+    font-size: 0.82rem;
+    line-height: 1.45;
+  }
+
+  /* panels and forms: less padding, 16px text (no iOS zoom) */
+  .panel {
+    padding: 14px;
+  }
+
+  .page {
+    padding-top: 12px;
+  }
+
+  .page-head h1 {
+    font-size: clamp(1.9rem, 8vw, 2.3rem);
+  }
+
+  .input,
+  .textarea,
+  .select,
+  input[type='text'],
+  input[type='number'],
+  input[type='datetime-local'],
+  textarea,
+  select {
+    font-size: 16px;
+  }
+
+  .textarea,
+  textarea {
+    min-height: 96px;
+    field-sizing: content;
+    max-height: 240px;
+  }
+
+  /* candidate cards: badge under the text, not floating in the middle */
+  .offer-slot {
+    display: grid;
+    grid-template-columns: 22px minmax(0, 1fr);
+    align-items: start;
+    gap: 4px 10px;
+    padding: 12px;
+  }
+
+  .offer-slot input {
+    grid-row: span 2;
+    margin-top: 4px;
+  }
+
+  .offer-slot__body {
+    grid-column: 2;
+  }
+
+  .offer-slot__badge {
+    grid-column: 2;
+    justify-self: start;
+    align-self: start;
+    margin-top: 2px;
+  }
+
+  .offer-slot__label {
+    font-size: 0.92rem;
+    line-height: 1.3;
+  }
+
+  /* terms rows already stack; keep labels tight */
+  .terms-row dt,
+  .terms-row dd {
+    font-size: 0.84rem;
+  }
+
+  /* footer: two columns of links instead of stacked lines */
+  .footer__inner {
+    gap: 16px;
+  }
+
+  .footer__nav {
+    flex-wrap: wrap;
+    gap: 8px 14px;
+  }
+
+  .footer__text,
+  .footer__credit {
+    font-size: 0.78rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .demo-bar__label {
+    display: none;
+  }
+
+  .demo-bar__buttons {
+    max-width: 100%;
+  }
+
+  .chip {
+    font-size: 0.7rem;
+    padding: 3px 8px;
+  }
+
+  .lang-trigger {
+    padding: 0 8px;
+  }
+}
+
+/* Once a reviewable card exists, editing is behind one button instead of a
+   second full form above it (especially on phones). */
+.composer-toggle {
+  margin: 0 0 16px;
+}
+
+@media (max-width: 640px) {
+  .composer-toggle .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

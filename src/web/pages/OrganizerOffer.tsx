@@ -300,7 +300,7 @@ export default function OrganizerOffer() {
                     onChange={() => setSelectedSlotId(row.slotId)}
                   />
                   <span className="offer-slot__body">
-                    <span className="offer-slot__label">{slot.rangeLabel}</span>
+                    <span className="offer-slot__label">{shortSlot(slot.rangeLabel)}</span>
                     <span className="offer-slot__meta">
                       {t(metaKey, {
                         count: row.fits,

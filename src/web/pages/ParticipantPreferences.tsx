@@ -99,6 +99,7 @@ export default function ParticipantPreferences() {
   const [conditionSlot, setConditionSlot] = useState('');
   const [draft, setDraft] = useState<EditablePreference | null>(null);
   const [editing, setEditing] = useState(false);
+  const [composerOpen, setComposerOpen] = useState(false);
   const [errors, setErrors] = useState<SummaryError[]>([]);
   const [apiError, setApiError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
@@ -335,6 +336,13 @@ export default function ParticipantPreferences() {
       ) : (
         <>
           {!confirmed ? (
+            preference && !composerOpen ? (
+              <div className="composer-toggle">
+                <button type="button" className="btn btn-secondary" onClick={() => setComposerOpen(true)}>
+                  {t('flow.preferences.answer.changeTitle')}
+                </button>
+              </div>
+            ) : (
             <section className="panel" aria-labelledby="answer-panel">
               <h2 id="answer-panel">{preference ? t('flow.preferences.answer.changeTitle') : t('flow.preferences.answer.title')}</h2>
               <p className="muted">{t('flow.preferences.answer.equalPaths')}</p>
@@ -413,6 +421,7 @@ export default function ParticipantPreferences() {
                 </div>
               </div>
             </section>
+            )
           ) : null}
 
           {preference && draft ? (
