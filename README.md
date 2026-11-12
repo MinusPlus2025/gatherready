@@ -98,6 +98,9 @@ cd gatherready
 npm install                 # dependencies are already present in this checkout
 npm run preflight           # what is real / what is degraded, no secrets printed
 node scripts/setup-access.mjs   # optional: PayPal sandbox keys + model key (written to git-ignored secrets/)
+# or, if you are in a GUI session: copy one value at a time, then run one line — nothing is echoed
+node scripts/setup-access-clipboard.mjs client-id
+node scripts/setup-access-clipboard.mjs client-secret
 
 npm run dev                 # API on http://localhost:5180
 npm run dev:web             # UI on http://localhost:5181 (proxies /api to 5180)
