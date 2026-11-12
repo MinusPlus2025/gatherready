@@ -110,7 +110,7 @@ async function main(): Promise<void> {
 
     /* 1. load the synthetic sample */
     await sleep(500);
-    await clickText(page, 'Load sample');
+    await clickText(page, 'Load a sample');
     await sleep(1900);
 
     /* 2. route into the plan */

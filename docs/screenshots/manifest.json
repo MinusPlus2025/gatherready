@@ -1,5 +1,5 @@
 {
-  "capturedAt": "2026-11-12T11:22:26.639Z",
+  "capturedAt": "2026-11-12T11:35:42.120Z",
   "source": "live server + built UI (no mock state)",
   "mode": "PayPal simulated, AI recorded/structured (no credentials on this machine)",
   "shots": [
@@ -7,133 +7,133 @@
       "file": "docs/screenshots/landing-1440.png",
       "route": "/",
       "width": 1440,
-      "height": 2596,
+      "height": 2572,
       "state": "landing"
     },
     {
       "file": "docs/screenshots/landing-420.png",
       "route": "/",
       "width": 420,
-      "height": 4414,
+      "height": 4332,
       "state": "landing (mobile)"
     },
     {
       "file": "docs/screenshots/organizer-setup-1440.png",
       "route": "/organizer/setup",
       "width": 1440,
-      "height": 1311,
+      "height": 1293,
       "state": "organizer setup after loading synthetic sample"
     },
     {
       "file": "docs/screenshots/organizer-plan-1440.png",
       "route": "/organizer/plan",
       "width": 1440,
-      "height": 1564,
+      "height": 1546,
       "state": "no workable plan yet: 3 confirmed fits, one condition not counted"
     },
     {
       "file": "docs/screenshots/participant-preferences-1440.png",
       "route": "/participant/preferences",
       "width": 1440,
-      "height": 3062,
+      "height": 3043,
       "state": "participant view: own sentence prefilled"
     },
     {
       "file": "docs/screenshots/participant-preferences-parsed-1440.png",
       "route": "/participant/preferences",
       "width": 1440,
-      "height": 3586,
+      "height": 3568,
       "state": "reviewable card with verbatim quote"
     },
     {
       "file": "docs/screenshots/participant-preferences-confirmed-1440.png",
       "route": "/participant/preferences",
       "width": 1440,
-      "height": 1696,
+      "height": 1678,
       "state": "confirmed preference (still not a fit)"
     },
     {
       "file": "docs/screenshots/organizer-plan-suggestion-1440.png",
       "route": "/organizer/plan",
       "width": 1440,
-      "height": 1776,
+      "height": 1757,
       "state": "one suggested question with the fact and the gap it closes"
     },
     {
       "file": "docs/screenshots/organizer-plan-suggestion-420.png",
       "route": "/organizer/plan",
       "width": 420,
-      "height": 2871,
+      "height": 2764,
       "state": "plan with suggestion (mobile)"
     },
     {
       "file": "docs/screenshots/participant-clarify-1440.png",
       "route": "/participant/clarify",
       "width": 1440,
-      "height": 1509,
+      "height": 1490,
       "state": "participant sees only their own question"
     },
     {
       "file": "docs/screenshots/organizer-offer-1440.png",
       "route": "/organizer/offer",
       "width": 1440,
-      "height": 1992,
+      "height": 1973,
       "state": "one frozen offer: terms and fingerprint"
     },
     {
       "file": "docs/screenshots/participant-authorize-1440.png",
       "route": "/participant/authorize",
       "width": 1440,
-      "height": 2923,
+      "height": 2833,
       "state": "fixed summary + unchecked consent + PayPal button"
     },
     {
       "file": "docs/screenshots/participant-authorize-420.png",
       "route": "/participant/authorize",
       "width": 420,
-      "height": 4069,
+      "height": 3921,
       "state": "consent screen (mobile)"
     },
     {
       "file": "docs/screenshots/organizer-funding-1440.png",
       "route": "/organizer/funding",
       "width": 1440,
-      "height": 2119,
+      "height": 2100,
       "state": "authorized, not charged — collect is a separate action"
     },
     {
       "file": "docs/screenshots/organizer-result-1440.png",
       "route": "/organizer/result",
       "width": 1440,
-      "height": 2012,
+      "height": 1994,
       "state": "workshop confirmed only after every capture completed"
     },
     {
       "file": "docs/screenshots/organizer-plan-no-plan-1440.png",
       "route": "/organizer/plan",
       "width": 1440,
-      "height": 1564,
+      "height": 1546,
       "state": "no plan: minimum not reached, no invented compromise"
     },
     {
       "file": "docs/screenshots/landing-zh-1440.png",
       "route": "/",
       "width": 1440,
-      "height": 2736,
+      "height": 2691,
       "state": "Chinese landing after switching the interface language"
     },
     {
       "file": "docs/screenshots/organizer-plan-zh-1440.png",
       "route": "/organizer/plan",
       "width": 1440,
-      "height": 1499,
+      "height": 1459,
       "state": "Chinese organizer home after switching the interface language"
     },
     {
       "file": "docs/screenshots/organizer-setup-zh-1440.png",
       "route": "/organizer/setup",
       "width": 1440,
-      "height": 1293,
+      "height": 1253,
       "state": "Chinese organizer setup after switching the interface language"
     }
   ]

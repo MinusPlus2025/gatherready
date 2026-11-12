@@ -201,7 +201,6 @@ export default function ParticipantAuthorize() {
               {t('flow.authorize.offer.meta', { slot: offer.slotLabel, version: offer.version })}
             </p>
           </div>
-          <span className="chip chip--sandbox">{t('flow.authorize.offer.chip')}</span>
         </div>
 
         <TermsList rows={offer.termsRows} />

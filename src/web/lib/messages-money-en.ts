@@ -5,7 +5,7 @@ export const moneyEn: Record<string, string> = {
   'money.shared.noWorkshopTitle': 'No workshop yet',
   'money.shared.setupWorkshop': 'Set up a workshop',
   'money.shared.backToPlan': 'Back to the plan',
-  'money.shared.simulatedChip': 'Simulated PayPal — no real money',
+  'money.shared.simulatedChip': 'PayPal sandbox — no real money',
 
   /* ------------------------------ offer page ------------------------------ */
   'money.offer.eyebrow': 'Organizer · Offer',
@@ -111,7 +111,7 @@ export const moneyEn: Record<string, string> = {
     'Awaiting approval → Authorized → Collecting → Captured. A hold that ends without capture is shown as released; a refund is shown only once PayPal confirms it.',
   'money.funding.noPayments': 'No one has started an authorization yet.',
   'money.funding.you': '(you)',
-  'money.funding.modeSimulated': 'Simulated PayPal',
+  'money.funding.modeSimulated': 'PayPal sandbox',
   'money.funding.modeSandbox': 'PayPal sandbox',
   'money.funding.providerStatus': 'Provider status: {status}',
   'money.funding.timelineAria': 'Money timeline: {word}',

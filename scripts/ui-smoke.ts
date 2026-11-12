@@ -116,10 +116,10 @@ async function main(): Promise<void> {
   try {
     /* 1. land + load the synthetic demo */
     await page.goto(`${BASE}/`, { waitUntil: 'networkidle0' });
-    if (!(await clickText(page, 'Load sample (synthetic demo data)'))) {
+    if (!(await clickText(page, 'Load a sample workshop'))) {
       // the sample button may be behind the setup page's empty state
       await page.goto(`${BASE}/organizer/setup`, { waitUntil: 'networkidle0' });
-      if (!(await clickText(page, 'Load sample (synthetic demo data)'))) throw new Error('no Load sample button');
+      if (!(await clickText(page, 'Load a sample workshop'))) throw new Error('no Load sample button');
     }
     ok('landing → Load sample button found');
     if (!(await waitText(page, 'Fits this plan'))) throw new Error('plan page did not render after loading the sample');
@@ -211,7 +211,7 @@ async function main(): Promise<void> {
     const consent = await page.$('#consent');
     if (!consent) throw new Error('consent checkbox missing');
     await consent.click();
-    if (!(await clickText(page, 'Simulated PayPal'))) throw new Error('simulated PayPal button missing');
+    if (!(await clickText(page, 'Sandbox payment'))) throw new Error('simulated PayPal button missing');
     if (!(await waitText(page, 'Authorized', 60_000))) throw new Error('authorized state never appeared');
     // The simulated approval returns through /return → redirect; let that settle
     // before issuing API calls from the page context.

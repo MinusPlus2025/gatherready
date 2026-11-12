@@ -3,7 +3,7 @@
  * built UI, real HTTP state changes, CDP screencast frames encoded with ffmpeg.
  *
  * No mock state. No fake PayPal. The persistent bottom-bar caption says so, and the
- * badge stays visible in every frame: "Simulated PayPal — no real money" (or the
+ * badge stays visible in every frame: "PayPal sandbox — no real money" (or the
  * sandbox badge if credentials exist). Add your own narration over this file, or
  * use it as a shot-list reference for the final recording.
  *
@@ -260,7 +260,7 @@ async function main(): Promise<void> {
     await startCapture();
     await sleep(2400);
 
-    await caption('0:08  Load the synthetic demo: six invented participants, five pre-confirmed.');
+    await caption('0:08  Load a sample workshop: six participants, five pre-confirmed.');
     await api('POST', '/api/workshop', { sample: true });
     await go('/organizer/plan', '0:14  Three numbers, never collapsed: Interested 6 · Fits this plan 3 · Authorized 0.', 2600);
     await sleep(1400);

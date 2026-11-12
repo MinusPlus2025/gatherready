@@ -70,7 +70,7 @@ async function main(): Promise<void> {
       (window as unknown as { __name?: (fn: unknown) => unknown }).__name = (fn: unknown) => fn;
     });
     await page.evaluate(() => {
-      const button = [...document.querySelectorAll('button')].find((item) => item.textContent?.includes('Load sample'));
+      const button = [...document.querySelectorAll('button')].find((item) => item.textContent?.includes('Load a sample'));
       button?.click();
     });
     await sleep(1600);

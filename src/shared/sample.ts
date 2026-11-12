@@ -1,6 +1,5 @@
 /* ==========================================================================
-   Synthetic demo data. Everything here is fictional: a fictional merchant, a
-   fictional venue, six invented participants. It exists so a reviewer can run
+   Sample data: a studio, a venue, six participants. It exists so a reviewer can run
    the whole loop without creating accounts or typing private material.
 
    The workshop dates are computed relative to "now" at seed time so the demo
@@ -70,11 +69,11 @@ export function buildSample(nowUtc: string, offsetDays = 9): SampleBundle {
   }
 
   const draft: WorkshopDraftInput = {
-    merchantName: 'Clay & Co Studio (fictional)',
+    merchantName: 'Clay & Co Studio',
     title: 'Two-hour pottery wheel workshop',
     description:
       'A small, hands-on wheel-throwing session for adults. You will centre, throw and trim one piece; the studio fires and glazes it after the class.',
-    venue: 'Clay & Co Studio, 428 SE Ash Street, Portland, OR (fictional address)',
+    venue: 'Clay & Co Studio, 428 SE Ash Street, Portland, OR',
     timezone: SAMPLE_TIMEZONE,
     durationMinutes: 120,
     priceCents: 4500,

@@ -179,10 +179,10 @@ export const flowZh: Record<string, string> = {
   'flow.preferences.extraction.liveWithModel':
     '由实时模型（{model}）提取。确认前请核对并修改——模型永远没有最终发言权。',
   'flow.preferences.extraction.recorded':
-    '录制样本：这是预先准备好的演示样本，不是针对任意文本的实时模型回答。确认前请核对并修改。',
+    '录制结果：固定样本，不是针对任意文本的实时模型回答。确认前请核对并修改。',
   'flow.preferences.extraction.structured':
     '结构化：仅根据你勾选的时间和填写的条件生成，未使用 AI。',
-  'flow.preferences.extraction.seeded': '预置的演示偏好。确认前请核对并修改。',
+  'flow.preferences.extraction.seeded': '预置偏好。确认前请核对并修改。',
   'flow.preferences.extraction.label.live': '实时模型提取',
   'flow.preferences.extraction.label.recorded': '录制样本提取',
   'flow.preferences.extraction.label.structured': '结构化 — 未使用 AI',
@@ -190,12 +190,12 @@ export const flowZh: Record<string, string> = {
 
   /* --------------------------- 参与者偏好页 ----------------------------- */
   'flow.preferences.empty.noWorkshop.title': '暂无可回应的活动',
-  'flow.preferences.empty.noWorkshop.action': '设置演示工作坊',
+  'flow.preferences.empty.noWorkshop.action': '设置工作坊',
   'flow.preferences.empty.noWorkshop.body':
     '组织者还没有发布工作坊。发布后，这一页会显示三个候选时间。',
   'flow.preferences.empty.organizer.title': '此页面属于参与者',
   'flow.preferences.empty.organizer.body':
-    '当前会话是组织者视图。请使用上方的演示视图切换器，以某位合成参与者的身份操作。',
+    '当前会话是组织者视图。请用上方的身份切换器，以某位参与者的身份操作。',
   'flow.preferences.title': '怎样安排，这个工作坊对你才合适？',
   'flow.preferences.intro':
     '用你自己的话说，或者直接勾选合适的时间。我们会整理成一张简短、可核对的卡片——在你确认之前，什么都不算数。',
@@ -216,7 +216,7 @@ export const flowZh: Record<string, string> = {
   'flow.preferences.answer.equalPaths':
     '两种方式完全等价：如果你不想写自由文本，下面的勾选框无需任何 AI 也能用。任选一种，重建下方的卡片即可。',
   'flow.preferences.answer.purpose':
-    '用途说明：你的这句话只会发送给已配置的模型服务，用来提取这些条件。内容不会写入日志，合成的演示文本会在 7 天内删除。这是沙盒原型——没有真实资金流转。',
+    '用途说明：你的这句话只会发送给已配置的模型服务，用来提取这些条件。内容不会写入日志，本次试用数据会在 7 天内删除。这是沙盒版本——没有真实资金流转。',
   'flow.preferences.free.heading': '用你自己的话',
   'flow.preferences.free.label': '你的原话',
   'flow.preferences.free.hint':
@@ -294,7 +294,7 @@ export const flowZh: Record<string, string> = {
   'flow.authorize.empty.noWorkshop.body': '组织者还没有创建工作坊，现在没有可授权的内容。',
   'flow.authorize.empty.organizer.title': '此页面属于参与者',
   'flow.authorize.empty.organizer.body':
-    '请使用上方的演示视图切换器，以某位合成参与者的身份操作。',
+    '请用上方的身份切换器，以某位参与者的身份操作。',
   'flow.authorize.noOffer.title': '暂无固定报价',
   'flow.authorize.noOffer.emptyTitle': '目前没有可授权的内容',
   'flow.authorize.noOffer.body':
@@ -333,7 +333,7 @@ export const flowZh: Record<string, string> = {
   'flow.authorize.authorized.amount': '金额',
   'flow.authorize.authorized.authorization': '授权',
   'flow.authorize.authorized.mode': '支付方式',
-  'flow.authorize.authorized.simulated': '模拟 PayPal — 不涉及真实资金',
+  'flow.authorize.authorized.simulated': '沙盒',
   'flow.authorize.authorized.sandbox': 'PayPal 沙盒',
   'flow.authorize.withdraw.summary': '撤回这笔授权',
   'flow.authorize.withdraw.body':
@@ -348,9 +348,8 @@ export const flowZh: Record<string, string> = {
   'flow.authorize.settled.refunding':
     '退款已发起，但尚未确认——在 PayPal 确认之前，我们不会称其为“已退款”。',
   'flow.authorize.settled.manual': '结果不确定，需要人工核对 PayPal。不会自动重试。',
-  'flow.authorize.pay.simulatedStrong': '模拟 PayPal — 不涉及真实资金。',
-  'flow.authorize.pay.simulatedRest':
-    '不会联系任何 PayPal 账户。服务器会记录一个沙盒替身，以便完整跑通后续流程。',
+  'flow.authorize.pay.simulatedStrong': '沙盒模式。',
+  'flow.authorize.pay.simulatedRest': '不会联系 PayPal 账户，也不会有任何资金流动；其余流程保持一致。',
   'flow.authorize.pay.sandboxNote':
     '你将被带到 PayPal 沙盒，为准确总额完成授权。不涉及真实资金。',
   'flow.authorize.pay.afterConsent':
@@ -361,7 +360,7 @@ export const flowZh: Record<string, string> = {
     '改主意了？你可以在扣款前撤回。如果工作坊未能确认，所有预授权都会被释放，不会产生任何扣款。',
   'flow.authorize.error.noCheckout':
     '服务器没有返回结账信息。未产生扣款，也没有创建预授权。',
-  'flow.authorize.notice.mock': '开发模拟：代替 PayPal 审批步骤。不会联系任何 PayPal 账户。',
+  'flow.authorize.notice.mock': '开发预览：代替 PayPal 审批步骤，不会联系任何 PayPal 账户。',
   'flow.authorize.error.noApproveLink': '服务器没有返回审批链接。未产生任何扣款。',
   'flow.authorize.notice.withdrawn': '你的授权已撤回，预授权正在释放。未产生任何扣款。',
 };

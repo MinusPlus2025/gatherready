@@ -5,7 +5,7 @@ export const moneyZh: Record<string, string> = {
   'money.shared.noWorkshopTitle': '还没有工作坊',
   'money.shared.setupWorkshop': '创建工作坊',
   'money.shared.backToPlan': '返回方案',
-  'money.shared.simulatedChip': '模拟 PayPal · 不涉及真实资金',
+  'money.shared.simulatedChip': 'PayPal 沙盒 · 不涉及真实资金',
 
   /* ------------------------------ offer page ------------------------------ */
   'money.offer.eyebrow': '组织者 · 方案',
@@ -107,7 +107,7 @@ export const moneyZh: Record<string, string> = {
     '等待确认 → 已授权 → 扣款中 → 已扣款。没有扣款就结束的冻结会显示为已解除；退款只有在 PayPal 确认后才会显示。',
   'money.funding.noPayments': '还没有人开始授权。',
   'money.funding.you': '（你）',
-  'money.funding.modeSimulated': '模拟 PayPal',
+  'money.funding.modeSimulated': 'PayPal 沙盒',
   'money.funding.modeSandbox': 'PayPal 沙盒',
   'money.funding.providerStatus': '支付渠道状态：{status}',
   'money.funding.timelineAria': '资金时间线：{word}',

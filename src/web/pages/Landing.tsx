@@ -86,7 +86,6 @@ export default function Landing() {
               <i />
             </span>
             <span className="app-frame__title">{t('landing.frame.title')}</span>
-            <span className="app-frame__badge">{t('landing.frame.badge')}</span>
           </div>
           <div className="app-frame__counts">
             <div>

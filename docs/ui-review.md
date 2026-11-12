@@ -667,7 +667,7 @@ Motion checks: entrance inventory, hover response, reduced-motion behaviour, foc
       720,
       700
     ],
-    "heroVisible": "0.999092"
+    "heroVisible": "0.999094"
   },
   "hover": {
     "before": {

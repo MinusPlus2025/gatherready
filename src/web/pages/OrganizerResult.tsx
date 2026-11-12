@@ -130,7 +130,6 @@ export default function OrganizerResult() {
           <p className="result-banner__label">{t('money.result.bannerNeedsPerson')}</p>
           <p className="result-banner__value">{result.pendingActionCount}</p>
         </div>
-        <span className="chip chip--sim">{t('money.shared.simulatedChip')}</span>
       </div>
 
       {result.pendingActionCount > 0 ? (

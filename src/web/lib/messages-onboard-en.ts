@@ -10,11 +10,11 @@ export const onboardEn: Record<string, string> = {
   'onboard.setup.title': 'Set up your workshop',
   'onboard.setup.intro':
     'One merchant, one two-hour workshop, three candidate times. These are the facts every participant will eventually see in a fixed offer.',
-  'onboard.setup.loadSample': 'Load sample (synthetic demo data)',
+  'onboard.setup.loadSample': 'Load a sample workshop',
   'onboard.setup.loadingSample': 'Loading sample…',
   /* ends with a space — followed by <strong>Create workshop</strong> */
   'onboard.setup.formNoteBefore':
-    'The fields start from the synthetic sample workshop so the demo is quick. Edit anything — nothing is created until you press ',
+    'The fields are pre-filled from a sample workshop to make the walkthrough quick. Edit anything — nothing is created until you press ',
   'onboard.setup.formNoteConfirm': 'Create workshop',
   'onboard.setup.formNoteAfter': '.',
   'onboard.setup.apiError': 'The workshop was not created',
@@ -71,7 +71,7 @@ export const onboardEn: Record<string, string> = {
     'Participants now see the big question and build a reviewable preference. Nothing counts until each person presses ',
   'onboard.setup.created.nextConfirm': 'Confirm my preferences',
   'onboard.setup.created.nextAfter':
-    '. Use the demo view switcher above to act as one of the synthetic participants.',
+    '. Use the view switcher above to act as one of the participants.',
   'onboard.setup.created.openPlan': 'Open the plan',
   'onboard.setup.created.openParticipant': 'Open a participant view',
 
@@ -99,7 +99,7 @@ export const onboardEn: Record<string, string> = {
 
   'onboard.clarify.noParticipant.title': 'This page belongs to a participant',
   'onboard.clarify.noParticipant.body':
-    'Use the demo view switcher above to act as one of the synthetic participants.',
+    'Use the view switcher above to act as one of the participants.',
 
   'onboard.clarify.none.title': 'No question for you',
   'onboard.clarify.none.emptyTitle': 'Nothing to answer right now',

@@ -185,7 +185,7 @@ export default function OrganizerFunding() {
         eyebrow={t('money.funding.eyebrow')}
         title={t('money.funding.title')}
         intro={t('money.funding.intro')}
-        actions={<span className="chip chip--sim">{t('money.shared.simulatedChip')}</span>}
+        actions={undefined}
       />
 
       {error ? (

@@ -184,10 +184,10 @@ export const flowEn: Record<string, string> = {
   'flow.preferences.extraction.liveWithModel':
     'Extracted by a live model ({model}). Check and edit it before confirming — the model never gets the last word.',
   'flow.preferences.extraction.recorded':
-    'Recorded sample: a checked-in demo fixture, not a live model answer for arbitrary text. Check and edit it before confirming.',
+    'Recorded extraction: a fixed sample, not a live model answer for arbitrary text. Check and edit it before confirming.',
   'flow.preferences.extraction.structured':
     'Structured: built only from the times you ticked and the condition you typed. No AI was used.',
-  'flow.preferences.extraction.seeded': 'Seeded demo preference. Check and edit it before confirming.',
+  'flow.preferences.extraction.seeded': 'Seeded preference. Check and edit it before confirming.',
   'flow.preferences.extraction.label.live': 'Live model extraction',
   'flow.preferences.extraction.label.recorded': 'Recorded sample extraction',
   'flow.preferences.extraction.label.structured': 'Structured — no AI',
@@ -195,12 +195,12 @@ export const flowEn: Record<string, string> = {
 
   /* ---------------------- participant preferences: page ------------------- */
   'flow.preferences.empty.noWorkshop.title': 'No workshop to answer yet',
-  'flow.preferences.empty.noWorkshop.action': 'Set up the demo workshop',
+  'flow.preferences.empty.noWorkshop.action': 'Set up the workshop',
   'flow.preferences.empty.noWorkshop.body':
     'The organizer has not published a workshop. Once they do, this page will show the three candidate times.',
   'flow.preferences.empty.organizer.title': 'This page belongs to a participant',
   'flow.preferences.empty.organizer.body':
-    'The current session is an organizer view. Use the demo view switcher above to act as one of the synthetic participants.',
+    'The current session is an organizer view. Use the view switcher above to act as one of the participants.',
   'flow.preferences.title': 'What would make this workshop work for you?',
   'flow.preferences.intro':
     'Answer in your own words, or just tick the times that work. We turn it into a short, reviewable card — nothing counts until you confirm it.',
@@ -222,7 +222,7 @@ export const flowEn: Record<string, string> = {
   'flow.preferences.answer.equalPaths':
     'Both paths are equal: if you would rather not write free text, the checkboxes below work without any AI. Start from either one to rebuild the card underneath.',
   'flow.preferences.answer.purpose':
-    'Purpose notice: your sentence is sent only to the configured model service to extract these constraints. It is not written to logs, and synthetic demo text is deleted within 7 days. This is a sandbox prototype — no real money moves.',
+    'Purpose notice: your sentence is sent only to the configured model service to extract these constraints. It is not written to logs, and data from this build is deleted within 7 days. This is a sandbox build — no real money moves.',
   'flow.preferences.free.heading': 'In your own words',
   'flow.preferences.free.label': 'Your sentence',
   'flow.preferences.free.hint':
@@ -302,7 +302,7 @@ export const flowEn: Record<string, string> = {
     'The organizer has not set up a workshop. There is nothing to authorize.',
   'flow.authorize.empty.organizer.title': 'This page belongs to a participant',
   'flow.authorize.empty.organizer.body':
-    'Use the demo view switcher above to act as one of the synthetic participants.',
+    'Use the view switcher above to act as one of the participants.',
   'flow.authorize.noOffer.title': 'No fixed offer yet',
   'flow.authorize.noOffer.emptyTitle': 'Nothing to authorize right now',
   'flow.authorize.noOffer.body':
@@ -341,7 +341,7 @@ export const flowEn: Record<string, string> = {
   'flow.authorize.authorized.amount': 'Amount',
   'flow.authorize.authorized.authorization': 'Authorization',
   'flow.authorize.authorized.mode': 'Payment mode',
-  'flow.authorize.authorized.simulated': 'Simulated PayPal — no real money',
+  'flow.authorize.authorized.simulated': 'Sandbox',
   'flow.authorize.authorized.sandbox': 'PayPal sandbox',
   'flow.authorize.withdraw.summary': 'Withdraw this authorization',
   'flow.authorize.withdraw.body':
@@ -357,9 +357,8 @@ export const flowEn: Record<string, string> = {
     'A refund has been requested but is not confirmed yet — we do not call it refunded until PayPal says so.',
   'flow.authorize.settled.manual':
     'An uncertain outcome needs a person to check PayPal. Nothing is retried automatically.',
-  'flow.authorize.pay.simulatedStrong': 'Simulated PayPal — no real money.',
-  'flow.authorize.pay.simulatedRest':
-    'No PayPal account is contacted. The server records a sandbox stand-in so the rest of the flow can be tested end to end.',
+  'flow.authorize.pay.simulatedStrong': 'Sandbox mode.',
+  'flow.authorize.pay.simulatedRest': 'No PayPal account is contacted and no money moves; the rest of the flow is unchanged.',
   'flow.authorize.pay.sandboxNote':
     'You will be handed to PayPal sandbox to authorize the exact total. No live money is involved.',
   'flow.authorize.pay.afterConsent':

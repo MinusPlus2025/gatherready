@@ -434,7 +434,7 @@ export function resultView(
 
 const AUDIT_SUMMARY: Record<string, string> = {
   'workshop.created': 'Workshop created',
-  'sample.loaded': 'Synthetic demo workshop loaded',
+  'sample.loaded': 'Sample workshop loaded',
   'preferences.parsed': 'Preference analyzed and drafted',
   'preferences.confirmed': 'Participant confirmed their preferences',
   'clarification.proposed': 'Clarification question proposed',

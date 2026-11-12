@@ -261,7 +261,7 @@ export class Service {
         notice: {
           kind: 'info',
           message:
-            'Synthetic demo data loaded. Five participants have pre-confirmed preferences; Diego is left for you to run through the live flow.',
+            'Sample workshop loaded. Five participants have pre-confirmed preferences; Diego is left for you to run the full flow.',
         },
       });
     }

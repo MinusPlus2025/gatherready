@@ -9,9 +9,9 @@ export const onboardZh: Record<string, string> = {
   'onboard.setup.title': '设置你的工作坊',
   'onboard.setup.intro':
     '一个商家、一场两小时的工作坊、三个候选时间。这些就是每位参与者最终会在固定方案里看到的信息。',
-  'onboard.setup.loadSample': '载入示例（合成演示数据）',
+  'onboard.setup.loadSample': '载入示例工作坊',
   'onboard.setup.loadingSample': '正在载入示例…',
-  'onboard.setup.formNoteBefore': '所有字段都从合成示例工作坊预填，方便快速演示。什么都可以改 —— 在你按下',
+  'onboard.setup.formNoteBefore': '所有字段都用示例工作坊预填，方便快速走一遍。全部可改 —— 在你按下',
   'onboard.setup.formNoteConfirm': '创建工作坊',
   'onboard.setup.formNoteAfter': '之前，什么都不会创建。',
   'onboard.setup.apiError': '工作坊未创建',
@@ -63,7 +63,7 @@ export const onboardZh: Record<string, string> = {
   'onboard.setup.created.nextBefore': '参与者现在会看到核心问题，并建立一份可复核的偏好。每个人按下',
   'onboard.setup.created.nextConfirm': '确认我的偏好',
   'onboard.setup.created.nextAfter':
-    '后才会计入。用上方的演示视角切换器，以一位合成参与者的身份体验。',
+    '后才会计入。用上方的身份切换器，以某位参与者的身份体验。',
   'onboard.setup.created.openPlan': '打开方案',
   'onboard.setup.created.openParticipant': '打开参与者视角',
 
@@ -89,7 +89,7 @@ export const onboardZh: Record<string, string> = {
   'onboard.clarify.openOffer': '查看开放中的方案',
 
   'onboard.clarify.noParticipant.title': '这个页面属于某位参与者',
-  'onboard.clarify.noParticipant.body': '用上方的演示视角切换器，以一位合成参与者的身份体验。',
+  'onboard.clarify.noParticipant.body': '用上方的身份切换器，以某位参与者的身份体验。',
 
   'onboard.clarify.none.title': '没有需要你回答的问题',
   'onboard.clarify.none.emptyTitle': '现在没有需要回答的内容',

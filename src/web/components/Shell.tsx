@@ -158,7 +158,6 @@ export function Shell() {
                   ? t('shell.extraction.recorded')
                   : t('shell.extraction.structured')}
             </span>
-            <span className="mode-banner__modes">{t('shell.mode.payments')}</span>
           </div>
         </div>
       ) : null}
