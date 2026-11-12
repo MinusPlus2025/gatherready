@@ -1,4 +1,4 @@
-/* zh — dictionary parity; edit values, keep keys. */
+/* zh dictionary. */
 
 export const zh: Record<string,string> = {
   "pay.status.NONE": "未开始",
@@ -228,5 +228,10 @@ export const zh: Record<string,string> = {
   "workshop.questionSentStatus": "已发送",
   "workshop.questionProposedStatus": "待发送",
   "common.cancel": "取消",
-  "demo.controls": "演示控制"
+  "demo.controls": "演示控制",
+  "theme.label": "外观",
+  "theme.accent": "强调色",
+  "theme.background": "背景",
+  "theme.custom": "自定义颜色",
+  "theme.reset": "重置"
 };

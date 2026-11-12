@@ -5912,3 +5912,311 @@ a {
 .demo-controls[open] .demo-controls__chev {
   transform: rotate(180deg);
 }
+
+/* ------------------------- compact appearance control -------------------- */
+
+.theme-switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.theme-trigger {
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--ink-2);
+  cursor: pointer;
+  transition:
+    color 160ms ease,
+    border-color 160ms ease,
+    background-color 160ms ease,
+    transform var(--dur-press) var(--ease-out);
+}
+
+.theme-trigger:hover {
+  color: var(--ink);
+  border-color: var(--border-strong);
+}
+
+.theme-trigger:active {
+  transform: scale(0.94);
+}
+
+.theme-menu-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  background: transparent;
+}
+
+.theme-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  z-index: 60;
+  width: 236px;
+  padding: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-card);
+  transform-origin: top right;
+  animation: menuIn 160ms var(--ease-out) both;
+}
+
+.theme-menu__label {
+  margin: 0 0 6px;
+  font-size: 0.7rem;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.theme-swatches {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.theme-swatch {
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid rgb(0 0 0 / 0.12);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform var(--dur-press) var(--ease-out);
+}
+
+.theme-swatch--background {
+  border-radius: 8px;
+}
+
+.theme-swatch--active {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.theme-swatch:active {
+  transform: scale(0.92);
+}
+
+.theme-custom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+  font-size: 0.8rem;
+  color: var(--ink-2);
+}
+
+.theme-custom input[type='color'] {
+  width: 40px;
+  height: 32px;
+  padding: 2px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--surface);
+  cursor: pointer;
+}
+
+.theme-menu__footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+/* Custom accents keep white/dark text legible. */
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:focus-visible,
+.brand__mark {
+  color: var(--accent-contrast, #fff);
+}
+
+.steps-progress__item--current .steps-progress__dot {
+  color: var(--accent-contrast, #fff);
+}
+
+/* Smaller language pill on desktop; it keeps the 44px target on touch. */
+.lang-trigger {
+  min-height: 34px;
+  padding: 0 8px;
+  gap: 4px;
+  font-size: 0.72rem;
+}
+
+.lang-trigger svg {
+  width: 13px;
+  height: 13px;
+}
+
+@media (max-width: 640px) {
+  .theme-trigger {
+    width: 44px;
+    height: 44px;
+  }
+
+  .theme-swatch {
+    width: 44px;
+    height: 44px;
+  }
+
+  .theme-menu {
+    right: 12px;
+    left: auto;
+    width: min(280px, calc(100vw - 24px));
+  }
+
+  .lang-trigger {
+    min-height: 44px;
+    padding: 0 12px;
+    gap: 6px;
+    font-size: 0.76rem;
+  }
+}
+
+/* On phones both popovers anchor to the header, not to the tiny trigger. */
+@media (max-width: 640px) {
+  .theme-switch {
+    position: static;
+  }
+
+  .theme-menu {
+    position: absolute;
+    top: 100%;
+    left: 12px;
+    right: 12px;
+    width: auto;
+    max-height: min(70vh, 460px);
+    overflow: auto;
+    transform-origin: top center;
+  }
+
+  .theme-custom input[type='color'] {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+/* Visual pill/circle stays compact; the real target is 44×44. */
+.lang-trigger {
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  border-radius: 0;
+}
+
+.lang-trigger__inner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 34px;
+  padding: 0 8px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    transform var(--dur-press) var(--ease-out);
+}
+
+.lang-trigger:hover {
+  border-color: transparent;
+  background: transparent;
+}
+
+.lang-trigger:hover .lang-trigger__inner {
+  border-color: var(--border-strong);
+  background: var(--surface);
+}
+
+.lang-trigger:active {
+  transform: none;
+}
+
+.lang-trigger:active .lang-trigger__inner {
+  transform: scale(0.97);
+}
+
+.theme-trigger {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.theme-trigger__inner {
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    transform var(--dur-press) var(--ease-out);
+}
+
+.theme-trigger:hover {
+  border-color: transparent;
+  background: transparent;
+}
+
+.theme-trigger:hover .theme-trigger__inner {
+  border-color: var(--border-strong);
+}
+
+.theme-trigger:active {
+  transform: none;
+}
+
+.theme-trigger:active .theme-trigger__inner {
+  transform: scale(0.94);
+}
+
+@media (max-width: 640px) {
+  .lang-trigger {
+    min-height: 44px;
+    padding: 0;
+    gap: 0;
+    font-size: 0.76rem;
+  }
+
+  .lang-trigger__inner {
+    min-height: 36px;
+    padding: 0 10px;
+    gap: 5px;
+  }
+
+  .theme-trigger {
+    width: 44px;
+    height: 44px;
+  }
+
+  .theme-trigger__inner {
+    width: 36px;
+    height: 36px;
+  }
+}

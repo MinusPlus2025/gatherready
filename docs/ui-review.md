@@ -747,16 +747,16 @@ Motion checks: entrance inventory, hover response, reduced-motion behaviour, foc
       720,
       700
     ],
-    "heroVisible": "0.999091"
+    "heroVisible": "0.999093"
   },
   "hover": {
     "before": {
       "transform": "none",
-      "boxShadow": "rgba(13, 90, 69, 0.12) 0px 2px 4px 0px, rgba(13, 90, 69, 0.4) 0px 14px 28px -14px"
+      "boxShadow": "rgba(19, 23, 19, 0.12) 0px 2px 4px 0px, rgba(19, 23, 19, 0.35) 0px 14px 28px -14px"
     },
     "after": {
       "transform": "matrix(1, 0, 0, 1, 0, -1)",
-      "boxShadow": "rgba(13, 90, 69, 0.12) 0px 2px 4px 0px, rgba(13, 90, 69, 0.4) 0px 14px 28px -14px"
+      "boxShadow": "rgba(19, 23, 19, 0.12) 0px 2px 4px 0px, rgba(19, 23, 19, 0.35) 0px 14px 28px -14px"
     }
   },
   "reducedMotion": {

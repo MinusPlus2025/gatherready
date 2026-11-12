@@ -1,4 +1,4 @@
-/* en — dictionary parity; edit values, keep keys. */
+/* en dictionary. */
 
 export const en: Record<string,string> = {
   "pay.status.NONE": "Not started",
@@ -228,5 +228,10 @@ export const en: Record<string,string> = {
   "workshop.questionSentStatus": "sent",
   "workshop.questionProposedStatus": "proposed",
   "common.cancel": "Cancel",
-  "demo.controls": "Demo controls"
+  "demo.controls": "Demo controls",
+  "theme.label": "Appearance",
+  "theme.accent": "Accent colour",
+  "theme.background": "Background",
+  "theme.custom": "Custom colour",
+  "theme.reset": "Reset"
 };

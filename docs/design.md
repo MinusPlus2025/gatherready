@@ -231,6 +231,17 @@ interface therefore ships a real language menu rather than a translated screensh
   layouts; the language menu was exercised for all 8 locales in a browser check (html lang, stored choice,
   zero fallback keys). Bilingual screenshots come from the live server via `npm run capture-live`.
 
+## 11b. Interface colour customization
+
+- A compact palette button next to the language pill opens **Appearance**: five accent presets and a native
+  colour input, plus four light background presets.
+- Only `--accent`, `--accent-strong`, `--accent-tint`, `--accent-contrast`, `--bg` and `--surface-2` are written
+  by `src/web/lib/theme.ts`. Semantic status colours, PayPal branding, photography and type stay untouched.
+- `--accent-contrast` is computed from the accent luminance, so light custom accents use dark button text.
+- The saved theme (`localStorage.gr_theme`) is applied before React renders; a reset returns to Forest/Paper.
+- Custom backgrounds are deliberately not offered: arbitrary dark surfaces would require a full dark palette and
+  a separate contrast pass. The four presets are all light and keep existing contrast guarantees.
+
 ## 12. Review tooling and measured results
 
 Design was not signed off by eye. The repo ships a review harness that measures the built UI in Chrome

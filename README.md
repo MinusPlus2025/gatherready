@@ -136,8 +136,9 @@ claim user testing or a screen-reader pass.
 
 The interface supports **8 languages**: English (default), 简体中文, 繁體中文, Español, Français, Deutsch,
 日本語 and 한국어. A compact control in the identity bar (globe + current short code, e.g. `EN`, `简`, `日`)
-opens a menu with each language's own name and its English name; it is 44px tall, keyboard operable (Esc closes,
-focus returns to the trigger), and on phones the menu anchors below the header instead of a giant pill row.
+opens a menu with each language's own name and its English name. The visible pill stays compact (34px); the
+hit target is 44px, it is keyboard operable (Esc closes, focus returns to the trigger), and on phones the menu
+anchors below the header instead of a giant pill row.
 
 The choice persists in `localStorage`, updates `<html lang>`, and survives reload. English and 简体中文 are in the
 initial bundle; the other six dictionaries are their own lazy chunks (~16–17 KiB gzip each) fetched on first use,
@@ -160,9 +161,26 @@ language) and dictionary-parity tested, but a native review is still a to-do bef
 Implementation: `src/web/lib/i18n.tsx` (provider, lazy dictionary loading, `t()` with `{placeholders}`),
 `src/web/lib/locales.ts` (registry + `<html lang>` tags), five dictionary namespaces under
 `src/web/lib/messages-*.ts` plus one file per language, `LanguageSwitch` in the shell. `npm run test:i18n`
-via `vitest` checks every locale has the same 790 keys, identical placeholders, and no empty strings;
+via `vitest` checks every locale has the same 810 keys, identical placeholders, and no empty strings;
 `npm run ui-review` reviews English, Chinese and Japanese layouts at four widths; `npm run typecheck:web`
 typechecks the web app (the root tsconfig excludes `src/web`).
+
+
+## Interface appearance
+
+A small palette button next to the language control opens **Appearance**. It changes only two safe things:
+
+- **Accent** — five presets (Forest, Ocean, Clay, Plum, Graphite) or any custom colour. The darker hover shade,
+  tint background and readable text-on-accent colour are derived in code, so a light custom accent switches the
+  button label to dark text instead of leaving white-on-yellow.
+- **Background** — four light surface moods (Paper, Cool, Warm, White). Custom backgrounds are intentionally not
+  offered, because arbitrary dark backgrounds would need a full dark palette; the preset set keeps every existing
+  contrast guarantee.
+
+Semantic status colours, the PayPal button, photography and typography do **not** change. The choice is stored in
+`localStorage` (`gr_theme`) and applied in `main.tsx` before the first render, so reloads do not flash the default
+theme. Implementation: `src/web/lib/theme.ts`, `src/web/components/ThemeSwitch.tsx`; screenshots:
+[`appearance-menu-1440.png`](docs/screenshots/appearance-menu-1440.png), [`appearance-custom-1440.png`](docs/screenshots/appearance-custom-1440.png).
 
 ## Run it
 

@@ -13,6 +13,7 @@ import { useI18n } from '../lib/i18n';
 import { useApp } from '../lib/store';
 import { DemoBar } from './DemoBar';
 import { LanguageSwitch } from './LanguageSwitch';
+import { ThemeSwitch } from './ThemeSwitch';
 import { BrandMark } from './Logo';
 import { Countdown, InlineNotice, StatusBadge } from './ui';
 
@@ -108,6 +109,7 @@ export function Shell() {
               <span className="chip chip--sandbox">{t('shell.mode.sandbox')}</span>
             )}
             <span className="chip chip--role">{roleLabel}</span>
+            <ThemeSwitch />
             <LanguageSwitch />
           </div>
         </div>

@@ -805,5 +805,10 @@ export const es: Record<string,string> = {
   "flow.preferences.diagnostics": "Detalles técnicos (versión, extracción)",
   "flow.preferences.diagnostics.version": "Versión",
   "flow.preferences.diagnostics.extraction": "Extracción",
-  "flow.preferences.diagnostics.confirmed": "Confirmada"
+  "flow.preferences.diagnostics.confirmed": "Confirmada",
+  "theme.label": "Apariencia",
+  "theme.accent": "Color de acento",
+  "theme.background": "Fondo",
+  "theme.custom": "Color personalizado",
+  "theme.reset": "Restablecer"
 };

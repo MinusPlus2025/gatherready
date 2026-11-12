@@ -805,5 +805,10 @@ export const ja: Record<string,string> = {
   "flow.preferences.diagnostics": "技術的な詳細（版・抽出方法）",
   "flow.preferences.diagnostics.version": "版",
   "flow.preferences.diagnostics.extraction": "抽出方法",
-  "flow.preferences.diagnostics.confirmed": "確定日時"
+  "flow.preferences.diagnostics.confirmed": "確定日時",
+  "theme.label": "外観",
+  "theme.accent": "アクセントカラー",
+  "theme.background": "背景",
+  "theme.custom": "カスタムカラー",
+  "theme.reset": "リセット"
 };

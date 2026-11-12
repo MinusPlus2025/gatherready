@@ -204,14 +204,34 @@
       "state": "Landing demo CTA lands directly on participant preferences (phone)"
     },
     {
+      "file": "appearance-header-1440.png",
+      "route": "/",
+      "state": "Compact language pill + appearance button"
+    },
+    {
+      "file": "appearance-menu-1440.png",
+      "route": "/",
+      "state": "Appearance: accent presets, custom colour, background presets"
+    },
+    {
+      "file": "appearance-custom-1440.png",
+      "route": "/",
+      "state": "Custom Ocean accent + Cool background"
+    },
+    {
+      "file": "appearance-menu-390.png",
+      "route": "/",
+      "state": "Appearance menu on a phone"
+    },
+    {
       "file": "language-menu-1440.png",
       "route": "/",
-      "state": "Language menu (8 locales), desktop"
+      "state": "Compact language pill and 8-locale menu"
     },
     {
       "file": "language-menu-390.png",
       "route": "/",
-      "state": "Language menu (8 locales), phone"
+      "state": "Language menu on a phone"
     }
   ]
 }

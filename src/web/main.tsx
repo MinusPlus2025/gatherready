@@ -2,9 +2,13 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
 import { I18nProvider, loadDictionary, readStoredLocale } from './lib/i18n';
+import { initTheme } from './lib/theme';
 import '@fontsource-variable/inter';
 import '@fontsource-variable/fraunces';
 import './styles.css';
+
+// Apply the saved interface colours before React renders to avoid a flash.
+initTheme();
 
 const container = document.getElementById('root');
 if (!container) throw new Error('GatherReady: #root element is missing from index.html');

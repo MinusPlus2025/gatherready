@@ -41,10 +41,12 @@ export function LanguageSwitch() {
         aria-busy={loadingLocale !== null}
         onClick={() => setOpen((value) => !value)}
       >
-        <Globe size={15} strokeWidth={2} aria-hidden="true" />
-        <span className="visually-hidden">{t('language.label')}</span>
-        <span className="lang-trigger__short">{current.short}</span>
-        <ChevronDown size={12} strokeWidth={2.2} aria-hidden="true" className="lang-trigger__chevron" />
+        <span className="lang-trigger__inner">
+          <Globe size={15} strokeWidth={2} aria-hidden="true" />
+          <span className="visually-hidden">{t('language.label')}</span>
+          <span className="lang-trigger__short">{current.short}</span>
+          <ChevronDown size={12} strokeWidth={2.2} aria-hidden="true" className="lang-trigger__chevron" />
+        </span>
       </button>
       {open ? (
         <>

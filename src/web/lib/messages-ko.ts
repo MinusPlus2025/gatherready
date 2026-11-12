@@ -805,5 +805,10 @@ export const ko: Record<string,string> = {
   "flow.preferences.diagnostics": "기술 세부 정보(버전, 추출)",
   "flow.preferences.diagnostics.version": "버전",
   "flow.preferences.diagnostics.extraction": "추출",
-  "flow.preferences.diagnostics.confirmed": "확정 일시"
+  "flow.preferences.diagnostics.confirmed": "확정 일시",
+  "theme.label": "모양",
+  "theme.accent": "강조 색상",
+  "theme.background": "배경",
+  "theme.custom": "사용자 지정 색상",
+  "theme.reset": "초기화"
 };
