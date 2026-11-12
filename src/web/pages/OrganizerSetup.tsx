@@ -338,23 +338,22 @@ export default function OrganizerSetup() {
   }
 
   return (
-    <div className="page">
+    <div className="page setup-create">
       <PageHeader
         eyebrow={t('onboard.setup.eyebrow')}
         title={t('onboard.setup.title')}
-        intro={t('onboard.setup.intro')}
-        actions={
-          <button type="button" className="btn btn-secondary" onClick={() => void loadSample()} disabled={busy !== null}>
-            {busy === 'sample' ? t('onboard.setup.loadingSample') : t('onboard.setup.loadSample')}
-          </button>
-        }
+        intro={t('onboard.setup.compact.intro')}
       />
-
-      <p className="form-note">
-        {t('onboard.setup.formNoteBefore')}
-        <strong>{t('onboard.setup.formNoteConfirm')}</strong>
-        {t('onboard.setup.formNoteAfter')}
-      </p>
+      <details className="setup-guide">
+        <summary>{t('onboard.setup.compact.guide')}</summary>
+        <div className="setup-guide__body">
+          <p>{t('onboard.setup.intro')}</p>
+          <p>{t('onboard.setup.formNoteBefore')}<strong>{t('onboard.setup.formNoteConfirm')}</strong>{t('onboard.setup.formNoteAfter')}</p>
+          <button type="button" className="btn btn-secondary" onClick={() => void loadSample()} disabled={busy !== null}>
+            {busy === 'sample' ? t('onboard.setup.loadingSample') : t('onboard.setup.compact.sample')}
+          </button>
+        </div>
+      </details>
 
       <ErrorSummary errors={errors} />
       {apiError ? (
@@ -537,9 +536,6 @@ export default function OrganizerSetup() {
         <div className="form-actions">
           <button type="submit" className="btn btn-primary" disabled={busy !== null}>
             {busy === 'create' ? t('onboard.setup.creating') : t('onboard.setup.create')}
-          </button>
-          <button type="button" className="btn btn-secondary" onClick={() => void loadSample()} disabled={busy !== null}>
-            {t('onboard.setup.loadSample')}
           </button>
           <p className="form-actions__note">{t('onboard.setup.actionsNote')}</p>
         </div>

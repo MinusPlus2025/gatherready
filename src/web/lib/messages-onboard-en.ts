@@ -5,6 +5,9 @@
    wrap an inline <strong> in the JSX, so the space has to live on one side of
    the split. Chinese values keep their own natural spacing. */
 export const onboardEn: Record<string, string> = {
+  "onboard.setup.compact.intro": "Edit the sample below. Your workshop is not created until you confirm.",
+  "onboard.setup.compact.guide": "How setup works · or try a sample",
+  "onboard.setup.compact.sample": "Create the sample workshop",
   'onboard.setup.preview.title': 'Your workshop, taking shape',
   'onboard.setup.preview.draft': 'UNSAVED DRAFT',
   'onboard.setup.preview.note': 'Preview only. Nothing is published or bookable until the workshop and offer are confirmed.',

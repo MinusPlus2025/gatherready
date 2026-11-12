@@ -1,6 +1,9 @@
 /* ja dictionary. */
 
 export const ja: Record<string,string> = {
+  "onboard.setup.compact.intro": "下のサンプルを編集できます。確定するまでワークショップは作成されません。",
+  "onboard.setup.compact.guide": "作成方法・サンプルを試す",
+  "onboard.setup.compact.sample": "サンプルのワークショップを作成",
   "onboard.setup.preview.title": "ワークショップの下書き",
   "onboard.setup.preview.draft": "未保存の下書き",
   "onboard.setup.preview.note": "プレビューのみ。ワークショップと条件が確定するまで公開・予約はできません。",

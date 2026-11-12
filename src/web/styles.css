@@ -6791,3 +6791,12 @@ html[data-theme-mode='dark'] .eyebrow {
  .setup-studio .fieldset {padding:20px 16px;}
  .fieldset__title {margin-bottom:18px;}
 }
+
+/* Creation starts with editing, not competing sample actions. */
+.setup-guide {margin:-8px 0 24px;border-bottom:1px solid var(--border);}
+.setup-guide summary {cursor:pointer;min-height:44px;padding:10px 0;font-size:.9rem;font-weight:600;}
+.setup-guide__body {max-width:65ch;padding:4px 0 20px;}
+.setup-guide__body p {color:var(--ink-2);line-height:1.6;margin:0 0 12px;}
+.setup-guide[open] .setup-guide__body {animation:routeIn 160ms ease-out;}
+@media(max-width:650px){.setup-create .page-head{margin-bottom:16px}.setup-create .page-head .lede{font-size:1rem;line-height:1.5}.setup-guide{margin-bottom:16px}.setup-studio{gap:16px}}
+@media(prefers-reduced-motion:reduce){.setup-guide[open] .setup-guide__body{animation:none}}

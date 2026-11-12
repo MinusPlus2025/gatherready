@@ -1,6 +1,9 @@
 /* es dictionary. */
 
 export const es: Record<string,string> = {
+  "onboard.setup.compact.intro": "Edita el ejemplo de abajo. El taller no se crea hasta que confirmes.",
+  "onboard.setup.compact.guide": "Cómo funciona · o prueba un ejemplo",
+  "onboard.setup.compact.sample": "Crear el taller de ejemplo",
   "onboard.setup.preview.title": "Tu taller toma forma",
   "onboard.setup.preview.draft": "BORRADOR SIN GUARDAR",
   "onboard.setup.preview.note": "Solo vista previa. Nada se publica ni se puede reservar hasta confirmar el taller y la oferta.",

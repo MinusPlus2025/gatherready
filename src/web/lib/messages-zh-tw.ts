@@ -1,6 +1,9 @@
 /* 繁體中文（由簡體字典以 OpenCC 轉換並做少量用語調整，非專業在地化）。 */
 
 export const zhTW: Record<string, string> = {
+  "onboard.setup.compact.intro": "可直接修改下方範例，確認建立前不會儲存工作坊。",
+  "onboard.setup.compact.guide": "建立說明與範例體驗",
+  "onboard.setup.compact.sample": "建立範例工作坊",
   "onboard.setup.preview.title": "工作坊草稿預覽",
   "onboard.setup.preview.draft": "尚未儲存的草稿",
   "onboard.setup.preview.note": "僅供預覽。工作坊與方案確認前，不會發布，也不可預訂。",

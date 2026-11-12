@@ -4,6 +4,9 @@
    英文文件里个别键在首尾带空格，是因为 JSX 里用 <strong> 打断句子，空格只能放在
    其中一侧；中文按中文排版习惯处理，不受影响。 */
 export const onboardZh: Record<string, string> = {
+  "onboard.setup.compact.intro": "可直接修改下方示例，确认创建前不会保存工作坊。",
+  "onboard.setup.compact.guide": "创建说明与示例体验",
+  "onboard.setup.compact.sample": "创建示例工作坊",
   'onboard.setup.preview.title': '工作坊草稿预览',
   'onboard.setup.preview.draft': '尚未保存的草稿',
   'onboard.setup.preview.note': '仅为预览。工作坊及方案确认前，不会发布，也不可预订。',
