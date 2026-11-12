@@ -169,7 +169,7 @@ async function main(): Promise<void> {
     await page.goto(`${BASE}/organizer/plan`, { waitUntil: 'networkidle0' });
     if (!(await waitText(page, 'Suggested question'))) throw new Error('plan page missing suggested question panel');
     if (!(await clickText(page, 'Review question'))) throw new Error('Review question button missing');
-    if (!(await waitText(page, 'Review before sending', 60_000))) throw new Error('review panel never appeared (propose dead-end?)');
+    if (!(await waitText(page, 'Proposed', 60_000))) throw new Error('proposed question state never appeared (propose dead-end?)');
     ok('Review question creates the stored proposal and opens the review panel');
     const sent = await clickText(page, 'Send question to Diego');
     if (!sent) throw new Error('Send question button missing or disabled');

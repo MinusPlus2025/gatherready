@@ -217,6 +217,7 @@ export function planView(
         clarificationId: plan.suggestion.clarificationId,
         slotId: plan.suggestion.slotId,
         slotLabel: slotLabelOf(slots, plan.suggestion.slotId),
+        conditionText: plan.suggestion.conditionText,
         questionText: plan.suggestion.questionText,
         factLabel: plan.suggestion.factLabel,
         factValue: plan.suggestion.factValue,

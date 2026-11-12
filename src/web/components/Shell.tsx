@@ -49,10 +49,11 @@ export function Shell() {
     ['COLLECTING_INTEREST', 'CLARIFYING', 'OFFER_OPEN', 'SETTLING'].includes(state.workshop.status);
 
   const myPayment = state?.payments.find((payment) => payment.isMine) ?? null;
-  const roleLabel =
-    state?.session.role === 'participant'
-      ? `Viewing as ${state.participants.find((p) => p.id === state.session.viewParticipantId)?.displayName ?? 'participant'}`
-      : 'Viewing as Organizer';
+  const roleLabel = !state
+    ? ''
+    : state.session.role === 'participant'
+      ? `You are ${state.participants.find((p) => p.id === state.session.viewParticipantId)?.displayName ?? 'a participant'} — participant`
+      : 'You are the organizer';
 
   if (!state) {
     return (

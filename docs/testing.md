@@ -25,6 +25,7 @@ Nothing in this file is a projected or hand-written result; commands can be re-r
 | End-to-end product loop over HTTP | `npx tsx scripts/verify.ts` | **62/62 checks passed** (simulated money path) |
 | AI evaluation (live model) | `LLM_OLLAMA=1 LLM_MODEL=qwen2.5:7b-instruct npx tsx scripts/ai-eval.ts` | **live: 28/33 answered live, 0 unsafe acceptances, 0 quote failures, 5 fallbacks** (strict exact-match 15/33; see §3) |
 | Preflight | `npx tsx scripts/preflight.ts` | **passed** with 3 degraded-mode warnings (PayPal keys, model key, secrets file) |
+| IA acceptance (heuristic) | `npm run ui-smoke` + `npm run ui-review` | computed status sentence, three separate rails, candidate matrix desktop/phone, one-question card, participant four-step money line, collapsed technical details |
 | Browser click-through (real UI) | `npm run test:ui` | **14/14 UI steps passed** against the running server: load sample → structured preference → confirm → propose/send question → answer → publish → consent → authorize → collect → result |
 | Real screenshots | `CAPTURE_LIVE_AI=1 LLM_MODEL=qwen2.5:7b-instruct npx tsx scripts/capture-live.ts` | **16 PNGs**, live server + built UI, live model banner, simulated PayPal badge |
 | PayPal readiness (needs keys) | `npx tsx scripts/paypal-preflight.ts` | **BLOCKED** — no credentials; script exits 2 without faking a result |

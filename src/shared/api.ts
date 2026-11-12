@@ -147,6 +147,8 @@ export interface ClarificationSuggestionView {
   clarificationId: string | null;
   slotId: string;
   slotLabel: string;
+  /** The participant's own condition, whitespace-trimmed, from their confirmed card. */
+  conditionText: string;
   questionText: string;
   factLabel: string;
   factValue: string;

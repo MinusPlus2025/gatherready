@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-12T09:45:40.620Z",
+  "generatedAt": "2026-11-12T09:59:03.335Z",
   "base": "http://localhost:5180",
   "findings": [],
   "metrics": {
@@ -333,7 +333,7 @@
         620,
         700
       ],
-      "heroVisible": "0.999092"
+      "heroVisible": "0.999093"
     },
     "hover": {
       "before": {

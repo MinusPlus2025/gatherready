@@ -16,6 +16,8 @@ import type { PreferenceView } from '../../shared/api.js';
 import { formatInstantLabel } from '../../shared/time.js';
 import { apiFieldErrors, describeError } from '../lib/api.js';
 import { useApp } from '../lib/store.js';
+import { participantStatus } from '../lib/status.js';
+import { ParticipantSteps, StatusBand } from '../components/workshop.js';
 import {
   CheckboxField,
   EmptyState,
@@ -244,6 +246,7 @@ export default function ParticipantPreferences() {
   const status = preference?.status ?? null;
   const confirmed = status === 'CONFIRMED' && !editing;
   const withdrawn = status === 'WITHDRAWN';
+  const participantSummary = state ? participantStatus(state) : null;
 
   return (
     <div className="page page--narrow">
@@ -260,6 +263,13 @@ export default function ParticipantPreferences() {
           ) : undefined
         }
       />
+
+      {participantSummary ? (
+        <>
+          <StatusBand model={participantSummary} />
+          <ParticipantSteps steps={participantSummary.steps} />
+        </>
+      ) : null}
 
       {notice ? (
         <InlineNotice kind="success" title="Done">

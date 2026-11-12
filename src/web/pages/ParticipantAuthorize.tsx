@@ -17,6 +17,8 @@ import { Link } from 'react-router-dom';
 import { markAwaitingPaypal, useApp } from '../lib/store.js';
 import { describeError } from '../lib/api.js';
 import { formatCents, paymentStatusWord } from '../lib/format.js';
+import { offerMoneyNotes, participantStatus } from '../lib/status.js';
+import { Disclosure, ParticipantSteps } from '../components/workshop.js';
 import {
   CheckboxField,
   Countdown,
@@ -57,6 +59,8 @@ export default function ParticipantAuthorize() {
     !IN_FLIGHT.includes(myPayment.status) &&
     !['NONE', 'AUTHORIZED'].includes(myPayment.status);
   const amountLabel = offer ? formatCents(offer.terms.priceCents) : '';
+  const participantSummary = state ? participantStatus(state) : null;
+  const moneyNotes = state ? offerMoneyNotes(state) : '';
 
   async function startCheckout(): Promise<void> {
     if (!offer || !consent || busy) return;
@@ -176,6 +180,8 @@ export default function ParticipantAuthorize() {
         }
       />
 
+      {participantSummary ? <ParticipantSteps steps={participantSummary.steps} /> : null}
+
       {error ? (
         <InlineNotice kind="error" title="Nothing was charged">
           {error}
@@ -206,7 +212,9 @@ export default function ParticipantAuthorize() {
           </span>
         </div>
 
-        <Fingerprint shortHash={offer.shortHash} fullHash={offer.offerHash} />
+        <Disclosure summary="Technical details (offer fingerprint)">
+          <Fingerprint shortHash={offer.shortHash} fullHash={offer.offerHash} />
+        </Disclosure>
         <p className="muted">
           <Countdown
             deadlineUtc={offer.terms.authDeadlineUtc}
@@ -316,6 +324,7 @@ export default function ParticipantAuthorize() {
               busy={busy}
               onClick={() => void startCheckout()}
             />
+            <p className="pay-help pay-help--money">{moneyNotes}</p>
             <p className="pay-help" aria-live="polite">
               {consent
                 ? 'When you press the button you will be handed to PayPal. Returning does not mark you paid — we read the authorization state back from the server.'

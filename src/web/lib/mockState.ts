@@ -338,6 +338,7 @@ function buildPlan(
         clarificationId: 'clr_diego_materials',
         slotId: SLOT_IDS.a,
         slotLabel: workshop.slots.find((s) => s.id === SLOT_IDS.a)?.rangeLabel ?? 'Saturday morning',
+        conditionText: DIEGO_CONDITION.condition,
         questionText: diorQuestion(workshop),
         factLabel: 'Materials',
         factValue: 'All clay, tools and firing are included in the $45 price.',
