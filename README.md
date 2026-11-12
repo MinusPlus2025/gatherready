@@ -98,7 +98,10 @@ the same screens render the sandbox badge without code changes once keys are sup
 
 There is also a **60-second silent walkthrough** recorded from the live product by
 `npm run record-demo`: [`docs/demo/gatherready-walkthrough.mp4`](docs/demo/gatherready-walkthrough.mp4)
-(a real server, real state changes, simulated PayPal badge in every frame). It is a recording aid — the
+(a real server, real state changes, simulated PayPal badge in every frame). The interaction motion is
+recorded separately by `npm run record:motion` → [`docs/motion-demo.mp4`](docs/motion-demo.mp4) /
+[`docs/motion-demo.gif`](docs/motion-demo.gif), and `npm run test:motion` asserts the motion contract
+(including that reduced motion removes movement). It is a recording aid — the
 submission video needs your own narration and, if available, sandbox credentials so the sandbox badge is
 visible; see [`docs/demo-script.md`](docs/demo-script.md).
 

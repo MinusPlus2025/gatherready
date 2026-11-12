@@ -26,7 +26,9 @@
     "record-demo": "tsx scripts/record-demo.ts",
     "paypal-preflight": "tsx scripts/paypal-preflight.ts",
     "test:ui": "tsx scripts/ui-smoke.ts",
-    "ui-review": "tsx scripts/ui-review.ts"
+    "ui-review": "tsx scripts/ui-review.ts",
+    "test:motion": "tsx scripts/motion-check.ts",
+    "record:motion": "tsx scripts/record-motion.ts"
   },
   "dependencies": {
     "@fastify/cookie": "^11.0.2",

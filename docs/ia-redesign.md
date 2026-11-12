@@ -184,7 +184,7 @@ Implemented in `src/web`:
 | Participant four-step money line + status sentence | `ParticipantPreferences`, `ParticipantAuthorize` |
 | Four money states + amount/min/deadline/failure notes beside the button | `ParticipantAuthorize` |
 | Technical detail collapsed (plan hash, audit, provider state, offer fingerprint) | `Disclosure` + `<details>` |
-| Motion that explains: avatar state transitions, row highlight on open, accordion expansion | CSS transitions, reduced-motion respected |
+| Motion that explains: avatar state transitions, row highlight on open, accordion expansion, count tween, payment pulse, route fade | `src/web/lib/motion.ts` + CSS transitions, `npm run test:motion` 7/7, reduced-motion verified |
 | Identity stated on every screen | Shell chip: “You are the organizer” / “You are Diego — participant” |
 | Offer page rebuilt to the same rules (no numbered step, no fieldset/legend collision) | status band + candidate cards with `Blocked` badges + exact terms + one publish action; fingerprint/audit collapsed |
 | Demo chrome that does not orphan controls | participant chips scroll on desktop and wrap on phones; Screens is a real popover (closes on outside click, Escape and navigation); one payment-mode chip + one extraction line instead of three repeated warnings |

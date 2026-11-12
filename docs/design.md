@@ -172,7 +172,31 @@ Rules applied:
 - **Licences:** Pexels License; source URLs and photographers recorded in
   [`public/images/README.md`](../public/images/README.md).
 
-## 10. Review tooling and measured results
+## 10. Interaction motion
+
+Motion is part of the explanation layer, not decoration. Implemented in CSS transitions/keyframes plus
+two small hooks (`src/web/lib/motion.ts`):
+
+| Interaction | Motion | Why |
+|---|---|---|
+| Route change | 220ms opacity + 5px rise, custom ease-out | the new screen does not pop in; orientation is preserved |
+| Candidate row expand / collapse | 240ms `grid-template-rows` transition, people fade in staggered 0/40/80/120ms | the relation between a time row and the people inside it becomes visible |
+| Avatar state change | 620ms one-shot scale pulse (1 → 1.22 → 0.97 → 1) | the person whose state changed is the thing to look at |
+| Rails (`Fits this plan`, `Terms confirmed`, `Valid authorizations`) | numeric tween 480ms + 420ms value pop | a count moving from 3 to 4 is the product's core signal |
+| Status sentence changes | 280ms rise and fade | the sentence is computed, so a change is news |
+| Payment in progress | slow 1.4s dot pulse | tells the user the system is working; it stops when the state is final |
+| Screens / popovers | 160ms scale from the trigger, origin top-right | the menu belongs to the button that opened it |
+| Pressables | `scale(0.97)` on `:active` (130ms) | immediate feedback on every button, chip, row |
+| Hover (fine pointers only) | icons slide 2px, rows and cards lift 1px | affordance without movement on touch |
+
+All position movement is removed under `prefers-reduced-motion: reduce` (opacity/colour stay). Durations stay
+under 300ms for UI; only the hero entrance (620ms, once) is longer.
+
+Verification: `npm run test:motion` (7/7 — route, expand, stagger, collapse, avatar/rail definitions, popover,
+reduced motion) and `npm run record:motion` → [`docs/motion-demo.mp4`](motion-demo.mp4) /
+[`docs/motion-demo.gif`](motion-demo.gif).
+
+## 11. Review tooling and measured results
 
 Design was not signed off by eye. The repo ships a review harness that measures the built UI in Chrome
 and writes a report:

@@ -10,6 +10,7 @@
 import { useState, type ReactNode } from 'react';
 import { Check, ChevronDown, Minus, X } from 'lucide-react';
 import type { AppState, ClarificationView, PreferenceView } from '../../shared/api.js';
+import { splitCount, useAnimatedNumber, useChangedFlag } from '../lib/motion.js';
 import {
   organizerRails,
   type CellState,
@@ -23,7 +24,12 @@ import {
 
 export function StatusBand({ model }: { model: StatusBandModel }) {
   return (
-    <section className={`status-band status-band--${model.tone}`} aria-live="polite" aria-label="Current status">
+    <section
+      key={model.headline}
+      className={`status-band status-band--${model.tone} status-band--enter`}
+      aria-live="polite"
+      aria-label="Current status"
+    >
       <div className="status-band__body">
         <p className="status-band__headline">{model.headline}</p>
         <p className="status-band__detail">{model.detail}</p>
@@ -32,24 +38,26 @@ export function StatusBand({ model }: { model: StatusBandModel }) {
   );
 }
 
+function Rail({ label, value, detail, ok }: { label: string; value: string; detail: string; ok: boolean }) {
+  const parsed = splitCount(value);
+  const current = useAnimatedNumber(parsed ? parsed.current : 0);
+  const display = parsed ? `${current}${parsed.total}` : value;
+  const changed = useChangedFlag(value);
+  return (
+    <div className={`rail${ok ? ' rail--ok' : ''}${changed ? ' rail--changed' : ''}`}>
+      <dt>{label}</dt>
+      <dd className="rail__value">{display}</dd>
+      <dd className="rail__detail">{detail}</dd>
+    </div>
+  );
+}
+
 export function Rails({ rails }: { rails: OrganizerRails }) {
   return (
     <dl className="rails" aria-label="Three separate progress measures">
-      <div className={`rail${rails.match.ok ? ' rail--ok' : ''}`}>
-        <dt>Fits this plan</dt>
-        <dd className="rail__value">{rails.match.value}</dd>
-        <dd className="rail__detail">{rails.match.detail}</dd>
-      </div>
-      <div className={`rail${rails.terms.ok ? ' rail--ok' : ''}`}>
-        <dt>Terms confirmed</dt>
-        <dd className="rail__value">{rails.terms.value}</dd>
-        <dd className="rail__detail">{rails.terms.detail}</dd>
-      </div>
-      <div className={`rail${rails.authorization.ok ? ' rail--ok' : ''}`}>
-        <dt>Valid authorizations</dt>
-        <dd className="rail__value">{rails.authorization.value}</dd>
-        <dd className="rail__detail">{rails.authorization.detail}</dd>
-      </div>
+      <Rail label="Fits this plan" value={rails.match.value} detail={rails.match.detail} ok={rails.match.ok} />
+      <Rail label="Terms confirmed" value={rails.terms.value} detail={rails.terms.detail} ok={rails.terms.ok} />
+      <Rail label="Valid authorizations" value={rails.authorization.value} detail={rails.authorization.detail} ok={rails.authorization.ok} />
     </dl>
   );
 }
@@ -97,6 +105,7 @@ const STATE_WORD: Record<CellState, string> = {
 };
 
 export function Avatar({ name, state }: { name: string; state: CellState }) {
+  const changed = useChangedFlag(state);
   const initials = name
     .split(/\s+/)
     .map((part) => part[0])
@@ -104,7 +113,7 @@ export function Avatar({ name, state }: { name: string; state: CellState }) {
     .slice(0, 2)
     .toUpperCase();
   return (
-    <span className={`avatar avatar--${state}`} title={`${name} — ${STATE_WORD[state]}`}>
+    <span className={`avatar avatar--${state}${changed ? ' avatar--pulse' : ''}`} title={`${name} — ${STATE_WORD[state]}`}>
       <span className="avatar__initials" aria-hidden="true">
         {initials}
       </span>
@@ -283,21 +292,28 @@ export function SlotMatrix({
                 </td>
                 <td className="matrix-table__num">{row.ceiling}</td>
               </tr>
-              {openRow === row.slotId ? (
-                <tr key={`${row.slotId}-detail`} className="matrix-table__detail">
-                  <td colSpan={participants.length + 3}>
-                    <ExpandDetail
-                      row={row}
-                      state={state}
-                      preferences={preferences}
-                      clarifications={clarifications}
-                      onAsk={onAsk}
-                      asking={asking}
-                      onOpenParticipant={onOpenParticipant}
-                    />
-                  </td>
-                </tr>
-              ) : null}
+              <tr
+                key={`${row.slotId}-detail`}
+                className={`matrix-table__detail${openRow === row.slotId ? ' matrix-table__detail--open' : ''}`}
+                aria-hidden={openRow !== row.slotId}
+                inert={openRow !== row.slotId ? true : undefined}
+              >
+                <td colSpan={participants.length + 3}>
+                  <div className="matrix-detail">
+                    <div className="matrix-detail__inner">
+                      <ExpandDetail
+                        row={row}
+                        state={state}
+                        preferences={preferences}
+                        clarifications={clarifications}
+                        onAsk={onAsk}
+                        asking={asking}
+                        onOpenParticipant={onOpenParticipant}
+                      />
+                    </div>
+                  </div>
+                </td>
+              </tr>
             </>
           ))}
         </tbody>
@@ -322,17 +338,23 @@ export function SlotMatrix({
                 {row.meetsMinimum ? ' · meets minimum' : ''}
               </span>
             </button>
-            {openRow === row.slotId ? (
-              <ExpandDetail
-                row={row}
-                state={state}
-                preferences={preferences}
-                clarifications={clarifications}
-                onAsk={onAsk}
-                asking={asking}
-                onOpenParticipant={onOpenParticipant}
-              />
-            ) : null}
+            <div
+              className={`matrix-detail${openRow === row.slotId ? ' matrix-detail--open' : ''}`}
+              aria-hidden={openRow !== row.slotId}
+              inert={openRow !== row.slotId ? true : undefined}
+            >
+              <div className="matrix-detail__inner">
+                <ExpandDetail
+                  row={row}
+                  state={state}
+                  preferences={preferences}
+                  clarifications={clarifications}
+                  onAsk={onAsk}
+                  asking={asking}
+                  onOpenParticipant={onOpenParticipant}
+                />
+              </div>
+            </div>
           </li>
         ))}
       </ul>

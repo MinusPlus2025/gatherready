@@ -176,7 +176,9 @@ export function Shell() {
             </button>
           </InlineNotice>
         ) : null}
-        <Outlet />
+        <div className="route-enter" key={location.pathname}>
+          <Outlet />
+        </div>
       </main>
 
       <footer className="footer">

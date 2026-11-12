@@ -1,0 +1,43 @@
+{
+  "generatedAt": "2026-11-12T10:59:08.169Z",
+  "base": "http://127.0.0.1:5181",
+  "passed": 7,
+  "total": 7,
+  "results": [
+    {
+      "name": "Route change animates",
+      "pass": true,
+      "detail": "routeIn / 0.22s"
+    },
+    {
+      "name": "Candidate detail expands",
+      "pass": true,
+      "detail": "detail 339px, transition grid-template-rows"
+    },
+    {
+      "name": "Expanded people stagger in",
+      "pass": true,
+      "detail": "3 people, delays 0s/0.04s/0.08s"
+    },
+    {
+      "name": "Candidate detail collapses",
+      "pass": true,
+      "detail": "detail 0px after collapse"
+    },
+    {
+      "name": "Avatar state pulse and rail value pop exist",
+      "pass": true,
+      "detail": "{\"avatarAnimation\":\"avatarPulse\",\"railAnimation\":\"valuePop\"}"
+    },
+    {
+      "name": "Screens menu animates from its trigger",
+      "pass": true,
+      "detail": "menuIn / origin 220px 0px"
+    },
+    {
+      "name": "Reduced motion removes movement",
+      "pass": true,
+      "detail": "max animation 0ms, transitions 0.00001ms/0.00001ms"
+    }
+  ]
+}

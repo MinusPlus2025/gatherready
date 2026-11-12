@@ -4440,3 +4440,276 @@ h3 {
     overflow-x: visible;
   }
 }
+
+/* ==========================================================================
+   Interaction motion.
+
+   Rules: 120-260ms for UI, custom ease-out curves, transform/opacity first,
+   no entrance from scale(0), press feedback on every pressable surface, and
+   motion only where it explains a change (a state flip, an expansion, a
+   payment moving). Reduced motion removes position movement.
+   ========================================================================== */
+
+:root {
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --dur-press: 130ms;
+  --dur-ui: 220ms;
+}
+
+/* buttons: instant feedback, icon leads the direction of travel */
+.btn {
+  transition:
+    transform var(--dur-press) var(--ease-out),
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn svg {
+  transition: transform 180ms var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover svg {
+    transform: translateX(2px);
+  }
+
+  .matrix-row-button:hover {
+    background: var(--surface-2);
+  }
+
+  .offer-slot:hover {
+    border-color: var(--border-strong);
+  }
+}
+
+.chip-button {
+  transition:
+    transform var(--dur-press) var(--ease-out),
+    background-color 160ms ease,
+    color 160ms ease,
+    border-color 160ms ease;
+}
+
+.chip-button:active {
+  transform: scale(0.96);
+}
+
+/* avatars: one pulse when the server says a person's state changed */
+.avatar {
+  transition:
+    background-color 200ms ease,
+    color 200ms ease,
+    border-color 200ms ease;
+}
+
+.avatar--pulse {
+  animation: avatarPulse 620ms var(--ease-out);
+}
+
+@keyframes avatarPulse {
+  0% {
+    transform: scale(1);
+  }
+  28% {
+    transform: scale(1.22);
+  }
+  58% {
+    transform: scale(0.97);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* rails: the number tells you it moved */
+.rail__value {
+  transition: color 200ms ease;
+}
+
+.rail--changed .rail__value {
+  animation: valuePop 420ms var(--ease-out);
+}
+
+@keyframes valuePop {
+  from {
+    opacity: 0.35;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* status sentence: slides in only when the sentence itself changes */
+.status-band--enter {
+  animation: bandIn 280ms var(--ease-out) both;
+}
+
+@keyframes bandIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* route change: a short, quiet fade so the new screen does not pop */
+.route-enter {
+  animation: routeIn var(--dur-ui) var(--ease-out) both;
+}
+
+@keyframes routeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* notices: appear from the edge they belong to */
+.notice {
+  animation: noticeIn 200ms var(--ease-out) both;
+}
+
+@keyframes noticeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* candidate detail: height transition, then people stagger in */
+.matrix-detail {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 240ms var(--ease-out);
+}
+
+.matrix-detail--open,
+.matrix-table__detail--open .matrix-detail {
+  grid-template-rows: 1fr;
+}
+
+.matrix-detail__inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.matrix-detail--open .matrix-person,
+.matrix-table__detail--open .matrix-person {
+  animation: personIn 260ms var(--ease-out) both;
+}
+
+.matrix-detail--open .matrix-person:nth-child(2),
+.matrix-table__detail--open .matrix-person:nth-child(2) {
+  animation-delay: 40ms;
+}
+
+.matrix-detail--open .matrix-person:nth-child(3),
+.matrix-table__detail--open .matrix-person:nth-child(3) {
+  animation-delay: 80ms;
+}
+
+.matrix-detail--open .matrix-person:nth-child(4),
+.matrix-table__detail--open .matrix-person:nth-child(4) {
+  animation-delay: 120ms;
+}
+
+@keyframes personIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* offer selection + publish */
+.offer-slot {
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    transform var(--dur-press) var(--ease-out);
+}
+
+.offer-slot:active {
+  transform: scale(0.995);
+}
+
+.offer-slot--selected .offer-slot__badge {
+  transition:
+    background-color 180ms ease,
+    color 180ms ease;
+}
+
+/* payment in progress: only the dot moves, and slowly */
+.badge--progress .badge__dot {
+  animation: dotPulse 1.4s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.82);
+  }
+}
+
+/* menu: scales in from its trigger, not from the middle of the page */
+.demo-bar__screens-menu {
+  transform-origin: top right;
+  animation: menuIn 160ms var(--ease-out) both;
+}
+
+@keyframes menuIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(-2px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* reduced motion: keep the state, drop the movement */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .btn:active,
+  .chip-button:active,
+  .offer-slot:active {
+    transform: none;
+  }
+}

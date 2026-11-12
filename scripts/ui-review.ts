@@ -140,6 +140,14 @@ async function auditViewport(page: Page, state: string, viewport: { name: string
   await page.reload({ waitUntil: 'networkidle0' });
   await sleep(250);
 
+  /* Let entrance/route animations settle before measuring colours and layout:
+     scanning mid-fade reports false contrast failures against a translucent page. */
+  await page.evaluate(async () => {
+    const running = document.getAnimations().map((animation) => animation.finished.catch(() => undefined));
+    await Promise.race([Promise.all(running), new Promise((resolve) => setTimeout(resolve, 900))]);
+  });
+  await sleep(120);
+
   /* accessibility: axe-core WCAG 2.1 A/AA */
   await page.addScriptTag({ path: AXE });
   const axe = await page.evaluate(async () => {
