@@ -2,7 +2,7 @@
 
 **Product:** GatherReady (PayPal AI Hackathon sandbox prototype)
 **Scope:** landing, organizer setup/plan/offer/funding/result, participant preferences/clarify/authorize,
-not-found; English + 简体中文; 1440/834/390/320 CSS px.
+not-found; English + 简体中文 + 日本語 layout samples (the interface now ships 8 locales); 1440/834/390/320 CSS px.
 **Audited at:** `253b808` + the fixes in this pass. **Method:** open-source tools + two skill-based reviews.
 **Honest limit:** automated measurements and heuristic review only. No screen-reader pass, no real-device
 pass, no first-time-user test — so this is not a claim that "UX is validated with users".

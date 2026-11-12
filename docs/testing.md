@@ -25,7 +25,7 @@ Nothing in this file is a projected or hand-written result; commands can be re-r
 | End-to-end product loop over HTTP | `npx tsx scripts/verify.ts` | **62/62 checks passed** (simulated money path) |
 | AI evaluation (live model) | `LLM_OLLAMA=1 LLM_MODEL=qwen2.5:7b-instruct npx tsx scripts/ai-eval.ts` | **live: 28/33 answered live, 0 unsafe acceptances, 0 quote failures, 5 fallbacks** (strict exact-match 15/33; see §3) |
 | Preflight | `npx tsx scripts/preflight.ts` | **passed** with 3 degraded-mode warnings (PayPal keys, model key, secrets file) |
-| Interface language | `npm run ui-review` (EN + 中文 states), `npm run typecheck:web` | two locales switch in-place; Chinese layout checked at 1440/834/390/320; English default preserved for the browser smoke test |
+| Interface language | `vitest tests/web/i18n.test.ts`, `npm run ui-review` (EN/中文/日本語 states), `npm run typecheck:web` | 8 locales switch in-place (6 lazy chunks); every locale has the same 790 keys and placeholders; CJK layouts checked at 1440/834/390/320; English default preserved for the browser smoke test |
 | UI/UX audit (open source) | `npm run audit:axe`, `npm run audit:lint`, Lighthouse 12 | axe 0/20 runs; jsx-a11y 0; Lighthouse before/after in `docs/audit/`; full report `docs/uiux-audit.md` |
 | Interaction motion | `npm run test:motion` | route transition, expand/collapse height, staggered people, avatar/rail motion, popover origin, reduced-motion removal |
 | IA acceptance (heuristic) | `npm run ui-smoke` + `npm run ui-review` | computed status sentence, three separate rails, candidate matrix desktop/phone, one-question card, participant four-step money line, collapsed technical details |

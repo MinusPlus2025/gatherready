@@ -205,29 +205,31 @@ Verification: `npm run test:motion` (7/7 — route, expand, stagger, collapse, a
 reduced motion) and `npm run record:motion` → [`docs/motion-demo.mp4`](motion-demo.mp4) /
 [`docs/motion-demo.gif`](motion-demo.gif).
 
-## 11. Interface language (English / 简体中文)
+## 11. Interface language (8 locales)
 
-The product is a demo for an English-language submission, but the people evaluating it read Chinese. So the
-interface has a real language switch rather than a translated screenshot.
+The product is a demo for an English-language submission, but the people evaluating it read Chinese. The
+interface therefore ships a real language menu rather than a translated screenshot.
 
-- **Architecture:** `src/web/lib/i18n.tsx` — `I18nProvider` + `useI18n()` returning `{ locale, setLocale, t }`;
-  `t(key, vars)` supports `{placeholders}` and falls back key → English. `translate(locale, key, vars)` is the
-  pure variant used by the status engine.
-- **Dictionaries:** split by surface to avoid merge hotspots — `messages-en/zh.ts` (shell, landing, common,
-  payment/status words, Paypal button), `messages-flow-en/zh.ts` (status engine, plan, preferences, authorize),
-  `messages-money-en/zh.ts` (offer, funding, result), `messages-onboard-en/zh.ts` (setup, clarify). Merged in
-  the provider. ~600 key pairs total.
-- **Switch:** two real buttons (`English | 中文`) in the identity bar on every screen, 44px targets,
-  `aria-pressed`, persisted in `localStorage`, `<html lang>` updated, no reload.
+- **Architecture:** `src/web/lib/i18n.tsx` — `I18nProvider` + `useI18n()` (`locale`, `loadingLocale`,
+  `setLocale`, `t`); `t(key, vars)` supports `{placeholders}` and falls back key → English. The pure
+  `translate(locale, key, vars)` is used by the status engine. Dictionaries load lazily per locale; a returning
+  visitor's stored locale is preloaded in `main.tsx` before the first render.
+- **Locales:** `src/web/lib/locales.ts` — English (`en`, default), 简体中文 (`zh`), 繁體中文 (`zh-TW`),
+  Español (`es`), Français (`fr`), Deutsch (`de`), 日本語 (`ja`), 한국어 (`ko`); native names, short trigger
+  labels and `<html lang>` tags live there. English + Chinese are bundled; the other six are lazy chunks.
+- **Switch:** a compact globe + short-code trigger in the identity bar opens a disclosure menu with native +
+  English names, a check on the active locale, Esc/outside close, focus return, and a menu anchored below the
+  header on phones. 44px targets, `aria-busy` while a dictionary chunk loads.
+- **繁體中文** is derived from the 简体 dictionary with OpenCC + a terminology pass (`npm run i18n:zh-tw`);
+  the other translations are authored for the demo and not professionally reviewed. This is stated in the README.
 - **Scope rule:** chrome is localised; data keeps its creation language (workshop facts, server slot labels,
-  AI questions/quotes, names, canonical offer terms, server errors). The footer states this in both locales.
-  Server-side `notice`/error strings therefore stay English by design, not by omission.
-- **Dates:** stay in the server's English format (`Sat 28 Nov · 10:00–12:00`). This is the honest limit of the
-  current pass; localising dates would mean reformatting every server label or moving the offer terms out of
-  their canonical form. Documented, not hidden.
-- **Verification:** `npm run ui-review` runs the English and Chinese landing + organizer home through the same
-  axe/overflow/tap-target/CLS checks (8 states × 4 widths, 0 findings); `npm run typecheck:web` covers the web
-  app; the bilingual screenshots are captured from the live server by `npm run capture-live`.
+  AI questions/quotes, names, canonical offer terms, server errors). The footer states this in every locale.
+- **Dates:** stay in the server's English format (`Sat 28 Nov · 10:00–12:00`) in all locales — the honest limit
+  of this pass; localising dates means reformatting every server label or moving terms out of canonical form.
+- **Verification:** `vitest tests/web/i18n.test.ts` (22 tests: identical key sets, placeholder parity, no empty
+  strings for all 7 non-default dictionaries); `npm run ui-review` includes English, Chinese and Japanese
+  layouts; the language menu was exercised for all 8 locales in a browser check (html lang, stored choice,
+  zero fallback keys). Bilingual screenshots come from the live server via `npm run capture-live`.
 
 ## 12. Review tooling and measured results
 

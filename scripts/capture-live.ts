@@ -260,6 +260,8 @@ async function main(): Promise<void> {
     await shoot('landing-zh', '/', 'Chinese landing after switching the interface language');
     await shoot('organizer-plan-zh', '/organizer/plan', 'Chinese organizer home after switching the interface language');
     await shoot('organizer-setup-zh', '/organizer/setup', 'Chinese organizer setup after switching the interface language');
+    await page.evaluate(() => window.localStorage.setItem('gatherready.locale', 'ja'));
+    await shoot('landing-ja', '/', 'Japanese landing after switching the interface language');
     await page.evaluate(() => window.localStorage.setItem('gatherready.locale', 'en'));
 
     await writeFile(

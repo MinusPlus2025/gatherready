@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-12T14:06:23.503Z",
+  "generatedAt": "2026-11-12T14:25:16.273Z",
   "base": "http://localhost:5180",
   "findings": [],
   "metrics": {
@@ -144,6 +144,86 @@
       "cls": 0
     },
     "landing-zh:small-phone": {
+      "axe": [],
+      "overflow": {
+        "scrollWidth": 320,
+        "clientWidth": 320,
+        "offenders": []
+      },
+      "smallTargets": [],
+      "layoutSmells": {
+        "clipped": [],
+        "negative": []
+      },
+      "focus": {
+        "checked": true,
+        "outlineStyle": "solid",
+        "outlineWidth": 2,
+        "visible": true
+      },
+      "cls": 0
+    },
+    "landing-ja:desktop": {
+      "axe": [],
+      "overflow": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "offenders": []
+      },
+      "smallTargets": [],
+      "layoutSmells": {
+        "clipped": [],
+        "negative": []
+      },
+      "focus": {
+        "checked": true,
+        "outlineStyle": "solid",
+        "outlineWidth": 2,
+        "visible": true
+      },
+      "cls": 0
+    },
+    "landing-ja:tablet": {
+      "axe": [],
+      "overflow": {
+        "scrollWidth": 834,
+        "clientWidth": 834,
+        "offenders": []
+      },
+      "smallTargets": [],
+      "layoutSmells": {
+        "clipped": [],
+        "negative": []
+      },
+      "focus": {
+        "checked": true,
+        "outlineStyle": "solid",
+        "outlineWidth": 2,
+        "visible": true
+      },
+      "cls": 0
+    },
+    "landing-ja:phone": {
+      "axe": [],
+      "overflow": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "offenders": []
+      },
+      "smallTargets": [],
+      "layoutSmells": {
+        "clipped": [],
+        "negative": []
+      },
+      "focus": {
+        "checked": true,
+        "outlineStyle": "solid",
+        "outlineWidth": 2,
+        "visible": true
+      },
+      "cls": 0
+    },
+    "landing-ja:small-phone": {
       "axe": [],
       "overflow": {
         "scrollWidth": 320,
@@ -655,7 +735,7 @@
         720,
         700
       ],
-      "heroVisible": "0.999637"
+      "heroVisible": "0.999097"
     },
     "hover": {
       "before": {

@@ -95,6 +95,7 @@ and state behind every file, and each screen shows the same mode banner the app 
 | Landing, 简体中文 (switch in header) | [`landing-zh-1440.png`](docs/screenshots/landing-zh-1440.png) |
 | Workshop home, 简体中文 | [`organizer-plan-zh-1440.png`](docs/screenshots/organizer-plan-zh-1440.png) |
 | Organizer setup, 简体中文 | [`organizer-setup-zh-1440.png`](docs/screenshots/organizer-setup-zh-1440.png) |
+| Landing, 日本語 (compact language menu) | [`landing-ja-1440.png`](docs/screenshots/landing-ja-1440.png) |
 
 In this snapshot the banner reads **Simulated PayPal — no real money** because sandbox keys are absent;
 the same screens render the sandbox badge without code changes once keys are supplied.
@@ -128,22 +129,34 @@ claim user testing or a screen-reader pass.
 
 ## Interface language
 
-The whole interface switches between **English** and **简体中文** from the `English | 中文` control in the header
-on every screen. English is the default (it is the submission language); the choice persists in
-`localStorage`, updates `<html lang>`, and is visible to screen readers through `aria-pressed`.
+The interface supports **8 languages**: English (default), 简体中文, 繁體中文, Español, Français, Deutsch,
+日本語 and 한국어. A compact control in the identity bar (globe + current short code, e.g. `EN`, `简`, `日`)
+opens a menu with each language's own name and its English name; it is 44px tall, keyboard operable (Esc closes,
+focus returns to the trigger), and on phones the menu anchors below the header instead of a giant pill row.
 
-What is translated: every piece of interface chrome — navigation, status sentences and rails, matrix
-labels, buttons, form labels and client-side validation, consent steps, payment state words, empty states,
-errors, footer and language note.
+The choice persists in `localStorage`, updates `<html lang>`, and survives reload. English and 简体中文 are in the
+initial bundle; the other six dictionaries are their own lazy chunks (~16–17 KiB gzip each) fetched on first use,
+so a first visit never downloads a language the visitor does not read. A returning visitor who chose one of those
+languages loads it before the first paint (no English flash).
 
-What stays in its creation language, on purpose: workshop facts, server-formatted slot labels, AI questions
-and verbatim quotes, participant names, the official offer terms and server error text. The footer says this
-in both languages, so switching language never pretends to translate a legal term or a person's own words.
-Chinese copy is authored for this demo, not professionally localised.
+What is translated: every piece of interface chrome — navigation, status sentences and rails, matrix labels,
+buttons, form labels and client-side validation, consent steps, payment state words, empty states, errors,
+footer and language note.
 
-Implementation: `src/web/lib/i18n.tsx` (provider + `t()` with `{placeholders}`), five dictionary pairs under
-`src/web/lib/messages-*.ts` (shell/landing, flow, money, onboard), one `LanguageSwitch` in the shell.
-`npm run ui-review` now reviews English **and** Chinese layouts at four widths; `npm run typecheck:web`
+What stays in its creation language, on purpose: workshop facts, server-formatted slot labels, AI questions and
+verbatim quotes, participant names, the official offer terms and server error text. The footer says this in every
+language, so switching language never pretends to translate a legal term or a person's own words.
+
+Honesty note on the translations: English and Chinese are the submission languages. 繁體中文 is derived from the
+简体 dictionary with OpenCC plus a small terminology pass; Español, Français, Deutsch, 日本語 and 한국어 were
+authored for this demo and are **not professionally reviewed**. They are internally consistent (glossary per
+language) and dictionary-parity tested, but a native review is still a to-do before public launch.
+
+Implementation: `src/web/lib/i18n.tsx` (provider, lazy dictionary loading, `t()` with `{placeholders}`),
+`src/web/lib/locales.ts` (registry + `<html lang>` tags), five dictionary namespaces under
+`src/web/lib/messages-*.ts` plus one file per language, `LanguageSwitch` in the shell. `npm run test:i18n`
+via `vitest` checks every locale has the same 790 keys, identical placeholders, and no empty strings;
+`npm run ui-review` reviews English, Chinese and Japanese layouts at four widths; `npm run typecheck:web`
 typechecks the web app (the root tsconfig excludes `src/web`).
 
 ## Run it

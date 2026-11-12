@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "GatherReady — turn conditional workshop interest into one plan everyone agrees to, then fund it with a real PayPal sandbox authorization.",
+  "description": "GatherReady \u2014 turn conditional workshop interest into one plan everyone agrees to, then fund it with a real PayPal sandbox authorization.",
   "engines": {
     "node": ">=22.5"
   },
@@ -32,7 +32,8 @@
     "typecheck:web": "tsc -p tsconfig.web.json --noEmit",
     "audit:axe": "tsx scripts/uiux-audit.ts",
     "images:build": "tsx scripts/build-images.ts",
-    "audit:lint": "eslint --config eslint.audit.config.mjs \"src/web/**/*.{ts,tsx}\""
+    "audit:lint": "eslint --config eslint.audit.config.mjs \"src/web/**/*.{ts,tsx}\"",
+    "i18n:zh-tw": "tsx scripts/build-zh-tw.ts"
   },
   "dependencies": {
     "@fastify/compress": "^8.3.1",
@@ -58,6 +59,7 @@
     "axe-core": "^4.14.0",
     "eslint": "^9.39.5",
     "eslint-plugin-jsx-a11y": "^6.10.2",
+    "opencc-js": "^1.4.2",
     "puppeteer-core": "^25.17.0",
     "tailwindcss": "^4.1.14",
     "typescript": "^5.9.3",
