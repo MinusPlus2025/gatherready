@@ -182,3 +182,14 @@ line `Simulated failure for testing: …`. No screen or document claims PayPal r
   dependency). The API-level end-to-end walkthrough (`scripts/verify.ts`) is the functional gate.
 - The public demo deployment (required to stay up to 2026-12-15 Pacific for judges) is **not deployed**;
   deployment and Devpost submission are owner actions.
+
+## Participant-flow evidence (2026-11-12)
+
+| What | How |
+|---|---|
+| Live model run (preview → revise) | `node scripts/evidence-live-ai.mjs` against a server started with `LLM_OLLAMA=1 LLM_MODEL=qwen2.5:7b-instruct`; writes `docs/audit/ai-live-evidence.json` |
+| Saved-version safety | The same script keeps a confirmed version while previewing, cancels, reloads, then confirms; state is printed at each step |
+| Mode truthfulness | `curl -s /healthz` must match the header chip, payment button and footer copy; simulated mode must never claim a PayPal transaction |
+| Screenshots | `docs/screenshots/participant-final-*.png`, `participant-redesign-*.png`, `participant-entry-first-*.png` |
+
+Full status table, including blocked real-PayPal checks: [`docs/participant-flow-pass.md`](participant-flow-pass.md).

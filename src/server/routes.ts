@@ -12,6 +12,7 @@ import {
   DemoViewRequestSchema,
   ParsePreferencesRequestSchema,
   PublishOfferRequestSchema,
+  RevisePreferencesRequestSchema,
   StartCheckoutRequestSchema,
 } from '../shared/schemas.js';
 import type { AppConfig } from './config.js';
@@ -187,6 +188,22 @@ export function buildApp(deps: RouteDeps): FastifyInstance {
     const ctx = await resolveContext(req, reply);
     const body = parseBody(ParsePreferencesRequestSchema, req.body);
     return service.parsePreferences(ctx, body);
+  });
+
+  app.post('/api/preferences/preview', async (req, reply) => {
+    limit(req);
+    requireCsrfHeader(req);
+    const ctx = await resolveContext(req, reply);
+    const body = parseBody(ParsePreferencesRequestSchema, req.body);
+    return service.previewPreferences(ctx, body);
+  });
+
+  app.post('/api/preferences/revise', async (req, reply) => {
+    limit(req);
+    requireCsrfHeader(req);
+    const ctx = await resolveContext(req, reply);
+    const body = parseBody(RevisePreferencesRequestSchema, req.body);
+    return service.revisePreferences(ctx, body);
   });
 
   app.post('/api/preferences/confirm', async (req, reply) => {

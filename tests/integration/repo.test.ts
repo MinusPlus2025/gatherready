@@ -240,4 +240,22 @@ describe('demo data retention (brief §9)', () => {
     expect(repo.getTenant(busy)).not.toBeNull(); // in-flight money is never garbage collected
     expect(repo.listParticipants(workshop.id)).toHaveLength(0);
   });
+
+  it('persists a new source text when a preference is revised', () => {
+    const repo = makeRepo();
+    const tenantId = repo.createTenant(true, NOW);
+    const { workshop } = seedWorkshop(repo, tenantId);
+    const { participant, preference } = seedParticipantWithPreference(repo, workshop, 'Finn');
+    repo.updatePreference({
+      ...preference,
+      version: 2,
+      status: 'CONFIRMED',
+      sourceText: 'I can do Saturday morning only, starting at 10.',
+      acceptedSlotIds: ['slot_a'],
+      updatedAt: NOW,
+    });
+    const stored = repo.getPreferenceByParticipant(participant.id);
+    expect(stored?.version).toBe(2);
+    expect(stored?.sourceText).toBe('I can do Saturday morning only, starting at 10.');
+  });
 });

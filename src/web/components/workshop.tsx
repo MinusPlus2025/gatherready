@@ -72,20 +72,29 @@ export function Rails({ rails }: { rails: OrganizerRails }) {
 
 export function ParticipantSteps({ steps }: { steps: ParticipantStep[] }) {
   const { t } = useI18n();
+  const current = steps.find((step) => step.state === 'current') ?? steps.find((step) => step.state === 'failed') ?? null;
   return (
-    <ol className="steps-line" aria-label={t('workshop.stepsAria')}>
-      {steps.map((step, index) => (
-        <li key={step.key} className={`steps-line__item steps-line__item--${step.state}`}>
-          <span className="steps-line__num" aria-hidden="true">
-            {step.state === 'done' ? <Check size={13} strokeWidth={3} /> : index + 1}
-          </span>
-          <span className="steps-line__text">
-            <span className="steps-line__label">{step.label}</span>
-            <span className="steps-line__detail">{step.detail}</span>
-          </span>
-        </li>
-      ))}
-    </ol>
+    <div className="steps-progress">
+      <ol className="steps-progress__rail" aria-label={t('workshop.stepsAria')}>
+        {steps.map((step, index) => (
+          <li
+            key={step.key}
+            className={`steps-progress__item steps-progress__item--${step.state}`}
+            aria-current={step.state === 'current' ? 'step' : undefined}
+          >
+            <span className="steps-progress__dot" aria-hidden="true">
+              {step.state === 'done' ? <Check size={12} strokeWidth={3} /> : index + 1}
+            </span>
+            <span className="steps-progress__label">{step.label}</span>
+          </li>
+        ))}
+      </ol>
+      {current ? (
+        <p className="steps-progress__detail">
+          <strong>{current.label}</strong> {current.detail}
+        </p>
+      ) : null}
+    </div>
   );
 }
 

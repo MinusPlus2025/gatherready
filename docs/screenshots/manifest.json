@@ -1,5 +1,5 @@
 {
-  "capturedAt": "2026-11-12T14:26:40.508Z",
+  "capturedAt": "2026-11-12T15:32:28.332Z",
   "source": "live server + built UI (no mock state)",
   "mode": "PayPal simulated, AI recorded/structured (no credentials on this machine)",
   "shots": [
@@ -7,154 +7,210 @@
       "file": "docs/screenshots/landing-1440.png",
       "route": "/",
       "width": 1440,
-      "height": 2924,
+      "height": 2900,
       "state": "landing"
     },
     {
       "file": "docs/screenshots/landing-420.png",
       "route": "/",
       "width": 420,
-      "height": 5844,
+      "height": 4099,
       "state": "landing (mobile)"
     },
     {
       "file": "docs/screenshots/organizer-setup-1440.png",
       "route": "/organizer/setup",
       "width": 1440,
-      "height": 1289,
+      "height": 1265,
       "state": "organizer setup after loading synthetic sample"
     },
     {
       "file": "docs/screenshots/organizer-plan-1440.png",
       "route": "/organizer/plan",
       "width": 1440,
-      "height": 1549,
+      "height": 1525,
       "state": "no workable plan yet: 3 confirmed fits, one condition not counted"
     },
     {
       "file": "docs/screenshots/participant-preferences-1440.png",
       "route": "/participant/preferences",
       "width": 1440,
-      "height": 3039,
+      "height": 2303,
       "state": "participant view: own sentence prefilled"
     },
     {
       "file": "docs/screenshots/participant-preferences-parsed-1440.png",
       "route": "/participant/preferences",
       "width": 1440,
-      "height": 3564,
+      "height": 2816,
       "state": "reviewable card with verbatim quote"
     },
     {
       "file": "docs/screenshots/participant-preferences-confirmed-1440.png",
       "route": "/participant/preferences",
       "width": 1440,
-      "height": 1674,
+      "height": 1685,
       "state": "confirmed preference (still not a fit)"
     },
     {
       "file": "docs/screenshots/organizer-plan-suggestion-1440.png",
       "route": "/organizer/plan",
       "width": 1440,
-      "height": 1761,
+      "height": 1737,
       "state": "one suggested question with the fact and the gap it closes"
     },
     {
       "file": "docs/screenshots/organizer-plan-suggestion-420.png",
       "route": "/organizer/plan",
       "width": 420,
-      "height": 2756,
+      "height": 2619,
       "state": "plan with suggestion (mobile)"
     },
     {
       "file": "docs/screenshots/participant-clarify-1440.png",
       "route": "/participant/clarify",
       "width": 1440,
-      "height": 1486,
+      "height": 1462,
       "state": "participant sees only their own question"
     },
     {
       "file": "docs/screenshots/organizer-offer-1440.png",
       "route": "/organizer/offer",
       "width": 1440,
-      "height": 1977,
+      "height": 1953,
       "state": "one frozen offer: terms and fingerprint"
     },
     {
       "file": "docs/screenshots/participant-authorize-1440.png",
       "route": "/participant/authorize",
       "width": 1440,
-      "height": 2829,
+      "height": 2832,
       "state": "fixed summary + unchecked consent + PayPal button"
     },
     {
       "file": "docs/screenshots/participant-authorize-420.png",
       "route": "/participant/authorize",
       "width": 420,
-      "height": 3913,
+      "height": 3580,
       "state": "consent screen (mobile)"
     },
     {
       "file": "docs/screenshots/organizer-funding-1440.png",
       "route": "/organizer/funding",
       "width": 1440,
-      "height": 2096,
+      "height": 2072,
       "state": "authorized, not charged \u2014 collect is a separate action"
     },
     {
       "file": "docs/screenshots/organizer-result-1440.png",
       "route": "/organizer/result",
       "width": 1440,
-      "height": 1990,
+      "height": 1966,
       "state": "workshop confirmed only after every capture completed"
     },
     {
       "file": "docs/screenshots/organizer-plan-no-plan-1440.png",
       "route": "/organizer/plan",
       "width": 1440,
-      "height": 1549,
+      "height": 1525,
       "state": "no plan: minimum not reached, no invented compromise"
     },
     {
       "file": "docs/screenshots/landing-zh-1440.png",
       "route": "/",
       "width": 1440,
-      "height": 3043,
+      "height": 3019,
       "state": "Chinese landing after switching the interface language"
     },
     {
       "file": "docs/screenshots/organizer-plan-zh-1440.png",
       "route": "/organizer/plan",
       "width": 1440,
-      "height": 1462,
+      "height": 1438,
       "state": "Chinese organizer home after switching the interface language"
     },
     {
       "file": "docs/screenshots/organizer-setup-zh-1440.png",
       "route": "/organizer/setup",
       "width": 1440,
-      "height": 1249,
+      "height": 1225,
       "state": "Chinese organizer setup after switching the interface language"
     },
     {
       "file": "docs/screenshots/landing-ja-1440.png",
       "route": "/",
       "width": 1440,
-      "height": 3238,
+      "height": 3214,
       "state": "Japanese landing after switching the interface language"
+    },
+    {
+      "file": "participant-final-edit-before-1440.png",
+      "route": "/participant/preferences",
+      "state": "Editing a saved preference: new sentence, saved version still in force"
+    },
+    {
+      "file": "participant-final-preview-1440.png",
+      "route": "/participant/preferences",
+      "state": "Live model preview: accepted time + review, saved version unchanged"
+    },
+    {
+      "file": "participant-final-saved-1440.png",
+      "route": "/participant/preferences",
+      "state": "Confirmed v2 after explicit revise (desktop)"
+    },
+    {
+      "file": "participant-final-saved-390.png",
+      "route": "/participant/preferences",
+      "state": "Confirmed v2 after explicit revise (phone)"
+    },
+    {
+      "file": "participant-final-cancel-refresh-1440.png",
+      "route": "/participant/preferences",
+      "state": "Cancel + reload keeps the saved version"
+    },
+    {
+      "file": "participant-redesign-saved-1440.png",
+      "route": "/participant/preferences",
+      "state": "Participant saved-state first screen (desktop)"
+    },
+    {
+      "file": "participant-redesign-edit-1440.png",
+      "route": "/participant/preferences",
+      "state": "Participant edit mode: activity, date cards, mode switch, saved banner"
+    },
+    {
+      "file": "participant-redesign-preview-1440.png",
+      "route": "/participant/preferences",
+      "state": "Participant live preview card"
+    },
+    {
+      "file": "participant-redesign-saved-390.png",
+      "route": "/participant/preferences",
+      "state": "Participant saved-state first screen (phone)"
+    },
+    {
+      "file": "participant-redesign-edit-390.png",
+      "route": "/participant/preferences",
+      "state": "Participant edit mode (phone)"
+    },
+    {
+      "file": "participant-entry-first-1440.png",
+      "route": "/participant/preferences",
+      "state": "Landing demo CTA lands directly on participant preferences (desktop)"
+    },
+    {
+      "file": "participant-entry-first-390.png",
+      "route": "/participant/preferences",
+      "state": "Landing demo CTA lands directly on participant preferences (phone)"
     },
     {
       "file": "language-menu-1440.png",
       "route": "/",
-      "width": 1440,
-      "height": 1000,
       "state": "Language menu (8 locales), desktop"
     },
     {
       "file": "language-menu-390.png",
       "route": "/",
-      "width": 390,
-      "height": 844,
       "state": "Language menu (8 locales), phone"
     }
   ]

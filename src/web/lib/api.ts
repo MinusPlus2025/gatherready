@@ -18,7 +18,9 @@ import type {
   CreateWorkshopRequest,
   DemoViewRequest,
   ParsePreferencesRequest,
+  PreviewPreferenceResponse,
   PublishOfferRequest,
+  RevisePreferencesRequest,
   StartCheckoutRequest,
 } from '../../shared/api.js';
 
@@ -145,6 +147,12 @@ export const api = {
   },
   confirmPreferences(body: ConfirmPreferencesRequest, token: string | null = null) {
     return post('/preferences/confirm', body, token);
+  },
+  previewPreferences(body: ParsePreferencesRequest, token: string | null = null) {
+    return request<PreviewPreferenceResponse>('/preferences/preview', { method: 'POST', body, token });
+  },
+  revisePreferences(body: RevisePreferencesRequest, token: string | null = null) {
+    return post('/preferences/revise', body, token);
   },
   computePlan(token: string | null = null) {
     return post('/plans/compute', {}, token);

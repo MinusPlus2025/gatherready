@@ -196,3 +196,18 @@ export const SettleRequestSchema = z.object({}).strict();
 /* --------------------------- participant access -------------------------- */
 
 export const ParticipantTokenSchema = z.string().regex(/^[A-Za-z0-9_-]{43}$/, 'invalid participant token');
+
+export const RevisePreferencesRequestSchema = z.object({
+  baseVersion: z.number().int().min(1),
+  sourceText: z.string().max(600),
+  acceptedSlotIds: z.array(z.string()).max(3),
+  preferredSlotIds: z.array(z.string()).max(3),
+  conditions: z
+    .array(z.object({ slotId: z.string(), condition: z.string().max(200), sourceQuote: z.string().max(400) }))
+    .max(3),
+  uncertainties: z
+    .array(z.object({ field: z.string().max(40), question: z.string().max(300), sourceQuote: z.string().max(400) }))
+    .max(3),
+  extractionMode: z.enum(['live', 'recorded', 'structured', 'seed']),
+  extractionModel: z.string().max(120).nullable(),
+});

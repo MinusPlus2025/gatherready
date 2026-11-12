@@ -524,11 +524,12 @@ export class Repo {
 
   updatePreference(p: Preference): void {
     this.run(
-      `UPDATE preferences SET version = ?, status = ?, accepted_slot_ids_json = ?, preferred_slot_ids_json = ?,
-        conditional_slots_json = ?, uncertainties_json = ?, extraction_mode = ?, extraction_model = ?,
-        confirmed_at = ?, updated_at = ? WHERE participant_id = ?`,
+      `UPDATE preferences SET version = ?, status = ?, source_text = ?, accepted_slot_ids_json = ?,
+        preferred_slot_ids_json = ?, conditional_slots_json = ?, uncertainties_json = ?, extraction_mode = ?,
+        extraction_model = ?, confirmed_at = ?, updated_at = ? WHERE participant_id = ?`,
       n(p.version),
       p.status,
+      p.sourceText,
       JSON.stringify(p.acceptedSlotIds),
       JSON.stringify(p.preferredSlotIds),
       JSON.stringify(p.conditionalSlots),

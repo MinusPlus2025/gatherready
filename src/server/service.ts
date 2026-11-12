@@ -1,5 +1,5 @@
 import { randomBytes } from 'node:crypto';
-import type { AppState, CheckoutView, CreateWorkshopRequest, NoticeView } from '../shared/api.js';
+import type { AppState, CheckoutView, CreateWorkshopRequest, NoticeView, PreferenceView, RevisePreferencesRequest } from '../shared/api.js';
 import { buildSample } from '../shared/sample.js';
 import { addHours, nowIso } from '../shared/time.js';
 import type {
@@ -16,7 +16,7 @@ import type {
   Workshop,
 } from '../shared/types.js';
 import type { AppConfig } from './config.js';
-import { buildState, formatMoney, slotLabelOf } from './format.js';
+import { buildState, formatMoney, preferenceViews, slotLabelOf } from './format.js';
 import type { Repo } from './repo.js';
 import { newId, newParticipantToken, sha256Hex, tokenHash } from './repo.js';
 import { validateWorkshopDraft } from './domain/validation.js';
@@ -481,6 +481,153 @@ export class Service {
       conditional: conditions.length,
     });
     return this.state(ctx, { notice });
+  }
+
+  /* Extract without persisting. Used when a participant edits a saved
+     preference: the confirmed version must stay valid until they explicitly
+     confirm the replacement. */
+  async previewPreferences(
+    ctx: SessionContext,
+    input: {
+      sourceText: string;
+      structured?: {
+        acceptedSlotIds: string[];
+        preferredSlotIds: string[];
+        conditions: Array<{ slotId: string; condition: string }>;
+      };
+    },
+  ): Promise<{ preference: PreferenceView }> {
+    const workshop = this.requireWorkshop(ctx);
+    const participant = this.participantOfWorkshop(ctx);
+    const now = this.now();
+    const slots = this.repo.listSlots(workshop.id);
+    const existing = this.repo.getPreferenceByParticipant(participant.id);
+    const version = (existing?.version ?? 0) + 1;
+    const participants = this.repo.listParticipants(workshop.id);
+    let accepted: string[] = [];
+    let preferred: string[] = [];
+    let conditions: Preference['conditionalSlots'] = [];
+    let uncertainties: Preference['uncertainties'] = [];
+    let mode: Preference['extractionMode'] = 'structured';
+    let model: string | null = null;
+    if (input.structured) {
+      const allowed = new Set(slots.map((slot) => slot.id));
+      accepted = input.structured.acceptedSlotIds.filter((id) => allowed.has(id));
+      preferred = input.structured.preferredSlotIds.filter((id) => allowed.has(id));
+      conditions = input.structured.conditions
+        .filter((condition) => allowed.has(condition.slotId))
+        .map((condition) => ({
+          slotId: condition.slotId,
+          condition: condition.condition.slice(0, 200),
+          sourceQuote: condition.condition.slice(0, 200),
+        }));
+    } else {
+      const facts = [
+        { label: 'Materials', value: workshop.inclusions.join('; ') },
+        { label: 'Cancellation', value: workshop.cancellationSummary },
+        { label: 'Schedule', value: slots.map((slot) => slotLabelOf(slots, slot.id)).join(' / ') },
+      ];
+      const callsToday = this.repo.countLlmCallsSince(addHours(now, -24));
+      if (callsToday >= this.cfg.llm.maxCallsPerDay) {
+        throw new AppError('LLM_BUDGET', 'Daily AI call budget reached — use the structured form.', 429);
+      }
+      this.repo.recordLlmCall(ctx.tenantId, 'extract', now);
+      const outcome = await extractPreferences(this.llm, {
+        sourceId: participant.id,
+        sourceText: input.sourceText,
+        slots: slots.map((slot) => ({ id: slot.id, label: slotLabelOf(slots, slot.id) })),
+        merchantFacts: facts,
+      });
+      accepted = outcome.result.accepted_slot_ids.filter((id) => slots.some((slot) => slot.id === id));
+      preferred = outcome.result.preferred_slot_ids.filter((id) => slots.some((slot) => slot.id === id));
+      conditions = outcome.result.conditional_slots
+        .filter((condition) => slots.some((slot) => slot.id === condition.slot_id))
+        .map((condition) => ({
+          slotId: condition.slot_id,
+          condition: condition.condition,
+          sourceQuote: condition.source_quote,
+        }));
+      uncertainties = outcome.result.uncertainties.map((entry) => ({
+        field: entry.field,
+        question: entry.question,
+        sourceQuote: entry.source_quote,
+      }));
+      mode = outcome.mode;
+      model = outcome.model;
+    }
+    const draft: Preference = {
+      id: existing?.id ?? newId('pref'),
+      participantId: participant.id,
+      version,
+      status: 'DRAFT',
+      sourceText: input.sourceText.slice(0, 600),
+      acceptedSlotIds: accepted,
+      preferredSlotIds: preferred,
+      conditionalSlots: conditions,
+      uncertainties,
+      extractionMode: mode,
+      extractionModel: model,
+      confirmedAt: null,
+      createdAt: existing?.createdAt ?? now,
+      updatedAt: now,
+    };
+    const view = preferenceViews([draft], participants, slots, participant.id)[0];
+    if (!view) throw new AppError('PREVIEW_FAILED', 'could not preview preferences', 500);
+    return { preference: view };
+  }
+
+  /* Replace a saved preference only on explicit confirmation. The client sends
+     the reviewed draft plus the version it started from; quotes are checked
+     against the new sentence, so a stale tab cannot overwrite silently. */
+  revisePreferences(ctx: SessionContext, body: RevisePreferencesRequest): AppState {
+    const workshop = this.requireWorkshop(ctx);
+    const participant = this.participantOfWorkshop(ctx);
+    const pref = this.repo.getPreferenceByParticipant(participant.id);
+    if (!pref) throw new AppError('NO_PREFERENCE', 'write your preferences first', 404);
+    if (pref.version !== body.baseVersion) {
+      throw new AppError('STALE_PREFERENCE', 'your saved preference changed in another tab — reload and review again', 409);
+    }
+    const slots = this.repo.listSlots(workshop.id);
+    const allowed = new Set(slots.map((slot) => slot.id));
+    const accepted = [...new Set(body.acceptedSlotIds)].filter((id) => allowed.has(id));
+    const preferred = [...new Set(body.preferredSlotIds)].filter((id) => allowed.has(id) && accepted.includes(id));
+    for (const condition of body.conditions) {
+      if (!allowed.has(condition.slotId)) throw new AppError('BAD_SLOT', 'a condition references an unknown time', 400);
+      if (condition.sourceQuote && !normalize(body.sourceText).includes(normalize(condition.sourceQuote))) {
+        throw new AppError('QUOTE_NOT_VERBATIM', 'a condition quote is not from your own message', 400);
+      }
+    }
+    for (const id of accepted) {
+      if (body.conditions.some((condition) => condition.slotId === id)) {
+        throw new AppError('SLOT_BOTH_ACCEPTED_AND_CONDITIONAL', `time ${id} cannot be both accepted and conditional`, 400);
+      }
+    }
+    const now = this.now();
+    const next: Preference = {
+      ...pref,
+      version: pref.version + 1,
+      status: 'CONFIRMED',
+      sourceText: body.sourceText.slice(0, 600),
+      acceptedSlotIds: accepted,
+      preferredSlotIds: preferred,
+      conditionalSlots: body.conditions.map((condition) => ({
+        slotId: condition.slotId,
+        condition: condition.condition.slice(0, 200),
+        sourceQuote: condition.sourceQuote.slice(0, 400),
+      })),
+      uncertainties: body.uncertainties.map((entry) => ({
+        field: entry.field as Preference['uncertainties'][number]['field'],
+        question: entry.question,
+        sourceQuote: entry.sourceQuote,
+      })),
+      extractionMode: body.extractionMode,
+      extractionModel: body.extractionModel,
+      confirmedAt: now,
+      updatedAt: now,
+    };
+    this.repo.updatePreference(next);
+    this.audit(ctx, 'PARTICIPANT', participant.displayName, 'preferences.revised', participant.id, { version: next.version });
+    return this.state(ctx, { notice: { kind: 'info', message: 'Preferences updated and confirmed.' } });
   }
 
   confirmPreferences(

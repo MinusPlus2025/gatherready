@@ -411,3 +411,20 @@ export interface ApiErrorBody {
     fields?: Array<{ field: string; message: string }>;
   };
 }
+
+/** Parse/extract a preference without persisting it (used when editing a saved one). */
+export interface PreviewPreferenceResponse {
+  preference: PreferenceView;
+}
+
+/** Replace a saved preference with a reviewed draft; validated against the saved version. */
+export interface RevisePreferencesRequest {
+  baseVersion: number;
+  sourceText: string;
+  acceptedSlotIds: string[];
+  preferredSlotIds: string[];
+  conditions: Array<{ slotId: string; condition: string; sourceQuote: string }>;
+  uncertainties: Array<{ field: string; question: string; sourceQuote: string }>;
+  extractionMode: ExtractionMode;
+  extractionModel: string | null;
+}

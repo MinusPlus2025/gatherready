@@ -11,6 +11,7 @@ import type {
   DemoViewRequest,
   ParsePreferencesRequest,
   PublishOfferRequest,
+  RevisePreferencesRequest,
   StartCheckoutRequest,
 } from '../../shared/api.js';
 
@@ -18,6 +19,7 @@ export type WebAction =
   | { type: 'workshop.create'; payload: CreateWorkshopRequest }
   | { type: 'preferences.parse'; payload: ParsePreferencesRequest }
   | { type: 'preferences.confirm'; payload: ConfirmPreferencesRequest }
+  | { type: 'preferences.revise'; payload: RevisePreferencesRequest }
   | { type: 'plans.compute' }
   | { type: 'clarifications.propose'; participantId?: string }
   | { type: 'clarifications.send'; id: string }

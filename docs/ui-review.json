@@ -1,736 +1,7 @@
 {
-  "generatedAt": "2026-11-12T15:03:16.253Z",
+  "generatedAt": "2026-11-12T15:37:45.995Z",
   "base": "http://localhost:5180",
-  "findings": [
-    {
-      "state": "landing",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 87x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "landing",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.demo-bar__screens-toggle 69x40 [minH=40px h=40px inline-block/visible/opacity:1]"
-    },
-    {
-      "state": "landing",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.btn 64x40 [minH=40px h=40px flex/visible/opacity:1]"
-    },
-    {
-      "state": "landing",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 87x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "landing",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.demo-bar__screens-toggle 69x40 [minH=40px h=40px inline-block/visible/opacity:1]"
-    },
-    {
-      "state": "landing",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.btn 64x40 [minH=40px h=40px flex/visible/opacity:1]"
-    },
-    {
-      "state": "landing-zh",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 64x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "landing-zh",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.demo-bar__screens-toggle 45x40 [minH=40px h=40px inline-block/visible/opacity:1]"
-    },
-    {
-      "state": "landing-zh",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.btn 55x40 [minH=40px h=40px flex/visible/opacity:1]"
-    },
-    {
-      "state": "landing-zh",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 64x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "landing-zh",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.demo-bar__screens-toggle 45x40 [minH=40px h=40px inline-block/visible/opacity:1]"
-    },
-    {
-      "state": "landing-zh",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.btn 55x40 [minH=40px h=40px flex/visible/opacity:1]"
-    },
-    {
-      "state": "landing-ja",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 64x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "landing-ja",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.demo-bar__screens-toggle 45x40 [minH=40px h=40px inline-block/visible/opacity:1]"
-    },
-    {
-      "state": "landing-ja",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.btn 80x40 [minH=40px h=40px flex/visible/opacity:1]"
-    },
-    {
-      "state": "landing-ja",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 64x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "landing-ja",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.demo-bar__screens-toggle 45x40 [minH=40px h=40px inline-block/visible/opacity:1]"
-    },
-    {
-      "state": "landing-ja",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.btn 80x40 [minH=40px h=40px flex/visible/opacity:1]"
-    },
-    {
-      "state": "setup",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 64x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "setup",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.demo-bar__screens-toggle 45x40 [minH=40px h=40px inline-block/visible/opacity:1]"
-    },
-    {
-      "state": "setup",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.btn 80x40 [minH=40px h=40px flex/visible/opacity:1]"
-    },
-    {
-      "state": "setup",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 64x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "setup",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.demo-bar__screens-toggle 45x40 [minH=40px h=40px inline-block/visible/opacity:1]"
-    },
-    {
-      "state": "setup",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.btn 80x40 [minH=40px h=40px flex/visible/opacity:1]"
-    },
-    {
-      "state": "plan",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 64x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "plan",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 62x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "plan",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 53x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "plan",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 50x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "plan",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 55x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "plan",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 57x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "plan",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 55x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "plan",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.demo-bar__screens-toggle 45x40 [minH=40px h=40px inline-block/visible/opacity:1]"
-    },
-    {
-      "state": "plan",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 64x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "plan",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 62x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "plan",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 53x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "plan",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 50x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "plan",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 55x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "plan",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 57x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "plan",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 55x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "plan",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.demo-bar__screens-toggle 45x40 [minH=40px h=40px inline-block/visible/opacity:1]"
-    },
-    {
-      "state": "plan-zh",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 64x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "plan-zh",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 62x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "plan-zh",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 53x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "plan-zh",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 50x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "plan-zh",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 55x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "plan-zh",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 57x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "plan-zh",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 55x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "plan-zh",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.demo-bar__screens-toggle 45x40 [minH=40px h=40px inline-block/visible/opacity:1]"
-    },
-    {
-      "state": "plan-zh",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 64x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "plan-zh",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 62x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "plan-zh",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 53x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "plan-zh",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 50x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "plan-zh",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 55x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "plan-zh",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 57x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "plan-zh",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 55x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "plan-zh",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.demo-bar__screens-toggle 45x40 [minH=40px h=40px inline-block/visible/opacity:1]"
-    },
-    {
-      "state": "offer",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 64x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "offer",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 62x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "offer",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 53x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "offer",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 50x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "offer",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 55x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "offer",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 57x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "offer",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 55x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "offer",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.demo-bar__screens-toggle 45x40 [minH=40px h=40px inline-block/visible/opacity:1]"
-    },
-    {
-      "state": "offer",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 64x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "offer",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 62x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "offer",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 53x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "offer",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 50x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "offer",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 55x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "offer",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 57x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "offer",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 55x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "offer",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.demo-bar__screens-toggle 45x40 [minH=40px h=40px inline-block/visible/opacity:1]"
-    },
-    {
-      "state": "preferences",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 64x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "preferences",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 62x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "preferences",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 53x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "preferences",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 50x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "preferences",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 55x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "preferences",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 57x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "preferences",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 55x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "preferences",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.demo-bar__screens-toggle 45x40 [minH=40px h=40px inline-block/visible/opacity:1]"
-    },
-    {
-      "state": "preferences",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 64x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "preferences",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 62x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "preferences",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 53x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "preferences",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 50x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "preferences",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 55x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "preferences",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 57x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "preferences",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 55x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "preferences",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.demo-bar__screens-toggle 45x40 [minH=40px h=40px inline-block/visible/opacity:1]"
-    },
-    {
-      "state": "authorize",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 64x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "authorize",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 62x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "authorize",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 53x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "authorize",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 50x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "authorize",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 55x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "authorize",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 57x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "authorize",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 55x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "authorize",
-      "viewport": "phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.demo-bar__screens-toggle 45x40 [minH=40px h=40px inline-block/visible/opacity:1]"
-    },
-    {
-      "state": "authorize",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 64x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "authorize",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 62x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "authorize",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 53x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "authorize",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 50x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "authorize",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 55x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "authorize",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 57x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "authorize",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.chip-button 55x40 [minH=40px h=40px block/visible/opacity:1]"
-    },
-    {
-      "state": "authorize",
-      "viewport": "small-phone",
-      "severity": "medium",
-      "category": "touch",
-      "detail": "tap target under 44px: button.demo-bar__screens-toggle 45x40 [minH=40px h=40px inline-block/visible/opacity:1]"
-    }
-  ],
+  "findings": [],
   "metrics": {
     "landing:desktop": {
       "axe": [],
@@ -779,29 +50,7 @@
         "clientWidth": 390,
         "offenders": []
       },
-      "smallTargets": [
-        {
-          "label": "button.chip-button 87x40",
-          "html": "<button type=\"button\" class=\"chip-button chip-button--active\" aria-pressed=\"true\">Organizer</button> | offset=87x40 client=85x38 | parent=DIV.demo-bar__buttons 358x44",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.demo-bar__screens-toggle 69x40",
-          "html": "<button type=\"button\" class=\"demo-bar__screens-toggle\" aria-expanded=\"false\">Screens</button> | offset=69x40 client=69x40 | parent=DIV.demo-bar__screens 69x40",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "inline-block/visible/opacity:1"
-        },
-        {
-          "label": "button.btn 64x40",
-          "html": "<button type=\"button\" class=\"btn btn-ghost btn--small\">Reset</button> | offset=64x40 client=62x38 | parent=DIV.demo-bar__tools 140x40",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "flex/visible/opacity:1"
-        }
-      ],
+      "smallTargets": [],
       "layoutSmells": {
         "clipped": [],
         "negative": []
@@ -821,29 +70,7 @@
         "clientWidth": 320,
         "offenders": []
       },
-      "smallTargets": [
-        {
-          "label": "button.chip-button 87x40",
-          "html": "<button type=\"button\" class=\"chip-button chip-button--active\" aria-pressed=\"true\">Organizer</button> | offset=87x40 client=85x38 | parent=DIV.demo-bar__buttons 288x44",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.demo-bar__screens-toggle 69x40",
-          "html": "<button type=\"button\" class=\"demo-bar__screens-toggle\" aria-expanded=\"false\">Screens</button> | offset=69x40 client=69x40 | parent=DIV.demo-bar__screens 69x40",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "inline-block/visible/opacity:1"
-        },
-        {
-          "label": "button.btn 64x40",
-          "html": "<button type=\"button\" class=\"btn btn-ghost btn--small\">Reset</button> | offset=64x40 client=62x38 | parent=DIV.demo-bar__tools 140x40",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "flex/visible/opacity:1"
-        }
-      ],
+      "smallTargets": [],
       "layoutSmells": {
         "clipped": [],
         "negative": []
@@ -903,29 +130,7 @@
         "clientWidth": 390,
         "offenders": []
       },
-      "smallTargets": [
-        {
-          "label": "button.chip-button 64x40",
-          "html": "<button type=\"button\" class=\"chip-button chip-button--active\" aria-pressed=\"true\">组织者</button> | offset=64x40 client=62x38 | parent=DIV.demo-bar__buttons 358x44",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.demo-bar__screens-toggle 45x40",
-          "html": "<button type=\"button\" class=\"demo-bar__screens-toggle\" aria-expanded=\"false\">页面</button> | offset=45x40 client=45x40 | parent=DIV.demo-bar__screens 45x40",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "inline-block/visible/opacity:1"
-        },
-        {
-          "label": "button.btn 55x40",
-          "html": "<button type=\"button\" class=\"btn btn-ghost btn--small\">重置</button> | offset=55x40 client=53x38 | parent=DIV.demo-bar__tools 106x40",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "flex/visible/opacity:1"
-        }
-      ],
+      "smallTargets": [],
       "layoutSmells": {
         "clipped": [],
         "negative": []
@@ -945,29 +150,7 @@
         "clientWidth": 320,
         "offenders": []
       },
-      "smallTargets": [
-        {
-          "label": "button.chip-button 64x40",
-          "html": "<button type=\"button\" class=\"chip-button chip-button--active\" aria-pressed=\"true\">组织者</button> | offset=64x40 client=62x38 | parent=DIV.demo-bar__buttons 288x44",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.demo-bar__screens-toggle 45x40",
-          "html": "<button type=\"button\" class=\"demo-bar__screens-toggle\" aria-expanded=\"false\">页面</button> | offset=45x40 client=45x40 | parent=DIV.demo-bar__screens 45x40",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "inline-block/visible/opacity:1"
-        },
-        {
-          "label": "button.btn 55x40",
-          "html": "<button type=\"button\" class=\"btn btn-ghost btn--small\">重置</button> | offset=55x40 client=53x38 | parent=DIV.demo-bar__tools 106x40",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "flex/visible/opacity:1"
-        }
-      ],
+      "smallTargets": [],
       "layoutSmells": {
         "clipped": [],
         "negative": []
@@ -1027,29 +210,7 @@
         "clientWidth": 390,
         "offenders": []
       },
-      "smallTargets": [
-        {
-          "label": "button.chip-button 64x40",
-          "html": "<button type=\"button\" class=\"chip-button chip-button--active\" aria-pressed=\"true\">主催者</button> | offset=64x40 client=62x38 | parent=DIV.demo-bar__buttons 358x44",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.demo-bar__screens-toggle 45x40",
-          "html": "<button type=\"button\" class=\"demo-bar__screens-toggle\" aria-expanded=\"false\">画面</button> | offset=45x40 client=45x40 | parent=DIV.demo-bar__screens 45x40",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "inline-block/visible/opacity:1"
-        },
-        {
-          "label": "button.btn 80x40",
-          "html": "<button type=\"button\" class=\"btn btn-ghost btn--small\">リセット</button> | offset=80x40 client=78x38 | parent=DIV.demo-bar__tools 131x40",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "flex/visible/opacity:1"
-        }
-      ],
+      "smallTargets": [],
       "layoutSmells": {
         "clipped": [],
         "negative": []
@@ -1069,29 +230,7 @@
         "clientWidth": 320,
         "offenders": []
       },
-      "smallTargets": [
-        {
-          "label": "button.chip-button 64x40",
-          "html": "<button type=\"button\" class=\"chip-button chip-button--active\" aria-pressed=\"true\">主催者</button> | offset=64x40 client=62x38 | parent=DIV.demo-bar__buttons 288x44",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.demo-bar__screens-toggle 45x40",
-          "html": "<button type=\"button\" class=\"demo-bar__screens-toggle\" aria-expanded=\"false\">画面</button> | offset=45x40 client=45x40 | parent=DIV.demo-bar__screens 45x40",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "inline-block/visible/opacity:1"
-        },
-        {
-          "label": "button.btn 80x40",
-          "html": "<button type=\"button\" class=\"btn btn-ghost btn--small\">リセット</button> | offset=80x40 client=78x38 | parent=DIV.demo-bar__tools 131x40",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "flex/visible/opacity:1"
-        }
-      ],
+      "smallTargets": [],
       "layoutSmells": {
         "clipped": [],
         "negative": []
@@ -1151,29 +290,7 @@
         "clientWidth": 390,
         "offenders": []
       },
-      "smallTargets": [
-        {
-          "label": "button.chip-button 64x40",
-          "html": "<button type=\"button\" class=\"chip-button chip-button--active\" aria-pressed=\"true\">主催者</button> | offset=64x40 client=62x38 | parent=DIV.demo-bar__buttons 358x44",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.demo-bar__screens-toggle 45x40",
-          "html": "<button type=\"button\" class=\"demo-bar__screens-toggle\" aria-expanded=\"false\">画面</button> | offset=45x40 client=45x40 | parent=DIV.demo-bar__screens 45x40",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "inline-block/visible/opacity:1"
-        },
-        {
-          "label": "button.btn 80x40",
-          "html": "<button type=\"button\" class=\"btn btn-ghost btn--small\">リセット</button> | offset=80x40 client=78x38 | parent=DIV.demo-bar__tools 131x40",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "flex/visible/opacity:1"
-        }
-      ],
+      "smallTargets": [],
       "layoutSmells": {
         "clipped": [],
         "negative": []
@@ -1193,29 +310,7 @@
         "clientWidth": 320,
         "offenders": []
       },
-      "smallTargets": [
-        {
-          "label": "button.chip-button 64x40",
-          "html": "<button type=\"button\" class=\"chip-button chip-button--active\" aria-pressed=\"true\">主催者</button> | offset=64x40 client=62x38 | parent=DIV.demo-bar__buttons 288x44",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.demo-bar__screens-toggle 45x40",
-          "html": "<button type=\"button\" class=\"demo-bar__screens-toggle\" aria-expanded=\"false\">画面</button> | offset=45x40 client=45x40 | parent=DIV.demo-bar__screens 45x40",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "inline-block/visible/opacity:1"
-        },
-        {
-          "label": "button.btn 80x40",
-          "html": "<button type=\"button\" class=\"btn btn-ghost btn--small\">リセット</button> | offset=80x40 client=78x38 | parent=DIV.demo-bar__tools 131x40",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "flex/visible/opacity:1"
-        }
-      ],
+      "smallTargets": [],
       "layoutSmells": {
         "clipped": [],
         "negative": []
@@ -1275,64 +370,7 @@
         "clientWidth": 390,
         "offenders": []
       },
-      "smallTargets": [
-        {
-          "label": "button.chip-button 64x40",
-          "html": "<button type=\"button\" class=\"chip-button chip-button--active\" aria-pressed=\"true\">主催者</button> | offset=64x40 client=62x38 | parent=DIV.demo-bar__buttons 358x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 62x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Diego</button> | offset=62x40 client=60x38 | parent=DIV.demo-bar__buttons 358x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 53x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Finn</button> | offset=53x40 client=51x38 | parent=DIV.demo-bar__buttons 358x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 50x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Ben</button> | offset=50x40 client=48x38 | parent=DIV.demo-bar__buttons 358x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 55x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Elise</button> | offset=55x40 client=53x38 | parent=DIV.demo-bar__buttons 358x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 57x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Alice</button> | offset=57x40 client=55x38 | parent=DIV.demo-bar__buttons 358x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 55x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Cara</button> | offset=55x40 client=53x38 | parent=DIV.demo-bar__buttons 358x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.demo-bar__screens-toggle 45x40",
-          "html": "<button type=\"button\" class=\"demo-bar__screens-toggle\" aria-expanded=\"false\">画面</button> | offset=45x40 client=45x40 | parent=DIV.demo-bar__screens 45x40",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "inline-block/visible/opacity:1"
-        }
-      ],
+      "smallTargets": [],
       "layoutSmells": {
         "clipped": [],
         "negative": []
@@ -1352,64 +390,7 @@
         "clientWidth": 320,
         "offenders": []
       },
-      "smallTargets": [
-        {
-          "label": "button.chip-button 64x40",
-          "html": "<button type=\"button\" class=\"chip-button chip-button--active\" aria-pressed=\"true\">主催者</button> | offset=64x40 client=62x38 | parent=DIV.demo-bar__buttons 288x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 62x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Diego</button> | offset=62x40 client=60x38 | parent=DIV.demo-bar__buttons 288x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 53x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Finn</button> | offset=53x40 client=51x38 | parent=DIV.demo-bar__buttons 288x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 50x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Ben</button> | offset=50x40 client=48x38 | parent=DIV.demo-bar__buttons 288x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 55x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Elise</button> | offset=55x40 client=53x38 | parent=DIV.demo-bar__buttons 288x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 57x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Alice</button> | offset=57x40 client=55x38 | parent=DIV.demo-bar__buttons 288x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 55x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Cara</button> | offset=55x40 client=53x38 | parent=DIV.demo-bar__buttons 288x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.demo-bar__screens-toggle 45x40",
-          "html": "<button type=\"button\" class=\"demo-bar__screens-toggle\" aria-expanded=\"false\">画面</button> | offset=45x40 client=45x40 | parent=DIV.demo-bar__screens 45x40",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "inline-block/visible/opacity:1"
-        }
-      ],
+      "smallTargets": [],
       "layoutSmells": {
         "clipped": [],
         "negative": []
@@ -1469,64 +450,7 @@
         "clientWidth": 390,
         "offenders": []
       },
-      "smallTargets": [
-        {
-          "label": "button.chip-button 64x40",
-          "html": "<button type=\"button\" class=\"chip-button chip-button--active\" aria-pressed=\"true\">组织者</button> | offset=64x40 client=62x38 | parent=DIV.demo-bar__buttons 358x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 62x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Diego</button> | offset=62x40 client=60x38 | parent=DIV.demo-bar__buttons 358x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 53x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Finn</button> | offset=53x40 client=51x38 | parent=DIV.demo-bar__buttons 358x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 50x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Ben</button> | offset=50x40 client=48x38 | parent=DIV.demo-bar__buttons 358x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 55x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Elise</button> | offset=55x40 client=53x38 | parent=DIV.demo-bar__buttons 358x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 57x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Alice</button> | offset=57x40 client=55x38 | parent=DIV.demo-bar__buttons 358x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 55x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Cara</button> | offset=55x40 client=53x38 | parent=DIV.demo-bar__buttons 358x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.demo-bar__screens-toggle 45x40",
-          "html": "<button type=\"button\" class=\"demo-bar__screens-toggle\" aria-expanded=\"false\">页面</button> | offset=45x40 client=45x40 | parent=DIV.demo-bar__screens 45x40",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "inline-block/visible/opacity:1"
-        }
-      ],
+      "smallTargets": [],
       "layoutSmells": {
         "clipped": [],
         "negative": []
@@ -1546,64 +470,7 @@
         "clientWidth": 320,
         "offenders": []
       },
-      "smallTargets": [
-        {
-          "label": "button.chip-button 64x40",
-          "html": "<button type=\"button\" class=\"chip-button chip-button--active\" aria-pressed=\"true\">组织者</button> | offset=64x40 client=62x38 | parent=DIV.demo-bar__buttons 288x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 62x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Diego</button> | offset=62x40 client=60x38 | parent=DIV.demo-bar__buttons 288x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 53x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Finn</button> | offset=53x40 client=51x38 | parent=DIV.demo-bar__buttons 288x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 50x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Ben</button> | offset=50x40 client=48x38 | parent=DIV.demo-bar__buttons 288x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 55x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Elise</button> | offset=55x40 client=53x38 | parent=DIV.demo-bar__buttons 288x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 57x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Alice</button> | offset=57x40 client=55x38 | parent=DIV.demo-bar__buttons 288x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 55x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Cara</button> | offset=55x40 client=53x38 | parent=DIV.demo-bar__buttons 288x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.demo-bar__screens-toggle 45x40",
-          "html": "<button type=\"button\" class=\"demo-bar__screens-toggle\" aria-expanded=\"false\">页面</button> | offset=45x40 client=45x40 | parent=DIV.demo-bar__screens 45x40",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "inline-block/visible/opacity:1"
-        }
-      ],
+      "smallTargets": [],
       "layoutSmells": {
         "clipped": [],
         "negative": []
@@ -1663,64 +530,7 @@
         "clientWidth": 390,
         "offenders": []
       },
-      "smallTargets": [
-        {
-          "label": "button.chip-button 64x40",
-          "html": "<button type=\"button\" class=\"chip-button chip-button--active\" aria-pressed=\"true\">组织者</button> | offset=64x40 client=62x38 | parent=DIV.demo-bar__buttons 358x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 62x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Diego</button> | offset=62x40 client=60x38 | parent=DIV.demo-bar__buttons 358x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 53x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Finn</button> | offset=53x40 client=51x38 | parent=DIV.demo-bar__buttons 358x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 50x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Ben</button> | offset=50x40 client=48x38 | parent=DIV.demo-bar__buttons 358x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 55x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Elise</button> | offset=55x40 client=53x38 | parent=DIV.demo-bar__buttons 358x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 57x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Alice</button> | offset=57x40 client=55x38 | parent=DIV.demo-bar__buttons 358x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 55x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Cara</button> | offset=55x40 client=53x38 | parent=DIV.demo-bar__buttons 358x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.demo-bar__screens-toggle 45x40",
-          "html": "<button type=\"button\" class=\"demo-bar__screens-toggle\" aria-expanded=\"false\">页面</button> | offset=45x40 client=45x40 | parent=DIV.demo-bar__screens 45x40",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "inline-block/visible/opacity:1"
-        }
-      ],
+      "smallTargets": [],
       "layoutSmells": {
         "clipped": [],
         "negative": []
@@ -1740,64 +550,7 @@
         "clientWidth": 320,
         "offenders": []
       },
-      "smallTargets": [
-        {
-          "label": "button.chip-button 64x40",
-          "html": "<button type=\"button\" class=\"chip-button chip-button--active\" aria-pressed=\"true\">组织者</button> | offset=64x40 client=62x38 | parent=DIV.demo-bar__buttons 288x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 62x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Diego</button> | offset=62x40 client=60x38 | parent=DIV.demo-bar__buttons 288x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 53x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Finn</button> | offset=53x40 client=51x38 | parent=DIV.demo-bar__buttons 288x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 50x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Ben</button> | offset=50x40 client=48x38 | parent=DIV.demo-bar__buttons 288x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 55x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Elise</button> | offset=55x40 client=53x38 | parent=DIV.demo-bar__buttons 288x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 57x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Alice</button> | offset=57x40 client=55x38 | parent=DIV.demo-bar__buttons 288x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 55x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Cara</button> | offset=55x40 client=53x38 | parent=DIV.demo-bar__buttons 288x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.demo-bar__screens-toggle 45x40",
-          "html": "<button type=\"button\" class=\"demo-bar__screens-toggle\" aria-expanded=\"false\">页面</button> | offset=45x40 client=45x40 | parent=DIV.demo-bar__screens 45x40",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "inline-block/visible/opacity:1"
-        }
-      ],
+      "smallTargets": [],
       "layoutSmells": {
         "clipped": [],
         "negative": []
@@ -1828,7 +581,7 @@
         "outlineWidth": 2,
         "visible": true
       },
-      "cls": 0.033
+      "cls": 0
     },
     "preferences:tablet": {
       "axe": [],
@@ -1848,7 +601,7 @@
         "outlineWidth": 2,
         "visible": true
       },
-      "cls": 0.063
+      "cls": 0.024
     },
     "preferences:phone": {
       "axe": [],
@@ -1857,64 +610,7 @@
         "clientWidth": 390,
         "offenders": []
       },
-      "smallTargets": [
-        {
-          "label": "button.chip-button 64x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">组织者</button> | offset=64x40 client=62x38 | parent=DIV.demo-bar__buttons 358x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 62x40",
-          "html": "<button type=\"button\" class=\"chip-button chip-button--active\" aria-pressed=\"true\">Diego</button> | offset=62x40 client=60x38 | parent=DIV.demo-bar__buttons 358x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 53x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Finn</button> | offset=53x40 client=51x38 | parent=DIV.demo-bar__buttons 358x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 50x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Ben</button> | offset=50x40 client=48x38 | parent=DIV.demo-bar__buttons 358x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 55x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Elise</button> | offset=55x40 client=53x38 | parent=DIV.demo-bar__buttons 358x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 57x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Alice</button> | offset=57x40 client=55x38 | parent=DIV.demo-bar__buttons 358x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 55x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Cara</button> | offset=55x40 client=53x38 | parent=DIV.demo-bar__buttons 358x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.demo-bar__screens-toggle 45x40",
-          "html": "<button type=\"button\" class=\"demo-bar__screens-toggle\" aria-expanded=\"false\">页面</button> | offset=45x40 client=45x40 | parent=DIV.demo-bar__screens 45x40",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "inline-block/visible/opacity:1"
-        }
-      ],
+      "smallTargets": [],
       "layoutSmells": {
         "clipped": [],
         "negative": []
@@ -1934,64 +630,7 @@
         "clientWidth": 320,
         "offenders": []
       },
-      "smallTargets": [
-        {
-          "label": "button.chip-button 64x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">组织者</button> | offset=64x40 client=62x38 | parent=DIV.demo-bar__buttons 288x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 62x40",
-          "html": "<button type=\"button\" class=\"chip-button chip-button--active\" aria-pressed=\"true\">Diego</button> | offset=62x40 client=60x38 | parent=DIV.demo-bar__buttons 288x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 53x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Finn</button> | offset=53x40 client=51x38 | parent=DIV.demo-bar__buttons 288x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 50x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Ben</button> | offset=50x40 client=48x38 | parent=DIV.demo-bar__buttons 288x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 55x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Elise</button> | offset=55x40 client=53x38 | parent=DIV.demo-bar__buttons 288x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 57x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Alice</button> | offset=57x40 client=55x38 | parent=DIV.demo-bar__buttons 288x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 55x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Cara</button> | offset=55x40 client=53x38 | parent=DIV.demo-bar__buttons 288x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.demo-bar__screens-toggle 45x40",
-          "html": "<button type=\"button\" class=\"demo-bar__screens-toggle\" aria-expanded=\"false\">页面</button> | offset=45x40 client=45x40 | parent=DIV.demo-bar__screens 45x40",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "inline-block/visible/opacity:1"
-        }
-      ],
+      "smallTargets": [],
       "layoutSmells": {
         "clipped": [],
         "negative": []
@@ -2051,64 +690,7 @@
         "clientWidth": 390,
         "offenders": []
       },
-      "smallTargets": [
-        {
-          "label": "button.chip-button 64x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">组织者</button> | offset=64x40 client=62x38 | parent=DIV.demo-bar__buttons 358x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 62x40",
-          "html": "<button type=\"button\" class=\"chip-button chip-button--active\" aria-pressed=\"true\">Diego</button> | offset=62x40 client=60x38 | parent=DIV.demo-bar__buttons 358x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 53x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Finn</button> | offset=53x40 client=51x38 | parent=DIV.demo-bar__buttons 358x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 50x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Ben</button> | offset=50x40 client=48x38 | parent=DIV.demo-bar__buttons 358x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 55x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Elise</button> | offset=55x40 client=53x38 | parent=DIV.demo-bar__buttons 358x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 57x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Alice</button> | offset=57x40 client=55x38 | parent=DIV.demo-bar__buttons 358x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 55x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Cara</button> | offset=55x40 client=53x38 | parent=DIV.demo-bar__buttons 358x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.demo-bar__screens-toggle 45x40",
-          "html": "<button type=\"button\" class=\"demo-bar__screens-toggle\" aria-expanded=\"false\">页面</button> | offset=45x40 client=45x40 | parent=DIV.demo-bar__screens 45x40",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "inline-block/visible/opacity:1"
-        }
-      ],
+      "smallTargets": [],
       "layoutSmells": {
         "clipped": [],
         "negative": []
@@ -2128,64 +710,7 @@
         "clientWidth": 320,
         "offenders": []
       },
-      "smallTargets": [
-        {
-          "label": "button.chip-button 64x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">组织者</button> | offset=64x40 client=62x38 | parent=DIV.demo-bar__buttons 288x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 62x40",
-          "html": "<button type=\"button\" class=\"chip-button chip-button--active\" aria-pressed=\"true\">Diego</button> | offset=62x40 client=60x38 | parent=DIV.demo-bar__buttons 288x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 53x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Finn</button> | offset=53x40 client=51x38 | parent=DIV.demo-bar__buttons 288x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 50x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Ben</button> | offset=50x40 client=48x38 | parent=DIV.demo-bar__buttons 288x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 55x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Elise</button> | offset=55x40 client=53x38 | parent=DIV.demo-bar__buttons 288x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 57x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Alice</button> | offset=57x40 client=55x38 | parent=DIV.demo-bar__buttons 288x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.chip-button 55x40",
-          "html": "<button type=\"button\" class=\"chip-button\" aria-pressed=\"false\">Cara</button> | offset=55x40 client=53x38 | parent=DIV.demo-bar__buttons 288x90",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "block/visible/opacity:1"
-        },
-        {
-          "label": "button.demo-bar__screens-toggle 45x40",
-          "html": "<button type=\"button\" class=\"demo-bar__screens-toggle\" aria-expanded=\"false\">页面</button> | offset=45x40 client=45x40 | parent=DIV.demo-bar__screens 45x40",
-          "minHeight": "40px",
-          "height": "40px",
-          "visibility": "inline-block/visible/opacity:1"
-        }
-      ],
+      "smallTargets": [],
       "layoutSmells": {
         "clipped": [],
         "negative": []
@@ -2210,7 +735,7 @@
         720,
         700
       ],
-      "heroVisible": "0.999634"
+      "heroVisible": "0.999091"
     },
     "hover": {
       "before": {

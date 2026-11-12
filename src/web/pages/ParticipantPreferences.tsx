@@ -17,12 +17,12 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import type { PreferenceView } from '../../shared/api.js';
 import { formatInstantLabel } from '../../shared/time.js';
-import { apiFieldErrors, describeError } from '../lib/api.js';
+import { api, apiFieldErrors, describeError } from '../lib/api.js';
 import { useI18n, type Translate } from '../lib/i18n.js';
 import { useApp } from '../lib/store.js';
 import { webpSrcSet } from '../lib/images.js';
 import { money, participantStatus, shortSlot } from '../lib/status.js';
-import { ParticipantSteps, StatusBand } from '../components/workshop.js';
+import { Disclosure, ParticipantSteps, StatusBand } from '../components/workshop.js';
 import {
   CheckboxField,
   EmptyState,
@@ -100,6 +100,8 @@ export default function ParticipantPreferences() {
   const [draft, setDraft] = useState<EditablePreference | null>(null);
   const [editing, setEditing] = useState(false);
   const [composerOpen, setComposerOpen] = useState(false);
+  const [mode, setMode] = useState<'describe' | 'pick'>('describe');
+  const [preview, setPreview] = useState<PreferenceView | null>(null);
   const [errors, setErrors] = useState<SummaryError[]>([]);
   const [apiError, setApiError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
@@ -110,6 +112,7 @@ export default function ParticipantPreferences() {
   const viewerId = state?.session.viewParticipantId ?? participants.find((p) => p.isMe)?.id ?? null;
   const me = viewerId ? participants.find((p) => p.id === viewerId) ?? null : null;
   const preference = viewerId ? state?.preferences.find((p) => p.participantId === viewerId) ?? null : null;
+  const activePreference = preview ?? preference;
   const slots = workshop?.slots ?? [];
 
   useEffect(() => {
@@ -125,6 +128,21 @@ export default function ParticipantPreferences() {
     if (conditionSlot || slots.length === 0) return;
     setConditionSlot(slots[0]!.id);
   }, [conditionSlot, slots]);
+
+  function cancelEdit(): void {
+    setEditing(false);
+    setPreview(null);
+    setComposerOpen(false);
+    setErrors([]);
+    setApiError(null);
+    setNotice(null);
+    if (!preference) return;
+    setDraft(editableFrom(preference));
+    setFreeText(preference.sourceText ?? '');
+    setTicks(Object.fromEntries(preference.acceptedSlotIds.map((slotId) => [slotId, true])));
+    setConditionText(preference.conditions[0]?.condition ?? '');
+    setConditionSlot(preference.conditions[0]?.slotId ?? '');
+  }
 
   async function parseFreeText(): Promise<void> {
     if (!viewerId) return;
@@ -148,23 +166,30 @@ export default function ParticipantPreferences() {
     setErrors([]);
     setApiError(null);
     setNotice(null);
+    const payload = {
+      sourceText: composedParts.join(' ').slice(0, 600),
+      structured:
+        structuredTicks.length > 0
+          ? {
+              acceptedSlotIds: structuredTicks.map((slot) => slot.id),
+              preferredSlotIds: [],
+              conditions: structuredCondition
+                ? [{ slotId: conditionSlot || slots[0]!.id, condition: structuredCondition.slice(0, 200) }]
+                : [],
+            }
+          : undefined,
+    };
     try {
-      await act({
-        type: 'preferences.parse',
-        payload: {
-          sourceText: composedParts.join(' ').slice(0, 600),
-          structured:
-            structuredTicks.length > 0
-              ? {
-                  acceptedSlotIds: structuredTicks.map((slot) => slot.id),
-                  preferredSlotIds: [],
-                  conditions: structuredCondition
-                    ? [{ slotId: conditionSlot || slots[0]!.id, condition: structuredCondition.slice(0, 200) }]
-                    : [],
-                }
-              : undefined,
-        },
-      });
+      if (preference?.status === 'CONFIRMED') {
+        // Preview only: the saved version stays in force until the participant
+        // explicitly confirms. Cancelling or refreshing never overwrites it.
+        const result = await api.previewPreferences(payload);
+        setPreview(result.preference);
+        setDraft(editableFrom(result.preference));
+        setEditing(true);
+      } else {
+        await act({ type: 'preferences.parse', payload });
+      }
     } catch (caught) {
       setErrors(apiFieldErrors(caught).map((field) => ({ field: field.field, message: field.message })));
       setApiError(describeError(caught));
@@ -174,7 +199,7 @@ export default function ParticipantPreferences() {
   }
 
   async function confirmPreferences(): Promise<void> {
-    if (!preference || !draft) return;
+    if (!draft || (!preference && !preview)) return;
     if (draft.accepted.length === 0) {
       setErrors([
         {
@@ -192,10 +217,40 @@ export default function ParticipantPreferences() {
     setErrors([]);
     setApiError(null);
     try {
+      if (preview && preference) {
+        await act({
+          type: 'preferences.revise',
+          payload: {
+            baseVersion: preference.version,
+            sourceText: preview.sourceText ?? '',
+            acceptedSlotIds: draft.accepted,
+            preferredSlotIds: draft.preferred,
+            conditions: draft.conditions
+              .filter((condition) => condition.condition.trim().length > 0)
+              .map((condition) => ({
+                slotId: condition.slotId,
+                condition: condition.condition.trim().slice(0, 200),
+                sourceQuote: condition.sourceQuote.slice(0, 400),
+              })),
+            uncertainties: draft.uncertainties.map((uncertainty) => ({
+              field: uncertainty.field,
+              question: uncertainty.question,
+              sourceQuote: uncertainty.sourceQuote,
+            })),
+            extractionMode: preview.extractionMode,
+            extractionModel: preview.extractionModel,
+          },
+        });
+        setPreview(null);
+        setEditing(false);
+        setComposerOpen(false);
+        setNotice(t('flow.preferences.notice.confirmed'));
+        return;
+      }
       await act({
         type: 'preferences.confirm',
         payload: {
-          version: preference.version,
+          version: preference!.version,
           acceptedSlotIds: draft.accepted,
           preferredSlotIds: draft.preferred,
           conditions: draft.conditions
@@ -261,8 +316,8 @@ export default function ParticipantPreferences() {
     <div className="page page--narrow">
       <PageHeader
         eyebrow={t('flow.participant.eyebrow', { name: me.displayName })}
-        title={t('flow.preferences.title')}
-        intro={t('flow.preferences.intro')}
+        title={editing && preference?.status === 'CONFIRMED' ? t('flow.preferences.answer.changeTitle') : confirmed && preference ? t('flow.preferences.confirmed.title') : t('flow.preferences.title')}
+        intro={confirmed && preference ? t('flow.preferences.savedIntro') : t('flow.preferences.intro')}
         actions={
           preference ? (
             <StatusBadge
@@ -293,8 +348,6 @@ export default function ParticipantPreferences() {
             <p className="workshop-strip__facts">
               <span>{workshop.merchantName}</span>
               <span aria-hidden="true">·</span>
-              <span>{workshop.slots.map((slot) => shortSlot(slot.rangeLabel)).join(' · ')}</span>
-              <span aria-hidden="true">·</span>
               <span>{money(workshop.priceCents)}</span>
               <span aria-hidden="true">·</span>
               <span>{t('flow.strip.minimum', { count: workshop.minParticipants })}</span>
@@ -303,11 +356,31 @@ export default function ParticipantPreferences() {
         </section>
       ) : null}
 
+      <div className="participant-dates" aria-label={t('flow.preferences.datesAria')}>
+        {slots.map((slot) => (
+          <div className="participant-date" key={slot.id}>
+            <span>{shortSlot(slot.rangeLabel)}</span>
+          </div>
+        ))}
+      </div>
+      <p className="muted participant-timezone">
+        {t('flow.preferences.timezone', { tz: workshop.timezone })}
+      </p>
+
       {participantSummary ? (
         <>
           <StatusBand model={participantSummary} />
           <ParticipantSteps steps={participantSummary.steps} />
         </>
+      ) : null}
+
+      {editing && preference ? (
+        <div className="editing-banner">
+          <p>{t('flow.preferences.edit.savedNotice', { version: preference.version })}</p>
+          <button type="button" className="btn btn-secondary" onClick={cancelEdit}>
+            {t('common.cancel')}
+          </button>
+        </div>
       ) : null}
 
       {notice ? (
@@ -327,7 +400,9 @@ export default function ParticipantPreferences() {
           preference={preference}
           offerOpen={Boolean(state?.offer?.isOpen && state.offer.viewerIncluded)}
           onEdit={() => {
+            setPreview(null);
             setEditing(true);
+            setComposerOpen(true);
             setNotice(null);
           }}
           onWithdraw={() => void withdraw()}
@@ -348,7 +423,26 @@ export default function ParticipantPreferences() {
               <p className="muted">{t('flow.preferences.answer.equalPaths')}</p>
               <p className="muted">{t('flow.preferences.answer.purpose')}</p>
 
-              <div className="answer-grid">
+              <div className="mode-switch" role="group" aria-label={t('flow.preferences.mode.aria')}>
+                <button
+                  type="button"
+                  className={`mode-switch__button${mode === 'describe' ? ' mode-switch__button--active' : ''}`}
+                  aria-pressed={mode === 'describe'}
+                  onClick={() => setMode('describe')}
+                >
+                  {t('flow.preferences.mode.describe')}
+                </button>
+                <button
+                  type="button"
+                  className={`mode-switch__button${mode === 'pick' ? ' mode-switch__button--active' : ''}`}
+                  aria-pressed={mode === 'pick'}
+                  onClick={() => setMode('pick')}
+                >
+                  {t('flow.preferences.mode.pick')}
+                </button>
+              </div>
+              <p className="muted mode-switch__hint">{t('flow.preferences.mode.keep')}</p>
+              <div className={`answer-grid answer-grid--${mode}`}>
                 <div className="answer-path">
                   <h3>{t('flow.preferences.free.heading')}</h3>
                   <TextAreaField
@@ -424,9 +518,9 @@ export default function ParticipantPreferences() {
             )
           ) : null}
 
-          {preference && draft ? (
+          {activePreference && draft && (!editing || preview || preference?.status !== 'CONFIRMED') ? (
             <ReviewCard
-              preference={preference}
+              preference={activePreference}
               draft={draft}
               onChange={setDraft}
               busy={busy === 'confirm'}
@@ -437,6 +531,29 @@ export default function ParticipantPreferences() {
           ) : null}
         </>
       )}
+
+      {preference ? (
+        <Disclosure summary={t('flow.preferences.diagnostics')}>
+          <dl className="detail-grid detail-grid--compact">
+            <div>
+              <dt>{t('flow.preferences.diagnostics.version')}</dt>
+              <dd>{preference.version}</dd>
+            </div>
+            <div>
+              <dt>{t('flow.preferences.diagnostics.extraction')}</dt>
+              <dd>{extractionNote(preference, t)}</dd>
+            </div>
+            <div>
+              <dt>{t('flow.preferences.diagnostics.confirmed')}</dt>
+              <dd>
+                {preference.confirmedAt
+                  ? formatInstantLabel(preference.confirmedAt, workshop.timezone)
+                  : t('flow.preferences.badge.unconfirmed')}
+              </dd>
+            </div>
+          </dl>
+        </Disclosure>
+      ) : null}
 
       <p className="page__footnote">{t('flow.preferences.footnote')}</p>
     </div>
@@ -517,7 +634,7 @@ function ReviewCard({
             id={`accept-${slot.id}`}
             checked={draft.accepted.includes(slot.id)}
             onChange={(checked) => toggleAccepted(slot.id, checked)}
-            label={slot.rangeLabel}
+            label={shortSlot(slot.rangeLabel)}
             description={
               preference.conditions.some((condition) => condition.slotId === slot.id) ? (
                 <span className="inline-note">{t('flow.preferences.review.dependsOnCondition')}</span>
@@ -525,7 +642,6 @@ function ReviewCard({
             }
           />
         ))}
-        {sourceQuote ? <RowQuote quote={sourceQuote} /> : null}
       </div>
 
       <div className="review-group" id="preferred">
@@ -543,11 +659,10 @@ function ReviewCard({
                 id={`prefer-${slot.id}`}
                 checked={draft.preferred.includes(slot.id)}
                 onChange={(checked) => togglePreferred(slot.id, checked)}
-                label={slot.rangeLabel}
+                label={shortSlot(slot.rangeLabel)}
               />
             ))
         )}
-        {sourceQuote ? <RowQuote quote={sourceQuote} /> : null}
       </div>
 
       <div className="review-group" id="clarify">
@@ -590,7 +705,7 @@ function ReviewCard({
             >
               {slots.map((slot) => (
                 <option key={slot.id} value={slot.id}>
-                  {slot.rangeLabel}
+                  {shortSlot(slot.rangeLabel)}
                 </option>
               ))}
             </SelectField>
@@ -620,7 +735,12 @@ function ReviewCard({
         <p className="confirm-block__promise">
           <strong>{t('flow.preferences.review.promiseTitle')}</strong> {t('flow.preferences.review.promiseRest')}
         </p>
-        <button type="button" className="btn btn-primary btn--large" onClick={onConfirm} disabled={busy || withdrawing}>
+        <button
+          type="button"
+          className="btn btn-primary btn--large"
+          onClick={onConfirm}
+          disabled={busy || withdrawing || draft.accepted.length === 0}
+        >
           {busy ? t('flow.preferences.review.confirming') : t('flow.preferences.review.confirm')}
         </button>
       </div>
@@ -678,11 +798,11 @@ function ConfirmedView({
       <dl className="detail-grid">
         <div>
           <dt>{t('flow.preferences.confirmed.mustHave')}</dt>
-          <dd>{preference.acceptedSlotLabels.join(' · ') || '—'}</dd>
+          <dd>{preference.acceptedSlotLabels.map(shortSlot).join(' · ') || '—'}</dd>
         </div>
         <div>
           <dt>{t('flow.preferences.confirmed.preferred')}</dt>
-          <dd>{preference.preferredSlotLabels.join(' · ') || t('flow.preferences.confirmed.noPreference')}</dd>
+          <dd>{preference.preferredSlotLabels.map(shortSlot).join(' · ') || t('flow.preferences.confirmed.noPreference')}</dd>
         </div>
       </dl>
 
@@ -709,7 +829,7 @@ function ConfirmedView({
           </Link>
         ) : null}
         <button type="button" className="btn btn-secondary" onClick={onEdit}>
-          {t('flow.preferences.confirmed.update')}
+          {t('flow.preferences.confirmed.change')}
         </button>
       </div>
 

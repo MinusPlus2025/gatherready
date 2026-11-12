@@ -65,6 +65,8 @@ async function clickText(page: Page, text: string, scope = 'button, a, label'): 
 
 async function clickDemo(page: Page, name: string): Promise<boolean> {
   return page.evaluate((needle: string) => {
+    const panel = document.querySelector('.demo-controls') as HTMLDetailsElement | null;
+    if (panel && !panel.open) panel.open = true;
     const buttons = Array.from(document.querySelectorAll('.demo-bar button')) as HTMLButtonElement[];
     const hit = buttons.find((el) => (el.textContent || '').trim() === needle);
     if (!hit || hit.disabled) return false;
@@ -138,6 +140,12 @@ async function main(): Promise<void> {
       if (!(await clickText(page, 'Change your answer'))) throw new Error('edit toggle missing');
       await page.waitForFunction(() => Boolean(document.querySelector('#tick-slot_b')), { timeout: TIMEOUT });
     }
+    // The editor opens in describe mode; switch to the deterministic pick path.
+    if (!(await clickText(page, 'Pick times directly'))) throw new Error('pick-times mode missing');
+    await page.waitForFunction(() => {
+      const el = document.querySelector('#tick-slot_b') as HTMLElement | null;
+      return Boolean(el && el.offsetParent !== null);
+    }, { timeout: TIMEOUT });
     const tickB = await page.$('#tick-slot_b');
     if (!tickB) throw new Error('time checkbox #tick-slot_b missing');
     await tickB.click();
@@ -217,7 +225,9 @@ async function main(): Promise<void> {
     const consent = await page.$('#consent');
     if (!consent) throw new Error('consent checkbox missing');
     await consent.click();
-    if (!(await clickText(page, 'Sandbox payment'))) throw new Error('simulated PayPal button missing');
+    if (!(await clickText(page, 'Demo payment')) && !(await clickText(page, 'PayPal'))) {
+      throw new Error('payment button missing');
+    }
     if (!(await waitText(page, 'Authorized', 60_000))) throw new Error('authorized state never appeared');
     // The simulated approval returns through /return → redirect; let that settle
     // before issuing API calls from the page context.

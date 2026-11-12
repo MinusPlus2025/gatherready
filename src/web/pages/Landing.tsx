@@ -8,7 +8,7 @@
    a reader can compare it with the running app without a screenshot.
    ========================================================================== */
 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   BadgeCheck,
   BotOff,
@@ -39,7 +39,8 @@ const HOW_STEPS = [
 
 export default function Landing() {
   const { t } = useI18n();
-  const { state } = useApp();
+  const { state, act } = useApp();
+  const navigate = useNavigate();
   const workshop = state?.workshop ?? null;
   const reduced = usePrefersReducedMotion();
   const figureRef = useRef<HTMLElement | null>(null);
@@ -99,9 +100,27 @@ export default function Landing() {
             <Link className="btn btn-primary" to="/organizer/setup">
               {t('landing.cta.setup')}
             </Link>
-            <Link className="btn btn-secondary" to="/participant/preferences">
-              {t('landing.cta.participant')}
-            </Link>
+            {state?.demo?.canSwitchRoles ? (
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={async () => {
+                  // Demo entry: switch this synthetic tenant to a participant, then
+                  // open the participant screen. Real access still requires an invite
+                  // or session identity; this button only exists for demo tenants.
+                  const synthetic = state.participants.find((p) => p.displayName === 'Diego') ?? state.participants[0];
+                  if (!synthetic) return;
+                  await act({ type: 'demo.view', payload: { participantId: synthetic.id } });
+                  navigate('/participant/preferences');
+                }}
+              >
+                {t('landing.cta.participant')}
+              </button>
+            ) : (
+              <Link className="btn btn-secondary" to="/participant/preferences">
+                {t('landing.cta.participant')}
+              </Link>
+            )}
           </div>
           <ul className="hero__meta">
             <li>

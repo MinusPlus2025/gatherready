@@ -1,0 +1,124 @@
+{
+  "capturedAt": "2026-11-12T15:33:13.285Z",
+  "health": {
+    "ok": true,
+    "paypal": "simulated",
+    "ai": "live"
+  },
+  "sentence": "I can do Saturday morning only, starting at 10.",
+  "savedBefore": {
+    "participantId": "par_A_6DNNs26eKJ",
+    "displayName": "Finn",
+    "version": 1,
+    "status": "CONFIRMED",
+    "acceptedSlotIds": [
+      "slot_c"
+    ],
+    "acceptedSlotLabels": [
+      "Sunday, November 29, 2026 · 10:00–12:00"
+    ],
+    "preferredSlotIds": [],
+    "preferredSlotLabels": [],
+    "conditions": [],
+    "uncertainties": [],
+    "extractionMode": "seed",
+    "extractionModel": null,
+    "sourceText": null,
+    "confirmedAt": null
+  },
+  "planBefore": [
+    {
+      "slot": "slot_a",
+      "fits": 3,
+      "meetsMinimum": false
+    },
+    {
+      "slot": "slot_b",
+      "fits": 2,
+      "meetsMinimum": false
+    },
+    {
+      "slot": "slot_c",
+      "fits": 1,
+      "meetsMinimum": false
+    }
+  ],
+  "previewMs": 1503,
+  "preview": {
+    "participantId": "par_A_6DNNs26eKJ",
+    "displayName": "Finn",
+    "version": 2,
+    "status": "DRAFT",
+    "acceptedSlotIds": [
+      "slot_a"
+    ],
+    "acceptedSlotLabels": [
+      "Saturday, November 28, 2026 · 10:00–12:00"
+    ],
+    "preferredSlotIds": [
+      "slot_a"
+    ],
+    "preferredSlotLabels": [
+      "Saturday, November 28, 2026 · 10:00–12:00"
+    ],
+    "conditions": [],
+    "uncertainties": [],
+    "extractionMode": "live",
+    "extractionModel": "qwen2.5:7b-instruct",
+    "sourceText": "I can do Saturday morning only, starting at 10.",
+    "confirmedAt": null
+  },
+  "savedDuringPreview": {
+    "version": 1,
+    "status": "CONFIRMED"
+  },
+  "reviseStatus": 200,
+  "after": {
+    "version": 2,
+    "status": "CONFIRMED",
+    "sourceText": "I can do Saturday morning only, starting at 10.",
+    "accepted": [
+      "slot_a"
+    ],
+    "conditions": []
+  },
+  "planAfter": [
+    {
+      "slot": "slot_a",
+      "fits": 4,
+      "meetsMinimum": true
+    },
+    {
+      "slot": "slot_b",
+      "fits": 2,
+      "meetsMinimum": false
+    },
+    {
+      "slot": "slot_c",
+      "fits": 0,
+      "meetsMinimum": false
+    }
+  ],
+  "afterCancel": {
+    "version": 2,
+    "status": "CONFIRMED"
+  },
+  "afterRefresh": {
+    "version": 2,
+    "status": "CONFIRMED"
+  },
+  "network": [
+    {
+      "url": "/api/preferences/preview",
+      "status": 200
+    },
+    {
+      "url": "/api/preferences/revise",
+      "status": 200
+    },
+    {
+      "url": "/api/preferences/preview",
+      "status": 200
+    }
+  ]
+}

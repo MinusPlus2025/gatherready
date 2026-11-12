@@ -170,7 +170,12 @@ export function Shell() {
         </div>
       ) : null}
 
-      {state?.demo.canSwitchRoles ? <DemoBar state={state} /> : null}
+      {state?.demo.canSwitchRoles ? (
+        <details className="demo-controls">
+          <summary>{t('demo.controls')}<span className="demo-controls__chev" aria-hidden="true">▾</span></summary>
+          <DemoBar state={state} />
+        </details>
+      ) : null}
 
       <main id="main" className="container main" tabIndex={-1}>
         {state && loadError ? (

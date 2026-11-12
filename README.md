@@ -85,6 +85,9 @@ and state behind every file, and each screen shows the same mode banner the app 
 | Workshop home — the one question for one person | [`organizer-plan-suggestion-1440.png`](docs/screenshots/organizer-plan-suggestion-1440.png) |
 | Participant preferences — own sentence | [`participant-preferences-1440.png`](docs/screenshots/participant-preferences-1440.png) |
 | Participant preferences — reviewable card | [`participant-preferences-parsed-1440.png`](docs/screenshots/participant-preferences-parsed-1440.png) |
+| Participant saved state, phone | [`participant-redesign-saved-390.png`](docs/screenshots/participant-redesign-saved-390.png) |
+| Editing a saved preference — live model preview, saved version still in force | [`participant-final-preview-1440.png`](docs/screenshots/participant-final-preview-1440.png) |
+| Participant-flow status and live AI evidence | [`docs/participant-flow-pass.md`](docs/participant-flow-pass.md) · [`docs/ai-live-evidence.md`](docs/ai-live-evidence.md) |
 | Participant clarification | [`participant-clarify-1440.png`](docs/screenshots/participant-clarify-1440.png) |
 | Frozen offer | [`organizer-offer-1440.png`](docs/screenshots/organizer-offer-1440.png) |
 | Review and authorize (consent) | [`participant-authorize-1440.png`](docs/screenshots/participant-authorize-1440.png) |
