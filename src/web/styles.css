@@ -6773,3 +6773,16 @@ html[data-theme-mode='dark'] .eyebrow {
  .how--demo .how__list {gap:18px;}
  .hero--photo .hero__figure {aspect-ratio:16/10;}
 }
+
+/* Form groups: titles belong inside the surface, never across its border. */
+.fieldset {min-inline-size:0;}
+.fieldset__title {font:650 1.05rem/1.4 var(--font-sans);letter-spacing:-.01em;margin:0 0 20px;overflow-wrap:anywhere;}
+.fieldset legend.visually-hidden {padding:0;border:0;}
+.field,.field__label,.field__hint,.field__error {min-width:0;overflow-wrap:anywhere;}
+.field__label,.field__hint,.field__error {line-height:1.5;}
+.field input,.field select,.field textarea {min-width:0;max-width:100%;}
+@media(max-width:650px){
+ .setup-studio .field-grid,.setup-studio .field-grid--three {grid-template-columns:1fr;}
+ .setup-studio .fieldset {padding:20px 16px;}
+ .fieldset__title {margin-bottom:18px;}
+}

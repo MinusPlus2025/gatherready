@@ -375,7 +375,7 @@ export default function OrganizerSetup() {
             <dl>
               <div><dt>{t('onboard.setup.created.venue')}</dt><dd>{form.venue || '—'}</dd></div>
               <div><dt>{t('onboard.setup.created.length')}</dt><dd>{form.durationMinutes || '—'} min</dd></div>
-              <div><dt>{t('onboard.setup.field.price')}</dt><dd className="draft-ticket__price">{parseDollarsToCents(form.priceDollars) !== null ? formatCents(parseDollarsToCents(form.priceDollars)!) : '—'} <small>USD</small></dd></div>
+              <div><dt>{t('onboard.setup.field.price')}</dt><dd key={form.priceDollars} className="draft-ticket__price">{parseDollarsToCents(form.priceDollars) !== null ? formatCents(parseDollarsToCents(form.priceDollars)!) : '—'} <small>USD</small></dd></div>
             </dl>
             <footer>{t('onboard.setup.preview.note')}</footer>
           </article>
@@ -383,7 +383,8 @@ export default function OrganizerSetup() {
       </aside>
       <form className="form" onSubmit={(event) => void handleSubmit(event)} noValidate>
         <fieldset className="fieldset">
-          <legend>{t('onboard.setup.factsLegend')}</legend>
+          <legend className="visually-hidden">{t('onboard.setup.factsLegend')}</legend>
+          <h2 className="fieldset__title" aria-hidden="true">{t('onboard.setup.factsLegend')}</h2>
           <div className="field-grid">
             <TextField
               chrome={{ id: 'merchantName', label: t('onboard.setup.field.merchantName'), required: true, error: errorFor(errors, 'merchantName') }}
@@ -501,7 +502,8 @@ export default function OrganizerSetup() {
         </fieldset>
 
         <fieldset className="fieldset">
-          <legend>{t('onboard.setup.slots.legend')}</legend>
+          <legend className="visually-hidden">{t('onboard.setup.slots.legend')}</legend>
+          <h2 className="fieldset__title" aria-hidden="true">{t('onboard.setup.slots.legend')}</h2>
           <p className="fieldset__hint">{t('onboard.setup.slots.hint', { timezone: form.timezone })}</p>
           {errors.some((error) => error.field === 'slots') ? (
             <p className="field__error" id="slots-error">
