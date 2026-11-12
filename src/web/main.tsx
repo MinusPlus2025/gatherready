@@ -1,6 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
+import { I18nProvider } from './lib/i18n';
 import '@fontsource-variable/inter';
 import '@fontsource-variable/fraunces';
 import './styles.css';
@@ -10,6 +11,8 @@ if (!container) throw new Error('GatherReady: #root element is missing from inde
 
 createRoot(container).render(
   <StrictMode>
-    <App />
+    <I18nProvider>
+      <App />
+    </I18nProvider>
   </StrictMode>,
 );

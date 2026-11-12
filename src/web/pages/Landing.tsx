@@ -20,35 +20,20 @@ import {
   X,
 } from 'lucide-react';
 import { formatCents } from '../lib/format';
+import { useI18n } from '../lib/i18n';
 import { useApp } from '../lib/store';
 import { StatusBadge } from '../components/ui';
 
-const FOUR_STATES = [
-  { label: 'Interested', detail: 'Wrote one sentence or ticked a time. Does not count yet.' },
-  { label: 'Fits this plan', detail: 'Confirmed the exact time. Only this number is counted.' },
-  { label: 'Payment authorized', detail: 'A hold with PayPal. Not money received.' },
-  { label: 'Captured', detail: 'PayPal confirmed the merchant was paid. Final state.' },
-] as const;
+const FOUR_STATES = ['interested', 'fits', 'authorized', 'captured'] as const;
 
 const HOW_STEPS = [
-  {
-    icon: MessagesSquare,
-    title: 'Read the condition, not the mood',
-    body: 'A participant writes one messy sentence. The model returns an editable card with their own words quoted, and the participant confirms it. Nothing counts before that click.',
-  },
-  {
-    icon: HelpCircle,
-    title: 'Ask at most one question',
-    body: 'The solver counts only confirmed constraints. If one merchant fact would close the gap, the organizer reviews and sends a single yes/no question. A “no” is final.',
-  },
-  {
-    icon: BadgeCheck,
-    title: 'Freeze the plan, then fund it',
-    body: 'One immutable offer with a hash. Each person reads it, consents, and authorizes the exact total. The organizer captures only after the minimum is authorized.',
-  },
+  { icon: MessagesSquare, key: 'step1' },
+  { icon: HelpCircle, key: 'step2' },
+  { icon: BadgeCheck, key: 'step3' },
 ] as const;
 
 export default function Landing() {
+  const { t } = useI18n();
   const { state } = useApp();
   const workshop = state?.workshop ?? null;
 
@@ -56,30 +41,26 @@ export default function Landing() {
     <div className="landing">
       <section className="hero hero--photo" aria-labelledby="hero-title">
         <div className="hero__copy">
-          <p className="eyebrow">Consensus workshops · PayPal sandbox</p>
-          <h1 id="hero-title">A workshop happens only when enough people actually say yes.</h1>
-          <p className="hero__lede">
-            GatherReady turns conditional interest — “Saturday morning, if materials are included” — into one
-            fixed plan everyone can read, one optional question, and a PayPal authorization that is captured
-            only when the whole plan is real.
-          </p>
+          <p className="eyebrow">{t('landing.eyebrow')}</p>
+          <h1 id="hero-title">{t('landing.hero.title')}</h1>
+          <p className="hero__lede">{t('landing.hero.lede')}</p>
           <div className="hero__actions">
             <Link className="btn btn-primary" to="/organizer/setup">
-              Set up a workshop
+              {t('landing.cta.setup')}
             </Link>
             <Link className="btn btn-secondary" to="/participant/preferences">
-              See it as a participant
+              {t('landing.cta.participant')}
             </Link>
           </div>
           <ul className="hero__meta">
             <li>
-              <ShieldCheck size={15} strokeWidth={2} aria-hidden="true" /> PayPal sandbox only
+              <ShieldCheck size={15} strokeWidth={2} aria-hidden="true" /> {t('landing.meta.sandbox')}
             </li>
             <li>
-              <Fingerprint size={15} strokeWidth={2} aria-hidden="true" /> One immutable offer
+              <Fingerprint size={15} strokeWidth={2} aria-hidden="true" /> {t('landing.meta.offer')}
             </li>
             <li>
-              <BotOff size={15} strokeWidth={2} aria-hidden="true" /> AI never touches money
+              <BotOff size={15} strokeWidth={2} aria-hidden="true" /> {t('landing.meta.ai')}
             </li>
           </ul>
         </div>
@@ -88,7 +69,7 @@ export default function Landing() {
           <figure className="hero__figure">
             <img
               src="/images/pottery-hands.jpg"
-              alt="Hands shaping a pot on a potter's wheel, wet clay glistening in warm light"
+              alt={t('landing.photo.altHands')}
               width={1600}
               height={968}
               fetchPriority="high"
@@ -96,7 +77,7 @@ export default function Landing() {
           </figure>
           <aside
             className="app-frame app-frame--overlap"
-            aria-label="Preview of the organizer plan screen with synthetic demo data"
+            aria-label={t('landing.frame.aria')}
           >
           <div className="app-frame__chrome">
             <span className="app-frame__dots" aria-hidden="true">
@@ -104,72 +85,72 @@ export default function Landing() {
               <i />
               <i />
             </span>
-            <span className="app-frame__title">The plan</span>
-            <span className="app-frame__badge">Synthetic demo</span>
+            <span className="app-frame__title">{t('landing.frame.title')}</span>
+            <span className="app-frame__badge">{t('landing.frame.badge')}</span>
           </div>
           <div className="app-frame__counts">
             <div>
               <span className="app-frame__num">6</span>
-              <span className="app-frame__lbl">Interested</span>
+              <span className="app-frame__lbl">{t('landing.frame.interested')}</span>
             </div>
             <div>
               <span className="app-frame__num">3</span>
-              <span className="app-frame__lbl">Fits this plan</span>
+              <span className="app-frame__lbl">{t('landing.frame.fits')}</span>
             </div>
             <div>
               <span className="app-frame__num">0</span>
-              <span className="app-frame__lbl">Payment authorized</span>
+              <span className="app-frame__lbl">{t('landing.frame.authorized')}</span>
             </div>
           </div>
           <div className="app-frame__times" aria-hidden="true">
             <div className="app-frame__time">
-              <span>Sat 10:00–12:00</span>
-              <span className="app-frame__time-meta">3 confirmed · 1 conditional</span>
+              <span>{t('landing.frame.slot1')}</span>
+              <span className="app-frame__time-meta">{t('landing.frame.slot1meta')}</span>
             </div>
             <div className="app-frame__time">
-              <span>Sat 13:00–15:00</span>
-              <span className="app-frame__time-meta">2 confirmed</span>
+              <span>{t('landing.frame.slot2')}</span>
+              <span className="app-frame__time-meta">{t('landing.frame.slot2meta')}</span>
             </div>
             <div className="app-frame__time">
-              <span>Sun 10:00–12:00</span>
-              <span className="app-frame__time-meta">1 confirmed</span>
+              <span>{t('landing.frame.slot3')}</span>
+              <span className="app-frame__time-meta">{t('landing.frame.slot3meta')}</span>
             </div>
           </div>
           <div className="app-frame__question">
-            <span className="app-frame__kicker">Suggested question — reviewed before sending</span>
-            <p>“All materials are included. Would Saturday 10:00–12:00 work for you?”</p>
+            <span className="app-frame__kicker">{t('landing.frame.suggested')}</span>
+            <p>{t('landing.frame.question')}</p>
             <div className="app-frame__question-pair">
-              <span>Diego’s condition: materials included</span>
+              <span>{t('landing.frame.condition')}</span>
               <span>
-                Gap closes: <strong>3 → 4</strong>
+                {t('landing.frame.gap')} <strong>3 → 4</strong>
               </span>
             </div>
           </div>
           <div className="app-frame__foot">
             <Fingerprint size={14} strokeWidth={2} aria-hidden="true" />
-            Offer fingerprint 4a96… · every money state is read back from the server
+            {t('landing.frame.foot')}
           </div>
           </aside>
         </div>
       </section>
 
-      <section className="state-strip" aria-label="Four states GatherReady keeps separate">
-        {FOUR_STATES.map((item) => (
-          <div className="state-strip__item" key={item.label}>
+      <section className="state-strip" aria-label={t('landing.states.aria')}>
+        {FOUR_STATES.map((key) => (
+          <div className="state-strip__item" key={key}>
             <p className="state-strip__label">
               <i aria-hidden="true" />
-              {item.label}
+              {t(`landing.states.${key}`)}
             </p>
-            <p>{item.detail}</p>
+            <p>{t(`landing.states.${key}Detail`)}</p>
           </div>
         ))}
       </section>
 
-      <section className="photo-band" aria-label="Pottery workshop context">
+      <section className="photo-band" aria-label={t('landing.photo.altWorkshop')}>
         <figure>
           <img
             src="/images/pottery-workshop.jpg"
-            alt="A working pottery workshop: shelves of finished pieces, wheels and drying pots"
+            alt={t('landing.photo.altWorkshop')}
             width={1600}
             height={1200}
             loading="lazy"
@@ -178,7 +159,7 @@ export default function Landing() {
         <figure>
           <img
             src="/images/pottery-studio.jpg"
-            alt="A bright pottery studio with colourful handmade vessels on shelves"
+            alt={t('landing.photo.altStudio')}
             width={1600}
             height={1067}
             loading="lazy"
@@ -190,36 +171,36 @@ export default function Landing() {
         <section className="panel panel--summary" aria-labelledby="current-workshop">
           <div className="panel__head">
             <div>
-              <p className="eyebrow">Current workshop</p>
+              <p className="eyebrow">{t('landing.current.eyebrow')}</p>
               <h2 id="current-workshop">{workshop.title}</h2>
               <p className="muted">
-                {workshop.merchantName} · {workshop.slots.length} candidate times · {formatCents(workshop.priceCents)}{' '}
-                per person
+                {workshop.merchantName} · {t('landing.current.candidateTimes', { count: workshop.slots.length })} ·{' '}
+                {formatCents(workshop.priceCents)} {t('landing.current.perPerson')}
               </p>
             </div>
             <StatusBadge
               tone={workshop.status === 'CONFIRMED' ? 'success' : workshop.status === 'CANCELLED' ? 'neutral' : 'info'}
               word={
                 workshop.status === 'CONFIRMED'
-                  ? 'Workshop confirmed'
+                  ? t('landing.current.statusConfirmed')
                   : workshop.status === 'CANCELLED'
-                    ? 'Workshop cancelled'
+                    ? t('landing.current.statusCancelled')
                     : workshop.status === 'OFFER_OPEN'
-                      ? 'Offer open for authorization'
-                      : 'Collecting interest'
+                      ? t('landing.current.statusOfferOpen')
+                      : t('landing.current.statusCollecting')
               }
             />
           </div>
           <div className="landing__links">
             <Link className="btn btn-primary" to="/organizer/plan">
-              Open the organizer plan
+              {t('landing.current.openPlan')}
             </Link>
             <Link className="btn btn-secondary" to="/participant/preferences">
-              Open a participant view
+              {t('landing.current.openParticipant')}
             </Link>
             {workshop.status === 'CONFIRMED' || workshop.status === 'CANCELLED' ? (
               <Link className="btn btn-ghost" to="/organizer/result">
-                See the result
+                {t('landing.current.seeResult')}
               </Link>
             ) : null}
           </div>
@@ -227,21 +208,18 @@ export default function Landing() {
       ) : null}
 
       <section className="how" aria-labelledby="how-it-works">
-        <h2 id="how-it-works">The loop, without the group chat</h2>
-        <p className="how__intro">
-          Interest is easy. A number you can act on is not. These three steps are the whole product — the rest is
-          the money safety underneath them.
-        </p>
+        <h2 id="how-it-works">{t('landing.how.title')}</h2>
+        <p className="how__intro">{t('landing.how.intro')}</p>
         <ol className="how__list">
           {HOW_STEPS.map((step) => {
             const Icon = step.icon;
             return (
-              <li className="how__step" key={step.title}>
+              <li className="how__step" key={step.key}>
                 <span className="how__icon" aria-hidden="true">
                   <Icon size={20} strokeWidth={2} />
                 </span>
-                <h3>{step.title}</h3>
-                <p>{step.body}</p>
+                <h3>{t(`landing.how.${step.key}.title`)}</h3>
+                <p>{t(`landing.how.${step.key}.body`)}</p>
               </li>
             );
           })}
@@ -250,44 +228,36 @@ export default function Landing() {
 
       <section className="panel honest honest--split" aria-labelledby="limits">
         <div className="honest__col honest__col--does">
-          <h2 id="limits">What the prototype does</h2>
+          <h2 id="limits">{t('landing.honest.doesTitle')}</h2>
           <ul className="honest__list">
             <li>
-              <Check size={15} strokeWidth={2.4} aria-hidden="true" /> Reads conditional interest into editable
-              constraints with verbatim quotes.
+              <Check size={15} strokeWidth={2.4} aria-hidden="true" /> {t('landing.honest.does1')}
             </li>
             <li>
-              <Check size={15} strokeWidth={2.4} aria-hidden="true" /> Counts only confirmed preferences, and asks
-              at most one question per person.
+              <Check size={15} strokeWidth={2.4} aria-hidden="true" /> {t('landing.honest.does2')}
             </li>
             <li>
-              <Check size={15} strokeWidth={2.4} aria-hidden="true" /> Freezes one offer and binds each consent to
-              its hash before PayPal.
+              <Check size={15} strokeWidth={2.4} aria-hidden="true" /> {t('landing.honest.does3')}
             </li>
             <li>
-              <Check size={15} strokeWidth={2.4} aria-hidden="true" /> Captures only when every authorization is
-              valid and the minimum is met.
+              <Check size={15} strokeWidth={2.4} aria-hidden="true" /> {t('landing.honest.does4')}
             </li>
           </ul>
         </div>
         <div className="honest__col honest__col--doesnt">
-          <h2>What it does not do</h2>
+          <h2>{t('landing.honest.doesntTitle')}</h2>
           <ul className="honest__list">
             <li>
-              <X size={15} strokeWidth={2.4} aria-hidden="true" /> Move real money: sandbox, or a simulated
-              adapter labelled everywhere.
+              <X size={15} strokeWidth={2.4} aria-hidden="true" /> {t('landing.honest.doesnt1')}
             </li>
             <li>
-              <X size={15} strokeWidth={2.4} aria-hidden="true" /> Email anyone, or read private chats, calendars or
-              inboxes.
+              <X size={15} strokeWidth={2.4} aria-hidden="true" /> {t('landing.honest.doesnt2')}
             </li>
             <li>
-              <X size={15} strokeWidth={2.4} aria-hidden="true" /> Let a model confirm a preference, decide who
-              attends, or touch a payment.
+              <X size={15} strokeWidth={2.4} aria-hidden="true" /> {t('landing.honest.doesnt3')}
             </li>
             <li>
-              <X size={15} strokeWidth={2.4} aria-hidden="true" /> Treat a returned PayPal tab or a clicked button
-              as money received.
+              <X size={15} strokeWidth={2.4} aria-hidden="true" /> {t('landing.honest.doesnt4')}
             </li>
           </ul>
         </div>

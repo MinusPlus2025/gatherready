@@ -10,6 +10,7 @@
 import { useState, type ReactNode } from 'react';
 import { Check, ChevronDown, Minus, X } from 'lucide-react';
 import type { AppState, ClarificationView, PreferenceView } from '../../shared/api.js';
+import { useI18n } from '../lib/i18n.js';
 import { splitCount, useAnimatedNumber, useChangedFlag } from '../lib/motion.js';
 import {
   organizerRails,
@@ -23,12 +24,13 @@ import {
 /* -------------------------------- status -------------------------------- */
 
 export function StatusBand({ model }: { model: StatusBandModel }) {
+  const { t } = useI18n();
   return (
     <section
       key={model.headline}
       className={`status-band status-band--${model.tone} status-band--enter`}
       aria-live="polite"
-      aria-label="Current status"
+      aria-label={t('workshop.statusAria')}
     >
       <div className="status-band__body">
         <p className="status-band__headline">{model.headline}</p>
@@ -53,18 +55,25 @@ function Rail({ label, value, detail, ok }: { label: string; value: string; deta
 }
 
 export function Rails({ rails }: { rails: OrganizerRails }) {
+  const { t } = useI18n();
   return (
-    <dl className="rails" aria-label="Three separate progress measures">
-      <Rail label="Fits this plan" value={rails.match.value} detail={rails.match.detail} ok={rails.match.ok} />
-      <Rail label="Terms confirmed" value={rails.terms.value} detail={rails.terms.detail} ok={rails.terms.ok} />
-      <Rail label="Valid authorizations" value={rails.authorization.value} detail={rails.authorization.detail} ok={rails.authorization.ok} />
+    <dl className="rails" aria-label={t('workshop.railsAria')}>
+      <Rail label={t('workshop.rail.match')} value={rails.match.value} detail={rails.match.detail} ok={rails.match.ok} />
+      <Rail label={t('workshop.rail.terms')} value={rails.terms.value} detail={rails.terms.detail} ok={rails.terms.ok} />
+      <Rail
+        label={t('workshop.rail.authorization')}
+        value={rails.authorization.value}
+        detail={rails.authorization.detail}
+        ok={rails.authorization.ok}
+      />
     </dl>
   );
 }
 
 export function ParticipantSteps({ steps }: { steps: ParticipantStep[] }) {
+  const { t } = useI18n();
   return (
-    <ol className="steps-line" aria-label="Your four separate states">
+    <ol className="steps-line" aria-label={t('workshop.stepsAria')}>
       {steps.map((step, index) => (
         <li key={step.key} className={`steps-line__item steps-line__item--${step.state}`}>
           <span className="steps-line__num" aria-hidden="true">
@@ -96,15 +105,16 @@ export function Disclosure({ summary, children }: { summary: string; children: R
 
 /* --------------------------------- avatars ------------------------------- */
 
-const STATE_WORD: Record<CellState, string> = {
-  accepted: 'Confirmed this time',
-  preferred: 'Confirmed, also preferred',
-  conditional: 'Conditional — not counted',
-  cannot: 'Not available for this time',
-  unknown: 'Has not confirmed',
+const STATE_KEY: Record<CellState, string> = {
+  accepted: 'workshop.state.accepted',
+  preferred: 'workshop.state.preferred',
+  conditional: 'workshop.state.conditional',
+  cannot: 'workshop.state.cannot',
+  unknown: 'workshop.state.unknown',
 };
 
 export function Avatar({ name, state }: { name: string; state: CellState }) {
+  const { t } = useI18n();
   const changed = useChangedFlag(state);
   const initials = name
     .split(/\s+/)
@@ -113,7 +123,7 @@ export function Avatar({ name, state }: { name: string; state: CellState }) {
     .slice(0, 2)
     .toUpperCase();
   return (
-    <span className={`avatar avatar--${state}${changed ? ' avatar--pulse' : ''}`} title={`${name} — ${STATE_WORD[state]}`}>
+    <span className={`avatar avatar--${state}${changed ? ' avatar--pulse' : ''}`} title={`${name} — ${t(STATE_KEY[state])}`}>
       <span className="avatar__initials" aria-hidden="true">
         {initials}
       </span>
@@ -127,7 +137,7 @@ export function Avatar({ name, state }: { name: string; state: CellState }) {
         ) : null}
       </span>
       <span className="visually-hidden">
-        {name}: {STATE_WORD[state]}
+        {name}: {t(STATE_KEY[state])}
       </span>
     </span>
   );
@@ -146,6 +156,7 @@ export interface ExplainPanelProps {
 }
 
 function ExpandDetail({ row, state, preferences, clarifications, onAsk, asking, onOpenParticipant }: ExplainPanelProps) {
+  const { t } = useI18n();
   const workshop = state.workshop;
   const suggestion = state.plan?.suggestion;
   return (
@@ -165,36 +176,41 @@ function ExpandDetail({ row, state, preferences, clarifications, onAsk, asking, 
               <div className="matrix-person__body">
                 <p className="matrix-person__head">
                   <strong>{cell.name}</strong>
-                  <span className={`matrix-state matrix-state--${cell.state}`}>{STATE_WORD[cell.state]}</span>
+                  <span className={`matrix-state matrix-state--${cell.state}`}>{t(STATE_KEY[cell.state])}</span>
                 </p>
                 {condition ? (
                   <>
-                    <p className="matrix-person__condition">Condition: “{condition.condition}”</p>
-                    <p className="matrix-person__quote">Their words: “{condition.sourceQuote}”</p>
+                    <p className="matrix-person__condition">{t('workshop.condition')} “{condition.condition}”</p>
+                    <p className="matrix-person__quote">{t('workshop.theirWords')} “{condition.sourceQuote}”</p>
                   </>
                 ) : (
                   <p className="matrix-person__quote">
                     {cell.state === 'accepted' || cell.state === 'preferred'
-                      ? 'No condition on this time — confirmed directly.'
-                      : 'No confirmed constraint for this time.'}
+                      ? t('workshop.noCondition')
+                      : t('workshop.noConstraint')}
                   </p>
                 )}
                 <p className="matrix-person__meta">
-                  AI card: {preference?.extractionMode === 'live' ? 'live model' : preference?.extractionMode ?? 'structured'}
-                  {clarification ? ` · question ${clarification.status.replace('ANSWERED_', 'answered ')}` : ''}
+                  {t('workshop.aiCard')}:{' '}
+                  {preference?.extractionMode === 'live'
+                    ? t('workshop.ai.live')
+                    : preference?.extractionMode === 'recorded'
+                      ? t('workshop.ai.recorded')
+                      : t('workshop.ai.structured')}
+                  {clarification ? ` · ${t('workshop.questionStatus', { status: clarification.status.replace('ANSWERED_', 'answered ') })}` : ''}
                 </p>
               </div>
               <div className="matrix-person__actions">
                 {isSuggested && (clarification?.status === 'PROPOSED' || clarification?.status === 'SENT') ? (
-                  <span className="muted">Question already sent</span>
+                  <span className="muted">{t('workshop.questionSent')}</span>
                 ) : isSuggested ? (
                   <button type="button" className="btn btn-small btn-primary" disabled={asking} onClick={() => onAsk(cell.participantId)}>
-                    {asking ? 'Preparing…' : 'Ask the one question'}
+                    {asking ? t('workshop.preparing') : t('workshop.askOne')}
                   </button>
                 ) : null}
                 {cell.state === 'conditional' || cell.state === 'accepted' || cell.state === 'preferred' ? (
                   <button type="button" className="btn btn-small btn-ghost" onClick={() => onOpenParticipant(cell.participantId)}>
-                    Open their view
+                    {t('workshop.openTheirView')}
                   </button>
                 ) : null}
               </div>
@@ -204,12 +220,11 @@ function ExpandDetail({ row, state, preferences, clarifications, onAsk, asking, 
       </ul>
       {row.meetsMinimum ? (
         <p className="matrix-explain__note">
-          This time already meets the minimum of {workshop?.minParticipants ?? 0}. Publishing an offer freezes price, time and
-          terms; every included participant still has to read and authorize it.
+          {t('workshop.meetsNote', { min: workshop?.minParticipants ?? 0 })}
         </p>
       ) : (
         <p className="matrix-explain__note">
-          {row.fits} confirmed · ceiling {row.ceiling} (conditional people never count until they answer yes).
+          {t('workshop.fitsNote', { fits: row.fits, ceiling: row.ceiling })}
         </p>
       )}
     </div>
@@ -229,6 +244,7 @@ export function SlotMatrix({
   asking: boolean;
   onOpenParticipant: (participantId: string) => void;
 }) {
+  const { t } = useI18n();
   const [openRow, setOpenRow] = useState<string | null>(null);
   const participants = (state.participants ?? []).slice().sort((a, b) => a.displayName.localeCompare(b.displayName));
   const preferences = state.preferences ?? [];
@@ -240,32 +256,30 @@ export function SlotMatrix({
   return (
     <div className="matrix">
       <div className="matrix__head">
-        <h2>Candidate times</h2>
-        <p className="muted">
-          Availability only. A confirmed time is not a payment: authorization is a separate step every participant must take.
-        </p>
+        <h2>{t('workshop.matrix.title')}</h2>
+        <p className="muted">{t('workshop.matrix.intro')}</p>
         <p className="matrix__legend">
-          <span className="legend-item legend-item--accepted">✓ confirmed</span>
-          <span className="legend-item legend-item--preferred">✓ preferred (also confirmed)</span>
-          <span className="legend-item legend-item--conditional">◐ conditional — never counted</span>
-          <span className="legend-item legend-item--unknown">dashed = not confirmed yet</span>
-          <span className="legend-item legend-item--cannot">✕ confirmed, not this time</span>
+          <span className="legend-item legend-item--accepted">✓ {t('workshop.legend.accepted')}</span>
+          <span className="legend-item legend-item--preferred">✓ {t('workshop.legend.preferred')}</span>
+          <span className="legend-item legend-item--conditional">◐ {t('workshop.legend.conditional')}</span>
+          <span className="legend-item legend-item--unknown">{t('workshop.legend.unknown')}</span>
+          <span className="legend-item legend-item--cannot">✕ {t('workshop.legend.cannot')}</span>
         </p>
       </div>
 
       {/* desktop: compact date × participant table */}
       <table className="matrix-table">
-        <caption className="visually-hidden">Candidate times by participant availability</caption>
+        <caption className="visually-hidden">{t('workshop.matrix.caption')}</caption>
         <thead>
           <tr>
-            <th scope="col">Time</th>
+            <th scope="col">{t('workshop.matrix.time')}</th>
             {participants.map((participant) => (
               <th key={participant.id} scope="col">
                 <span className="matrix-table__name">{participant.displayName}</span>
               </th>
             ))}
-            <th scope="col">Confirmed</th>
-            <th scope="col">Ceiling</th>
+            <th scope="col">{t('workshop.matrix.confirmed')}</th>
+            <th scope="col">{t('workshop.matrix.ceiling')}</th>
           </tr>
         </thead>
         <tbody>
@@ -288,7 +302,7 @@ export function SlotMatrix({
                 ))}
                 <td className="matrix-table__num">
                   <strong>{row.fits}</strong>
-                  {row.isSelectedOfferSlot ? <span className="matrix-chip">selected</span> : null}
+                  {row.isSelectedOfferSlot ? <span className="matrix-chip">{t('workshop.selected')}</span> : null}
                 </td>
                 <td className="matrix-table__num">{row.ceiling}</td>
               </tr>
@@ -334,8 +348,8 @@ export function SlotMatrix({
                 ))}
               </span>
               <span className="matrix-card__meta">
-                <strong>{row.fits}</strong> confirmed · ceiling {row.ceiling}
-                {row.meetsMinimum ? ' · meets minimum' : ''}
+                {t('workshop.cardMeta', { fits: row.fits, ceiling: row.ceiling })}
+                {row.meetsMinimum ? ` · ${t('workshop.meetsMinimum')}` : ''}
               </span>
             </button>
             <div

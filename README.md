@@ -92,6 +92,9 @@ and state behind every file, and each screen shows the same mode banner the app 
 | Result — workshop confirmed | [`organizer-result-1440.png`](docs/screenshots/organizer-result-1440.png) |
 | Mobile consent screen (420 px) | [`participant-authorize-420.png`](docs/screenshots/participant-authorize-420.png) |
 | Mobile plan (420 px) | [`organizer-plan-suggestion-420.png`](docs/screenshots/organizer-plan-suggestion-420.png) |
+| Landing, 简体中文 (switch in header) | [`landing-zh-1440.png`](docs/screenshots/landing-zh-1440.png) |
+| Workshop home, 简体中文 | [`organizer-plan-zh-1440.png`](docs/screenshots/organizer-plan-zh-1440.png) |
+| Organizer setup, 简体中文 | [`organizer-setup-zh-1440.png`](docs/screenshots/organizer-setup-zh-1440.png) |
 
 In this snapshot the banner reads **Simulated PayPal — no real money** because sandbox keys are absent;
 the same screens render the sandbox badge without code changes once keys are supplied.
@@ -104,6 +107,26 @@ recorded separately by `npm run record:motion` → [`docs/motion-demo.mp4`](docs
 (including that reduced motion removes movement). It is a recording aid — the
 submission video needs your own narration and, if available, sandbox credentials so the sandbox badge is
 visible; see [`docs/demo-script.md`](docs/demo-script.md).
+
+## Interface language
+
+The whole interface switches between **English** and **简体中文** from the `English | 中文` control in the header
+on every screen. English is the default (it is the submission language); the choice persists in
+`localStorage`, updates `<html lang>`, and is visible to screen readers through `aria-pressed`.
+
+What is translated: every piece of interface chrome — navigation, status sentences and rails, matrix
+labels, buttons, form labels and client-side validation, consent steps, payment state words, empty states,
+errors, footer and language note.
+
+What stays in its creation language, on purpose: workshop facts, server-formatted slot labels, AI questions
+and verbatim quotes, participant names, the official offer terms and server error text. The footer says this
+in both languages, so switching language never pretends to translate a legal term or a person's own words.
+Chinese copy is authored for this demo, not professionally localised.
+
+Implementation: `src/web/lib/i18n.tsx` (provider + `t()` with `{placeholders}`), five dictionary pairs under
+`src/web/lib/messages-*.ts` (shell/landing, flow, money, onboard), one `LanguageSwitch` in the shell.
+`npm run ui-review` now reviews English **and** Chinese layouts at four widths; `npm run typecheck:web`
+typechecks the web app (the root tsconfig excludes `src/web`).
 
 ## Run it
 

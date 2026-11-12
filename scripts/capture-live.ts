@@ -249,6 +249,13 @@ async function main(): Promise<void> {
     if (reset.status !== 200) throw new Error(`reset failed: ${JSON.stringify(reset.json)}`);
     await shoot('organizer-plan-no-plan', '/organizer/plan', 'no plan: minimum not reached, no invented compromise');
 
+    /* Chinese interface captures (same live state, real switch, not a mock) */
+    await page.evaluate(() => window.localStorage.setItem('gatherready.locale', 'zh'));
+    await shoot('landing-zh', '/', 'Chinese landing after switching the interface language');
+    await shoot('organizer-plan-zh', '/organizer/plan', 'Chinese organizer home after switching the interface language');
+    await shoot('organizer-setup-zh', '/organizer/setup', 'Chinese organizer setup after switching the interface language');
+    await page.evaluate(() => window.localStorage.setItem('gatherready.locale', 'en'));
+
     await writeFile(
       path.join(OUT, 'manifest.json'),
       `${JSON.stringify(

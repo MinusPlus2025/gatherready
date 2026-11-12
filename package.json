@@ -28,7 +28,8 @@
     "test:ui": "tsx scripts/ui-smoke.ts",
     "ui-review": "tsx scripts/ui-review.ts",
     "test:motion": "tsx scripts/motion-check.ts",
-    "record:motion": "tsx scripts/record-motion.ts"
+    "record:motion": "tsx scripts/record-motion.ts",
+    "typecheck:web": "tsc -p tsconfig.web.json --noEmit"
   },
   "dependencies": {
     "@fastify/cookie": "^11.0.2",

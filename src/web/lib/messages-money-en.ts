@@ -1,0 +1,225 @@
+/* Organizer offer / funding / result surfaces. */
+export const moneyEn: Record<string, string> = {
+  /* -------------------------------- shared -------------------------------- */
+  'money.shared.organizer': 'Organizer',
+  'money.shared.noWorkshopTitle': 'No workshop yet',
+  'money.shared.setupWorkshop': 'Set up a workshop',
+  'money.shared.backToPlan': 'Back to the plan',
+  'money.shared.simulatedChip': 'Simulated PayPal — no real money',
+
+  /* ------------------------------ offer page ------------------------------ */
+  'money.offer.eyebrow': 'Organizer · Offer',
+  'money.offer.publishedTitle': 'Offer published',
+  'money.offer.publishedIntro':
+    'These terms are fixed. Participants see exactly this summary, verbatim, before any PayPal button.',
+  'money.offer.statusOpen': 'Offer open for authorization',
+  'money.offer.stripAria': 'Workshop',
+  'money.offer.perPerson': 'per person',
+  'money.offer.stripMinimum': 'minimum {min}',
+  'money.offer.frozenHeadline': '{slot} · terms frozen',
+  'money.offer.frozenDetailOne':
+    '{count} confirmed fit · {price} · minimum {min} · closes {deadline}.',
+  'money.offer.frozenDetailMany':
+    '{count} confirmed fits · {price} · minimum {min} · closes {deadline}.',
+  'money.offer.openFunding': 'Open funding',
+  'money.offer.publishErrorTitle': 'That did not work',
+  'money.offer.immutableTerms': 'Immutable terms',
+  'money.offer.versionLine': 'version {version} · {state}',
+  'money.offer.state.draft': 'draft',
+  'money.offer.state.open': 'open',
+  'money.offer.state.closed': 'closed',
+  'money.offer.state.settled': 'settled',
+  'money.offer.state.cancelled': 'cancelled',
+  'money.offer.fingerprintBadge': 'Fingerprint {hash}',
+  'money.offer.lockTitle': 'Changing anything now needs a new offer',
+  'money.offer.lockLead': 'This offer is locked to fingerprint ',
+  'money.offer.lockTail':
+    '. If any term changes — price, time, venue, inclusions, minimum — you must publish a new offer, and every participant must review it and consent again. There is no way to quietly edit a live offer.',
+  'money.offer.included': 'Included participants: {names} ({count} of a minimum {min}).',
+  'money.offer.noFitList': 'No confirmed fit list is available for this time yet.',
+  'money.offer.seeParticipant': 'See the participant view',
+  'money.offer.techOfferSummary': 'Technical details (offer fingerprint, audit)',
+  'money.offer.noWorkshopBody': 'The offer is built from the workshop facts and the plan.',
+  'money.offer.publishTitle': 'Publish one fixed offer',
+  'money.offer.publishIntro':
+    'One time, one price, one set of terms. After publishing, nothing can be edited in place — a change means a new offer and fresh consent from every participant.',
+  'money.offer.blockedHeadline': 'No time meets the minimum yet',
+  'money.offer.blockedDetail':
+    'Publishing is blocked until a time has at least {min} confirmed fits. Ask the one question on the plan, or wait for another confirmation.',
+  'money.offer.chooseHeadline': 'Choose a time and confirm the terms',
+  'money.offer.chooseDetail':
+    'Only a time with at least {min} confirmed fits can be offered. Publishing freezes price, time and terms for everyone.',
+  'money.offer.notPublishedTitle': 'The offer was not published',
+  'money.offer.planMissingTitle': 'The plan is not computed yet',
+  'money.offer.planMissingBody': 'An offer can only be published for a time that meets the minimum.',
+  'money.offer.candidateTimes': 'Candidate times',
+  'money.offer.candidateIntro':
+    'Confirmed fit counts only. A conditional participant never counts until they answer yes; a confirmed time is still not a payment.',
+  'money.offer.slotMetaMetOne': '{count} confirmed fit · meets minimum {min}',
+  'money.offer.slotMetaMetMany': '{count} confirmed fits · meets minimum {min}',
+  'money.offer.slotMetaNeedsOne': '{count} confirmed fit · needs {more} more',
+  'money.offer.slotMetaNeedsMany': '{count} confirmed fits · needs {more} more',
+  'money.offer.meetsMinimum': 'Meets minimum',
+  'money.offer.blocked': 'Blocked',
+  'money.offer.previewTitle': 'The exact summary participants will see',
+  'money.offer.previewIntro':
+    'Order is fixed: merchant, workshop, date and time, timezone, venue, includes, total, minimum, authorization deadline, cancellation, if collection fails.',
+  'money.offer.previewFoot':
+    'The fingerprint is computed by the server over exactly these terms at publish time.',
+  'money.offer.merchantConfirmTitle': 'Merchant confirmation',
+  'money.offer.merchantConfirmLabel': 'I confirm these terms are final for this offer.',
+  'money.offer.merchantConfirmHint':
+    'Publishing locks the price, time, venue, inclusions and minimum. Any later change requires a new offer and a new consent from every participant.',
+  'money.offer.publishing': 'Publishing…',
+  'money.offer.publish': 'Publish offer',
+  'money.offer.selectTimeHint':
+    'Select a time that meets the minimum to see the exact terms. Nothing can be published for a time that is still short of {min} confirmed participants.',
+  'money.offer.techPlanSummary': 'Technical details (plan inputs hash, audit)',
+  'money.offer.planInputsHash': 'Plan inputs hash:',
+  'money.offer.error.chooseTime': 'Choose a time for the offer.',
+  'money.offer.error.notMinimum': 'This time does not meet the minimum yet, so it cannot be offered.',
+  'money.offer.error.confirmTerms': 'You must confirm the terms before publishing.',
+
+  /* offer terms preview labels */
+  'money.offer.term.merchant': 'Merchant',
+  'money.offer.term.workshop': 'Workshop',
+  'money.offer.term.dateTime': 'Date & time',
+  'money.offer.term.timezone': 'Timezone',
+  'money.offer.term.venue': 'Venue',
+  'money.offer.term.includes': 'Includes',
+  'money.offer.term.total': 'Total',
+  'money.offer.term.minimum': 'Minimum',
+  'money.offer.term.deadline': 'Authorization deadline',
+  'money.offer.term.cancellation': 'Cancellation',
+  'money.offer.term.failure': 'If collection fails',
+  'money.offer.term.minimumValue': '{min} participants (maximum {max})',
+
+  /* ----------------------------- funding page ----------------------------- */
+  'money.funding.noWorkshopBody': 'Funding appears once an offer is open and people have authorized.',
+  'money.funding.eyebrow': 'Organizer · step 4',
+  'money.funding.title': 'Funding',
+  'money.funding.intro':
+    'Authorized is a hold, not money received. Capture happens once, only when the whole plan is real — and the server re-checks every row before it does.',
+  'money.funding.nothingCaptured': 'Nothing was captured',
+  'money.funding.summaryAria': 'Authorization summary',
+  'money.funding.summaryAuthorized': 'Authorized',
+  'money.funding.summaryHeld': 'Held (not captured)',
+  'money.funding.summaryCaptured': 'Captured',
+  'money.funding.ofMinimum': 'of {min} minimum',
+  'money.funding.peopleTitle': 'Money timeline per person',
+  'money.funding.peopleIntro':
+    'Awaiting approval → Authorized → Collecting → Captured. A hold that ends without capture is shown as released; a refund is shown only once PayPal confirms it.',
+  'money.funding.noPayments': 'No one has started an authorization yet.',
+  'money.funding.you': '(you)',
+  'money.funding.modeSimulated': 'Simulated PayPal',
+  'money.funding.modeSandbox': 'PayPal sandbox',
+  'money.funding.providerStatus': 'Provider status: {status}',
+  'money.funding.timelineAria': 'Money timeline: {word}',
+  'money.funding.step.awaiting': 'Awaiting approval',
+  'money.funding.step.authorized': 'Authorized',
+  'money.funding.step.collecting': 'Collecting',
+  'money.funding.step.captured': 'Captured',
+  'money.funding.endedVoided': 'Ended: hold released',
+  'money.funding.endedRefund': 'Ended: refund path',
+  'money.funding.endedAttention': 'Ended: needs attention',
+  'money.funding.batchTitle': 'Settlement batch',
+  'money.funding.batchMeta':
+    '{count} participants · locked before any capture · deadline {deadline}',
+  'money.funding.expectedTotal': 'Expected total',
+  'money.funding.captured': 'Captured',
+  'money.funding.refundedConfirmed': 'Refunded (confirmed)',
+  'money.funding.batchImmutable':
+    'The batch membership is immutable. A second “collect” request returns this same batch instead of creating another one.',
+  'money.funding.seeResult': 'See the result',
+  'money.funding.noBatchTitle': 'No batch locked yet',
+  'money.funding.noBatchBody':
+    'A batch is created only when the server verifies that the offer is open, the deadline has not passed, the number of authorizations is between {min} and {capacity}, and every authorization matches the offer’s amount and fingerprint. Until then there is no batch and no total to show.',
+  'money.funding.collectTitle': 'Confirm the workshop and collect',
+  'money.funding.settledBody':
+    'Settlement has already run. The server’s outcome is on the result page; captured money is never guessed in the browser.',
+  'money.funding.collectPre':
+    'This is the only button in GatherReady that moves money. It asks the server to capture ',
+  'money.funding.collectAmountOne': '{count} authorization for {total}',
+  'money.funding.collectAmountMany': '{count} authorizations for {total}',
+  'money.funding.collectPost':
+    '. The AI cannot click it and does not have a way to trigger it.',
+  'money.funding.blockerNoOffer': 'No offer is open yet.',
+  'money.funding.blockerOfferClosed': 'The offer is no longer open for authorization.',
+  'money.funding.blockerExpired': 'The authorization window has closed.',
+  'money.funding.blockerNeedOne': '1 more authorization needed to reach the minimum of {min}.',
+  'money.funding.blockerNeedMany':
+    '{count} more authorizations needed to reach the minimum of {min}.',
+  'money.funding.blockerInFlight': 'An authorization or capture is still in progress.',
+  'money.funding.blockerTooMany': 'There are more authorizations than seats.',
+  'money.funding.allClear':
+    'Everything the server checks is currently satisfied. It will still re-validate every row before capturing.',
+  'money.funding.collecting': 'Confirming with PayPal…',
+  'money.funding.collect': 'Confirm workshop and collect',
+  'money.funding.disabledHint': 'The button stays disabled until every blocker above is cleared.',
+  'money.funding.noOfferEyebrow': 'Organizer',
+  'money.funding.noOfferTitle': 'Funding',
+  'money.funding.noOfferIntro': 'Money only moves after people authorize a fixed offer.',
+  'money.funding.noOfferEmpty': 'No offer is open yet',
+  'money.funding.publishOffer': 'Publish the offer',
+  'money.funding.noOfferBody':
+    'There is nothing to collect until a fixed offer is published and participants authorize it.',
+
+  /* ------------------------------ batch status ---------------------------- */
+  'money.batch.status.LOCKED': 'LOCKED',
+  'money.batch.status.CAPTURING': 'CAPTURING',
+  'money.batch.status.CONFIRMED': 'CONFIRMED',
+  'money.batch.status.COMPENSATING': 'COMPENSATING',
+  'money.batch.status.CANCELLED': 'CANCELLED',
+  'money.batch.status.MANUAL_REVIEW': 'MANUAL REVIEW',
+
+  /* ------------------------------ result page ----------------------------- */
+  'money.result.noWorkshopBody': 'The result appears after the workshop is confirmed or cancelled.',
+  'money.result.title': 'Result',
+  'money.result.intro': 'What actually happened to every charge.',
+  'money.result.noSettlementTitle': 'Settlement has not run yet',
+  'money.result.goFunding': 'Go to funding',
+  'money.result.noSettlementBody':
+    'When the organizer confirms the workshop and collects, each charge’s real state appears here. A pending settlement shows “checking”, never a guess.',
+  'money.result.eyebrow': 'Organizer · result',
+  'money.result.outcome.confirmed': 'Workshop confirmed',
+  'money.result.outcome.notConfirmed': 'Workshop not confirmed',
+  'money.result.outcome.pending': 'Checking with PayPal',
+  'money.result.outcome.attention': 'Needs manual attention',
+  'money.result.bannerCaptured': 'Captured (confirmed by PayPal)',
+  'money.result.bannerRefunded': 'Refunded (confirmed by PayPal)',
+  'money.result.bannerNeedsPerson': 'Needs a person',
+  'money.result.pendingOne': '1 charge needs a person to check PayPal',
+  'money.result.pendingMany': '{count} charges need a person to check PayPal',
+  'money.result.pendingBody':
+    'These outcomes are unclear and are never retried automatically. Check the PayPal sandbox dashboard for the listed capture or refund before deciding anything else.',
+  'money.result.notConfirmedTitle': 'No workshop, and no money kept',
+  'money.result.notConfirmedBody':
+    'The plan did not come together. Holds that were never captured are released, captured charges are refunded, and anything uncertain is escalated to a person. Refunds appear as “refunded” only after PayPal confirms them.',
+  'money.result.perChargeTitle': 'Per-charge state',
+  'money.result.perPersonTitle': 'Per-person receipt state',
+  'money.result.receiptIntro':
+    'Each row is one person’s money, as reported by the server. A refund request is not a refund; we only say “refunded” once PayPal confirms it.',
+  'money.result.noCharges': 'No charges were involved.',
+  'money.result.captureId': 'Capture {id} · ',
+  'money.result.refundId': 'Refund {id}',
+  'money.result.noIds': 'No capture or refund id — see status above.',
+  'money.result.legendTitle': 'How to read these states',
+  'money.result.legend.authorized': 'Authorized',
+  'money.result.legend.authorizedDetail': 'A temporary hold. No money has moved.',
+  'money.result.legend.captured': 'Captured',
+  'money.result.legend.capturedDetail': 'PayPal confirmed the merchant received the amount.',
+  'money.result.legend.voided': 'Voided',
+  'money.result.legend.voidedDetail': 'The hold was released. Nothing was captured.',
+  'money.result.legend.refunding': 'Refunding',
+  'money.result.legend.refundingDetail':
+    'A refund has been requested but is not confirmed yet — not counted as refunded.',
+  'money.result.legend.refunded': 'Refunded',
+  'money.result.legend.refundedDetail': 'PayPal confirmed the refund.',
+  'money.result.legend.attention': 'Needs attention',
+  'money.result.legend.attentionDetail':
+    'The outcome is unknown. A person must check it; nothing is retried automatically.',
+  'money.result.batchTitle': 'Settlement batch',
+  'money.result.batchMeta':
+    '{count} participants · expected {expected} · captured {captured} · refunded {refunded}',
+  'money.result.backToFunding': 'Back to funding',
+};

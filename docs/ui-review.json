@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-12T10:58:59.944Z",
+  "generatedAt": "2026-11-12T11:25:45.713Z",
   "base": "http://localhost:5180",
   "findings": [],
   "metrics": {
@@ -64,6 +64,86 @@
       "cls": 0
     },
     "landing:small-phone": {
+      "axe": [],
+      "overflow": {
+        "scrollWidth": 320,
+        "clientWidth": 320,
+        "offenders": []
+      },
+      "smallTargets": [],
+      "layoutSmells": {
+        "clipped": [],
+        "negative": []
+      },
+      "focus": {
+        "checked": true,
+        "outlineStyle": "solid",
+        "outlineWidth": 2,
+        "visible": true
+      },
+      "cls": 0
+    },
+    "landing-zh:desktop": {
+      "axe": [],
+      "overflow": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "offenders": []
+      },
+      "smallTargets": [],
+      "layoutSmells": {
+        "clipped": [],
+        "negative": []
+      },
+      "focus": {
+        "checked": true,
+        "outlineStyle": "solid",
+        "outlineWidth": 2,
+        "visible": true
+      },
+      "cls": 0
+    },
+    "landing-zh:tablet": {
+      "axe": [],
+      "overflow": {
+        "scrollWidth": 834,
+        "clientWidth": 834,
+        "offenders": []
+      },
+      "smallTargets": [],
+      "layoutSmells": {
+        "clipped": [],
+        "negative": []
+      },
+      "focus": {
+        "checked": true,
+        "outlineStyle": "solid",
+        "outlineWidth": 2,
+        "visible": true
+      },
+      "cls": 0
+    },
+    "landing-zh:phone": {
+      "axe": [],
+      "overflow": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "offenders": []
+      },
+      "smallTargets": [],
+      "layoutSmells": {
+        "clipped": [],
+        "negative": []
+      },
+      "focus": {
+        "checked": true,
+        "outlineStyle": "solid",
+        "outlineWidth": 2,
+        "visible": true
+      },
+      "cls": 0
+    },
+    "landing-zh:small-phone": {
       "axe": [],
       "overflow": {
         "scrollWidth": 320,
@@ -224,6 +304,86 @@
       "cls": 0
     },
     "plan:small-phone": {
+      "axe": [],
+      "overflow": {
+        "scrollWidth": 320,
+        "clientWidth": 320,
+        "offenders": []
+      },
+      "smallTargets": [],
+      "layoutSmells": {
+        "clipped": [],
+        "negative": []
+      },
+      "focus": {
+        "checked": true,
+        "outlineStyle": "solid",
+        "outlineWidth": 2,
+        "visible": true
+      },
+      "cls": 0
+    },
+    "plan-zh:desktop": {
+      "axe": [],
+      "overflow": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "offenders": []
+      },
+      "smallTargets": [],
+      "layoutSmells": {
+        "clipped": [],
+        "negative": []
+      },
+      "focus": {
+        "checked": true,
+        "outlineStyle": "solid",
+        "outlineWidth": 2,
+        "visible": true
+      },
+      "cls": 0
+    },
+    "plan-zh:tablet": {
+      "axe": [],
+      "overflow": {
+        "scrollWidth": 834,
+        "clientWidth": 834,
+        "offenders": []
+      },
+      "smallTargets": [],
+      "layoutSmells": {
+        "clipped": [],
+        "negative": []
+      },
+      "focus": {
+        "checked": true,
+        "outlineStyle": "solid",
+        "outlineWidth": 2,
+        "visible": true
+      },
+      "cls": 0
+    },
+    "plan-zh:phone": {
+      "axe": [],
+      "overflow": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "offenders": []
+      },
+      "smallTargets": [],
+      "layoutSmells": {
+        "clipped": [],
+        "negative": []
+      },
+      "focus": {
+        "checked": true,
+        "outlineStyle": "solid",
+        "outlineWidth": 2,
+        "visible": true
+      },
+      "cls": 0
+    },
+    "plan-zh:small-phone": {
       "axe": [],
       "overflow": {
         "scrollWidth": 320,
@@ -495,7 +655,7 @@
         720,
         700
       ],
-      "heroVisible": "0.999634"
+      "heroVisible": "0.999092"
     },
     "hover": {
       "before": {

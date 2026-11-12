@@ -9,33 +9,36 @@
 
 import { useEffect } from 'react';
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
-import { paymentStatusWord } from '../lib/format';
+import { useI18n } from '../lib/i18n';
 import { useApp } from '../lib/store';
 import { DemoBar } from './DemoBar';
+import { LanguageSwitch } from './LanguageSwitch';
 import { BrandMark } from './Logo';
 import { Countdown, InlineNotice, StatusBadge } from './ui';
 
-const ROUTE_TITLES: Array<{ prefix: string; title: string }> = [
-  { prefix: '/organizer/setup', title: 'Set up a workshop' },
-  { prefix: '/organizer/plan', title: 'The plan' },
-  { prefix: '/organizer/offer', title: 'Offer' },
-  { prefix: '/organizer/funding', title: 'Funding' },
-  { prefix: '/organizer/result', title: 'Result' },
-  { prefix: '/participant/preferences', title: 'Your preferences' },
-  { prefix: '/participant/clarify', title: 'Your question' },
-  { prefix: '/participant/authorize', title: 'Review and authorize' },
-  { prefix: '/p/', title: 'Your invitation' },
+const ROUTE_TITLES: Array<{ prefix: string; key: string }> = [
+  { prefix: '/organizer/setup', key: 'doc.setup' },
+  { prefix: '/organizer/plan', key: 'doc.plan' },
+  { prefix: '/organizer/offer', key: 'doc.offer' },
+  { prefix: '/organizer/funding', key: 'doc.funding' },
+  { prefix: '/organizer/result', key: 'doc.result' },
+  { prefix: '/participant/preferences', key: 'doc.preferences' },
+  { prefix: '/participant/clarify', key: 'doc.clarify' },
+  { prefix: '/participant/authorize', key: 'doc.authorize' },
+  { prefix: '/p/', key: 'doc.invitation' },
 ];
 
 function useDocumentTitle(): void {
   const location = useLocation();
+  const { t } = useI18n();
   useEffect(() => {
     const match = ROUTE_TITLES.find((route) => location.pathname.startsWith(route.prefix));
-    document.title = match ? `${match.title} · GatherReady` : 'GatherReady — a plan everyone agrees to';
-  }, [location.pathname]);
+    document.title = match ? `${t(match.key)} · GatherReady` : t('doc.default');
+  }, [location.pathname, t]);
 }
 
 export function Shell() {
+  const { t } = useI18n();
   const { state, loading, loadError, refresh, fetchedAtMs } = useApp();
   const location = useLocation();
   useDocumentTitle();
@@ -52,14 +55,16 @@ export function Shell() {
   const roleLabel = !state
     ? ''
     : state.session.role === 'participant'
-      ? `You are ${state.participants.find((p) => p.id === state.session.viewParticipantId)?.displayName ?? 'a participant'} — participant`
-      : 'You are the organizer';
+      ? t('shell.role.participant', {
+          name: state.participants.find((p) => p.id === state.session.viewParticipantId)?.displayName ?? 'a participant',
+        })
+      : t('shell.role.organizer');
 
   if (!state) {
     return (
       <div className="app-shell">
         <a className="skip-link" href="#main">
-          Skip to main content
+          {t('shell.skip')}
         </a>
         <main id="main" className="boot" tabIndex={-1} aria-busy={loading} aria-live="polite">
           <span className="boot__mark">
@@ -67,11 +72,11 @@ export function Shell() {
           </span>
           <p className="boot__name">GatherReady</p>
           <p className="boot__text">
-            {loading ? 'Loading the workshop…' : loadError ? 'The server did not answer.' : 'Loading…'}
+            {loading ? t('shell.boot.loading') : loadError ? t('shell.boot.failed') : t('shell.boot.loadingShort')}
           </p>
           {loadError ? (
             <button type="button" className="btn btn-secondary" onClick={() => void refresh()}>
-              Try again
+              {t('shell.boot.retry')}
             </button>
           ) : null}
         </main>
@@ -93,16 +98,17 @@ export function Shell() {
             </span>
             <span className="brand__text">
               <span className="brand__name">GatherReady</span>
-              <span className="brand__tagline">A plan everyone agrees to, funded only when it is real</span>
+              <span className="brand__tagline">{t('shell.tagline')}</span>
             </span>
           </Link>
           <div className="topbar__meta">
             {state.mode.paypal === 'simulated' ? (
-              <span className="chip chip--sim">Simulated PayPal — no real money</span>
+              <span className="chip chip--sim">{t('shell.mode.simulated')}</span>
             ) : (
-              <span className="chip chip--sandbox">PayPal sandbox — no real money</span>
+              <span className="chip chip--sandbox">{t('shell.mode.sandbox')}</span>
             )}
             <span className="chip chip--role">{roleLabel}</span>
+            <LanguageSwitch />
           </div>
         </div>
 
@@ -113,10 +119,10 @@ export function Shell() {
                 tone={state.workshop.status === 'OFFER_OPEN' ? 'success' : 'info'}
                 word={
                   state.workshop.status === 'OFFER_OPEN'
-                    ? 'Offer open'
+                    ? t('shell.context.offerOpen')
                     : state.workshop.status === 'CLARIFYING'
-                      ? 'Clarifying conditions'
-                      : 'Collecting interest'
+                      ? t('shell.context.clarifying')
+                      : t('shell.context.collecting')
                 }
               />
               <span className="context-row__title">{state.workshop.title}</span>
@@ -133,7 +139,7 @@ export function Shell() {
               />
               {myPayment && myPayment.status !== 'NONE' ? (
                 <span className="context-row__payment">
-                  Your authorization: <strong>{paymentStatusWord[myPayment.status]}</strong>
+                  {t('shell.myAuthorization')} <strong>{t(`pay.status.${myPayment.status}`)}</strong>
                 </span>
               ) : null}
             </div>
@@ -145,14 +151,14 @@ export function Shell() {
         <div className="mode-banner">
           <div className="container mode-banner__inner">
             <span className="mode-banner__text">
-              Extraction:{' '}
+              {t('shell.extraction.prefix')}{' '}
               {state.mode.ai === 'live'
-                ? `live model${state.mode.llmModel ? ` · ${state.mode.llmModel}` : ''}`
+                ? `${t('shell.extraction.live')}${state.mode.llmModel ? ` · ${state.mode.llmModel}` : ''}`
                 : state.mode.ai === 'recorded'
-                  ? 'recorded sample'
-                  : 'structured (no AI)'}
+                  ? t('shell.extraction.recorded')
+                  : t('shell.extraction.structured')}
             </span>
-            <span className="mode-banner__modes">Payments are labelled above · no real money</span>
+            <span className="mode-banner__modes">{t('shell.mode.payments')}</span>
           </div>
         </div>
       ) : null}
@@ -169,10 +175,10 @@ export function Shell() {
 
       <main id="main" className="container main" tabIndex={-1}>
         {state && loadError ? (
-          <InlineNotice kind="warn" title="We could not refresh">
+          <InlineNotice kind="warn" title={t('shell.refreshFailed')}>
             {loadError}{' '}
             <button type="button" className="link-button" onClick={() => void refresh()}>
-              Retry now
+              {t('shell.retryNow')}
             </button>
           </InlineNotice>
         ) : null}
@@ -185,20 +191,15 @@ export function Shell() {
         <div className="container footer__inner">
           <div>
             <p className="footer__title">GatherReady</p>
-            <p className="footer__text">
-              PayPal AI Hackathon sandbox prototype. Payments run against the PayPal sandbox or the
-              clearly labelled simulated adapter. No real money moves.
-            </p>
-            <p className="footer__credit">
-              Photographs: Pexels license — igovar igovar, eiakash, Christian Alemu. Synthetic demo context, not the
-              organiser's premises or participants.
-            </p>
+            <p className="footer__text">{t('shell.footer.text')}</p>
+            <p className="footer__credit">{t('shell.footer.credit')}</p>
+            <p className="footer__credit">{t('shell.footer.languageNote')}</p>
           </div>
-          <nav className="footer__nav" aria-label="Demo screens">
-            <NavLink to="/organizer/setup">Organizer setup</NavLink>
-            <NavLink to="/participant/preferences">Participant preferences</NavLink>
-            <NavLink to="/organizer/plan">Plan</NavLink>
-            <NavLink to="/organizer/funding">Funding</NavLink>
+          <nav className="footer__nav" aria-label={t('shell.footer.navLabel')}>
+            <NavLink to="/organizer/setup">{t('shell.nav.setup')}</NavLink>
+            <NavLink to="/participant/preferences">{t('shell.nav.preferences')}</NavLink>
+            <NavLink to="/organizer/plan">{t('shell.nav.plan')}</NavLink>
+            <NavLink to="/organizer/funding">{t('shell.nav.funding')}</NavLink>
           </nav>
         </div>
       </footer>

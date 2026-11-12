@@ -10,6 +10,9 @@
    - a clicked button is never money. After the browser returns we render
      "Checking with PayPal" from the server snapshot, and an AUTHORIZED hold is
      labelled "not charged yet".
+
+   All chrome goes through t(); the offer's terms rows, consent sentence and
+   payment status labels are server data and stay as the server wrote them.
    ========================================================================== */
 
 import { useEffect, useState } from 'react';
@@ -17,6 +20,7 @@ import { Link } from 'react-router-dom';
 import { markAwaitingPaypal, useApp } from '../lib/store.js';
 import { describeError } from '../lib/api.js';
 import { formatCents, paymentStatusWord } from '../lib/format.js';
+import { useI18n } from '../lib/i18n.js';
 import { offerMoneyNotes, participantStatus } from '../lib/status.js';
 import { Disclosure, ParticipantSteps } from '../components/workshop.js';
 import {
@@ -35,6 +39,7 @@ const IN_FLIGHT = ['ORDER_CREATED', 'APPROVED', 'AUTHORIZING'];
 
 export default function ParticipantAuthorize() {
   const { state, act, mock, fetchedAtMs } = useApp();
+  const { t, locale } = useI18n();
   const [consent, setConsent] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -59,8 +64,8 @@ export default function ParticipantAuthorize() {
     !IN_FLIGHT.includes(myPayment.status) &&
     !['NONE', 'AUTHORIZED'].includes(myPayment.status);
   const amountLabel = offer ? formatCents(offer.terms.priceCents) : '';
-  const participantSummary = state ? participantStatus(state) : null;
-  const moneyNotes = state ? offerMoneyNotes(state) : '';
+  const participantSummary = state ? participantStatus(state, locale) : null;
+  const moneyNotes = state ? offerMoneyNotes(state, locale) : '';
 
   async function startCheckout(): Promise<void> {
     if (!offer || !consent || busy) return;
@@ -74,18 +79,18 @@ export default function ParticipantAuthorize() {
       });
       const checkout = next.checkout;
       if (!checkout) {
-        setError('The server did not return a checkout. Nothing was charged and no hold was created.');
+        setError(t('flow.authorize.error.noCheckout'));
         return;
       }
       if (mock) {
         // Dev mock only: the store stands in for the approval redirect and posts
         // the simulated result; this screen still renders only server state.
-        setNotice('Dev mock: standing in for the PayPal approval step. No PayPal account is contacted.');
+        setNotice(t('flow.authorize.notice.mock'));
         return;
       }
       const destination = next.mode.paypal === 'sandbox' ? checkout.approveUrl : checkout.simulatedApprovePath;
       if (!destination) {
-        setError('The server did not return an approval link. Nothing was charged.');
+        setError(t('flow.authorize.error.noApproveLink'));
         return;
       }
       markAwaitingPaypal();
@@ -103,7 +108,7 @@ export default function ParticipantAuthorize() {
     setError(null);
     try {
       await act({ type: 'participants.withdraw', id: viewerId });
-      setNotice('Your authorization was withdrawn and the hold is being released. Nothing was charged.');
+      setNotice(t('flow.authorize.notice.withdrawn'));
     } catch (caught) {
       setError(describeError(caught));
     } finally {
@@ -114,31 +119,28 @@ export default function ParticipantAuthorize() {
   if (!state) return null;
   if (!workshop) {
     return (
-      <EmptyState title="No workshop yet">
-        <p>The organizer has not set up a workshop. There is nothing to authorize.</p>
+      <EmptyState title={t('flow.authorize.empty.noWorkshop.title')}>
+        <p>{t('flow.authorize.empty.noWorkshop.body')}</p>
       </EmptyState>
     );
   }
   if (!me) {
     return (
-      <EmptyState title="This page belongs to a participant">
-        <p>Use the demo view switcher above to act as one of the synthetic participants.</p>
+      <EmptyState title={t('flow.authorize.empty.organizer.title')}>
+        <p>{t('flow.authorize.empty.organizer.body')}</p>
       </EmptyState>
     );
   }
   if (!offer) {
     return (
       <div className="page page--narrow">
-        <PageHeader eyebrow={`Participant · ${me.displayName}`} title="No fixed offer yet" />
-        <EmptyState title="Nothing to authorize right now">
-          <p>
-            The organizer has not published a fixed offer. Your confirmed preferences still count, and nothing
-            can be charged before you review the full offer and agree.
-          </p>
+        <PageHeader eyebrow={t('flow.participant.eyebrow', { name: me.displayName })} title={t('flow.authorize.noOffer.title')} />
+        <EmptyState title={t('flow.authorize.noOffer.emptyTitle')}>
+          <p>{t('flow.authorize.noOffer.body')}</p>
         </EmptyState>
         <div className="button-row">
           <Link className="btn btn-secondary" to="/participant/preferences">
-            Your preferences
+            {t('flow.authorize.noOffer.link')}
           </Link>
         </div>
       </div>
@@ -147,17 +149,15 @@ export default function ParticipantAuthorize() {
   if (!offer.viewerIncluded) {
     return (
       <div className="page page--narrow">
-        <PageHeader eyebrow={`Participant · ${me.displayName}`} title="This offer does not include you" />
-        <EmptyState title="You are not counted in this offer">
+        <PageHeader eyebrow={t('flow.participant.eyebrow', { name: me.displayName })} title={t('flow.authorize.notIncluded.title')} />
+        <EmptyState title={t('flow.authorize.notIncluded.emptyTitle')}>
           <p>
-            The organizer published an offer for <strong>{offer.slotLabel}</strong>, but your confirmed
-            preference does not accept that time. Nothing will be charged and your preference stays as you set
-            it.
+            {t('flow.authorize.notIncluded.leadBefore')}<strong>{offer.slotLabel}</strong>{t('flow.authorize.notIncluded.leadAfter')}
           </p>
         </EmptyState>
         <div className="button-row">
           <Link className="btn btn-secondary" to="/participant/preferences">
-            Review your preferences
+            {t('flow.authorize.notIncluded.link')}
           </Link>
         </div>
       </div>
@@ -167,9 +167,9 @@ export default function ParticipantAuthorize() {
   return (
     <div className="page page--narrow">
       <PageHeader
-        eyebrow={`Participant · ${me.displayName}`}
-        title="Review and authorize"
-        intro="Read the whole summary below. Nothing is captured now — this creates a temporary PayPal authorization for the exact total, captured only if the workshop is confirmed."
+        eyebrow={t('flow.participant.eyebrow', { name: me.displayName })}
+        title={t('flow.authorize.title')}
+        intro={t('flow.authorize.intro')}
         actions={
           myPayment && myPayment.status !== 'NONE' ? (
             <StatusBadge
@@ -183,7 +183,7 @@ export default function ParticipantAuthorize() {
       {participantSummary ? <ParticipantSteps steps={participantSummary.steps} /> : null}
 
       {error ? (
-        <InlineNotice kind="error" title="Nothing was charged">
+        <InlineNotice kind="error" title={t('flow.authorize.errorTitle')}>
           {error}
         </InlineNotice>
       ) : null}
@@ -196,27 +196,25 @@ export default function ParticipantAuthorize() {
         ) : null}
         <div className="panel__head">
           <div>
-            <h2 id="offer-summary-title">1 · The fixed offer</h2>
+            <h2 id="offer-summary-title">{t('flow.authorize.offer.title')}</h2>
             <p className="muted">
-              {offer.slotLabel} · offer version {offer.version}. Every row below is part of the offer, not a
-              summary written afterwards.
+              {t('flow.authorize.offer.meta', { slot: offer.slotLabel, version: offer.version })}
             </p>
           </div>
-          <span className="chip chip--sandbox">Sandbox · No real money</span>
+          <span className="chip chip--sandbox">{t('flow.authorize.offer.chip')}</span>
         </div>
 
         <TermsList rows={offer.termsRows} />
 
         <div className="offer-total" aria-live="polite">
-          <span className="offer-total__label">Total if the workshop is confirmed</span>
+          <span className="offer-total__label">{t('flow.authorize.offer.totalLabel')}</span>
           <span className="offer-total__value">{amountLabel} {offer.terms.currency}</span>
           <span className="offer-total__note">
-            Captured only once, only when at least {offer.terms.minParticipants} people are authorized and the
-            authorization deadline has not passed.
+            {t('flow.authorize.offer.totalNote', { minimum: offer.terms.minParticipants })}
           </span>
         </div>
 
-        <Disclosure summary="Technical details (offer fingerprint)">
+        <Disclosure summary={t('flow.authorize.offer.techSummary')}>
           <Fingerprint shortHash={offer.shortHash} fullHash={offer.offerHash} />
         </Disclosure>
         <p className="muted">
@@ -229,84 +227,76 @@ export default function ParticipantAuthorize() {
       </section>
 
       <section className="panel consent-panel" aria-labelledby="consent-title">
-        <h2 id="consent-title">2 · Your agreement</h2>
+        <h2 id="consent-title">{t('flow.authorize.consent.title')}</h2>
         <p className="consent-text">{offer.consent.text}</p>
         <CheckboxField
           id="consent"
           checked={consent}
           onChange={setConsent}
           label={offer.consent.checkboxLabel}
-          hint="This box starts unchecked on purpose. Nothing happens until you tick it and press the button."
+          hint={t('flow.authorize.consent.hint')}
         />
       </section>
 
       <section className="panel pay-panel" aria-labelledby="pay-title">
-        <h2 id="pay-title">3 · Authorization</h2>
+        <h2 id="pay-title">{t('flow.authorize.pay.title')}</h2>
 
         {checking ? (
           <div className="checking-panel" role="status" aria-live="polite">
-            <h3>Checking with PayPal</h3>
-            <p>
-              Your browser has come back from PayPal. This screen only shows what the server reports — a
-              finished button is not a payment, so we wait for the authorization state to arrive.
-            </p>
-            <StatusBadge tone="progress" word={myPayment?.statusLabel ?? 'Waiting for the server'} />
-            <p className="muted">This page refreshes every 4 seconds while the authorization is in flight.</p>
+            <h3>{t('flow.authorize.checking.headline')}</h3>
+            <p>{t('flow.authorize.checking.body')}</p>
+            <StatusBadge tone="progress" word={myPayment?.statusLabel ?? t('flow.authorize.checking.waitingServer')} />
+            <p className="muted">{t('flow.authorize.checking.refresh')}</p>
           </div>
         ) : authorized ? (
           <div className="status-panel status-panel--success" role="status" aria-live="polite">
-            <h3>Authorized — not charged yet</h3>
+            <h3>{t('flow.authorize.authorized.headline')}</h3>
             <p>
-              Your PayPal account has a temporary authorization of {amountLabel}. The studio is paid only if the
-              workshop is confirmed with enough people; otherwise the hold is released and nothing is charged.
+              {t('flow.authorize.authorized.body', { amount: amountLabel })}
             </p>
             <dl className="detail-grid detail-grid--tight">
               <div>
-                <dt>Amount</dt>
+                <dt>{t('flow.authorize.authorized.amount')}</dt>
                 <dd>{amountLabel} {offer.terms.currency}</dd>
               </div>
               <div>
-                <dt>Authorization</dt>
+                <dt>{t('flow.authorize.authorized.authorization')}</dt>
                 <dd>{myPayment?.authorizationId ?? '—'}</dd>
               </div>
               <div>
-                <dt>Payment mode</dt>
+                <dt>{t('flow.authorize.authorized.mode')}</dt>
                 <dd>
                   {myPayment?.simulated ? (
-                    <span className="chip chip--sim">Simulated PayPal — no real money</span>
+                    <span className="chip chip--sim">{t('flow.authorize.authorized.simulated')}</span>
                   ) : (
-                    'PayPal sandbox'
+                    t('flow.authorize.authorized.sandbox')
                   )}
                 </dd>
               </div>
             </dl>
             <details className="danger-zone">
-              <summary>Withdraw this authorization</summary>
-              <p>
-                You can withdraw before the organizer captures, and the hold is released. Nothing is charged. If
-                the workshop is already settled, the outcome is shown on the result page instead.
-              </p>
+              <summary>{t('flow.authorize.withdraw.summary')}</summary>
+              <p>{t('flow.authorize.withdraw.body')}</p>
               <button type="button" className="btn btn-secondary" onClick={() => void withdraw()} disabled={busy}>
-                {busy ? 'Withdrawing…' : 'Withdraw authorization'}
+                {busy ? t('flow.authorize.withdraw.withdrawing') : t('flow.authorize.withdraw.button')}
               </button>
             </details>
           </div>
         ) : settled ? (
           <div className="status-panel" role="status" aria-live="polite">
-            <h3>{myPayment?.statusLabel ?? 'Your authorization changed'}</h3>
+            <h3>{myPayment?.statusLabel ?? t('flow.authorize.settled.changed')}</h3>
             <p>
-              {paymentStatusWord[myPayment?.status ?? 'NONE']}. This status came from the server, not from a
-              button click.
+              {t('flow.authorize.settled.statusFromServer', { status: paymentStatusWord[myPayment?.status ?? 'NONE'] })}
             </p>
             {myPayment?.status === 'VOIDED' ? (
-              <p>The temporary hold was released. Nothing was charged.</p>
+              <p>{t('flow.authorize.settled.voided')}</p>
             ) : null}
-            {myPayment?.status === 'REFUNDED' ? <p>The refund was confirmed by PayPal.</p> : null}
+            {myPayment?.status === 'REFUNDED' ? <p>{t('flow.authorize.settled.refunded')}</p> : null}
             {myPayment?.status === 'REFUNDING' ? (
-              <p>A refund has been requested but is not confirmed yet — we do not call it refunded until PayPal says so.</p>
+              <p>{t('flow.authorize.settled.refunding')}</p>
             ) : null}
             {myPayment?.status === 'MANUAL_REVIEW' || myPayment?.status === 'UNKNOWN' ? (
-              <p>An uncertain outcome needs a person to check PayPal. Nothing is retried automatically.</p>
+              <p>{t('flow.authorize.settled.manual')}</p>
             ) : null}
           </div>
         ) : (
@@ -314,11 +304,10 @@ export default function ParticipantAuthorize() {
             <p className="muted" id="paypal-sim-note">
               {state.mode.paypal === 'simulated' ? (
                 <>
-                  <strong>Simulated PayPal — no real money.</strong> No PayPal account is contacted. The server
-                  records a sandbox stand-in so the rest of the flow can be tested end to end.
+                  <strong>{t('flow.authorize.pay.simulatedStrong')}</strong> {t('flow.authorize.pay.simulatedRest')}
                 </>
               ) : (
-                'You will be handed to PayPal sandbox to authorize the exact total. No live money is involved.'
+                t('flow.authorize.pay.sandboxNote')
               )}
             </p>
             <PaypalButton
@@ -330,18 +319,13 @@ export default function ParticipantAuthorize() {
             />
             <p className="pay-help pay-help--money">{moneyNotes}</p>
             <p className="pay-help" aria-live="polite">
-              {consent
-                ? 'When you press the button you will be handed to PayPal. Returning does not mark you paid — we read the authorization state back from the server.'
-                : 'Tick the agreement box above to enable the payment control. It is disabled until you do.'}
+              {consent ? t('flow.authorize.pay.afterConsent') : t('flow.authorize.pay.beforeConsent')}
             </p>
           </>
         )}
       </section>
 
-      <p className="page__footnote">
-        Changed your mind? You can withdraw before capture. If the workshop is not confirmed, every hold is
-        released and nothing is charged.
-      </p>
+      <p className="page__footnote">{t('flow.authorize.footnote')}</p>
     </div>
   );
 }

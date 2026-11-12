@@ -9,17 +9,18 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import type { AppState } from '../../shared/api.js';
 import { describeError } from '../lib/api.js';
+import { useI18n } from '../lib/i18n.js';
 import { useApp } from '../lib/store.js';
 
-const DEMO_ROUTES: Array<{ path: string; label: string }> = [
-  { path: '/organizer/setup', label: 'Organizer setup' },
-  { path: '/participant/preferences', label: 'Participant preferences' },
-  { path: '/organizer/plan', label: 'Organizer plan' },
-  { path: '/participant/clarify', label: 'Participant clarify' },
-  { path: '/organizer/offer', label: 'Organizer offer' },
-  { path: '/participant/authorize', label: 'Participant authorize' },
-  { path: '/organizer/funding', label: 'Organizer funding' },
-  { path: '/organizer/result', label: 'Organizer result' },
+const DEMO_ROUTES: Array<{ path: string; key: string }> = [
+  { path: '/organizer/setup', key: 'demo.route.setup' },
+  { path: '/participant/preferences', key: 'demo.route.preferences' },
+  { path: '/organizer/plan', key: 'demo.route.plan' },
+  { path: '/participant/clarify', key: 'demo.route.clarify' },
+  { path: '/organizer/offer', key: 'demo.route.offer' },
+  { path: '/participant/authorize', key: 'demo.route.authorize' },
+  { path: '/organizer/funding', key: 'demo.route.funding' },
+  { path: '/organizer/result', key: 'demo.route.result' },
 ];
 
 function nextRouteFor(state: AppState): string {
@@ -35,6 +36,7 @@ function nextRouteFor(state: AppState): string {
 }
 
 export function DemoBar({ state }: { state: AppState }) {
+  const { t } = useI18n();
   const { act, mock } = useApp();
   const navigate = useNavigate();
   const location = useLocation();
@@ -92,11 +94,11 @@ export function DemoBar({ state }: { state: AppState }) {
   }
 
   return (
-    <section className="demo-bar" aria-label="Demo view switcher">
+    <section className="demo-bar" aria-label={t('demo.view')}>
       <div className="container demo-bar__inner">
         <div className="demo-bar__row">
           <span className="demo-bar__label" id="demo-view-label">
-            Demo view
+            {t('demo.view')}
           </span>
           <div className="demo-bar__buttons" role="group" aria-labelledby="demo-view-label">
             <button
@@ -106,7 +108,7 @@ export function DemoBar({ state }: { state: AppState }) {
               disabled={busy !== null}
               onClick={() => void switchView(null)}
             >
-              Organizer
+              {t('demo.organizer')}
             </button>
             {state.participants.map((participant) => (
               <button
@@ -131,7 +133,7 @@ export function DemoBar({ state }: { state: AppState }) {
                 aria-haspopup="menu"
                 onClick={() => setScreensOpen((open) => !open)}
               >
-                Screens
+                {t('demo.screens')}
               </button>
               {screensOpen ? (
                 <>
@@ -140,7 +142,7 @@ export function DemoBar({ state }: { state: AppState }) {
                     {DEMO_ROUTES.map((route) => (
                       <li key={route.path} role="none">
                         <Link role="menuitem" to={route.path + suffix} onClick={() => setScreensOpen(false)}>
-                          {route.label}
+                          {t(route.key)}
                         </Link>
                       </li>
                     ))}
@@ -149,7 +151,7 @@ export function DemoBar({ state }: { state: AppState }) {
               ) : null}
             </div>
             <button type="button" className="btn btn-ghost btn--small" onClick={() => void resetDemo()} disabled={busy !== null}>
-              Reset demo
+              {t('demo.reset')}
             </button>
           </div>
         </div>

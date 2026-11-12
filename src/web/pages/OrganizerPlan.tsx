@@ -10,12 +10,16 @@
 
    No combined "registered" number: availability, published terms, authorizations
    and captured money are different objects and are shown as such.
+
+   All chrome goes through t(); workshop facts, slot labels and AI question text
+   stay in the language the server created them in.
    ========================================================================== */
 
 import { useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowRight, RefreshCw } from 'lucide-react';
 import { apiFieldErrors, describeError } from '../lib/api.js';
+import { useI18n } from '../lib/i18n.js';
 import { money, organizerRails, organizerStatus, matrixRows, shortSlot } from '../lib/status.js';
 import { useApp } from '../lib/store.js';
 import { AuditTrail, EmptyState, InlineNotice, PageHeader } from '../components/ui.js';
@@ -23,6 +27,7 @@ import { Disclosure, Rails, SlotMatrix, StatusBand } from '../components/worksho
 
 export default function OrganizerPlan() {
   const { state, act } = useApp();
+  const { t, locale } = useI18n();
   const navigate = useNavigate();
   const [busy, setBusy] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
@@ -34,17 +39,17 @@ export default function OrganizerPlan() {
   if (!workshop) {
     return (
       <EmptyState
-        title="No workshop yet"
-        action={<Link className="btn btn-primary" to="/organizer/setup">Set up a workshop</Link>}
+        title={t('flow.status.organizer.noWorkshop.headline')}
+        action={<Link className="btn btn-primary" to="/organizer/setup">{t('flow.action.setUpWorkshop')}</Link>}
       >
-        <p>The home screen appears once the activity facts exist.</p>
+        <p>{t('flow.plan.empty.body')}</p>
       </EmptyState>
     );
   }
 
-  const status = organizerStatus(state);
-  const rails = organizerRails(state);
-  const rows = matrixRows(state);
+  const status = organizerStatus(state, locale);
+  const rails = organizerRails(state, locale);
+  const rows = matrixRows(state, locale);
   const plan = state.plan;
   const pending = (state.clarifications ?? []).filter((c) => c.status === 'PROPOSED' || c.status === 'SENT');
   const suggestion = plan?.suggestion ?? null;
@@ -68,7 +73,7 @@ export default function OrganizerPlan() {
     setError(null);
     try {
       await act({ type: 'clarifications.send', id: clarificationId });
-      setNotice(`Question sent to ${participantName}. This is the one question they will receive.`);
+      setNotice(t('flow.plan.notice.questionSent', { name: participantName }));
     } catch (caught) {
       const fields = apiFieldErrors(caught);
       setError(fields.length > 0 ? fields.map((field) => field.message).join(' ') : describeError(caught));
@@ -82,7 +87,7 @@ export default function OrganizerPlan() {
     setError(null);
     try {
       await act({ type: 'plans.compute' });
-      setNotice('Plan recomputed from the latest confirmed preferences.');
+      setNotice(t('flow.plan.notice.recomputed'));
     } catch (caught) {
       setError(describeError(caught));
     } finally {
@@ -122,17 +127,17 @@ export default function OrganizerPlan() {
   return (
     <div className="page org-home">
       <PageHeader
-        eyebrow="Organizer"
-        title="Workshop home"
-        intro="What is true right now, who fits which time, and the one next action. Availability is not a payment: authorization is separate."
+        eyebrow={t('flow.plan.eyebrow')}
+        title={t('flow.plan.title')}
+        intro={t('flow.plan.intro')}
         actions={
           <button type="button" className="btn btn-ghost btn-small" onClick={() => void recompute()} disabled={busy !== null}>
-            <RefreshCw size={14} strokeWidth={2} aria-hidden="true" /> {busy === 'recompute' ? 'Recomputing…' : 'Recompute'}
+            <RefreshCw size={14} strokeWidth={2} aria-hidden="true" /> {busy === 'recompute' ? t('flow.plan.recomputing') : t('flow.plan.recompute')}
           </button>
         }
       />
 
-      <section className="workshop-strip" aria-label="Workshop facts">
+      <section className="workshop-strip" aria-label={t('flow.plan.strip.aria')}>
         {workshop.coverImageUrl ? (
           <img
             className="workshop-strip__cover"
@@ -151,20 +156,20 @@ export default function OrganizerPlan() {
           <span aria-hidden="true">·</span>
           <span>{workshop.slots.map((slot) => shortSlot(slot.rangeLabel)).join(' · ')}</span>
           <span aria-hidden="true">·</span>
-          <span>{money(workshop.priceCents)} per person</span>
+          <span>{t('flow.plan.strip.perPerson', { amount: money(workshop.priceCents) })}</span>
           <span aria-hidden="true">·</span>
-          <span>minimum {workshop.minParticipants}</span>
+          <span>{t('flow.strip.minimum', { count: workshop.minParticipants })}</span>
         </p>
         </div>
       </section>
 
       {notice ? (
-        <InlineNotice kind="success" title="Done">
+        <InlineNotice kind="success" title={t('flow.action.done')}>
           {notice}
         </InlineNotice>
       ) : null}
       {error ? (
-        <InlineNotice kind="error" title="That did not work">
+        <InlineNotice kind="error" title={t('flow.plan.notice.errorTitle')}>
           {error}
         </InlineNotice>
       ) : null}
@@ -178,7 +183,7 @@ export default function OrganizerPlan() {
             onClick={primaryAction}
             disabled={busy !== null}
           >
-            {busy === 'propose' ? 'Preparing…' : status.action.label}
+            {busy === 'propose' ? t('flow.plan.preparing') : status.action.label}
             {status.action.kind === 'none' ? null : <ArrowRight size={15} strokeWidth={2.2} aria-hidden="true" />}
           </button>
         ) : null}
@@ -189,14 +194,23 @@ export default function OrganizerPlan() {
       {singleQuestion || suggestion ? (
         <section className="question-card" ref={questionRef} aria-labelledby="question-title">
           <div className="question-card__head">
-            <h2 id="question-title">Suggested question {questionFor ? `for ${questionFor}` : ''}</h2>
-            <span className="question-card__meta">{singleQuestion ? (singleQuestion.status === 'SENT' ? 'Sent · waiting for an answer' : 'Proposed · not sent yet') : 'Not sent yet'}</span>
+            <h2 id="question-title">
+              {questionFor
+                ? t('flow.plan.question.titleFor', { name: questionFor })
+                : t('flow.plan.question.title')}
+            </h2>
+            <span className="question-card__meta">{singleQuestion ? (singleQuestion.status === 'SENT' ? t('flow.plan.question.sent') : t('flow.plan.question.proposed')) : t('flow.plan.question.notSent')}</span>
           </div>
           <p className="question-card__text">“{questionText}”</p>
           <p className="question-card__why">
             {suggestion
-              ? `${suggestion.factLabel}: ${suggestion.factValue} · gap closes ${suggestion.gapClosed - 1} → ${suggestion.gapClosed} confirmed.`
-              : 'Only this participant’s own yes counts toward the minimum.'}
+              ? t('flow.plan.question.why', {
+                  label: suggestion.factLabel,
+                  value: suggestion.factValue,
+                  before: suggestion.gapClosed - 1,
+                  after: suggestion.gapClosed,
+                })
+              : t('flow.plan.question.whyOnly')}
           </p>
           <div className="question-card__actions">
             {singleQuestion ? (
@@ -207,17 +221,17 @@ export default function OrganizerPlan() {
                   disabled={busy !== null}
                   onClick={() => void sendQuestion(singleQuestion.id, singleQuestion.participantName)}
                 >
-                  {busy === 'send' ? 'Sending…' : `Send question to ${singleQuestion.participantName}`}
+                  {busy === 'send' ? t('flow.plan.question.sending') : t('flow.plan.question.send', { name: singleQuestion.participantName })}
                 </button>
               ) : (
-                <span className="muted">Question is in their participant view. A “no” is final and is never re-asked.</span>
+                <span className="muted">{t('flow.plan.question.sentNote')}</span>
               )
             ) : (
               <button type="button" className="btn btn-primary" disabled={busy !== null} onClick={() => void propose(suggestion?.participantId)}>
-                {busy === 'propose' ? 'Preparing…' : 'Review question'}
+                {busy === 'propose' ? t('flow.plan.preparing') : t('flow.plan.question.review')}
               </button>
             )}
-            {suggestion?.clarificationId ? <span className="muted">Wording source: AI or template, recorded in the audit trail.</span> : null}
+            {suggestion?.clarificationId ? <span className="muted">{t('flow.plan.question.source')}</span> : null}
           </div>
         </section>
       ) : null}
@@ -226,18 +240,14 @@ export default function OrganizerPlan() {
 
       {bestRow ? (
         <p className="matrix-summary">
-          Best time so far: {bestRow.shortLabel} · {bestRow.fits} confirmed fits · ceiling {bestRow.ceiling}. A confirmed time
-          is not a payment; each included person still reviews the frozen offer and authorizes separately.
+          {t('flow.plan.matrix.best', { slot: bestRow.shortLabel, count: bestRow.fits, ceiling: bestRow.ceiling })}
         </p>
       ) : null}
 
-      <Disclosure summary="Technical details (plan inputs hash, audit, why this order)">
+      <Disclosure summary={t('flow.plan.tech.summary')}>
+        <p className="muted">{t('flow.plan.tech.rules')}</p>
         <p className="muted">
-          Deterministic rules, not a model score: confirmed fits first, fewer pending conditions next, then preferred matches,
-          then the earliest time. The same inputs always produce the same plan.
-        </p>
-        <p className="muted">
-          Plan inputs hash: <code>{plan?.planInputsHash ?? '—'}</code>
+          {t('flow.plan.tech.hashLabel')} <code>{plan?.planInputsHash ?? '—'}</code>
         </p>
         <AuditTrail events={state.audit ?? []} />
       </Disclosure>

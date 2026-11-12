@@ -19,6 +19,7 @@ import {
   parseDollarsToCents,
   zoneInputFromIso,
 } from '../lib/format.js';
+import { useI18n, type Translate } from '../lib/i18n';
 import { useApp } from '../lib/store.js';
 import {
   ErrorSummary,
@@ -92,29 +93,33 @@ function positiveInt(value: string): number | null {
   return Number.isSafeInteger(parsed) && parsed > 0 ? parsed : null;
 }
 
-function validate(form: FormState, nowUtc: string): { errors: SummaryError[]; draft: WorkshopDraftInput | null } {
+function validate(
+  form: FormState,
+  nowUtc: string,
+  t: Translate,
+): { errors: SummaryError[]; draft: WorkshopDraftInput | null } {
   const errors: SummaryError[] = [];
   const require = (field: string, value: string, label: string): void => {
-    if (!value.trim()) errors.push({ field, message: `${label} is required.` });
+    if (!value.trim()) errors.push({ field, message: t('onboard.setup.error.required', { label }) });
   };
 
-  require('merchantName', form.merchantName, 'Merchant name');
-  require('title', form.title, 'Workshop title');
-  require('description', form.description, 'Description');
-  require('venue', form.venue, 'Venue');
+  require('merchantName', form.merchantName, t('onboard.setup.field.merchantName'));
+  require('title', form.title, t('onboard.setup.field.title'));
+  require('description', form.description, t('onboard.setup.field.description'));
+  require('venue', form.venue, t('onboard.setup.field.venue'));
 
   if (!isIanaTimezone(form.timezone)) {
-    errors.push({ field: 'timezone', message: 'Choose a valid IANA timezone.' });
+    errors.push({ field: 'timezone', message: t('onboard.setup.error.timezone') });
   }
 
   const duration = positiveInt(form.durationMinutes);
   if (duration === null) {
-    errors.push({ field: 'durationMinutes', message: 'Duration must be a whole number of minutes.' });
+    errors.push({ field: 'durationMinutes', message: t('onboard.setup.error.duration') });
   }
 
   const priceCents = parseDollarsToCents(form.priceDollars);
   if (priceCents === null) {
-    errors.push({ field: 'priceDollars', message: 'Price must be a dollar amount with at most two decimals.' });
+    errors.push({ field: 'priceDollars', message: t('onboard.setup.error.price') });
   }
 
   const inclusions = form.inclusionsText
@@ -122,22 +127,22 @@ function validate(form: FormState, nowUtc: string): { errors: SummaryError[]; dr
     .map((line) => line.trim())
     .filter((line) => line.length > 0);
   if (inclusions.length === 0) {
-    errors.push({ field: 'inclusionsText', message: 'List at least one thing the price includes.' });
+    errors.push({ field: 'inclusionsText', message: t('onboard.setup.error.inclusions') });
   }
 
   const min = positiveInt(form.minParticipants);
   const capacity = positiveInt(form.capacity);
-  if (min === null) errors.push({ field: 'minParticipants', message: 'Minimum must be a whole number.' });
-  if (capacity === null) errors.push({ field: 'capacity', message: 'Capacity must be a whole number.' });
+  if (min === null) errors.push({ field: 'minParticipants', message: t('onboard.setup.error.min') });
+  if (capacity === null) errors.push({ field: 'capacity', message: t('onboard.setup.error.capacity') });
   if (min !== null && capacity !== null && capacity > 0 && min > capacity) {
-    errors.push({ field: 'minParticipants', message: 'Minimum cannot be larger than capacity.' });
+    errors.push({ field: 'minParticipants', message: t('onboard.setup.error.minOverCapacity') });
   }
 
   const authDeadline = isoFromZoneInput(form.authDeadline, form.timezone);
   if (!authDeadline) {
-    errors.push({ field: 'authDeadline', message: 'Enter the authorization deadline as a date and time.' });
+    errors.push({ field: 'authDeadline', message: t('onboard.setup.error.deadlineFormat') });
   } else if (Date.parse(authDeadline) <= Date.parse(nowUtc)) {
-    errors.push({ field: 'authDeadline', message: 'The authorization deadline must be in the future.' });
+    errors.push({ field: 'authDeadline', message: t('onboard.setup.error.deadlineFuture') });
   }
 
   const slots: Array<{ startUtc: string; endUtc: string }> = [];
@@ -146,11 +151,11 @@ function validate(form: FormState, nowUtc: string): { errors: SummaryError[]; dr
     const start = isoFromZoneInput(slot.start, form.timezone);
     const end = isoFromZoneInput(slot.end, form.timezone);
     if (!start || !end) {
-      errors.push({ field: `${fieldBase}-start`, message: `Time ${index + 1} needs a start and an end.` });
+      errors.push({ field: `${fieldBase}-start`, message: t('onboard.setup.error.slotRange', { n: index + 1 }) });
       return;
     }
     if (Date.parse(end) <= Date.parse(start)) {
-      errors.push({ field: `${fieldBase}-end`, message: `Time ${index + 1} must end after it starts.` });
+      errors.push({ field: `${fieldBase}-end`, message: t('onboard.setup.error.slotOrder', { n: index + 1 }) });
       return;
     }
     slots.push({ startUtc: start, endUtc: end });
@@ -159,14 +164,14 @@ function validate(form: FormState, nowUtc: string): { errors: SummaryError[]; dr
   slots.sort((a, b) => Date.parse(a.startUtc) - Date.parse(b.startUtc));
   for (let index = 1; index < slots.length; index += 1) {
     if (Date.parse(slots[index]!.startUtc) < Date.parse(slots[index - 1]!.endUtc)) {
-      errors.push({ field: 'slots', message: 'Candidate times must not overlap.' });
+      errors.push({ field: 'slots', message: t('onboard.setup.error.slotOverlap') });
       break;
     }
   }
   if (authDeadline && slots.length > 0) {
     const firstStart = slots[0]!.startUtc;
     if (Date.parse(authDeadline) >= Date.parse(firstStart)) {
-      errors.push({ field: 'authDeadline', message: 'The authorization deadline must close before the first session starts.' });
+      errors.push({ field: 'authDeadline', message: t('onboard.setup.error.deadlineBeforeFirst') });
     }
   }
 
@@ -192,6 +197,7 @@ function validate(form: FormState, nowUtc: string): { errors: SummaryError[]; dr
 }
 
 export default function OrganizerSetup() {
+  const { t } = useI18n();
   const { state, act } = useApp();
   const navigate = useNavigate();
   const [form, setForm] = useState<FormState>(initialForm);
@@ -219,7 +225,7 @@ export default function OrganizerSetup() {
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault();
-    const result = validate(form, state?.nowUtc ?? new Date().toISOString());
+    const result = validate(form, state?.nowUtc ?? new Date().toISOString(), t);
     setErrors(result.errors);
     setApiError(null);
     if (!result.draft) return;
@@ -254,47 +260,53 @@ export default function OrganizerSetup() {
     return (
       <div className="page">
         <PageHeader
-          eyebrow="Organizer"
-          title="Your workshop is set up"
-          intro={`${workshop.merchantName} · ${formatCents(workshop.priceCents)} ${workshop.currency} per person · minimum ${workshop.minParticipants}, capacity ${workshop.capacity}.`}
+          eyebrow={t('onboard.setup.created.eyebrow')}
+          title={t('onboard.setup.created.title')}
+          intro={t('onboard.setup.created.intro', {
+            merchant: workshop.merchantName,
+            price: formatCents(workshop.priceCents),
+            currency: workshop.currency,
+            min: workshop.minParticipants,
+            capacity: workshop.capacity,
+          })}
           actions={
             <StatusBadge
               tone={workshop.status === 'OFFER_OPEN' ? 'success' : 'info'}
               word={
                 workshop.status === 'OFFER_OPEN'
-                  ? 'Offer open'
+                  ? t('onboard.setup.status.offerOpen')
                   : workshop.status === 'CLARIFYING'
-                    ? 'Clarifying conditions'
-                    : 'Collecting interest'
+                    ? t('onboard.setup.status.clarifying')
+                    : t('onboard.setup.status.collecting')
               }
             />
           }
         />
         <section className="panel" aria-labelledby="created-details">
-          <h2 id="created-details">Workshop facts</h2>
+          <h2 id="created-details">{t('onboard.setup.created.facts')}</h2>
           <dl className="detail-grid">
             <div>
-              <dt>Venue</dt>
+              <dt>{t('onboard.setup.created.venue')}</dt>
               <dd>{workshop.venue}</dd>
             </div>
             <div>
-              <dt>Timezone</dt>
+              <dt>{t('onboard.setup.created.timezone')}</dt>
               <dd>{workshop.timezone}</dd>
             </div>
             <div>
-              <dt>Length</dt>
-              <dd>{workshop.durationMinutes} minutes</dd>
+              <dt>{t('onboard.setup.created.length')}</dt>
+              <dd>{t('onboard.setup.created.lengthValue', { n: workshop.durationMinutes })}</dd>
             </div>
             <div>
-              <dt>Includes</dt>
+              <dt>{t('onboard.setup.created.includes')}</dt>
               <dd>{workshop.inclusions.join(' · ')}</dd>
             </div>
             <div>
-              <dt>Authorization deadline</dt>
+              <dt>{t('onboard.setup.created.deadline')}</dt>
               <dd>{workshop.authDeadlineLabel}</dd>
             </div>
           </dl>
-          <h3>Candidate times</h3>
+          <h3>{t('onboard.setup.created.candidateTimes')}</h3>
           <ol className="slot-list">
             {workshop.slots.map((slot) => (
               <li key={slot.id}>
@@ -305,18 +317,18 @@ export default function OrganizerSetup() {
         </section>
 
         <section className="panel panel--next" aria-labelledby="next-steps">
-          <h2 id="next-steps">Next step</h2>
+          <h2 id="next-steps">{t('onboard.setup.created.next')}</h2>
           <p>
-            Participants now see the big question and build a reviewable preference. Nothing counts until each
-            person presses <strong>Confirm my preferences</strong>. Use the demo view switcher above to act as
-            one of the synthetic participants.
+            {t('onboard.setup.created.nextBefore')}
+            <strong>{t('onboard.setup.created.nextConfirm')}</strong>
+            {t('onboard.setup.created.nextAfter')}
           </p>
           <div className="button-row">
             <Link className="btn btn-primary" to="/organizer/plan">
-              Open the plan
+              {t('onboard.setup.created.openPlan')}
             </Link>
             <Link className="btn btn-secondary" to="/participant/preferences">
-              Open a participant view
+              {t('onboard.setup.created.openParticipant')}
             </Link>
           </div>
         </section>
@@ -327,40 +339,41 @@ export default function OrganizerSetup() {
   return (
     <div className="page">
       <PageHeader
-        eyebrow="Organizer · step 1"
-        title="Set up your workshop"
-        intro="One merchant, one two-hour workshop, three candidate times. These are the facts every participant will eventually see in a fixed offer."
+        eyebrow={t('onboard.setup.eyebrow')}
+        title={t('onboard.setup.title')}
+        intro={t('onboard.setup.intro')}
         actions={
           <button type="button" className="btn btn-secondary" onClick={() => void loadSample()} disabled={busy !== null}>
-            {busy === 'sample' ? 'Loading sample…' : 'Load sample (synthetic demo data)'}
+            {busy === 'sample' ? t('onboard.setup.loadingSample') : t('onboard.setup.loadSample')}
           </button>
         }
       />
 
       <p className="form-note">
-        The fields start from the synthetic sample workshop so the demo is quick. Edit anything — nothing is
-        created until you press <strong>Create workshop</strong>.
+        {t('onboard.setup.formNoteBefore')}
+        <strong>{t('onboard.setup.formNoteConfirm')}</strong>
+        {t('onboard.setup.formNoteAfter')}
       </p>
 
       <ErrorSummary errors={errors} />
       {apiError ? (
-        <InlineNotice kind="error" title="The workshop was not created">
+        <InlineNotice kind="error" title={t('onboard.setup.apiError')}>
           {apiError}
         </InlineNotice>
       ) : null}
 
       <form className="form" onSubmit={(event) => void handleSubmit(event)} noValidate>
         <fieldset className="fieldset">
-          <legend>Workshop facts</legend>
+          <legend>{t('onboard.setup.factsLegend')}</legend>
           <div className="field-grid">
             <TextField
-              chrome={{ id: 'merchantName', label: 'Merchant name', required: true, error: errorFor(errors, 'merchantName') }}
+              chrome={{ id: 'merchantName', label: t('onboard.setup.field.merchantName'), required: true, error: errorFor(errors, 'merchantName') }}
               value={form.merchantName}
               onChange={(event) => update('merchantName', event.target.value)}
               autoComplete="organization"
             />
             <TextField
-              chrome={{ id: 'title', label: 'Workshop title', required: true, error: errorFor(errors, 'title') }}
+              chrome={{ id: 'title', label: t('onboard.setup.field.title'), required: true, error: errorFor(errors, 'title') }}
               value={form.title}
               onChange={(event) => update('title', event.target.value)}
             />
@@ -368,9 +381,9 @@ export default function OrganizerSetup() {
           <TextAreaField
             chrome={{
               id: 'description',
-              label: 'Description',
+              label: t('onboard.setup.field.description'),
               required: true,
-              hint: 'What happens in the session. This appears verbatim in the offer.',
+              hint: t('onboard.setup.field.descriptionHint'),
               error: errorFor(errors, 'description'),
             }}
             rows={3}
@@ -378,13 +391,13 @@ export default function OrganizerSetup() {
             onChange={(event) => update('description', event.target.value)}
           />
           <TextField
-            chrome={{ id: 'venue', label: 'Venue', required: true, error: errorFor(errors, 'venue') }}
+            chrome={{ id: 'venue', label: t('onboard.setup.field.venue'), required: true, error: errorFor(errors, 'venue') }}
             value={form.venue}
             onChange={(event) => update('venue', event.target.value)}
           />
           <div className="field-grid field-grid--three">
             <SelectField
-              chrome={{ id: 'timezone', label: 'Timezone (IANA)', required: true, error: errorFor(errors, 'timezone') }}
+              chrome={{ id: 'timezone', label: t('onboard.setup.field.timezone'), required: true, error: errorFor(errors, 'timezone') }}
               value={form.timezone}
               onChange={(event) => update('timezone', event.target.value)}
             >
@@ -397,7 +410,7 @@ export default function OrganizerSetup() {
             <TextField
               chrome={{
                 id: 'durationMinutes',
-                label: 'Duration (minutes)',
+                label: t('onboard.setup.field.duration'),
                 required: true,
                 error: errorFor(errors, 'durationMinutes'),
               }}
@@ -408,9 +421,9 @@ export default function OrganizerSetup() {
             <TextField
               chrome={{
                 id: 'priceDollars',
-                label: 'Price per person (USD)',
+                label: t('onboard.setup.field.price'),
                 required: true,
-                hint: 'Fixed and all-inclusive. Stored as integer cents.',
+                hint: t('onboard.setup.field.priceHint'),
                 error: errorFor(errors, 'priceDollars'),
               }}
               inputMode="decimal"
@@ -421,9 +434,9 @@ export default function OrganizerSetup() {
           <TextAreaField
             chrome={{
               id: 'inclusionsText',
-              label: 'What the price includes',
+              label: t('onboard.setup.field.inclusions'),
               required: true,
-              hint: 'One item per line. These are listed in the offer.',
+              hint: t('onboard.setup.field.inclusionsHint'),
               error: errorFor(errors, 'inclusionsText'),
             }}
             rows={3}
@@ -434,7 +447,7 @@ export default function OrganizerSetup() {
             <TextField
               chrome={{
                 id: 'minParticipants',
-                label: 'Minimum participants',
+                label: t('onboard.setup.field.minParticipants'),
                 required: true,
                 error: errorFor(errors, 'minParticipants'),
               }}
@@ -445,7 +458,7 @@ export default function OrganizerSetup() {
             <TextField
               chrome={{
                 id: 'capacity',
-                label: 'Capacity',
+                label: t('onboard.setup.field.capacity'),
                 required: true,
                 error: errorFor(errors, 'capacity'),
               }}
@@ -456,9 +469,9 @@ export default function OrganizerSetup() {
             <TextField
               chrome={{
                 id: 'authDeadline',
-                label: `Authorization deadline (${form.timezone})`,
+                label: t('onboard.setup.field.authDeadline', { timezone: form.timezone }),
                 required: true,
-                hint: 'When the authorization window closes. It must end before the first session.',
+                hint: t('onboard.setup.field.authDeadlineHint'),
                 error: errorFor(errors, 'authDeadline'),
               }}
               type="datetime-local"
@@ -469,11 +482,8 @@ export default function OrganizerSetup() {
         </fieldset>
 
         <fieldset className="fieldset">
-          <legend>Candidate times (3)</legend>
-          <p className="fieldset__hint">
-            Enter the wall-clock times in {form.timezone}. The stored instant is UTC; every screen renders it
-            back in this timezone.
-          </p>
+          <legend>{t('onboard.setup.slots.legend')}</legend>
+          <p className="fieldset__hint">{t('onboard.setup.slots.hint', { timezone: form.timezone })}</p>
           {errors.some((error) => error.field === 'slots') ? (
             <p className="field__error" id="slots-error">
               {errors.find((error) => error.field === 'slots')?.message}
@@ -483,16 +493,16 @@ export default function OrganizerSetup() {
             const base = `slot${index + 1}`;
             return (
               <div className="slot-input" key={base}>
-                <p className="slot-input__title">Time {index + 1}</p>
+                <p className="slot-input__title">{t('onboard.setup.slot.title', { n: index + 1 })}</p>
                 <div className="field-grid">
                   <TextField
-                    chrome={{ id: `${base}-start`, label: 'Starts', required: true, error: errorFor(errors, `${base}-start`) }}
+                    chrome={{ id: `${base}-start`, label: t('onboard.setup.slot.start'), required: true, error: errorFor(errors, `${base}-start`) }}
                     type="datetime-local"
                     value={slot.start}
                     onChange={(event) => updateSlot(index, 'start', event.target.value)}
                   />
                   <TextField
-                    chrome={{ id: `${base}-end`, label: 'Ends', required: true, error: errorFor(errors, `${base}-end`) }}
+                    chrome={{ id: `${base}-end`, label: t('onboard.setup.slot.end'), required: true, error: errorFor(errors, `${base}-end`) }}
                     type="datetime-local"
                     value={slot.end}
                     onChange={(event) => updateSlot(index, 'end', event.target.value)}
@@ -505,15 +515,12 @@ export default function OrganizerSetup() {
 
         <div className="form-actions">
           <button type="submit" className="btn btn-primary" disabled={busy !== null}>
-            {busy === 'create' ? 'Creating workshop…' : 'Create workshop'}
+            {busy === 'create' ? t('onboard.setup.creating') : t('onboard.setup.create')}
           </button>
           <button type="button" className="btn btn-secondary" onClick={() => void loadSample()} disabled={busy !== null}>
-            Load sample (synthetic demo data)
+            {t('onboard.setup.loadSample')}
           </button>
-          <p className="form-actions__note">
-            The server validates the draft again. It refuses an authorization deadline that has already passed, a
-            minimum above capacity, or overlapping times.
-          </p>
+          <p className="form-actions__note">{t('onboard.setup.actionsNote')}</p>
         </div>
       </form>
     </div>

@@ -22,6 +22,7 @@ import {
 } from 'react';
 import type { AuditView } from '../../shared/api.js';
 import { countdownFor, type Tone } from '../lib/format.js';
+import { useI18n } from '../lib/i18n.js';
 
 /* -------------------------------- badges --------------------------------- */
 
@@ -71,7 +72,9 @@ export interface SummaryError {
   message: string;
 }
 
-export function ErrorSummary({ errors, title = 'There is a problem' }: { errors: SummaryError[]; title?: string }) {
+export function ErrorSummary({ errors, title }: { errors: SummaryError[]; title?: string }) {
+  const { t } = useI18n();
+  const resolvedTitle = title ?? t('common.errorTitle');
   const ref = useRef<HTMLDivElement>(null);
   const count = errors.length;
   useEffect(() => {
@@ -80,7 +83,7 @@ export function ErrorSummary({ errors, title = 'There is a problem' }: { errors:
   if (count === 0) return null;
   return (
     <div className="error-summary" role="alert" tabIndex={-1} ref={ref}>
-      <h2 className="error-summary__title">{title}</h2>
+      <h2 className="error-summary__title">{resolvedTitle}</h2>
       <ul>
         {errors.map((error, index) => (
           <li key={`${error.field}-${index}`}>
@@ -123,10 +126,11 @@ interface FieldChrome {
 }
 
 function FieldLabel({ chrome }: { chrome: FieldChrome }) {
+  const { t } = useI18n();
   return (
     <label className={chrome.hideLabel ? 'field__label visually-hidden' : 'field__label'} htmlFor={chrome.id}>
       {chrome.label}
-      {chrome.required ? <span className="field__required"> (required)</span> : null}
+      {chrome.required ? <span className="field__required"> {t('common.required')}</span> : null}
     </label>
   );
 }
@@ -315,23 +319,25 @@ export function EmptyState({
   );
 }
 
-export function LoadingState({ label = 'Loading…' }: { label?: string }) {
+export function LoadingState({ label }: { label?: string }) {
+  const { t } = useI18n();
   return (
     <div className="loading" role="status" aria-live="polite">
       <span className="loading__spinner" aria-hidden="true" />
-      {label}
+      {label ?? t('common.loading')}
     </div>
   );
 }
 
 export function LoadErrorState({ message, onRetry }: { message: string; onRetry?: () => void }) {
+  const { t } = useI18n();
   return (
     <div className="empty" role="alert">
-      <h2 className="empty__title">We can’t load this page</h2>
+      <h2 className="empty__title">{t('common.loadErrorTitle')}</h2>
       <p className="empty__body">{message}</p>
       {onRetry ? (
         <button type="button" className="btn btn-secondary" onClick={onRetry}>
-          Try again
+          {t('common.tryAgain')}
         </button>
       ) : null}
     </div>
@@ -354,12 +360,13 @@ export function Countdown({
     const id = window.setInterval(() => setTick((value) => value + 1), 30_000);
     return () => window.clearInterval(id);
   }, []);
+  const { t } = useI18n();
   const view = countdownFor(deadlineUtc, serverNowUtc, fetchedAtMs);
   void tick;
   return (
     <span className={`countdown${view.expired ? ' countdown--expired' : ''}`}>
       <span className="countdown__label">
-        {view.expired ? 'Authorization window closed' : 'Authorization closes in'}
+        {view.expired ? t('shell.countdown.closed') : t('shell.countdown.closes')}
       </span>
       {view.expired ? null : <strong className="countdown__value">{view.label}</strong>}
     </span>
@@ -369,10 +376,11 @@ export function Countdown({
 /* ------------------------------ audit trail ------------------------------ */
 
 export function AuditTrail({ events }: { events: AuditView[] }) {
+  const { t } = useI18n();
   if (events.length === 0) return null;
   return (
     <details className="audit">
-      <summary className="audit__summary">Audit trail ({events.length} events)</summary>
+      <summary className="audit__summary">{t('common.auditSummary', { count: events.length })}</summary>
       <ol className="audit__list">
         {events.map((event) => (
           <li key={event.id} className="audit__item">
@@ -389,11 +397,12 @@ export function AuditTrail({ events }: { events: AuditView[] }) {
 /* ------------------------------- fingerprint ----------------------------- */
 
 export function Fingerprint({ shortHash, fullHash }: { shortHash: string; fullHash: string }) {
+  const { t } = useI18n();
   return (
     <p className="fingerprint">
-      <span className="fingerprint__label">Offer fingerprint</span>
+      <span className="fingerprint__label">{t('common.fingerprintLabel')}</span>
       <code title={fullHash}>{shortHash}</code>
-      <span className="fingerprint__hint">Changes to any term produce a different fingerprint.</span>
+      <span className="fingerprint__hint">{t('common.fingerprintHint')}</span>
     </p>
   );
 }

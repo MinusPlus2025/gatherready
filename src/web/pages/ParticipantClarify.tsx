@@ -11,10 +11,12 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import type { ClarificationView } from '../../shared/api.js';
 import { apiFieldErrors, describeError } from '../lib/api.js';
+import { useI18n } from '../lib/i18n';
 import { useApp } from '../lib/store.js';
 import { EmptyState, ErrorSummary, InlineNotice, PageHeader, Quote, StatusBadge, type SummaryError } from '../components/ui.js';
 
 export default function ParticipantClarify() {
+  const { t } = useI18n();
   const { state, act } = useApp();
   const [busy, setBusy] = useState<null | 'YES' | 'NO'>(null);
   const [errors, setErrors] = useState<SummaryError[]>([]);
@@ -50,8 +52,8 @@ export default function ParticipantClarify() {
 
   if (!me) {
     return (
-      <EmptyState title="This page belongs to a participant">
-        <p>Use the demo view switcher above to act as one of the synthetic participants.</p>
+      <EmptyState title={t('onboard.clarify.noParticipant.title')}>
+        <p>{t('onboard.clarify.noParticipant.body')}</p>
       </EmptyState>
     );
   }
@@ -59,23 +61,18 @@ export default function ParticipantClarify() {
   if (!clarification) {
     return (
       <div className="page page--narrow">
-        <PageHeader eyebrow={`Participant · ${me.displayName}`} title="No question for you" />
-        <EmptyState title="Nothing to answer right now">
-          <p>
-            A question is only asked when one merchant fact could change whether a time works for you. Most
-            people never get one, and you get at most one.
-          </p>
-          <p>
-            Your confirmed preferences still count exactly as you set them.
-          </p>
+        <PageHeader eyebrow={t('onboard.clarify.eyebrow', { name: me.displayName })} title={t('onboard.clarify.none.title')} />
+        <EmptyState title={t('onboard.clarify.none.emptyTitle')}>
+          <p>{t('onboard.clarify.none.body1')}</p>
+          <p>{t('onboard.clarify.none.body2')}</p>
         </EmptyState>
         <div className="button-row">
           <Link className="btn btn-secondary" to="/participant/preferences">
-            Your preferences
+            {t('onboard.clarify.preferences')}
           </Link>
           {state.offer?.isOpen && state.offer.viewerIncluded ? (
             <Link className="btn btn-primary" to="/participant/authorize">
-              Review the open offer
+              {t('onboard.clarify.openOffer')}
             </Link>
           ) : null}
         </div>
@@ -91,30 +88,28 @@ export default function ParticipantClarify() {
     return (
       <div className="page page--narrow">
         <PageHeader
-          eyebrow={`Participant · ${me.displayName}`}
-          title={yes ? 'Thanks — that time now counts' : 'Your preference is unchanged'}
-          intro="Nothing else is needed from you. This question is closed and will not be asked again."
-          actions={<StatusBadge tone="success" word="Answered" />}
+          eyebrow={t('onboard.clarify.eyebrow', { name: me.displayName })}
+          title={yes ? t('onboard.clarify.answered.titleYes') : t('onboard.clarify.answered.titleNo')}
+          intro={t('onboard.clarify.answered.intro')}
+          actions={<StatusBadge tone="success" word={t('onboard.clarify.answered.badge')} />}
         />
         <section className="panel" aria-labelledby="answered-detail">
-          <h2 id="answered-detail">Your answer</h2>
+          <h2 id="answered-detail">{t('onboard.clarify.answered.heading')}</h2>
           <div className="answer-summary">
             <p>
-              <strong>{yes ? 'Yes, this works.' : 'No, keep my preference.'}</strong>{' '}
-              {yes
-                ? 'Your preference was updated to include this time — subject to the same fixed offer and the same authorization step as everyone else.'
-                : 'Your original preference stays exactly as you confirmed it. There is no penalty, no discount, and no re-asking.'}
+              <strong>{yes ? t('onboard.clarify.answered.yesStrong') : t('onboard.clarify.answered.noStrong')}</strong>
+              {yes ? t('onboard.clarify.answered.yesBody') : t('onboard.clarify.answered.noBody')}
             </p>
-            <Quote label="What you originally wrote">{clarification.sourceQuote}</Quote>
+            <Quote label={t('onboard.clarify.answered.quoteLabel')}>{clarification.sourceQuote}</Quote>
           </div>
           <div className="button-row">
             {state.offer?.isOpen && state.offer.viewerIncluded ? (
               <Link className="btn btn-primary" to="/participant/authorize">
-                Review the open offer
+                {t('onboard.clarify.openOffer')}
               </Link>
             ) : null}
             <Link className="btn btn-secondary" to="/participant/preferences">
-              Your preferences
+              {t('onboard.clarify.preferences')}
             </Link>
           </div>
         </section>
@@ -125,13 +120,13 @@ export default function ParticipantClarify() {
   if (isProposed) {
     return (
       <div className="page page--narrow">
-        <PageHeader eyebrow={`Participant · ${me.displayName}`} title="No question sent to you yet" />
-        <EmptyState title="The organizer is still reviewing a possible question">
-          <p>Nothing has been sent to you, and nothing counts until it is. Your confirmed preferences are unchanged.</p>
+        <PageHeader eyebrow={t('onboard.clarify.eyebrow', { name: me.displayName })} title={t('onboard.clarify.proposed.title')} />
+        <EmptyState title={t('onboard.clarify.proposed.emptyTitle')}>
+          <p>{t('onboard.clarify.proposed.body')}</p>
         </EmptyState>
         <div className="button-row">
           <Link className="btn btn-secondary" to="/participant/preferences">
-            Your preferences
+            {t('onboard.clarify.preferences')}
           </Link>
         </div>
       </div>
@@ -141,14 +136,14 @@ export default function ParticipantClarify() {
   return (
     <div className="page page--narrow">
       <PageHeader
-        eyebrow={`Participant · ${me.displayName}`}
-        title="One question about your condition"
-        intro="Answer in one click. This is the only question you will be asked."
-        actions={<StatusBadge tone="progress" word="Waiting for your answer" />}
+        eyebrow={t('onboard.clarify.eyebrow', { name: me.displayName })}
+        title={t('onboard.clarify.ask.title')}
+        intro={t('onboard.clarify.ask.intro')}
+        actions={<StatusBadge tone="progress" word={t('onboard.clarify.ask.badge')} />}
       />
 
       {error ? (
-        <InlineNotice kind="error" title="Your answer was not saved">
+        <InlineNotice kind="error" title={t('onboard.clarify.ask.saveError')}>
           {error}
         </InlineNotice>
       ) : null}
@@ -156,44 +151,47 @@ export default function ParticipantClarify() {
 
       <section className="panel question-panel" aria-labelledby="the-question">
         <div className="question-block">
-          <h2 className="question-block__heading">What you told us</h2>
-          <Quote label={`${clarification.participantName} · verbatim`}>{clarification.sourceQuote}</Quote>
-          <p className="muted">You wrote this when you confirmed your preference.</p>
+          <h2 className="question-block__heading">{t('onboard.clarify.ask.toldHeading')}</h2>
+          <Quote label={t('onboard.clarify.ask.verbatim', { name: clarification.participantName })}>{clarification.sourceQuote}</Quote>
+          <p className="muted">{t('onboard.clarify.ask.toldNote')}</p>
         </div>
 
         <div className="question-block">
-          <h2 className="question-block__heading">What it depends on</h2>
+          <h2 className="question-block__heading">{t('onboard.clarify.ask.dependsHeading')}</h2>
           <dl className="detail-grid detail-grid--tight">
             <div>
               <dt>{clarification.factLabel}</dt>
               <dd>{clarification.factValue}</dd>
             </div>
           </dl>
-          <p className="muted">
-            This is a merchant fact, not a promise from GatherReady or from the AI. The organizer checked it
-            before sending the question.
-          </p>
+          <p className="muted">{t('onboard.clarify.ask.dependsNote')}</p>
         </div>
 
         <div className="question-block question-block--ask">
           <h2 className="question-block__heading" id="the-question">
-            The question
+            {t('onboard.clarify.ask.heading')}
           </h2>
           <p className="big-question">“{clarification.questionText}”</p>
           <p className="muted">
-            Wording source: {clarification.questionSource === 'ai' ? 'AI-written, then checked by the organizer' : 'template wording — no AI used'}.
-            It concerns only <strong>{clarification.slotLabel}</strong>.
+            {t('onboard.clarify.ask.sourcePrefix', {
+              source:
+                clarification.questionSource === 'ai'
+                  ? t('onboard.clarify.ask.sourceAi')
+                  : t('onboard.clarify.ask.sourceTemplate'),
+            })}
+            <strong>{clarification.slotLabel}</strong>
+            {t('onboard.clarify.ask.sourceSuffix')}
           </p>
         </div>
 
-        <div className="answer-actions" role="group" aria-label="Answer the question">
+        <div className="answer-actions" role="group" aria-label={t('onboard.clarify.ask.answerGroupAria')}>
           <button
             type="button"
             className="btn btn-primary btn--large"
             disabled={busy !== null}
             onClick={() => void answer('YES')}
           >
-            {busy === 'YES' ? 'Saving…' : 'Yes, this works'}
+            {busy === 'YES' ? t('onboard.clarify.ask.saving') : t('onboard.clarify.ask.yes')}
           </button>
           <button
             type="button"
@@ -201,12 +199,12 @@ export default function ParticipantClarify() {
             disabled={busy !== null}
             onClick={() => void answer('NO')}
           >
-            {busy === 'NO' ? 'Saving…' : 'No, keep my preference'}
+            {busy === 'NO' ? t('onboard.clarify.ask.saving') : t('onboard.clarify.ask.no')}
           </button>
         </div>
         <p className="answer-note">
-          <strong>No is a complete answer.</strong> Your preference stays exactly as it is, you are not asked
-          again, and no one is charged on your behalf.
+          <strong>{t('onboard.clarify.ask.noStrong')}</strong>
+          {t('onboard.clarify.ask.noNote')}
         </p>
       </section>
     </div>

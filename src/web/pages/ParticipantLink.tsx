@@ -9,9 +9,11 @@
 
 import { Navigate, useParams } from 'react-router-dom';
 import { LoadErrorState, LoadingState } from '../components/ui.js';
+import { useI18n } from '../lib/i18n.js';
 import { useApp } from '../lib/store.js';
 
 export default function ParticipantLink() {
+  const { t } = useI18n();
   const { state, loadError, refresh } = useApp();
   const { token } = useParams<{ token: string }>();
 
@@ -19,12 +21,12 @@ export default function ParticipantLink() {
     if (loadError) {
       return (
         <LoadErrorState
-          message={`${loadError} This link may have expired, or the session may belong to another participant.`}
+          message={`${loadError} ${t('link.expiredSuffix')}`}
           onRetry={() => void refresh()}
         />
       );
     }
-    return <LoadingState label="Opening your invitation…" />;
+    return <LoadingState label={t('link.opening')} />;
   }
 
   const suffixParams = new URLSearchParams();

@@ -9,6 +9,8 @@
      fake money claim.
    ========================================================================== */
 
+import { useI18n } from '../lib/i18n.js';
+
 export function PaypalButton({
   simulated,
   amountLabel,
@@ -22,6 +24,7 @@ export function PaypalButton({
   busy: boolean;
   onClick: () => void;
 }) {
+  const { t } = useI18n();
   if (simulated) {
     return (
       <button
@@ -32,10 +35,10 @@ export function PaypalButton({
         aria-describedby="paypal-sim-note"
       >
         <span className="paypal-sim__label">
-          {busy ? 'Checking with PayPal…' : 'Simulated PayPal — no real money'}
+          {busy ? t('pay.paypal.checking') : t('pay.paypal.simulated')}
         </span>
         <span className="paypal-sim__amount">
-          {busy ? 'Recording a sandbox stand-in' : `Authorize ${amountLabel} in the sandbox stand-in`}
+          {busy ? t('pay.paypal.recording') : t('pay.paypal.authorizeSim', { amount: amountLabel })}
         </span>
       </button>
     );
@@ -46,13 +49,13 @@ export function PaypalButton({
       className="paypal-button"
       onClick={onClick}
       disabled={disabled || busy}
-      aria-label={busy ? 'Opening PayPal' : `Continue to PayPal to authorize ${amountLabel}`}
+      aria-label={busy ? t('pay.paypal.openingAria') : t('pay.paypal.continue', { amount: amountLabel })}
     >
       <span className="paypal-wordmark" aria-hidden="true">
         <span className="paypal-wordmark__pay">Pay</span>
         <span className="paypal-wordmark__pal">Pal</span>
       </span>
-      <span className="paypal-button__amount">{busy ? 'Opening PayPal…' : amountLabel}</span>
+      <span className="paypal-button__amount">{busy ? t('pay.paypal.opening') : amountLabel}</span>
     </button>
   );
 }

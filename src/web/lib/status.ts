@@ -1,13 +1,18 @@
 /* ==========================================================================
-   Role-aware status sentences (English UI).
+   Role-aware status sentences (English by default, English + 简体中文).
 
    The rule from the IA pass: the headline on a home screen is COMPUTED from the
    real state, never authored copy. If the data does not support a claim, the
    sentence says what is actually missing instead. Every sentence is a pure
    function of AppState, so it cannot drift from the server.
+
+   Every exported builder takes a final `locale` argument (default 'en') and
+   renders its chrome through translate(). Data — workshop/slot labels, money,
+   deadlines, AI question text, participant names — is interpolated unchanged.
    ========================================================================== */
 
 import type { AppState, OfferView, PaymentView, PreferenceView, WorkshopView } from '../../shared/api.js';
+import { translate, type Locale } from './i18n.js';
 
 export type StatusTone = 'neutral' | 'info' | 'progress' | 'success' | 'warn' | 'danger';
 
@@ -47,6 +52,9 @@ export function money(cents: number): string {
   return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(cents / 100);
 }
 
+/* Compact date/time rendering of a server slot label. The label itself is data
+   (server-owned English wording), so this stays an English-style abbreviation in
+   both locales; only the surrounding chrome is translated. */
 export function shortSlot(label: string): string {
   const date = /^(\w{3})\w*, (\w{3})\w* (\d{1,2}), (\d{4})/.exec(label);
   const time = /(\d{1,2}:\d{2}–\d{1,2}:\d{2})/.exec(label);
@@ -72,15 +80,15 @@ function bestFits(plan: AppState['plan']): number {
 
 /* ------------------------------- organizer ------------------------------- */
 
-export function organizerStatus(state: AppState): StatusBandModel {
+export function organizerStatus(state: AppState, locale: Locale = 'en'): StatusBandModel {
   const workshop: WorkshopView | null = state.workshop;
   const plan = state.plan;
   if (!workshop) {
     return {
       tone: 'neutral',
-      headline: 'No workshop yet',
-      detail: 'Create the activity facts first: three candidate times, price, minimum and authorization deadline.',
-      action: { label: 'Set up a workshop', kind: 'preferences', to: '/organizer/setup' },
+      headline: translate(locale, 'flow.status.organizer.noWorkshop.headline'),
+      detail: translate(locale, 'flow.status.organizer.noWorkshop.detail'),
+      action: { label: translate(locale, 'flow.action.setUpWorkshop'), kind: 'preferences', to: '/organizer/setup' },
     };
   }
   const minimum = workshop.minParticipants;
@@ -98,68 +106,97 @@ export function organizerStatus(state: AppState): StatusBandModel {
   if (workshop.status === 'CONFIRMED' || captured > 0) {
     return {
       tone: 'success',
-      headline: 'Workshop confirmed and charged',
-      detail: `${captured} charge${captured === 1 ? '' : 's'} completed · ${money(captured * workshop.priceCents)} captured.`,
-      action: { label: 'See the result', kind: 'result', to: '/organizer/result' },
+      headline: translate(locale, 'flow.status.organizer.confirmed.headline'),
+      detail: translate(
+        locale,
+        captured === 1 ? 'flow.status.organizer.confirmed.detailOne' : 'flow.status.organizer.confirmed.detailMany',
+        { count: captured, amount: money(captured * workshop.priceCents) },
+      ),
+      action: { label: translate(locale, 'flow.status.action.seeResult'), kind: 'result', to: '/organizer/result' },
     };
   }
   if (workshop.status === 'CANCELLED' || workshop.status === 'CANCELLING') {
     return {
       tone: 'warn',
-      headline: 'Workshop not confirmed',
-      detail: workshop.status === 'CANCELLING'
-        ? 'Releasing authorizations and handling refunds now.'
-        : 'This round did not reach the minimum. Holds were released; any captured charge follows the cancellation policy.',
-      action: { label: 'See the result', kind: 'result', to: '/organizer/result' },
+      headline: translate(locale, 'flow.status.organizer.notConfirmed.headline'),
+      detail: translate(
+        locale,
+        workshop.status === 'CANCELLING'
+          ? 'flow.status.organizer.cancelling.detail'
+          : 'flow.status.organizer.cancelled.detail',
+      ),
+      action: { label: translate(locale, 'flow.status.action.seeResult'), kind: 'result', to: '/organizer/result' },
     };
   }
   if (workshop.status === 'COMPENSATING' || workshop.status === 'MANUAL_REVIEW') {
     return {
       tone: 'danger',
-      headline: 'Collection problem — compensation in progress',
-      detail: 'Uncaptured holds are being released and captured charges refunded. The per-person rows are the source of truth.',
-      action: { label: 'Open funding', kind: 'fund', to: '/organizer/funding' },
+      headline: translate(locale, 'flow.status.organizer.compensating.headline'),
+      detail: translate(locale, 'flow.status.organizer.compensating.detail'),
+      action: { label: translate(locale, 'flow.status.action.openFunding'), kind: 'fund', to: '/organizer/funding' },
     };
   }
   if (workshop.status === 'SETTLING') {
     return {
       tone: 'progress',
-      headline: 'Collecting payments',
-      detail: 'Batch locked. The server captures each authorization and checks every result with PayPal.',
-      action: { label: 'Watch funding', kind: 'fund', to: '/organizer/funding' },
+      headline: translate(locale, 'flow.status.organizer.settling.headline'),
+      detail: translate(locale, 'flow.status.organizer.settling.detail'),
+      action: { label: translate(locale, 'flow.status.action.watchFunding'), kind: 'fund', to: '/organizer/funding' },
     };
   }
   if (offer?.status === 'OPEN') {
     if (authorized >= minimum) {
       return {
         tone: 'success',
-        headline: 'Authorizations meet the minimum — ready to collect',
-        detail: `${authorized} authorizations (not charges) · ${money(authorized * workshop.priceCents)} to collect · closes ${workshop.authDeadlineLabel}.`,
-        action: { label: 'Confirm and collect', kind: 'fund', to: '/organizer/funding' },
+        headline: translate(locale, 'flow.status.organizer.readyToCollect.headline'),
+        detail: translate(locale, 'flow.status.organizer.readyToCollect.detail', {
+          authorized,
+          amount: money(authorized * workshop.priceCents),
+          deadline: workshop.authDeadlineLabel,
+        }),
+        action: { label: translate(locale, 'flow.status.action.confirmAndCollect'), kind: 'fund', to: '/organizer/funding' },
       };
     }
     return {
       tone: 'info',
-      headline: `Offer published — ${Math.max(minimum - authorized, 0)} more authorization${minimum - authorized === 1 ? '' : 's'} needed`,
-      detail: `${shortSlot(offer.slotLabel)} · ${authorized}/${minimum} authorized (authorization is not a charge) · closes ${workshop.authDeadlineLabel}.`,
-      action: { label: 'Open funding', kind: 'fund', to: '/organizer/funding' },
+      headline: translate(
+        locale,
+        minimum - authorized === 1
+          ? 'flow.status.organizer.offerOpen.headlineOne'
+          : 'flow.status.organizer.offerOpen.headlineMany',
+        { count: Math.max(minimum - authorized, 0) },
+      ),
+      detail: translate(locale, 'flow.status.organizer.offerOpen.detail', {
+        slot: shortSlot(offer.slotLabel),
+        authorized,
+        minimum,
+        deadline: workshop.authDeadlineLabel,
+      }),
+      action: { label: translate(locale, 'flow.status.action.openFunding'), kind: 'fund', to: '/organizer/funding' },
     };
   }
   if (workableSlot && plan) {
     return {
       tone: 'success',
-      headline: `${shortSlot(workableSlot.rangeLabel)} already meets the ${minimum}-person minimum`,
-      detail: 'Publish one fixed offer. After publishing, price, time and terms freeze and every participant must re-read and authorize it.',
-      action: { label: 'Publish the offer', kind: 'publish', to: '/organizer/offer' },
+      headline: translate(locale, 'flow.status.organizer.workableSlot.headline', {
+        slot: shortSlot(workableSlot.rangeLabel),
+        minimum,
+      }),
+      detail: translate(locale, 'flow.status.organizer.workableSlot.detail'),
+      action: { label: translate(locale, 'flow.status.action.publishTheOffer'), kind: 'publish', to: '/organizer/offer' },
     };
   }
   if (pendingCount > 0) {
     const clarification = pending[0]!;
     return {
       tone: 'progress',
-      headline: `One question is out — waiting for ${clarification.participantName}`,
-      detail: `“${clarification.questionText}” · only a person's own yes counts toward the minimum.`,
-      action: { label: 'See the question', kind: 'ask' },
+      headline: translate(locale, 'flow.status.organizer.questionOut.headline', {
+        name: clarification.participantName,
+      }),
+      detail: translate(locale, 'flow.status.organizer.questionOut.detail', {
+        question: clarification.questionText,
+      }),
+      action: { label: translate(locale, 'flow.status.action.seeQuestion'), kind: 'ask' },
     };
   }
   if (plan?.suggestion) {
@@ -167,37 +204,63 @@ export function organizerStatus(state: AppState): StatusBandModel {
     const gap = Math.max(minimum - (suggestion.gapClosed - 1), 0);
     return {
       tone: 'warn',
-      headline: `${gap} more confirmation${gap === 1 ? '' : 's'} needed to reach the ${minimum}-person minimum`,
-      detail: `${suggestion.participantName}'s condition: “${suggestion.conditionText}” · a yes raises ${shortSlot(suggestion.slotLabel)} from ${suggestion.gapClosed - 1} to ${suggestion.gapClosed}.`,
-      action: { label: 'Ask the one question', kind: 'ask' },
+      headline: translate(
+        locale,
+        gap === 1 ? 'flow.status.organizer.suggestion.headlineOne' : 'flow.status.organizer.suggestion.headlineMany',
+        { count: gap, minimum },
+      ),
+      detail: translate(locale, 'flow.status.organizer.suggestion.detail', {
+        name: suggestion.participantName,
+        condition: suggestion.conditionText,
+        slot: shortSlot(suggestion.slotLabel),
+        before: suggestion.gapClosed - 1,
+        after: suggestion.gapClosed,
+      }),
+      action: { label: translate(locale, 'flow.status.action.askTheOneQuestion'), kind: 'ask' },
     };
   }
   if (confirmedCount === 0) {
     return {
       tone: 'neutral',
-      headline: 'No one has confirmed a preference yet',
-      detail: 'Interest only counts after the person confirms it themselves. No number can be assumed yet.',
-      action: { label: 'See the participant view', kind: 'preferences', to: '/participant/preferences' },
+      headline: translate(locale, 'flow.status.organizer.noConfirmations.headline'),
+      detail: translate(locale, 'flow.status.organizer.noConfirmations.detail'),
+      action: {
+        label: translate(locale, 'flow.status.organizer.noConfirmations.action'),
+        kind: 'preferences',
+        to: '/participant/preferences',
+      },
     };
   }
   const fits = bestFits(plan);
   const gap = Math.max(minimum - fits, 0);
   return {
     tone: 'warn',
-    headline: `${gap} more confirmation${gap === 1 ? '' : 's'} needed to reach the ${minimum}-person minimum`,
-    detail: 'No single open condition closes the gap. More confirmed interest, or another time, is needed.',
-    action: { label: 'Recompute the plan', kind: 'none' },
+    headline: translate(
+      locale,
+      gap === 1 ? 'flow.status.organizer.suggestion.headlineOne' : 'flow.status.organizer.suggestion.headlineMany',
+      { count: gap, minimum },
+    ),
+    detail: translate(locale, 'flow.status.organizer.suggestion.noPath.detail'),
+    action: { label: translate(locale, 'flow.status.organizer.recompute'), kind: 'none' },
   };
 }
 
-export function organizerRails(state: AppState): OrganizerRails {
+export function organizerRails(state: AppState, locale: Locale = 'en'): OrganizerRails {
   const workshop = state.workshop;
   const plan = state.plan;
   if (!workshop) {
     return {
-      match: { value: '—', detail: 'No workshop yet', ok: false },
-      terms: { value: 'Not selected yet', detail: 'No offer published', ok: false },
-      authorization: { value: '0 / 0', detail: 'Nothing to authorize', ok: false },
+      match: { value: '—', detail: translate(locale, 'flow.status.rails.noWorkshop.matchDetail'), ok: false },
+      terms: {
+        value: translate(locale, 'flow.status.rails.notSelected'),
+        detail: translate(locale, 'flow.status.rails.noOfferPublished'),
+        ok: false,
+      },
+      authorization: {
+        value: '0 / 0',
+        detail: translate(locale, 'flow.status.rails.nothingToAuthorize'),
+        ok: false,
+      },
     };
   }
   const minimum = workshop.minParticipants;
@@ -209,16 +272,35 @@ export function organizerRails(state: AppState): OrganizerRails {
   return {
     match: {
       value: `${best} / ${minimum}`,
-      detail: best >= minimum ? 'One time meets the minimum' : 'Confirmed fits for the best time',
+      detail: translate(
+        locale,
+        best >= minimum ? 'flow.status.rails.matchMet' : 'flow.status.rails.matchBest',
+      ),
       ok: best >= minimum,
     },
     terms:
       offer && offer.status !== 'CANCELLED'
-        ? { value: `Selected · v${offer.version}`, detail: `${shortSlot(offer.slotLabel)} · hash ${offer.shortHash}`, ok: true }
-        : { value: 'Not selected yet', detail: 'Publish one fixed offer to freeze terms', ok: false },
+        ? {
+            value: translate(locale, 'flow.status.rails.selectedVersion', { version: offer.version }),
+            detail: translate(locale, 'flow.status.rails.termsDetail', {
+              slot: shortSlot(offer.slotLabel),
+              hash: offer.shortHash,
+            }),
+            ok: true,
+          }
+        : {
+            value: translate(locale, 'flow.status.rails.notSelected'),
+            detail: translate(locale, 'flow.status.rails.publishToFreeze'),
+            ok: false,
+          },
     authorization: {
       value: `${authorized} / ${minimum}`,
-      detail: captured > 0 ? `${captured} charged` : authorized > 0 ? 'Authorized, not charged yet' : 'No authorization yet',
+      detail:
+        captured > 0
+          ? translate(locale, 'flow.status.rails.capturedCharged', { count: captured })
+          : authorized > 0
+            ? translate(locale, 'flow.status.rails.authorizedNotCharged')
+            : translate(locale, 'flow.status.rails.noAuthorization'),
       ok: authorized >= minimum,
     },
   };
@@ -226,7 +308,10 @@ export function organizerRails(state: AppState): OrganizerRails {
 
 /* -------------------------------- matrix -------------------------------- */
 
-export function matrixRows(state: AppState): MatrixRow[] {
+/* `locale` is accepted for call-site parity with the other builders; the row's
+   shortLabel is still a compact rendering of the server's slot label, which is
+   data and therefore stays in the server's English wording. */
+export function matrixRows(state: AppState, locale: Locale = 'en'): MatrixRow[] {
   const workshop = state.workshop;
   if (!workshop) return [];
   const clarifications = state.clarifications ?? [];
@@ -288,7 +373,7 @@ function participantPayment(state: AppState): PaymentView | null {
   return (state.payments ?? []).find((payment) => payment.isMine) ?? null;
 }
 
-export function participantStatus(state: AppState): ParticipantStatusModel {
+export function participantStatus(state: AppState, locale: Locale = 'en'): ParticipantStatusModel {
   const workshop = state.workshop;
   const preference = (state.preferences ?? []).find((p) => p.participantId === state.session.viewParticipantId) ?? null;
   const offer: OfferView | null = state.offer;
@@ -304,135 +389,184 @@ export function participantStatus(state: AppState): ParticipantStatusModel {
   const steps: ParticipantStep[] = [
     {
       key: 'interest',
-      label: 'Interest',
+      label: translate(locale, 'flow.status.participant.step.interest'),
       state: confirmed ? 'done' : preference ? 'current' : 'waiting',
-      detail: confirmed ? `Confirmed · v${preference?.version ?? 1}` : preference ? 'Parsed, not confirmed' : 'Not written yet',
+      detail: confirmed
+        ? translate(locale, 'flow.status.participant.step.interest.confirmed', { version: preference?.version ?? 1 })
+        : preference
+          ? translate(locale, 'flow.status.participant.step.interest.parsed')
+          : translate(locale, 'flow.status.participant.step.interest.empty'),
     },
     {
       key: 'terms',
-      label: 'Terms',
+      label: translate(locale, 'flow.status.participant.step.terms'),
       state: offer?.viewerConsented ? 'done' : includedInOffer ? 'current' : 'waiting',
       detail: offer?.viewerConsented
-        ? `Agreed · offer v${offer.version}`
+        ? translate(locale, 'flow.status.participant.step.terms.agreed', { version: offer.version })
         : includedInOffer
-          ? 'Offer published — read it and consent'
-          : 'The organizer has not published a plan that includes you',
+          ? translate(locale, 'flow.status.participant.step.terms.current')
+          : translate(locale, 'flow.status.participant.step.terms.waiting'),
     },
     {
       key: 'authorization',
-      label: 'Authorization (hold)',
+      label: translate(locale, 'flow.status.participant.step.authorization'),
       state: authorized ? 'done' : failed ? 'failed' : includedInOffer ? 'current' : 'waiting',
       detail: authorized
         ? paid === 'AUTHORIZED'
-          ? 'Authorized — not charged'
+          ? translate(locale, 'flow.status.participant.step.authorization.authorized')
           : paid === 'CAPTURED'
-            ? 'Charged'
-            : 'Capturing'
+            ? translate(locale, 'flow.status.participant.step.authorization.charged')
+            : translate(locale, 'flow.status.participant.step.authorization.capturing')
         : failed
-          ? 'Needs a status check'
-          : 'A hold only, never a charge',
+          ? translate(locale, 'flow.status.participant.step.authorization.failed')
+          : translate(locale, 'flow.status.participant.step.authorization.holdOnly'),
     },
     {
       key: 'charge',
-      label: 'Charge / cancel',
+      label: translate(locale, 'flow.status.participant.step.charge'),
       state: charged || released ? 'done' : failed ? 'failed' : workshop?.status === 'CONFIRMED' ? 'current' : 'waiting',
       detail: charged
-        ? 'Charged — workshop confirmed'
+        ? translate(locale, 'flow.status.participant.step.charge.charged')
         : paid === 'REFUNDED'
-          ? 'Not confirmed — refunded'
+          ? translate(locale, 'flow.status.participant.step.charge.refunded')
           : paid === 'REFUNDING'
-            ? 'Not confirmed — refund in progress'
+            ? translate(locale, 'flow.status.participant.step.charge.refunding')
             : paid === 'VOIDED'
-              ? 'Not confirmed — hold released'
+              ? translate(locale, 'flow.status.participant.step.charge.voided')
               : failed
-                ? 'Result unknown, reconciling'
-                : 'Happens only if the workshop is confirmed',
+                ? translate(locale, 'flow.status.participant.step.charge.failed')
+                : translate(locale, 'flow.status.participant.step.charge.waiting'),
     },
   ];
 
   if (!workshop) {
-    return { tone: 'neutral', headline: 'No workshop to join yet', detail: 'The organizer has not published the activity facts.', steps, action: null };
+    return {
+      tone: 'neutral',
+      headline: translate(locale, 'flow.status.participant.noWorkshop.headline'),
+      detail: translate(locale, 'flow.status.participant.noWorkshop.detail'),
+      steps,
+      action: null,
+    };
   }
   if (!preference) {
     return {
       tone: 'info',
-      headline: "You haven't expressed a preference",
-      detail: 'Write one sentence or tick the times that work, then confirm it yourself. Only confirmed constraints count.',
+      headline: translate(locale, 'flow.status.participant.noPreference.headline'),
+      detail: translate(locale, 'flow.status.participant.noPreference.detail'),
       steps,
-      action: { label: 'Express my preference', to: '/participant/preferences', kind: 'preferences' },
+      action: {
+        label: translate(locale, 'flow.status.participant.noPreference.action'),
+        to: '/participant/preferences',
+        kind: 'preferences',
+      },
     };
   }
   if (!confirmed) {
     return {
       tone: 'warn',
-      headline: 'Your preference is not confirmed yet',
-      detail: 'Check the times and condition on the card, then confirm. Nothing counts before that click.',
+      headline: translate(locale, 'flow.status.participant.notConfirmed.headline'),
+      detail: translate(locale, 'flow.status.participant.notConfirmed.detail'),
       steps,
-      action: { label: 'Review and confirm', to: '/participant/preferences', kind: 'preferences' },
+      action: {
+        label: translate(locale, 'flow.status.participant.notConfirmed.action'),
+        to: '/participant/preferences',
+        kind: 'preferences',
+      },
     };
   }
   if (failed) {
     return {
       tone: 'danger',
-      headline: 'Your payment state needs a check',
-      detail: 'The server queries PayPal first and never charges twice. Per-payment state is the source of truth.',
+      headline: translate(locale, 'flow.status.participant.failed.headline'),
+      detail: translate(locale, 'flow.status.participant.failed.detail'),
       steps,
-      action: { label: 'Open my status', to: '/participant/authorize', kind: 'authorize' },
+      action: {
+        label: translate(locale, 'flow.status.participant.failed.action'),
+        to: '/participant/authorize',
+        kind: 'authorize',
+      },
     };
   }
   if (paid === 'REFUNDED' || paid === 'REFUNDING') {
     return {
       tone: 'warn',
-      headline: paid === 'REFUNDED' ? 'Not confirmed — refunded' : 'Not confirmed — refund in progress',
-      detail:
-        paid === 'REFUNDED'
-          ? 'PayPal confirmed the refund. The request alone is never shown as a completed refund.'
-          : 'The refund was requested but PayPal has not confirmed it yet, so it is not shown as refunded.',
+      headline: translate(
+        locale,
+        paid === 'REFUNDED' ? 'flow.status.participant.refunded.headline' : 'flow.status.participant.refunding.headline',
+      ),
+      detail: translate(
+        locale,
+        paid === 'REFUNDED' ? 'flow.status.participant.refunded.detail' : 'flow.status.participant.refunding.detail',
+      ),
       steps,
-      action: { label: 'See the result', to: '/organizer/result', kind: 'result' },
+      action: { label: translate(locale, 'flow.status.action.seeResult'), to: '/organizer/result', kind: 'result' },
     };
   }
   if (paid === 'VOIDED') {
-    return { tone: 'warn', headline: 'Not confirmed — hold released', detail: 'Nothing was charged; the authorization was released.', steps, action: { label: 'See the result', to: '/organizer/result', kind: 'result' } };
+    return {
+      tone: 'warn',
+      headline: translate(locale, 'flow.status.participant.voided.headline'),
+      detail: translate(locale, 'flow.status.participant.voided.detail'),
+      steps,
+      action: { label: translate(locale, 'flow.status.action.seeResult'), to: '/organizer/result', kind: 'result' },
+    };
   }
   if (charged) {
     return {
       tone: 'success',
-      headline: 'Workshop confirmed — payment captured',
-      detail: `You paid ${money(workshop.priceCents)}. The workshop is confirmed by the organizer's collection result.`,
+      headline: translate(locale, 'flow.status.participant.charged.headline'),
+      detail: translate(locale, 'flow.status.participant.charged.detail', { amount: money(workshop.priceCents) }),
       steps,
-      action: { label: 'See the result', to: '/organizer/result', kind: 'result' },
+      action: { label: translate(locale, 'flow.status.action.seeResult'), to: '/organizer/result', kind: 'result' },
     };
   }
   if (authorized) {
     return {
       tone: 'progress',
-      headline: 'Authorized — not charged yet',
-      detail: `Your authorization holds ${money(workshop.priceCents)} without charging it. It is captured only if the workshop is confirmed; otherwise it is released.`,
+      headline: translate(locale, 'flow.status.participant.authorized.headline'),
+      detail: translate(locale, 'flow.status.participant.authorized.detail', {
+        amount: money(workshop.priceCents),
+      }),
       steps,
-      action: { label: 'Review my authorization', to: '/participant/authorize', kind: 'authorize' },
+      action: {
+        label: translate(locale, 'flow.status.participant.authorized.action'),
+        to: '/participant/authorize',
+        kind: 'authorize',
+      },
     };
   }
   if (includedInOffer) {
     return {
       tone: 'info',
-      headline: 'The plan is published — your terms review is next',
-      detail: `Terms frozen: ${shortSlot(offer!.slotLabel)} · ${money(workshop.priceCents)} · minimum ${workshop.minParticipants}. Authorization is a hold, not a charge.`,
+      headline: translate(locale, 'flow.status.participant.inOffer.headline'),
+      detail: translate(locale, 'flow.status.participant.inOffer.detail', {
+        slot: shortSlot(offer!.slotLabel),
+        amount: money(workshop.priceCents),
+        minimum: workshop.minParticipants,
+      }),
       steps,
-      action: { label: 'Review and authorize', to: '/participant/authorize', kind: 'authorize' },
+      action: {
+        label: translate(locale, 'flow.status.participant.inOffer.action'),
+        to: '/participant/authorize',
+        kind: 'authorize',
+      },
     };
   }
   return {
     tone: 'info',
-    headline: 'Your preference is confirmed — waiting for the organizer to publish a plan',
-    detail: 'When a fixed offer exists you will read the exact terms and authorize; authorization is a hold, not a charge.',
+    headline: translate(locale, 'flow.status.participant.waiting.headline'),
+    detail: translate(locale, 'flow.status.participant.waiting.detail'),
     steps,
     action: null,
   };
 }
 
-export function offerMoneyNotes(state: AppState): string {
+export function offerMoneyNotes(state: AppState, locale: Locale = 'en'): string {
   const workshop = state.workshop;
   if (!workshop) return '';
-  return `${money(workshop.priceCents)} · minimum ${workshop.minParticipants} · closes ${workshop.authDeadlineLabel} · if not formed: holds released and completed charges refunded`;
+  return translate(locale, 'flow.status.participant.moneyNotes', {
+    amount: money(workshop.priceCents),
+    minimum: workshop.minParticipants,
+    deadline: workshop.authDeadlineLabel,
+  });
 }
