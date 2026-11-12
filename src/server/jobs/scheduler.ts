@@ -132,6 +132,7 @@ async function cancelExpiredOffer(deps: SettlementDeps, input: {
 /** One scheduler pass. Exported so tests can run it with an injected clock. */
 export async function runSchedulerTick(deps: SettlementDeps, opts: {
     retentionDays?: number;
+    scope?: { tenantId: string; workshopId: string };
 } = {}): Promise<SchedulerTickResult> {
     const result: SchedulerTickResult = {
         cancelledOffers: 0,
@@ -141,7 +142,9 @@ export async function runSchedulerTick(deps: SettlementDeps, opts: {
         recovery: { reconciled: 0, captured: 0, voided: 0, refunded: 0, manualReview: 0 },
     };
     const now = deps.now();
-    for (const workshop of (await deps.repo.listWorkshopsByStatus('OFFER_OPEN'))) {
+    const scopedWorkshop = opts.scope ? await deps.repo.getWorkshop(opts.scope.workshopId) : null;
+    const workshops = opts.scope ? (scopedWorkshop?.tenantId === opts.scope.tenantId && scopedWorkshop.status === 'OFFER_OPEN' ? [scopedWorkshop] : []) : await deps.repo.listWorkshopsByStatus('OFFER_OPEN');
+    for (const workshop of workshops) {
         const offer = (await deps.repo.getOpenOffer(workshop.id)) ?? (await deps.repo.getLatestOffer(workshop.id));
         if (!offer)
             continue;
@@ -159,8 +162,9 @@ export async function runSchedulerTick(deps: SettlementDeps, opts: {
             result.manualReview += 1;
         }
     }
-    result.recovery = await recoverPending(deps);
+    result.recovery = await recoverPending(deps, opts.scope);
     result.manualReview += result.recovery.manualReview;
+    if (opts.scope) return result; // A visitor request never purges unrelated tenant data.
     // Retention: synthetic demo text should not live forever. Never touches money
     // still in flight (the repo skips those tenants). A failure here is counted,
     // not fatal — the next tick retries.

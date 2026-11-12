@@ -25,7 +25,8 @@ async function initialize() {
   const app = buildApp({cfg,repo,service:new Service(cfg,repo)});
   app.get('/api/deployment-status', async()=>({
     database:'remote-libsql', backgroundScheduler:false,
-    readiness:'experimental',
+    readiness:'experimental', reconciliation:'organizer-triggered',
+    reconciliationEndpoint:'POST /api/workshops/:id/reconcile',
     limitation:'No unattended deadline cancellation or recovery is scheduled by this serverless adapter.'
   }));
   await app.ready();

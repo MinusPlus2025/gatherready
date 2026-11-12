@@ -155,6 +155,7 @@ export function buildApp(deps: RouteDeps): FastifyInstance {
         ok: true,
         paypal: cfg.paypal.live ? 'sandbox' : 'simulated',
         ai: cfg.llm.provider === 'none' ? 'structured' : 'live',
+        settlementMode: process.env.GATHERREADY_SERVERLESS_EXPERIMENT === 'true' ? 'organizer-triggered-reconciliation' : 'background-scheduler',
     }));
     app.get('/api/state', async (req, reply) => {
         const ctx = await resolveContext(req, reply);
@@ -262,6 +263,11 @@ export function buildApp(deps: RouteDeps): FastifyInstance {
         return (await service.withdraw(ctx, (req.params as {
             id: string;
         }).id));
+    });
+    app.post('/api/workshops/:id/reconcile', async (req, reply) => {
+        limit(req); requireCsrfHeader(req);
+        const ctx = await resolveContext(req, reply);
+        return service.reconcile(ctx, (req.params as { id: string }).id);
     });
     app.post('/api/workshops/:id/settle', async (req, reply) => {
         limit(req);

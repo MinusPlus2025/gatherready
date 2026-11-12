@@ -504,8 +504,8 @@ export class Repo extends AsyncSql {
         const row = (await this.one('SELECT * FROM settlement_batches WHERE offer_id = ?', offerId));
         return row ? mapBatch(row) : null;
     }
-    async listBatchesByStatus(status: BatchStatus): Promise<SettlementBatch[]> {
-        return (await this.all('SELECT * FROM settlement_batches WHERE status = ? ORDER BY started_at ASC', status)).map(mapBatch);
+    async listBatchesByStatus(status: BatchStatus, scope?: { tenantId: string; workshopId: string }): Promise<SettlementBatch[]> {
+        return (await (scope ? this.all('SELECT * FROM settlement_batches WHERE status = ? AND tenant_id = ? AND workshop_id = ? ORDER BY started_at ASC', status, scope.tenantId, scope.workshopId) : this.all('SELECT * FROM settlement_batches WHERE status = ? ORDER BY started_at ASC', status))).map(mapBatch);
     }
     /* ------------------------------ operations ----------------------------- */
     async insertOperation(o: OperationRecord): Promise<void> {

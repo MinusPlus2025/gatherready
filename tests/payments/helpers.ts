@@ -75,6 +75,7 @@ export async function createHarness(options: {
     return harness;
 }
 export interface SeedOptions {
+    idPrefix?: string;
     minParticipants?: number;
     capacity?: number;
     priceCents?: number;
@@ -131,7 +132,8 @@ function makeTerms(workshop: Workshop, slotId: string): OfferTerms {
 export async function seedWorkshop(harness: Harness, options: SeedOptions = {}): Promise<Seeded> {
     const { repo } = harness;
     const now = harness.now;
-    const workshopId = options.workshopId ?? 'ws_1';
+    const prefix = options.idPrefix ?? '';
+    const workshopId = options.workshopId ?? `${prefix}ws_1`;
     const tenantId = (await repo.createTenant(true, now));
     const count = options.participantCount ?? 4;
     const priceCents = options.priceCents ?? PRICE_CENTS;
@@ -164,7 +166,7 @@ export async function seedWorkshop(harness: Harness, options: SeedOptions = {}):
     (await repo.insertWorkshop(workshop));
     const offerHash = options.offerHash ?? OFFER_HASH;
     const offer: Offer = {
-        id: 'off_1',
+        id: `${prefix}off_1`,
         tenantId,
         workshopId,
         version: 1,
@@ -182,7 +184,7 @@ export async function seedWorkshop(harness: Harness, options: SeedOptions = {}):
     for (let index = 0; index < count; index += 1) {
         const ordinal = index + 1;
         const participant: Participant = {
-            id: `part_${ordinal}`,
+            id: `${prefix}part_${ordinal}`,
             tenantId,
             workshopId,
             displayName: `Person ${ordinal}`,
@@ -194,7 +196,7 @@ export async function seedWorkshop(harness: Harness, options: SeedOptions = {}):
         participants.push(participant);
         const preferenceStatus = options.preferenceStatuses?.[index] ?? 'CONFIRMED';
         if (preferenceStatus !== null) {
-            const preferenceId = `pref_${ordinal}`;
+            const preferenceId = `${prefix}pref_${ordinal}`;
             (await repo.insertPreference({
                 id: preferenceId,
                 participantId: participant.id,
@@ -218,7 +220,7 @@ export async function seedWorkshop(harness: Harness, options: SeedOptions = {}):
             ? (options.authorizedAt ?? isoMinus(now, 3600000))
             : null;
         const payment: Payment = {
-            id: `pay_${ordinal}`,
+            id: `${prefix}pay_${ordinal}`,
             tenantId,
             workshopId,
             participantId: participant.id,
@@ -227,8 +229,8 @@ export async function seedWorkshop(harness: Harness, options: SeedOptions = {}):
             status,
             providerStatus: status,
             resourceType: hasAuthorization ? 'authorization' : 'order',
-            orderId: `order_${ordinal}`,
-            authorizationId: hasAuthorization ? `auth_${ordinal}` : null,
+            orderId: `${prefix}order_${ordinal}`,
+            authorizationId: hasAuthorization ? `${prefix}auth_${ordinal}` : null,
             captureId: null,
             refundId: null,
             approveUrl: null,

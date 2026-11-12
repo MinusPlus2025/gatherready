@@ -936,12 +936,12 @@ function summariseTransition(summary: RecoverySummary, before: Map<string, Payme
  * Recover anything a crash or a timeout left behind. Runs on boot and from the
  * scheduler; every step is idempotent and bounded by operation attempt counts.
  */
-export async function recoverPending(deps: SettlementDeps): Promise<RecoverySummary> {
+export async function recoverPending(deps: SettlementDeps, scope?: { tenantId: string; workshopId: string }): Promise<RecoverySummary> {
     const { repo } = deps;
     const summary: RecoverySummary = { reconciled: 0, captured: 0, voided: 0, refunded: 0, manualReview: 0 };
     // Finishing captures that were in flight must be safe: PayPal replays the
     // original resource for the same PayPal-Request-Id, so no second charge.
-    for (const batch of (await repo.listBatchesByStatus('CAPTURING'))) {
+    for (const batch of (await repo.listBatchesByStatus('CAPTURING', scope))) {
         const before = new Map((await repo.listPaymentsByIds(batch.paymentIds)).map((payment) => [payment.id, payment.status] as const));
         try {
             await executeBatch(deps, batch.id);
@@ -952,7 +952,7 @@ export async function recoverPending(deps: SettlementDeps): Promise<RecoverySumm
         summariseTransition(summary, before, (await repo.listPaymentsByIds(batch.paymentIds)));
     }
     // Finish compensating money that a crash interrupted.
-    for (const batch of (await repo.listBatchesByStatus('COMPENSATING'))) {
+    for (const batch of (await repo.listBatchesByStatus('COMPENSATING', scope))) {
         const before = new Map((await repo.listPaymentsByIds(batch.paymentIds)).map((payment) => [payment.id, payment.status] as const));
         try {
             await compensateBatch(deps, batch.id, batch.reason ?? 'recovery of an interrupted compensation');
@@ -964,7 +964,7 @@ export async function recoverPending(deps: SettlementDeps): Promise<RecoverySumm
     }
     // Re-check manual review batches: if the provider later shows the refund
     // completed, record it. Unknown stays unknown — never guessed.
-    for (const batch of (await repo.listBatchesByStatus('MANUAL_REVIEW'))) {
+    for (const batch of (await repo.listBatchesByStatus('MANUAL_REVIEW', scope))) {
         const before = new Map((await repo.listPaymentsByIds(batch.paymentIds)).map((payment) => [payment.id, payment.status] as const));
         let stillManual = false;
         for (const payment of (await repo.listPaymentsByIds(batch.paymentIds))) {

@@ -1,3 +1,4 @@
+import { runSchedulerTick } from './jobs/scheduler.js';
 import { randomBytes } from 'node:crypto';
 import type { AppState, CheckoutView, CreateWorkshopRequest, NoticeView, PreferenceView, RevisePreferencesRequest } from '../shared/api.js';
 import { buildSample } from '../shared/sample.js';
@@ -1195,6 +1196,15 @@ export class Service {
         return (await this.state(ctx, {
             notice: { kind: 'info', message: 'You withdrew. Your preference no longer counts and any hold is released.' },
         }));
+    }
+    /** Explicit authenticated reconciliation; GET/state never causes payment movement. */
+    async reconcile(ctx: SessionContext, workshopId: string): Promise<AppState> {
+        const workshop = await this.requireOrganizer(ctx);
+        if (workshop.id !== workshopId) throw new AppError('WORKSHOP_NOT_FOUND', 'workshop not found', 404);
+        await runSchedulerTick({ repo: this.repo, paypal: this.paypal, now: () => this.now() }, {
+            scope: { tenantId: ctx.tenantId, workshopId: workshop.id },
+        });
+        return this.state(ctx);
     }
     /* ------------------------------- settle ------------------------------- */
     async settle(ctx: SessionContext): Promise<AppState> {
