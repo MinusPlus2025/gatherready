@@ -1,6 +1,10 @@
 /* de dictionary. */
 
 export const de: Record<string,string> = {
+  "onboard.setup.preview.title": "Ihr Workshop nimmt Gestalt an",
+  "onboard.setup.preview.draft": "UNGESPEICHERTER ENTWURF",
+  "onboard.setup.preview.note": "Nur eine Vorschau. Vor Bestätigung des Workshops und Angebots wird nichts veröffentlicht oder buchbar.",
+
   "flow.preferences.extraction.label.failed": "KI-Auswertung fehlgeschlagen",
   "flow.preferences.extraction.failed": "Die KI konnte keine verlässlichen Zeiten ermitteln. Es wurde nichts automatisch übernommen. Versuche es erneut oder wähle die Zeiten direkt und prüfe sie vor der Bestätigung.",
   "common.errorTitle": "Es gibt ein Problem",

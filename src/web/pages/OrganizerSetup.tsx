@@ -201,6 +201,7 @@ export default function OrganizerSetup() {
   const { state, act } = useApp();
   const navigate = useNavigate();
   const [form, setForm] = useState<FormState>(initialForm);
+  const [draftOpen, setDraftOpen] = useState(() => typeof window === 'undefined' || window.matchMedia('(min-width: 901px)').matches);
   const [errors, setErrors] = useState<SummaryError[]>([]);
   const [apiError, setApiError] = useState<string | null>(null);
   const [busy, setBusy] = useState<null | 'create' | 'sample'>(null);
@@ -362,6 +363,24 @@ export default function OrganizerSetup() {
         </InlineNotice>
       ) : null}
 
+      <div className="setup-studio">
+      <aside className="draft-preview" aria-labelledby="draft-preview-title">
+        <details open={draftOpen} onToggle={(event) => setDraftOpen(event.currentTarget.open)}>
+          <summary id="draft-preview-title">{t('onboard.setup.preview.title')}</summary>
+          <article className="draft-ticket">
+            <header><span className="eyebrow">{t('onboard.setup.preview.draft')}</span><span className="draft-ticket__mark" aria-hidden="true">G</span></header>
+            <p className="draft-ticket__merchant">{form.merchantName}</p>
+            <h2>{form.title || t('onboard.setup.field.title')}</h2>
+            <p className="draft-ticket__description">{form.description}</p>
+            <dl>
+              <div><dt>{t('onboard.setup.created.venue')}</dt><dd>{form.venue || '—'}</dd></div>
+              <div><dt>{t('onboard.setup.created.length')}</dt><dd>{form.durationMinutes || '—'} min</dd></div>
+              <div><dt>{t('onboard.setup.field.price')}</dt><dd className="draft-ticket__price">{parseDollarsToCents(form.priceDollars) !== null ? formatCents(parseDollarsToCents(form.priceDollars)!) : '—'} <small>USD</small></dd></div>
+            </dl>
+            <footer>{t('onboard.setup.preview.note')}</footer>
+          </article>
+        </details>
+      </aside>
       <form className="form" onSubmit={(event) => void handleSubmit(event)} noValidate>
         <fieldset className="fieldset">
           <legend>{t('onboard.setup.factsLegend')}</legend>
@@ -523,6 +542,8 @@ export default function OrganizerSetup() {
           <p className="form-actions__note">{t('onboard.setup.actionsNote')}</p>
         </div>
       </form>
+
+      </div>
     </div>
   );
 }

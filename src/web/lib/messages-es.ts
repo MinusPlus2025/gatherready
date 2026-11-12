@@ -1,6 +1,10 @@
 /* es dictionary. */
 
 export const es: Record<string,string> = {
+  "onboard.setup.preview.title": "Tu taller toma forma",
+  "onboard.setup.preview.draft": "BORRADOR SIN GUARDAR",
+  "onboard.setup.preview.note": "Solo vista previa. Nada se publica ni se puede reservar hasta confirmar el taller y la oferta.",
+
   "flow.preferences.extraction.label.failed": "La extracción con IA falló",
   "flow.preferences.extraction.failed": "La IA no pudo identificar horarios fiables. No se aceptó ninguna opción automáticamente. Reintenta con tu frase o elige los horarios directamente y revísalos antes de confirmar.",
   "pay.status.NONE": "Sin empezar",

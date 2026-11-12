@@ -1,6 +1,10 @@
 /* ko dictionary. */
 
 export const ko: Record<string,string> = {
+  "onboard.setup.preview.title": "워크숍 미리 보기",
+  "onboard.setup.preview.draft": "저장되지 않은 초안",
+  "onboard.setup.preview.note": "미리 보기입니다. 워크숍과 제안이 확정되기 전에는 게시되거나 예약되지 않습니다.",
+
   "flow.preferences.extraction.label.failed": "AI 추출 실패",
   "flow.preferences.extraction.failed": "AI가 시간을 정확히 파악하지 못했습니다. 자동으로 선택된 항목은 없습니다. 문장을 수정해 다시 시도하거나 시간을 직접 선택한 후 확인하세요.",
   "pay.status.NONE": "시작 전",

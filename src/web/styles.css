@@ -6722,3 +6722,37 @@ html[data-theme-mode='dark'] .eyebrow {
  .journey-nav .is-current::after,.consent-record[open] .consent-text {animation:none;}
  .journey-nav__number {transition:none;}
 }
+
+/* Workshop studio: editing beside a truthful, live invitation draft. */
+.setup-studio {display:grid;grid-template-columns:minmax(0,1.65fr) minmax(280px,1fr);gap:32px;align-items:start;}
+.setup-studio .field-grid--three {grid-template-columns:repeat(2,minmax(0,1fr));}
+.draft-preview {position:sticky;top:106px;min-width:0;}
+.draft-preview summary {font-size:.82rem;color:var(--ink-2);cursor:pointer;padding:0 0 16px;min-height:36px;}
+.draft-ticket {background:var(--surface);border:1px solid var(--border);border-radius:5px 5px 18px 18px;box-shadow:0 12px 30px -22px rgba(19,23,19,.25);padding:26px;overflow-wrap:anywhere;border-top:4px solid var(--accent);}
+.draft-ticket header {display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:28px;}
+.draft-ticket .eyebrow {font-size:.62rem;margin:0;}
+.draft-ticket__mark {font-family:var(--font-display);font-size:1.6rem;color:var(--accent);}
+.draft-ticket__merchant {font-size:.76rem;color:var(--ink-3);margin:0 0 8px;}
+.draft-ticket h2 {font:500 clamp(1.5rem,2.4vw,2.2rem)/1.12 var(--font-display);letter-spacing:-.025em;text-wrap:balance;margin:0 0 18px;}
+.draft-ticket__description {font-size:.82rem;line-height:1.65;color:var(--ink-2);display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;overflow:hidden;}
+.draft-ticket dl {margin:24px 0 0;border-top:1px dashed var(--border-strong);padding-top:20px;display:grid;gap:16px;}
+.draft-ticket dt {font-size:.68rem;color:var(--ink-3);margin-bottom:4px;}
+.draft-ticket dd {margin:0;font-size:.84rem;line-height:1.5;}
+.draft-ticket dd.draft-ticket__price {font:500 1.9rem var(--font-display);font-variant-numeric:tabular-nums;}
+.draft-ticket__price small {font:500 .65rem var(--font-sans);color:var(--ink-3);}
+.draft-ticket footer {border-top:1px solid var(--border);margin-top:22px;padding-top:16px;font-size:.7rem;line-height:1.5;color:var(--ink-3);}
+.draft-preview details[open] .draft-ticket {animation:routeIn 220ms ease-out;}
+.setup-studio .fieldset:focus-within {border-color:var(--border-strong);}
+.setup-studio .fieldset {transition:border-color 160ms ease;}
+@media(max-width:900px){
+ .setup-studio {grid-template-columns:1fr;gap:24px;}
+ .draft-preview {position:static;grid-row:1;}
+ .draft-ticket {padding:20px;}
+ .draft-ticket header {margin-bottom:16px;}
+ .draft-ticket__description {display:none;}
+ .draft-ticket dl {grid-template-columns:1fr 1fr;margin-top:16px;gap:12px;}
+ .draft-ticket dl>div:first-child {grid-column:1/-1;}
+ .draft-ticket h2 {font-size:1.6rem;}
+}
+@media(prefers-reduced-motion:reduce){.draft-preview details[open] .draft-ticket {animation:none;}.setup-studio .fieldset {transition:none;}}
+@media(min-width:901px){.setup-studio>.form{grid-column:1;grid-row:1}.setup-studio>.draft-preview{grid-column:2;grid-row:1}}

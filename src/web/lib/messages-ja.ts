@@ -1,6 +1,10 @@
 /* ja dictionary. */
 
 export const ja: Record<string,string> = {
+  "onboard.setup.preview.title": "ワークショップの下書き",
+  "onboard.setup.preview.draft": "未保存の下書き",
+  "onboard.setup.preview.note": "プレビューのみ。ワークショップと条件が確定するまで公開・予約はできません。",
+
   "flow.preferences.extraction.label.failed": "AI の抽出に失敗しました",
   "flow.preferences.extraction.failed": "AI は時間を確実に読み取れませんでした。自動で選択された項目はありません。文章を修正して再試行するか、時間を直接選び、内容を確認してください。",
   "pay.status.NONE": "未開始",

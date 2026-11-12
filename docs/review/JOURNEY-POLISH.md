@@ -22,3 +22,10 @@ No imagery/reviews copied. Existing gallery continues to state that photos are r
 
 ## Limits
 Not a comprehensive accessibility certification or real PayPal test. Reduced-motion is CSS-implemented, not OS-setting toggled. Browser translation extension rewrote English text during screenshots (e.g. Charged became an incorrect Chinese term); those are not app locale translations. Existing SlotMatrix React key warning appears in an unrelated test. No competition submission, production or public hosting changes.
+
+## Workshop creation studio (second pass)
+Observed full landing hero, below-fold gallery/state strip, desktop creation and 390px mobile creation. The hero stacks photography and a complete interactive sample and remains tall; this is a known next composition opportunity, not silently described as solved.
+
+Creation is now a two-column editing studio with an invitation-like live draft: restrained printed-card typography, merchant/title, description, venue, duration and price. It updates directly from the unsaved form, without server writes. No new stock photo is used to impersonate the venue. Desktop keeps the draft in view; mobile shows a collapsed native disclosure before the form, with logical DOM/keyboard order. The draft explicitly says unsaved and not published/bookable. Disclosure uses a short 220ms entry and is disabled under reduced motion. All eight locale dictionaries include the new labels.
+
+Actual interaction: changing the title to Saturday clay club immediately changed the draft heading. Reload discarded this unsaved edit. Mobile 390x844 loaded collapsed; click expanded it without leaving the form. Screenshots were emitted in review tools. Saving JPG to the repo from the browser runtime was denied (EPERM), so no saved screenshot artifact is claimed. Build/web TypeScript passed; 264 tests passed before the final DOM-order-only adjustment, which was rebuilt and typechecked. No workshop created, no payment sent. Full journey visual redesign is not yet complete.

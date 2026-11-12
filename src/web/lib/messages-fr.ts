@@ -1,6 +1,10 @@
 /* fr dictionary. */
 
 export const fr: Record<string,string> = {
+  "onboard.setup.preview.title": "Votre atelier prend forme",
+  "onboard.setup.preview.draft": "BROUILLON NON ENREGISTRÉ",
+  "onboard.setup.preview.note": "Aperçu uniquement. Rien n’est publié ni réservable avant confirmation de l’atelier et de l’offre.",
+
   "flow.preferences.extraction.label.failed": "Échec de l’extraction IA",
   "flow.preferences.extraction.failed": "L’IA n’a pas identifié d’horaires fiables. Aucun choix n’a été accepté automatiquement. Réessayez avec votre phrase ou choisissez directement les horaires, puis vérifiez avant de confirmer.",
   "pay.status.NONE": "Pas commencé",

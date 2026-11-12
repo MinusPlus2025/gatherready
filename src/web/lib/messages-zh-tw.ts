@@ -1,6 +1,10 @@
 /* 繁體中文（由簡體字典以 OpenCC 轉換並做少量用語調整，非專業在地化）。 */
 
 export const zhTW: Record<string, string> = {
+  "onboard.setup.preview.title": "工作坊草稿預覽",
+  "onboard.setup.preview.draft": "尚未儲存的草稿",
+  "onboard.setup.preview.note": "僅供預覽。工作坊與方案確認前，不會發布，也不可預訂。",
+
   "flow.preferences.extraction.label.failed": "AI 擷取未成功",
   "flow.preferences.extraction.failed": "AI 未能可靠識別時間，沒有自動接受任何選項。你可以重新輸入並擷取，或直接選擇時間，核對後再確認。",
   "pay.status.NONE": "未開始",
