@@ -19,6 +19,13 @@ creating a paid service or a new account. No paid service was started.
 Therefore `paypal: simulated` is caused by missing server credentials only, not by a
 forced simulation flag.
 
+## Public source
+
+The source is now public at **https://github.com/MinusPlus2025/gatherready**
+(MIT). This does not make the product publicly hosted; the deployment blockers below
+still apply. The free-Vercel evaluation is on branch `deploy/vercel-free-eval`
+([`vercel-free-evaluation.md`](vercel-free-evaluation.md)) and was not deployed.
+
 ## Account / credential audit
 
 | Target | What exists | Result |

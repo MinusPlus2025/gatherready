@@ -1,0 +1,19 @@
+{
+  "preparedAt": "2026-11-13T00:50:00+08:00",
+  "publicRepository": "https://github.com/MinusPlus2025/gatherready",
+  "license": "MIT",
+  "publicDemoUrl": null,
+  "youtubeUrl": null,
+  "devpostSubmitted": false,
+  "ai": "local Ollama qwen2.5:7b-instruct (live)",
+  "paypal": "simulated; no server credentials loaded; no real sandbox transaction",
+  "video": "docs/demo/gatherready-walkthrough.mp4 (local and in public repository)",
+  "blockers": [
+    "No authenticated Vercel/Render/Railway/Fly account or token",
+    "No free remote database account/token (Turso/other) and no SQLite-to-remote rewrite",
+    "No hosted model key; local Ollama is unreachable from Vercel",
+    "No PayPal sandbox server credentials or test-buyer approval",
+    "No YouTube/Devpost submission access"
+  ],
+  "note": "This is a status record, not a submission receipt. No receipt is fabricated."
+}
