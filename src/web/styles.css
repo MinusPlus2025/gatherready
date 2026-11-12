@@ -6542,3 +6542,31 @@ a {
 html[data-theme-mode='dark'] .eyebrow {
   color: var(--accent-strong);
 }
+
+/* Actions belong to the status band they describe, not in a detached right rail. */
+.status-band__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.status-band__action {
+  flex: none;
+  align-self: center;
+  margin-left: auto;
+}
+
+@media (max-width: 640px) {
+  .status-band {
+    flex-wrap: wrap;
+  }
+
+  .status-band__action {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .status-band__action .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

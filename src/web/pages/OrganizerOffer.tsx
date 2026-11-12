@@ -153,27 +153,27 @@ export default function OrganizerOffer() {
           actions={<StatusBadge tone="success" word={t('money.offer.statusOpen')} />}
         />
         {strip}
-        <div className="status-row">
-          <StatusBand
-            model={{
-              tone: 'success',
-              headline: t('money.offer.frozenHeadline', { slot: shortSlot(offer.slotLabel) }),
-              detail: t(
-                fitNames.length === 1 ? 'money.offer.frozenDetailOne' : 'money.offer.frozenDetailMany',
-                {
-                  count: fitNames.length,
-                  price: money(workshop.priceCents),
-                  min: workshop.minParticipants,
-                  deadline: workshop.authDeadlineLabel,
-                },
-              ),
-              action: null,
-            }}
-          />
-          <Link className="btn btn-primary status-row__action" to="/organizer/funding">
-            {t('money.offer.openFunding')} <ArrowRight size={15} strokeWidth={2.2} aria-hidden="true" />
-          </Link>
-        </div>
+        <StatusBand
+          model={{
+            tone: 'success',
+            headline: t('money.offer.frozenHeadline', { slot: shortSlot(offer.slotLabel) }),
+            detail: t(
+              fitNames.length === 1 ? 'money.offer.frozenDetailOne' : 'money.offer.frozenDetailMany',
+              {
+                count: fitNames.length,
+                price: money(workshop.priceCents),
+                min: workshop.minParticipants,
+                deadline: workshop.authDeadlineLabel,
+              },
+            ),
+            action: null,
+          }}
+          action={
+            <Link className="btn btn-primary" to="/organizer/funding">
+              {t('money.offer.openFunding')} <ArrowRight size={15} strokeWidth={2.2} aria-hidden="true" />
+            </Link>
+          }
+        />
 
         {apiError ? (
           <InlineNotice kind="error" title={t('money.offer.publishErrorTitle')}>
@@ -252,12 +252,14 @@ export default function OrganizerOffer() {
       />
       {strip}
 
-      <div className="status-row">
-        <StatusBand model={status} />
-        <Link className="btn btn-secondary status-row__action" to="/organizer/plan">
-          {t('money.shared.backToPlan')}
-        </Link>
-      </div>
+      <StatusBand
+        model={status}
+        action={
+          <Link className="btn btn-secondary" to="/organizer/plan">
+            {t('money.shared.backToPlan')}
+          </Link>
+        }
+      />
 
       {apiError ? (
         <InlineNotice kind="error" title={t('money.offer.notPublishedTitle')}>

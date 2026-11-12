@@ -299,9 +299,19 @@
       "state": "Participant compose on phone"
     },
     {
+      "file": "offer-status-1440.png",
+      "route": "/organizer/offer",
+      "state": "Offer status action integrated into the band (desktop)"
+    },
+    {
+      "file": "offer-status-390.png",
+      "route": "/organizer/offer",
+      "state": "Offer status action integrated into the band (phone)"
+    },
+    {
       "file": "theme-dark-1440.png",
       "route": "/",
-      "state": "Dark interface palette with readable contrast"
+      "state": "Dark interface palette"
     }
   ]
 }

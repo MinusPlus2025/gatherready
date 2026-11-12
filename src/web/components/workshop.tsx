@@ -24,7 +24,7 @@ import {
 
 /* -------------------------------- status -------------------------------- */
 
-export function StatusBand({ model }: { model: StatusBandModel }) {
+export function StatusBand({ model, action }: { model: StatusBandModel; action?: ReactNode }) {
   const { t } = useI18n();
   return (
     <section
@@ -37,6 +37,7 @@ export function StatusBand({ model }: { model: StatusBandModel }) {
         <p className="status-band__headline">{model.headline}</p>
         <p className="status-band__detail">{model.detail}</p>
       </div>
+      {action ? <div className="status-band__action">{action}</div> : null}
     </section>
   );
 }
