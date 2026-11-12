@@ -53,6 +53,29 @@ export default function OrganizerPlan() {
     }
   }
 
+  /**
+   * The server records the proposed question (and generates its wording) in a
+   * separate step. Without this call the review panel had nothing to send — the
+   * browser flow dead-ended here even though the API path worked.
+   */
+  async function startReview(): Promise<void> {
+    if (plan?.suggestion?.clarificationId) {
+      setReviewing(true);
+      return;
+    }
+    setBusy('propose');
+    setError(null);
+    try {
+      await act({ type: 'clarifications.propose', participantId: plan?.suggestion?.participantId });
+      setReviewing(true);
+    } catch (caught) {
+      const fields = apiFieldErrors(caught);
+      setError(fields.length > 0 ? fields.map((field) => field.message).join(' ') : describeError(caught));
+    } finally {
+      setBusy(null);
+    }
+  }
+
   async function sendQuestion(clarificationId: string, participantName: string): Promise<void> {
     setBusy('send');
     setError(null);
@@ -245,17 +268,24 @@ export default function OrganizerPlan() {
                       </div>
                     </dl>
                     {!reviewing ? (
-                      <button type="button" className="btn btn-primary" onClick={() => setReviewing(true)}>
-                        Review question
+                      <button
+                        type="button"
+                        className="btn btn-primary"
+                        disabled={busy !== null}
+                        onClick={() => void startReview()}
+                      >
+                        {busy === 'propose' ? 'Preparing the question…' : 'Review question'}
                       </button>
                     ) : (
                       <div className="review-question" role="group" aria-label="Review the question before sending">
                         <p className="review-question__title">Review before sending</p>
-                        <p className="review-question__text">“{plan.suggestion.questionText}”</p>
+                        <p className="review-question__text">
+                          “{(clarifications.find((item) => item.id === plan.suggestion?.clarificationId)?.questionText) ?? plan.suggestion.questionText}”
+                        </p>
                         <p className="muted">
                           {plan.suggestion.clarificationId
                             ? 'The question is recorded as proposed. Sending it uses up this participant’s single question.'
-                            : 'The server has not stored this question yet. Recompute the plan so it can be sent.'}
+                            : 'Preparing the stored question…'}
                           {(() => {
                             const stored = clarifications.find(
                               (item) => item.id === plan.suggestion?.clarificationId,

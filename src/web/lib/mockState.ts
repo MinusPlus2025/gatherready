@@ -928,6 +928,9 @@ export function applyMockAction(action: WebAction): AppState {
     case 'plans.compute':
       scene = 'plan';
       break;
+    case 'clarifications.propose':
+      flags.clarification = 'PROPOSED';
+      break;
     case 'clarifications.send':
       flags.clarification = 'SENT';
       scene = 'clarify';

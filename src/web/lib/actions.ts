@@ -19,6 +19,7 @@ export type WebAction =
   | { type: 'preferences.parse'; payload: ParsePreferencesRequest }
   | { type: 'preferences.confirm'; payload: ConfirmPreferencesRequest }
   | { type: 'plans.compute' }
+  | { type: 'clarifications.propose'; participantId?: string }
   | { type: 'clarifications.send'; id: string }
   | { type: 'clarifications.answer'; id: string; payload: AnswerClarificationRequest }
   | { type: 'offers.publish'; payload: PublishOfferRequest }

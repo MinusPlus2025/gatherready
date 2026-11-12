@@ -119,6 +119,8 @@ async function dispatchHttp(action: WebAction, token: string | null): Promise<Ap
       return api.confirmPreferences(action.payload, token);
     case 'plans.compute':
       return api.computePlan(token);
+    case 'clarifications.propose':
+      return api.proposeClarification(action.participantId, token);
     case 'clarifications.send':
       return api.sendClarification(action.id, token);
     case 'clarifications.answer':

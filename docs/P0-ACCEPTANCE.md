@@ -58,6 +58,11 @@ Statuses:
    registers the webhook, writing the webhook id into the git-ignored secrets file.
 5. **CI**: `.github/workflows/ci.yml` runs typecheck, tests, build, preflight and the simulated
    end-to-end walkthrough on every push.
+6. **Browser click-through fixes** (found by `npm run test:ui`, which now runs the real UI): the web
+   client was missing the server's `x-gatherready` CSRF header (every mutation was rejected), the
+   static build served stale JS with the wrong MIME type after a rebuild (blank page), and the plan
+   screen's "Review question" had no way to create the stored proposal (dead end before sending).
+   All three are fixed and the full click-through now passes 14/14.
 6. **Purpose/retention notice** added to the participant preferences screen (brief §9).
 7. **Deployment runbook** for a judge-accessible demo: `docs/DEPLOY.md`.
 

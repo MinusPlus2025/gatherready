@@ -331,7 +331,9 @@ export function buildApp(deps: RouteDeps): FastifyInstance {
 
   const hasWeb = existsSync(path.join(cfg.webDist, 'index.html'));
   if (hasWeb) {
-    app.register(fastifyStatic, { root: cfg.webDist, wildcard: false });
+    // wildcard: true (default) so newly built hashed assets are served without a
+    // restart; missing files fall through to the SPA fallback below.
+    app.register(fastifyStatic, { root: cfg.webDist });
     app.setNotFoundHandler((req, reply) => {
       if (req.url.startsWith('/api/') || req.url === '/healthz') {
         return reply.status(404).send({ error: { code: 'NOT_FOUND', message: 'not found' } });

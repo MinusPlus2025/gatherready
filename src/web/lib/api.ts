@@ -76,7 +76,9 @@ async function request<T>(
   path: string,
   init: { method?: 'GET' | 'POST'; body?: unknown; token?: string | null } = {},
 ): Promise<T> {
-  const headers: Record<string, string> = { Accept: 'application/json' };
+  // The server requires this custom header on every request (CSRF defence: a
+  // cross-site form post cannot set it). Without it every mutation is rejected.
+  const headers: Record<string, string> = { Accept: 'application/json', 'x-gatherready': '1' };
   const token = init.token ?? null;
   if (token) headers[TOKEN_HEADER] = token;
   let body: string | undefined;
@@ -146,6 +148,9 @@ export const api = {
   },
   computePlan(token: string | null = null) {
     return post('/plans/compute', {}, token);
+  },
+  proposeClarification(participantId: string | undefined, token: string | null = null) {
+    return post('/clarifications/propose', participantId ? { participantId } : {}, token);
   },
   sendClarification(id: string, token: string | null = null) {
     return post(`/clarifications/${encodeURIComponent(id)}/send`, {}, token);
