@@ -99,6 +99,10 @@ export default function OrganizerPlan() {
   }
 
   function primaryAction(): void {
+    if (state?.participants.length === 0) {
+      document.getElementById('invite-name')?.focus();
+      return;
+    }
     const action = status.action;
     if (!action) return;
     if (action.kind === 'publish' && action.to) navigate(action.to);
@@ -203,7 +207,7 @@ export default function OrganizerPlan() {
               onClick={primaryAction}
               disabled={busy !== null}
             >
-              {busy === 'propose' ? t('flow.plan.preparing') : status.action.label}
+              {state.participants.length === 0 ? (locale === 'zh' || locale === 'zh-TW' ? '邀请参与者' : 'Invite participants') : busy === 'propose' ? t('flow.plan.preparing') : status.action.label}
               <ArrowRight size={15} strokeWidth={2.2} aria-hidden="true" />
             </button>
           ) : (

@@ -14,5 +14,6 @@ describe('organizer invitations', () => {
   const html = renderToStaticMarkup(React.createElement(MemoryRouter, null, React.createElement(OrganizerPlan)));
   expect(html).toContain('Create invitation');
   expect(html).toContain('Participant name');
+  expect(html).toMatch(/plan-decision__action[^>]*>Invite participants/);
  });
 });
