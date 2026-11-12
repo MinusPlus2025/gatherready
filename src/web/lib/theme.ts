@@ -8,7 +8,7 @@ export interface ThemeColors {
 }
 
 export const ACCENT_PRESETS = ['#0d5a45', '#1f4e79', '#8a4b2a', '#5b3a63', '#2f3436'] as const;
-export const BACKGROUND_PRESETS = ['#f3f4ee', '#f1f4f7', '#f7f1e8', '#ffffff'] as const;
+export const BACKGROUND_PRESETS = ['#f3f4ee', '#f1f4f7', '#f7f1e8', '#ffffff', '#151a17', '#1b2430'] as const;
 export const DEFAULT_THEME: ThemeColors = { accent: ACCENT_PRESETS[0], background: BACKGROUND_PRESETS[0] };
 
 const STORAGE_KEY = 'gr_theme';
@@ -73,17 +73,62 @@ export function applyTheme(theme: ThemeColors): void {
   const root = document.documentElement;
   const accent = normalizeHex(theme.accent) ?? DEFAULT_THEME.accent;
   const background = normalizeHex(theme.background) ?? DEFAULT_THEME.background;
+  const dark = luminance(background) < 0.48;
+
   root.style.setProperty('--accent', accent);
-  root.style.setProperty('--accent-strong', darken(accent, 0.24));
-  root.style.setProperty('--accent-tint', mix(accent, '#ffffff', 0.9));
+  root.style.setProperty('--accent-strong', dark ? mix(accent, '#ffffff', 0.44) : darken(accent, 0.24));
+  root.style.setProperty('--accent-tint', dark ? mix(accent, background, 0.82) : mix(accent, '#ffffff', 0.9));
   root.style.setProperty('--accent-contrast', readableOn(accent));
   root.style.setProperty('--bg', background);
-  root.style.setProperty('--surface-2', mix(background, '#ffffff', 0.55));
+
+  if (dark) {
+    // A compact dark palette. Semantic tints are darkened too, so status words
+    // and labels keep their contrast instead of sitting light-on-dark by accident.
+    root.style.setProperty('--surface', '#171c18');
+    root.style.setProperty('--surface-2', '#1e2520');
+    root.style.setProperty('--border', '#35403a');
+    root.style.setProperty('--border-strong', '#4b5a51');
+    root.style.setProperty('--ink', '#f1f4ef');
+    root.style.setProperty('--ink-2', '#c9d1cb');
+    root.style.setProperty('--ink-3', '#a0ada4');
+    root.style.setProperty('--success', '#6fcf97');
+    root.style.setProperty('--success-tint', '#123322');
+    root.style.setProperty('--warn', '#e6b450');
+    root.style.setProperty('--warn-tint', '#352a12');
+    root.style.setProperty('--danger', '#ff8a8a');
+    root.style.setProperty('--danger-tint', '#3a1717');
+    root.style.setProperty('--info', '#8ab4f8');
+    root.style.setProperty('--info-tint', '#152437');
+    root.style.setProperty('--progress', '#7fc4ef');
+    root.style.setProperty('--progress-tint', '#122b3a');
+    root.style.colorScheme = 'dark';
+  } else {
+    root.style.setProperty('--surface', '#ffffff');
+    root.style.setProperty('--surface-2', mix(background, '#ffffff', 0.55));
+    root.style.setProperty('--border', '#dcddd2');
+    root.style.setProperty('--border-strong', '#c1c3b7');
+    root.style.setProperty('--ink', '#131713');
+    root.style.setProperty('--ink-2', '#434b44');
+    root.style.setProperty('--ink-3', '#5b635b');
+    root.style.setProperty('--success', '#0f6b38');
+    root.style.setProperty('--success-tint', '#e7f4ec');
+    root.style.setProperty('--warn', '#8a5a00');
+    root.style.setProperty('--warn-tint', '#fbf1dc');
+    root.style.setProperty('--danger', '#a52020');
+    root.style.setProperty('--danger-tint', '#fbeaea');
+    root.style.setProperty('--info', '#2f4b7c');
+    root.style.setProperty('--info-tint', '#eaf0f8');
+    root.style.setProperty('--progress', '#235c8a');
+    root.style.setProperty('--progress-tint', '#e8f1f7');
+    root.style.colorScheme = 'light';
+  }
+
   root.style.setProperty(
     '--shadow-float',
     '0 2px 4px rgba(19, 23, 19, 0.12), 0 14px 28px -14px rgba(19, 23, 19, 0.35)',
   );
   root.dataset.hasTheme = 'true';
+  root.dataset.themeMode = dark ? 'dark' : 'light';
 }
 
 export function saveTheme(theme: ThemeColors): void {

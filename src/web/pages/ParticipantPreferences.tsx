@@ -321,13 +321,15 @@ export default function ParticipantPreferences() {
         actions={
           preference ? (
             <StatusBadge
-              tone={confirmed ? 'success' : withdrawn ? 'neutral' : 'warning'}
+              tone={confirmed ? 'success' : withdrawn ? 'neutral' : editing && preference?.status === 'CONFIRMED' ? 'info' : 'warning'}
               word={
                 confirmed
                   ? t('flow.preferences.badge.confirmed')
                   : withdrawn
                     ? t('flow.preferences.badge.withdrawn')
-                    : t('flow.preferences.badge.unconfirmed')
+                    : editing && preference?.status === 'CONFIRMED'
+                      ? t('flow.preferences.badge.editingSaved')
+                      : t('flow.preferences.badge.unconfirmed')
               }
             />
           ) : undefined

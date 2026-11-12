@@ -297,5 +297,6 @@ export const flowEn: Record<string,string> = {
   "flow.status.participant.charged.headlineSim": "Workshop confirmed — simulated capture",
   "flow.status.participant.charged.detailSim": "The demo recorded {amount} as captured locally. No PayPal transaction occurred.",
   "flow.status.participant.step.authorization.chargedSim": "Simulated capture recorded",
-  "flow.status.participant.step.charge.chargedSim": "Simulated capture — workshop confirmed"
+  "flow.status.participant.step.charge.chargedSim": "Simulated capture — workshop confirmed",
+  "flow.preferences.badge.editingSaved": "Editing — saved version active"
 };

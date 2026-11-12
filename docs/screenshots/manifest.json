@@ -284,14 +284,24 @@
       "state": "Pill CTA buttons with smooth hover/press motion"
     },
     {
+      "file": "participant-edit-status-1440.png",
+      "route": "/participant/preferences",
+      "state": "Editing a saved preference: saved version active, draft not confirmed"
+    },
+    {
       "file": "participant-compose-layout-1440.png",
       "route": "/participant/preferences",
-      "state": "Participant compose layout: single reading column, grouped purpose note"
+      "state": "Participant compose: one reading column and grouped purpose note"
     },
     {
       "file": "participant-compose-layout-390.png",
       "route": "/participant/preferences",
-      "state": "Participant compose layout on a phone"
+      "state": "Participant compose on phone"
+    },
+    {
+      "file": "theme-dark-1440.png",
+      "route": "/",
+      "state": "Dark interface palette with readable contrast"
     }
   ]
 }

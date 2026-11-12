@@ -1,9 +1,9 @@
 {
   "file": "docs/demo/gatherready-walkthrough.mp4",
-  "sha256": "1143e490ef552e0b25b3bb87298e72aa540c8f01d21012f861750085abb09557",
-  "bytes": 2472159,
-  "recordedAt": "2026-11-13T01:47:00+08:00",
-  "build": "current build with simulated result copy + optimized participant compose layout",
+  "sha256": "bdb20f5d95170ac0419d1d8653be3921f708377b8123256718b1958bf7767f19",
+  "bytes": 2331642,
+  "recordedAt": "2026-11-13T01:55:00+08:00",
+  "build": "current build: exact Demo recorded \u2026 simulated captures copy, simulated-mode status wording, optimized compose layout, dark/custom theme",
   "paypal": "simulated (no credentials; no real transaction)",
   "ai": "local Ollama qwen2.5:7b-instruct",
   "uploadedToYouTube": false,

@@ -8,7 +8,7 @@ when the server is in `paypal: simulated`. No real sandbox transaction is claime
 | Surface | Simulated copy |
 |---|---|
 | Page banner | **Simulated capture — no PayPal transaction** / **Simulated refund — no PayPal transaction** |
-| Server result detail | “… Each simulated capture was recorded locally; no PayPal transaction occurred.” |
+| Server result detail | **Demo recorded 4 simulated captures totaling $180.00. No PayPal transaction occurred.** |
 | Receipt row detail | **Simulated capture — no PayPal transaction** (refund/capture variants based on status) |
 | Pending outcome | “Checking simulated payment state”; local-record instructions, no PayPal request |
 | Not-confirmed body | Simulated holds released / simulated captures refunded by local adapter; no PayPal transaction |

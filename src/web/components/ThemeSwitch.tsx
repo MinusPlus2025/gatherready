@@ -113,16 +113,29 @@ export function ThemeSwitch() {
                 );
               })}
             </div>
+            <label className="theme-custom">
+              <span>{t('theme.custom')}</span>
+              <input
+                type="color"
+                value={theme.background}
+                aria-label={`${t('theme.custom')} — ${t('theme.background')}`}
+                onChange={(event) => choose({ ...theme, background: event.target.value })}
+              />
+            </label>
             <div className="theme-menu__footer">
               <button
                 type="button"
-                className="btn btn-ghost btn--small"
+                className="btn btn-ghost btn--small theme-menu__action"
                 onClick={() => setTheme(resetTheme())}
               >
-                {t('theme.reset')}
+                <span>{t('theme.reset')}</span>
               </button>
-              <button type="button" className="btn btn-secondary btn--small" onClick={() => setOpen(false)}>
-                {t('common.cancel')}
+              <button
+                type="button"
+                className="btn btn-secondary btn--small theme-menu__action theme-menu__action--secondary"
+                onClick={() => setOpen(false)}
+              >
+                <span>{t('common.cancel')}</span>
               </button>
             </div>
           </div>

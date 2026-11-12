@@ -297,5 +297,6 @@ export const flowZh: Record<string,string> = {
   "flow.status.participant.charged.headlineSim": "工作坊已确认 · 模拟收款",
   "flow.status.participant.charged.detailSim": "演示只在本地记录了 {amount} 的模拟收款，未发生 PayPal 交易。",
   "flow.status.participant.step.authorization.chargedSim": "已记录模拟收款",
-  "flow.status.participant.step.charge.chargedSim": "模拟收款 · 工作坊已确认"
+  "flow.status.participant.step.charge.chargedSim": "模拟收款 · 工作坊已确认",
+  "flow.preferences.badge.editingSaved": "编辑中 · 已保存版本仍有效"
 };

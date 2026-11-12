@@ -835,5 +835,6 @@ export const fr: Record<string,string> = {
   "flow.status.participant.charged.headlineSim": "Atelier confirmé — capture simulée",
   "flow.status.participant.charged.detailSim": "La démo a enregistré {amount} comme capturé localement. Aucune transaction PayPal n’a eu lieu.",
   "flow.status.participant.step.authorization.chargedSim": "Capture simulée enregistrée",
-  "flow.status.participant.step.charge.chargedSim": "Capture simulée — atelier confirmé"
+  "flow.status.participant.step.charge.chargedSim": "Capture simulée — atelier confirmé",
+  "flow.preferences.badge.editingSaved": "Modification — version enregistrée active"
 };

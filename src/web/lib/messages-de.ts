@@ -835,5 +835,6 @@ export const de: Record<string,string> = {
   "flow.status.participant.charged.headlineSim": "Workshop bestätigt — simulierte Erfassung",
   "flow.status.participant.charged.detailSim": "Die Demo hat {amount} lokal als eingezogen erfasst. Es fand keine PayPal-Transaktion statt.",
   "flow.status.participant.step.authorization.chargedSim": "Simulierte Erfassung aufgezeichnet",
-  "flow.status.participant.step.charge.chargedSim": "Simulierte Erfassung — Workshop bestätigt"
+  "flow.status.participant.step.charge.chargedSim": "Simulierte Erfassung — Workshop bestätigt",
+  "flow.preferences.badge.editingSaved": "Bearbeitung — gespeicherte Version aktiv"
 };

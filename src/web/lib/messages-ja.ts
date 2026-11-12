@@ -835,5 +835,6 @@ export const ja: Record<string,string> = {
   "flow.status.participant.charged.headlineSim": "ワークショップ確定 — シミュレーション捕捉",
   "flow.status.participant.charged.detailSim": "デモは {amount} をローカルで捕捉済みとして記録しました。PayPal 取引は発生していません。",
   "flow.status.participant.step.authorization.chargedSim": "シミュレーション捕捉を記録済み",
-  "flow.status.participant.step.charge.chargedSim": "シミュレーション捕捉 — ワークショップ確定"
+  "flow.status.participant.step.charge.chargedSim": "シミュレーション捕捉 — ワークショップ確定",
+  "flow.preferences.badge.editingSaved": "編集中 — 保存済みの版が有効"
 };

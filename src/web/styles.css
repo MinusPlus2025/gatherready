@@ -5209,7 +5209,7 @@ h3 {
 
 /* interactive plan preview */
 .app-frame__badge--live {
-  color: var(--accent);
+  color: var(--ink);
   border-color: color-mix(in srgb, var(--accent) 35%, transparent);
   background: var(--accent-tint);
 }
@@ -6481,4 +6481,64 @@ a {
   .answer-grid--pick .answer-path {
     max-width: 100%;
   }
+}
+
+/* Theme popover: smaller footer actions, wrapping swatches for the dark presets. */
+.theme-swatches {
+  flex-wrap: wrap;
+}
+
+.theme-menu__footer .btn {
+  min-height: 34px;
+  padding: 0 12px;
+  font-size: 0.8rem;
+}
+
+.theme-menu__footer .btn--small {
+  min-height: 34px;
+}
+
+@media (max-width: 640px) {
+  .theme-menu__footer .btn,
+  .theme-menu__footer .btn--small {
+    min-height: 44px;
+  }
+}
+
+/* Footer actions keep a 44px hit area but a compact visual pill. */
+.theme-menu__footer .theme-menu__action {
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.theme-menu__footer .theme-menu__action > span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 32px;
+  padding: 0 12px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.theme-menu__footer .theme-menu__action--secondary > span {
+  border-color: var(--border);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.theme-menu__footer .theme-menu__action:hover > span {
+  border-color: var(--border-strong);
+}
+
+
+/* Accent text on the dark palette needs the lifted accent tone. */
+html[data-theme-mode='dark'] .eyebrow {
+  color: var(--accent-strong);
 }

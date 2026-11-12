@@ -835,5 +835,6 @@ export const ko: Record<string,string> = {
   "flow.status.participant.charged.headlineSim": "워크숍 확정 — 시뮬레이션 캡처",
   "flow.status.participant.charged.detailSim": "데모가 {amount}을 로컬에서 캡처됨으로 기록했습니다. PayPal 거래는 발생하지 않았습니다.",
   "flow.status.participant.step.authorization.chargedSim": "시뮬레이션 캡처 기록됨",
-  "flow.status.participant.step.charge.chargedSim": "시뮬레이션 캡처 — 워크숍 확정"
+  "flow.status.participant.step.charge.chargedSim": "시뮬레이션 캡처 — 워크숍 확정",
+  "flow.preferences.badge.editingSaved": "편집 중 — 저장된 버전 유효"
 };

@@ -536,6 +536,7 @@ export const zhTW: Record<string, string> = {
   "flow.status.participant.charged.detailSim": "演示只在本地記錄了 {amount} 的模擬收款，未發生 PayPal 交易。",
   "flow.status.participant.step.authorization.chargedSim": "已記錄模擬收款",
   "flow.status.participant.step.charge.chargedSim": "模擬收款 · 工作坊已確認",
+  "flow.preferences.badge.editingSaved": "編輯中 · 已保存版本仍有效",
   "money.shared.organizer": "組織者",
   "money.shared.noWorkshopTitle": "還沒有工作坊",
   "money.shared.setupWorkshop": "創建工作坊",

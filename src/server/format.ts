@@ -415,7 +415,7 @@ export function resultView(
     outcome = 'CONFIRMED';
     headline = 'Workshop confirmed';
     detail = simulated
-      ? `${lines.length} participants were charged ${formatMoney(batch.capturedCents)} in total. Each simulated capture was recorded locally; no PayPal transaction occurred.`
+      ? `Demo recorded ${lines.length} simulated captures totaling ${formatMoney(batch.capturedCents)}. No PayPal transaction occurred.`
       : `${lines.length} participants were charged ${formatMoney(batch.capturedCents)} in total. Each charge was confirmed with PayPal individually.`;
   } else if (batch.status === 'COMPENSATING' || batch.status === 'MANUAL_REVIEW') {
     outcome = 'NEEDS_ATTENTION';
