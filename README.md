@@ -4,6 +4,21 @@
 
 **Turn conditional workshop interest into one plan people actually agree to fund.**
 
+## Public interactive preview
+
+**[Open GatherReady in your browser](https://gatherjoy.vercel.app)** — no local installation or Vercel login required.
+
+This is a **separate, post-submission, limited interactive preview**, not the complete submitted
+AI + PayPal application and not evidence that the organizer has accepted a submission update.
+It uses synthetic data and manual time selection: create a sample, invite participants, confirm
+availability, and publish a proposed plan. **Live AI and all PayPal/payment operations are disabled.**
+Use only invented information; do not enter personal, sensitive, or payment details.
+
+Sessions last two hours, with no account recovery or guaranteed data retention. The preview's current
+database access expires on **14 November 2026 at 23:41 Beijing time (UTC+8)**, after which the
+interactive service may stop unless access is renewed. This is not a permanent production service.
+The repository's original local setup, submission video, and verification limitations remain below.
+
 ## Judge quick start
 
 **[Watch the final demo on YouTube](https://youtu.be/pv0dfdEiFC4)** ·
@@ -21,7 +36,7 @@ PAYPAL_FORCE_SIMULATED=1 GATHERREADY_DB=./data/judge-demo.db npm start
 ```
 
 Open **http://localhost:5180**. Choose **Load sample** for a synthetic tour, or create a workshop and
-use **Invite participants** on the Plan page. No public deployment is claimed; localhost invitation
+use **Invite participants** on the Plan page. This local setup is separate from the limited public preview above; localhost invitation
 links work on the same computer. This first run uses **simulated payments**, not PayPal transactions.
 Without a configured model, use direct time selection or clearly labelled recorded samples.
 
@@ -361,7 +376,8 @@ is occupied, stop your own prior GatherReady process rather than killing unrelat
 SQLite persists under `data/` by default. This is a single-process application with a 30-second
 in-process recovery scheduler and, in the local AI setup, a local Ollama endpoint. It is **not ready
 for a direct serverless/Vercel deployment without adapting storage, scheduling and the model endpoint**.
-There is no verified public deployment in this snapshot. Complete local setup is provided instead.
+This source snapshot has no full public AI + PayPal deployment. The separate limited manual preview
+linked above does not change that limitation; complete local setup is provided here.
 
 ## Modes — implementation versus evidence
 
