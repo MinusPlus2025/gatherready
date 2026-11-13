@@ -39,6 +39,7 @@ async function migrate(db: DB): Promise<void> {
     id_hash TEXT PRIMARY KEY,
     tenant_id TEXT NOT NULL REFERENCES tenants(id),
     view_participant_id TEXT,
+    participant_bound INTEGER NOT NULL DEFAULT 0,
     created_at TEXT NOT NULL,
     seen_at TEXT NOT NULL
   );
@@ -259,6 +260,10 @@ async function migrate(db: DB): Promise<void> {
   `);
     // Lightweight column migrations (existing demo databases created before the
     // cover image existed). CREATE TABLE IF NOT EXISTS cannot add columns.
+    const sessionColumns = (await db.execute('PRAGMA table_info(sessions)')).rows;
+    if (!sessionColumns.some(column => column.name === 'participant_bound')) {
+        await db.execute('ALTER TABLE sessions ADD COLUMN participant_bound INTEGER NOT NULL DEFAULT 1');
+    }
     const workshopColumns = (await db.execute('PRAGMA table_info(workshops)')).rows as unknown as Array<{
         name: string;
     }>;

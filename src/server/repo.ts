@@ -271,19 +271,23 @@ export class Repo extends AsyncSql {
         return { id: str(row, 'id'), synthetic: num(row, 'synthetic') === 1, createdAt: str(row, 'created_at') };
     }
     async createSession(idHash: string, tenantId: string, now: IsoUtc): Promise<void> {
-        (await this.run('INSERT INTO sessions (id_hash, tenant_id, view_participant_id, created_at, seen_at) VALUES (?, ?, NULL, ?, ?)', idHash, tenantId, now, now));
+        (await this.run('INSERT INTO sessions (id_hash, tenant_id, view_participant_id, participant_bound, created_at, seen_at) VALUES (?, ?, NULL, 0, ?, ?)', idHash, tenantId, now, now));
     }
     async getSession(idHash: string): Promise<{
         tenantId: string;
         viewParticipantId: string | null;
+        participantBound: boolean;
     } | null> {
         const row = (await this.one('SELECT * FROM sessions WHERE id_hash = ?', idHash));
         if (!row)
             return null;
-        return { tenantId: str(row, 'tenant_id'), viewParticipantId: maybeStr(row, 'view_participant_id') };
+        return { tenantId: str(row, 'tenant_id'), viewParticipantId: maybeStr(row, 'view_participant_id'), participantBound: num(row, 'participant_bound') === 1 };
     }
     async setSessionView(idHash: string, participantId: string | null, now: IsoUtc): Promise<void> {
         (await this.run('UPDATE sessions SET view_participant_id = ?, seen_at = ? WHERE id_hash = ?', n(participantId), now, idHash));
+    }
+    async bindParticipantSession(idHash: string, tenantId: string, participantId: string, now: IsoUtc): Promise<void> {
+        await this.run('UPDATE sessions SET tenant_id = ?, view_participant_id = ?, participant_bound = 1, seen_at = ? WHERE id_hash = ?', tenantId, participantId, now, idHash);
     }
     async touchSession(idHash: string, now: IsoUtc): Promise<void> {
         (await this.run('UPDATE sessions SET seen_at = ? WHERE id_hash = ?', now, idHash));

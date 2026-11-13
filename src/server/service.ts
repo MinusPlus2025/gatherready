@@ -91,7 +91,7 @@ export class Service {
         const payments = workshop ? (await this.repo.listPaymentsByWorkshop(workshop.id)) : [];
         const batch = latestOffer ? (await this.repo.getBatchByOffer(latestOffer.id)) : null;
         const audit = workshop ? (await this.repo.listAudit(workshop.id)) : [];
-        return buildState({
+        const state = buildState({
             cfg: this.cfg,
             workshop,
             slots,
@@ -109,7 +109,14 @@ export class Service {
             now: this.now(),
             checkout: extras.checkout ?? this.checkoutFor(ctx, payments, latestOffer),
             notice: extras.notice ?? null,
-        });
+        });        if ((await this.repo.getSession(ctx.sessionHash))?.participantBound) {
+            state.demo.canSwitchRoles = false;
+            state.participants = state.participants.filter(p => p.id === ctx.viewParticipantId);
+            state.demo.participantCount = state.participants.length;
+            state.audit = [];
+        }
+        return state;
+
     }
     private checkoutFor(ctx: SessionContext, payments: Payment[], offer: Offer | null): CheckoutView | null {
         if (!offer || !ctx.viewParticipantId)
@@ -150,7 +157,7 @@ export class Service {
         return w;
     }
     private async requireOrganizer(ctx: SessionContext): Promise<Workshop> {
-        if (ctx.viewParticipantId) {
+        if (ctx.viewParticipantId || (await this.repo.getSession(ctx.sessionHash))?.participantBound) {
             throw new AppError('ORGANIZER_ONLY', 'only the organizer can do that', 403);
         }
         return (await this.requireWorkshop(ctx));

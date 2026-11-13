@@ -89,11 +89,11 @@ export function buildApp(deps: RouteDeps): FastifyInstance {
             if (existing) {
                 tenantId = existing.tenantId;
                 viewParticipantId = existing.viewParticipantId;
+                if (existing.participantBound && !viewParticipantId) throw new AppError('INVALID_LINK', 'this participant session is no longer valid', 403);
                 if (viewParticipantId) {
                     const seen = (await repo.getParticipant(viewParticipantId));
                     if (!seen || seen.tenantId !== tenantId) {
-                        viewParticipantId = null;
-                        (await repo.setSessionView(hash, null, nowIso));
+                        throw new AppError('INVALID_LINK', 'this participant session is no longer valid', 403);
                     }
                 }
                 (await repo.touchSession(hash, nowIso));
@@ -126,12 +126,9 @@ export function buildApp(deps: RouteDeps): FastifyInstance {
             const participant = (await service.resolveParticipantToken(rawToken));
             if (!participant)
                 throw new AppError('INVALID_LINK', 'this participant link is not valid', 404);
-            if (participant.tenantId !== tenantId) {
-                (await repo.bindSessionTenant(hash, participant.tenantId, nowIso));
-                tenantId = participant.tenantId;
-            }
+            await repo.bindParticipantSession(hash, participant.tenantId, participant.id, nowIso);
+            tenantId = participant.tenantId;
             viewParticipantId = participant.id;
-            (await repo.setSessionView(hash, viewParticipantId, nowIso));
         }
         return (await service.ctxFor(tenantId, viewParticipantId, hash));
     }
@@ -286,6 +283,7 @@ export function buildApp(deps: RouteDeps): FastifyInstance {
         requireCsrfHeader(req);
         const ctx = await resolveContext(req, reply);
         const body = parseBody(DemoViewRequestSchema, req.body);
+        if ((await repo.getSession(ctx.sessionHash))?.participantBound) throw new AppError('ORGANIZER_ONLY', 'invitation links cannot change roles or reset workshops', 403);
         if (!ctx.synthetic)
             throw new AppError('DEMO_ONLY', 'role switching is only available in the synthetic demo', 403);
         if (body.participantId) {
@@ -303,6 +301,7 @@ export function buildApp(deps: RouteDeps): FastifyInstance {
         limit(req);
         requireCsrfHeader(req);
         const ctx = await resolveContext(req, reply);
+        if ((await repo.getSession(ctx.sessionHash))?.participantBound) throw new AppError('ORGANIZER_ONLY', 'invitation links cannot change roles or reset workshops', 403);
         if (!ctx.synthetic)
             throw new AppError('DEMO_ONLY', 'reset is only available in the synthetic demo', 403);
         const tenantId = (await service.newTenant(service.now()));
